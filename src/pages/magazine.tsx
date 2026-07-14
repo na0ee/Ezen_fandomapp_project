@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import type { PointerEvent, ReactNode, UIEvent } from "react";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { PerfumeIcon } from "../components/icons/PerfumeIcon";
 import articleCardBase from "../assets/magazine/article-card-base.png";
@@ -265,9 +266,13 @@ function MagazineHeader() {
           </h1>
         </div>
         <div className="flex shrink-0 items-start justify-end gap-5" aria-label="매거진 메뉴">
-          <Search aria-hidden="true" className="shrink-0" size={28} strokeWidth={1.8} />
+          <Link aria-label="검색 페이지" className="size-7 shrink-0" to="/search">
+            <Search aria-hidden="true" size={28} strokeWidth={1.8} />
+          </Link>
           <Bell aria-hidden="true" className="shrink-0" size={28} strokeWidth={1.8} />
-          <PerfumeIcon />
+          <Link aria-label="카테고리 페이지" className="size-7 shrink-0" to="/category">
+            <PerfumeIcon />
+          </Link>
         </div>
       </div>
     </header>
