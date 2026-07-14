@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { CommunityPage } from "./pages/CommunityPage";
 import { EventPage } from "./pages/EventPage";
 import { HomePage } from "./pages/HomePage";
-import MagazinePage from "./pages/magazine";
+import MagazinePage from "./pages/Magazine";
 import { QuestionPage } from "./pages/QuestionPage";
 import { ResultPage } from "./pages/ResultPage";
 import MyPage from "./pages/MyPage";
