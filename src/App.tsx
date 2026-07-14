@@ -12,7 +12,8 @@ import Search from "./pages/Search";
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/search" replace />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/event" element={<EventPage />} />
       <Route path="/magazine" element={<MagazinePage />} />
       <Route path="/question" element={<QuestionPage />} />
       <Route path="/result" element={<ResultPage />} />
@@ -20,7 +21,7 @@ export default function App() {
       <Route path="/search-results" element={<SearchResults />} />
       <Route path="/category" element={<Category />} />
       <Route path="/search" element={<Search />} />
-      <Route path="*" element={<Navigate to="/search" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
