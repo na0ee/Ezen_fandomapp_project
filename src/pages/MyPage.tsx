@@ -11,6 +11,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { PerfumeIcon } from "../components/icons/PerfumeIcon";
+import headerBell from "../assets/community/figma/header-bell.svg";
 import fireBadge from "../assets/mypage/fire-badge.svg";
 import perfumeLoewe from "../assets/mypage/perfume-loewe.png";
 import perfumeSanta from "../assets/mypage/perfume-santa.png";
@@ -23,8 +24,6 @@ import wishlistOne from "../assets/mypage/wishlist-1.png";
 import wishlistTwo from "../assets/mypage/wishlist-2.png";
 import wishlistThree from "../assets/mypage/wishlist-3.png";
 import selectedHeart from "../assets/mypage/heart-selected.svg";
-
-const headerBell = "/assets/figma/ba68afb5-4296-4856-8547-eaae5820c800.svg";
 
 const perfumes = [
   {
@@ -319,9 +318,13 @@ export default function MyPage() {
       <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
         <h1 className="text-2xl font-semibold leading-[1.3] tracking-[-0.02em]">마이페이지</h1>
         <div className="flex items-center gap-5">
-          <Search aria-label="검색" size={28} strokeWidth={1.5} />
+          <Link aria-label="검색" className="size-7" to="/search">
+            <Search aria-hidden="true" className="size-full" strokeWidth={1.5} />
+          </Link>
           <img alt="알림" className="size-7" src={headerBell} />
-          <PerfumeIcon />
+          <Link aria-label="향수 카테고리" to="/category">
+            <PerfumeIcon />
+          </Link>
         </div>
       </header>
 

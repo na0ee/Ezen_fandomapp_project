@@ -9,6 +9,7 @@ import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { PerfumeIcon } from "../components/icons/PerfumeIcon";
+import headerBell from "../assets/community/figma/header-bell.svg";
 import articleCardBase from "../assets/magazine/article-card-base.png";
 import articleCardOverlay from "../assets/magazine/article-card-overlay.png";
 import byredoStory from "../assets/magazine/byredo-story.png";
@@ -16,8 +17,6 @@ import citrusCardBase from "../assets/magazine/citrus-card-base.png";
 import citrusCardOverlay from "../assets/magazine/citrus-card-overlay.png";
 import scentMatch from "../assets/magazine/scent-match.png";
 import trendBanner from "../assets/magazine/trend-banner.png";
-
-const headerBell = "/assets/figma/ba68afb5-4296-4856-8547-eaae5820c800.svg";
 
 const categories = ["전체", "향수 상식", "추천", "트렌드", "선물", "브랜드"];
 
@@ -267,9 +266,13 @@ function MagazineHeader() {
           </h1>
         </div>
         <div className="flex shrink-0 items-start justify-end gap-5" aria-label="매거진 메뉴">
-          <Search aria-hidden="true" className="shrink-0" size={28} strokeWidth={1.8} />
+          <Link aria-label="검색" className="size-7 shrink-0" to="/search">
+            <Search aria-hidden="true" className="size-full" strokeWidth={1.8} />
+          </Link>
           <img alt="" aria-hidden="true" className="size-7 shrink-0" src={headerBell} />
-          <PerfumeIcon />
+          <Link aria-label="향수 카테고리" to="/category">
+            <PerfumeIcon />
+          </Link>
         </div>
       </div>
     </header>
