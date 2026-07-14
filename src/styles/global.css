@@ -60,6 +60,14 @@
 }
 
 @layer components {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .glass {
     border: 1px solid rgb(255 255 255 / 40%);
     background: rgb(255 255 255 / 60%);
