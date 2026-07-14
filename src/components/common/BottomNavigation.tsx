@@ -14,7 +14,20 @@ const navigationItems = [
   { label: "마이", href: "/mypage", icon: userIcon, isSelected: false },
 ];
 
-export function BottomNavigation() {
+type BottomNavigationProps = {
+  placement?: "sticky" | "frame" | "overlay" | "fixed";
+};
+
+export function BottomNavigation({ placement = "sticky" }: BottomNavigationProps) {
+  const containerClassName =
+    placement === "fixed"
+      ? "fixed bottom-0 left-1/2 z-50 flex w-full max-w-[430px] -translate-x-1/2 gap-2.5 px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))]"
+      : placement === "overlay"
+        ? "absolute inset-x-0 bottom-0 z-50 flex gap-2.5 px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))]"
+        : placement === "frame"
+          ? "z-50 flex shrink-0 gap-2.5 px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))]"
+          : "sticky bottom-0 z-50 mt-16 flex gap-2.5 px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))]";
+
   return (
     <div className="sticky bottom-0 z-50 mx-auto mt-auto w-full max-w-[430px] bg-off-white px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))]">
       <div className="grid h-[72px] w-full grid-cols-[minmax(0,320px)_minmax(58px,68px)] gap-2.5">
