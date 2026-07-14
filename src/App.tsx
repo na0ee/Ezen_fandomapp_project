@@ -1,8 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-
 import { EventPage } from "./pages/EventPage";
 import { HomePage } from "./pages/HomePage";
-import MagazinePage from "./pages/magazine";
+import MagazinePage from "./pages/Magazine";
 import { QuestionPage } from "./pages/QuestionPage";
 import { ResultPage } from "./pages/ResultPage";
 import MyPage from "./pages/MyPage";
@@ -16,7 +15,7 @@ export default function App() {
       <Route path="/question" element={<QuestionPage />} />
       <Route path="/result" element={<ResultPage />} />
       <Route path="/mypage" element={<MyPage />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/magazine" replace />} />
     </Routes>
   );
 }
