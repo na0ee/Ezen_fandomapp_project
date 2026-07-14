@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import type { PointerEvent, ReactNode } from "react";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { PerfumeIcon } from "../components/icons/PerfumeIcon";
 import fireBadge from "../assets/mypage/fire-badge.svg";

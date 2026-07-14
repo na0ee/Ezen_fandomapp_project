@@ -2,10 +2,13 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { CommunityPage } from "./pages/CommunityPage";
 import { EventPage } from "./pages/EventPage";
 import { HomePage } from "./pages/HomePage";
-import MagazinePage from "./pages/Magazine";
+import MagazinePage from "./pages/magazine";
 import { QuestionPage } from "./pages/QuestionPage";
 import { ResultPage } from "./pages/ResultPage";
 import MyPage from "./pages/MyPage";
+import SearchResults from "./pages/SearchResults";
+import Category from "./pages/Category";
+import Search from "./pages/Search";
 
 export default function App() {
   return (
@@ -17,7 +20,10 @@ export default function App() {
       <Route path="/question" element={<QuestionPage />} />
       <Route path="/result" element={<ResultPage />} />
       <Route path="/mypage" element={<MyPage />} />
-      <Route path="*" element={<Navigate to="/magazine" replace />} />
+      <Route path="/search-results" element={<SearchResults />} />
+      <Route path="/category" element={<Category />} />
+      <Route path="/search" element={<Search />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

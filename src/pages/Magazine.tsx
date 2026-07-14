@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import type { PointerEvent, ReactNode, UIEvent } from "react";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { PerfumeIcon } from "../components/icons/PerfumeIcon";
 import articleCardBase from "../assets/magazine/article-card-base.png";

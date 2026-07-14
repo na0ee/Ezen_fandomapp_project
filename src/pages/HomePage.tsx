@@ -22,7 +22,8 @@ const figmaNode = {
   bottomNavigation: "737:14605",
 };
 
-const assets = {
+const assets = Object.fromEntries(
+  Object.entries({
   headerSearch: "/assets/figma/d399596a-b788-46c8-9750-6098f4855e00.svg",
   headerBell: "/assets/figma/ba68afb5-4296-4856-8547-eaae5820c800.svg",
   headerPerfume: "/assets/figma/ccc64f72-0cd3-40e6-97bd-d60b7d84ef1e.svg",
@@ -40,8 +41,9 @@ const assets = {
   rankHeart: "/assets/figma/c626147a-173e-4f82-8407-66cad966801b.svg",
   magazineOne: "/assets/figma/604cad28-ee28-4352-a88f-57b5c6cdb1ae.png",
   magazineTwo: "/assets/figma/cae4a0ad-1f49-46d9-81c0-f893afb376e1.png",
-  gift: "/assets/figma/21ec3215-67f3-40e5-a91d-630537632bb9.png",
-};
+    gift: "/assets/figma/21ec3215-67f3-40e5-a91d-630537632bb9.png",
+  }).map(([key, path]) => [key, `${import.meta.env.BASE_URL}${path.slice(1)}`]),
+) as Record<string, string>;
 
 const heroSlides = [
   {
@@ -676,4 +678,3 @@ export function HomePage() {
     </main>
   );
 }
-

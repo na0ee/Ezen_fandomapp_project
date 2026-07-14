@@ -18,7 +18,8 @@ const figmaNode = {
   bottomNavigation: "737:14472",
 };
 
-const assets = {
+const assets = Object.fromEntries(
+  Object.entries({
   headerSearch: "/assets/figma/f94998b0-6ec1-4bb9-9061-0d7963d06473.svg",
   headerBell: "/assets/figma/f9ee5857-96be-4f4a-8990-a11893c44f8c.svg",
   headerPerfume: "/assets/figma/db67ca5c-7071-47f0-935e-5dbdd0fd409f.svg",
@@ -35,8 +36,9 @@ const assets = {
   storyTwo: "/assets/figma/9247c529-923f-43e1-9805-4d330e0a63e2.png",
   storyThree: "/assets/figma/d2bb8d2a-613a-4a65-8aa9-94f1d1caccde.png",
   raffleToday: "/assets/figma/1a1cf807-eb4f-4aa5-a14f-c60de2901496.png",
-  raffleBottle: "/assets/figma/2a366440-329b-4758-b5e1-73f3ebe99526.png",
-};
+    raffleBottle: "/assets/figma/2a366440-329b-4758-b5e1-73f3ebe99526.png",
+  }).map(([key, path]) => [key, `${import.meta.env.BASE_URL}${path.slice(1)}`]),
+) as Record<string, string>;
 
 const challengeCards = [
   {
@@ -546,4 +548,3 @@ export function EventPage() {
     </main>
   );
 }
-
