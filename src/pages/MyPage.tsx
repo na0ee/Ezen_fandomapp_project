@@ -1,6 +1,5 @@
 import {
   ArrowRight,
-  Bell,
   ChevronRight,
   CircleHelp,
   Search,
@@ -23,6 +22,8 @@ import wishlistOne from "../assets/mypage/wishlist-1.png";
 import wishlistTwo from "../assets/mypage/wishlist-2.png";
 import wishlistThree from "../assets/mypage/wishlist-3.png";
 import selectedHeart from "../assets/mypage/heart-selected.svg";
+
+const headerBell = "/assets/figma/ba68afb5-4296-4856-8547-eaae5820c800.svg";
 
 const perfumes = [
   {
@@ -314,16 +315,16 @@ function AccountSection() {
 export default function MyPage() {
   return (
     <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
-      <header className="flex h-[54px] items-center justify-between px-side">
+      <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
         <h1 className="text-2xl font-semibold leading-[1.3] tracking-[-0.02em]">마이페이지</h1>
         <div className="flex items-center gap-5">
           <Search aria-label="검색" size={28} strokeWidth={1.5} />
-          <Bell aria-label="알림" size={28} strokeWidth={1.5} />
+          <img alt="알림" className="size-7" src={headerBell} />
           <PerfumeIcon />
         </div>
       </header>
 
-      <div className="flex flex-col gap-section">
+      <div className="flex flex-col gap-section pt-[54px] pb-[112px]">
         <ProfileSection />
         <PerfumeSection />
         <MagazineSection />
@@ -332,9 +333,7 @@ export default function MyPage() {
         <AccountSection />
       </div>
 
-      <div className="mt-[52px]">
-        <BottomNavigation />
-      </div>
+      <BottomNavigation />
     </main>
   );
 }

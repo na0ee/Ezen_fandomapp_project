@@ -110,7 +110,7 @@ const raffleItems = [
 function EventHeader() {
   return (
     <header
-      className="header sticky top-0 z-50 flex h-[54px] w-full shrink-0 items-center justify-between bg-off-white px-5"
+      className="header fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5"
       data-node-id={figmaNode.header}
     >
       <h1 className="text-2xl font-semibold leading-none tracking-[-0.02em] text-off-black">
@@ -531,7 +531,7 @@ export function EventPage() {
       <div className="relative mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-off-white">
         <EventHeader />
         <div
-          className="wrap flex flex-1 flex-col gap-[64px] pt-10 pb-[160px]"
+          className="wrap flex flex-1 flex-col gap-[64px] pt-[94px] pb-[160px]"
           data-node-id={figmaNode.wrap}
         >
           <MainChallengeSection />
@@ -540,7 +540,7 @@ export function EventPage() {
           <RaffleSection />
         </div>
         <div data-node-id={figmaNode.bottomNavigation}>
-          <BottomNavigation placement="fixed" />
+          <BottomNavigation />
         </div>
       </div>
     </main>

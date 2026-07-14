@@ -1,6 +1,5 @@
 import {
   ArrowRight,
-  Bell,
   ChevronRight,
   Heart,
   Search,
@@ -16,6 +15,8 @@ import citrusCardBase from "../assets/magazine/citrus-card-base.png";
 import citrusCardOverlay from "../assets/magazine/citrus-card-overlay.png";
 import scentMatch from "../assets/magazine/scent-match.png";
 import trendBanner from "../assets/magazine/trend-banner.png";
+
+const headerBell = "/assets/figma/ba68afb5-4296-4856-8547-eaae5820c800.svg";
 
 const categories = ["전체", "향수 상식", "추천", "트렌드", "선물", "브랜드"];
 
@@ -257,7 +258,7 @@ function Indicator({ activeIndex, itemCount, onSelect }: IndicatorProps) {
 
 function MagazineHeader() {
   return (
-    <header className="header flex h-[54px] shrink-0 flex-col items-center justify-center px-5">
+    <header className="header fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 flex-col items-center justify-center bg-off-white px-5">
       <div className="flex w-full items-center justify-between">
         <div className="flex shrink-0 items-center">
           <h1 className="whitespace-nowrap text-center text-2xl font-semibold leading-[1.08] tracking-[-0.02em]">
@@ -266,7 +267,7 @@ function MagazineHeader() {
         </div>
         <div className="flex shrink-0 items-start justify-end gap-5" aria-label="매거진 메뉴">
           <Search aria-hidden="true" className="shrink-0" size={28} strokeWidth={1.8} />
-          <Bell aria-hidden="true" className="shrink-0" size={28} strokeWidth={1.8} />
+          <img alt="" aria-hidden="true" className="size-7 shrink-0" src={headerBell} />
           <PerfumeIcon />
         </div>
       </div>
@@ -504,9 +505,9 @@ function ExploreSection() {
 export default function MagazinePage() {
   return (
     <main className="min-h-dvh bg-off-white">
-      <div className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col overflow-hidden bg-off-white">
+      <div className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-off-white">
         <MagazineHeader />
-        <div className="wrap flex flex-col gap-16 pt-16">
+        <div className="wrap flex flex-col gap-16 pt-[118px] pb-[112px]">
           <TrendSection />
           <PopularSection />
           <BrandStorySection />
