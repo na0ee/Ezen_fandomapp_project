@@ -2,7 +2,7 @@ import { SlidersHorizontal } from "lucide-react";
 import { PageLayout } from "../components/common/PageLayout";
 import { SectionTitle } from "../components/common/SectionTitle";
 
-const sections = ["향수 트렌드", "많이 읽은 글", "브랜드 스토리", "더 둘러보기"];
+const sections = ["향수 트렌드", "많이 읽은 글", "브랜드 스토리", "둘러보기"];
 
 export function MagazinePage() {
   return (
@@ -17,7 +17,7 @@ export function MagazinePage() {
       {sections.map((title) => (
         <section key={title}>
           <SectionTitle title={title} variant="detail" />
-          <div className="mt-[30px] min-h-44 rounded-card bg-light2-grey" />
+          <div className="mt-title-gap min-h-44 rounded-card bg-light2-grey" />
         </section>
       ))}
     </PageLayout>
