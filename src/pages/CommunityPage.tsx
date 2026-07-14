@@ -1,47 +1,52 @@
 import { useState } from "react";
-import { Bookmark, ChevronRight, Heart, MessageCircle, MoreHorizontal, Sparkles, UserRound, Gift, BookOpen, Home } from "lucide-react";
+import { Bookmark, ChevronRight, Heart, MessageCircle, MoreHorizontal } from "lucide-react";
 import { PageLayout } from "../components/common/PageLayout";
-import { Link } from "react-router-dom";
+import avatarHaesu from "../assets/community/figma/avatar-haesu.png";
+import avatarYeeun from "../assets/community/figma/avatar-yeeun.png";
+import carouselFour from "../assets/community/figma/carousel-four.png";
+import carouselThree from "../assets/community/figma/carousel-three.png";
+import carouselTwo from "../assets/community/figma/carousel-two.png";
+import headerBell from "../assets/community/figma/header-bell.svg";
+import headerPerfume from "../assets/community/figma/header-perfume.svg";
+import headerSearch from "../assets/community/figma/header-search.svg";
+import joMalone from "../assets/community/figma/jo-malone.png";
+import plusImageOne from "../assets/community/figma/plus-image-one.svg";
+import plusImageTwo from "../assets/community/figma/plus-image-two.svg";
+import postImageOne from "../assets/community/figma/post-image-one.png";
+import postImageTwo from "../assets/community/figma/post-image-two.png";
+import rankOne from "../assets/community/figma/rank-one.png";
+import rankThree from "../assets/community/figma/rank-three.png";
+import rankTwo from "../assets/community/figma/rank-two.png";
+import reviewImage from "../assets/community/figma/review-image.png";
+import tagFour from "../assets/community/figma/tag-four.png";
+import tagOne from "../assets/community/figma/tag-one.png";
+import tagThree from "../assets/community/figma/tag-three.png";
+import tagTwo from "../assets/community/figma/tag-two.png";
 
-const joMalone = "https://www.figma.com/api/mcp/asset/c90c5c19-fe2e-43d8-84ad-9f6f1dfe7f57";
-const reviewImage = "https://www.figma.com/api/mcp/asset/f4ac2589-7ece-4c45-b856-1ea69e47aa36";
-const avatarYeeun = "https://www.figma.com/api/mcp/asset/725e4747-9c32-4622-bc98-492024d977be";
-const postImageOne = "https://www.figma.com/api/mcp/asset/4dfc7ec2-0041-479a-b4f7-946224af9ede";
-const postImageTwo = "https://www.figma.com/api/mcp/asset/bad2b639-5106-42ee-8f7d-9a897cfece3e";
-const plusImageOne = "https://www.figma.com/api/mcp/asset/42e28906-08c6-46f0-84bc-6b8af6c04c27";
-const plusImageTwo = "https://www.figma.com/api/mcp/asset/18b337a5-05ca-4f86-b4a3-a033988ebd1e";
-const headerSearch = "https://www.figma.com/api/mcp/asset/d9f2383d-317e-4d16-becd-86dddf7124d5";
-const headerBell = "https://www.figma.com/api/mcp/asset/c7e742c1-2a8d-4347-98d6-001f8f9aaeb8";
-const headerPerfume = "https://www.figma.com/api/mcp/asset/1ea6580b-bb16-4111-a05d-6f8b0c180de3";
 const carouselImages = [
   { src: postImageOne, fit: "object-bottom" },
-  { src: "https://www.figma.com/api/mcp/asset/ff4656c1-4f44-4c90-8a03-50ad3e875f27", fit: "object-cover" },
-  { src: "https://www.figma.com/api/mcp/asset/345b0a80-b0b5-4a22-a388-67950f954a79", fit: "object-cover" },
-  { src: "https://www.figma.com/api/mcp/asset/962f8800-9fb7-4263-9a4b-3aeb53f02ecb", fit: "object-cover" },
+  { src: carouselTwo, fit: "object-cover" },
+  { src: carouselThree, fit: "object-cover" },
+  { src: carouselFour, fit: "object-cover" },
 ];
-const avatarHaesu = "https://www.figma.com/api/mcp/asset/ee88a390-d6ff-4b7b-ae62-201332253268";
-const rankOne = "https://www.figma.com/api/mcp/asset/6a615936-c5e2-4d1e-b06f-efa52d8a4fbd";
-const rankTwo = "https://www.figma.com/api/mcp/asset/8c90d0f5-f2d6-4b5c-89c1-c06c62101c42";
-const rankThree = "https://www.figma.com/api/mcp/asset/b9bb9142-855b-4161-bc3d-36ec8da59ebf";
 const tagImagesOne = [
-  { src: "https://www.figma.com/api/mcp/asset/65bb23a8-4a84-47ab-9070-e0665161b5dc", className: "h-[69px] w-[52px]" },
-  { src: "https://www.figma.com/api/mcp/asset/a205e116-3764-4ef1-8d80-614cb86dee03", className: "h-[55px] w-[38px]" },
-  { src: "https://www.figma.com/api/mcp/asset/8f24847a-d77d-4965-85db-7ac5689191b2", className: "h-[53px] w-[36px]" },
+  { src: tagOne, className: "h-[69px] w-[52px]" },
+  { src: tagTwo, className: "h-[55px] w-[38px]" },
+  { src: tagThree, className: "h-[53px] w-[36px]" },
 ];
 const tagImagesTwo = [
-  { src: "https://www.figma.com/api/mcp/asset/ba166752-709a-40f2-b02c-113740cbbe91", className: "h-[69px] w-[52px]" },
+  { src: tagFour, className: "h-[69px] w-[52px]" },
 ];
 
-function Header() {
+function HeaderActions() {
   return (
-    <header className="flex h-[54px] items-center justify-between px-5">
-      <h1 className="text-[24px] font-semibold leading-[1.08] tracking-[-0.03em]">커뮤니티</h1>
-      <div className="flex items-start justify-end gap-5">
-        <Link aria-label="검색 페이지" className="size-7" to="/search"><img className="size-7" src={headerSearch} alt="" /></Link>
-        <img className="h-7 w-7" src={headerBell} alt="알림" />
-        <Link aria-label="카테고리 페이지" className="relative size-7 overflow-hidden" to="/category"><span className="absolute inset-[12.5%]"><span className="absolute inset-[-4.29%]"><img className="block size-full" src={headerPerfume} alt="" /></span></span></Link>
-      </div>
-    </header>
+    <div className="flex items-start justify-end gap-5">
+      <img className="h-7 w-7" src={headerSearch} alt="검색" />
+      <img className="h-7 w-7" src={headerBell} alt="알림" />
+      <span className="relative size-7 overflow-hidden">
+        <img className="absolute inset-[12.5%] h-3/4 w-3/4 max-w-none" src={headerPerfume} alt="향수" />
+      </span>
+    </div>
   );
 }
 
@@ -114,11 +119,6 @@ function Ranking() {
   return <section className="px-5" data-node-id="891:4602"><h2 className="text-[24px] font-semibold leading-[1.08] tracking-[-0.03em]">이번 주 유저랭킹</h2><div className="mt-[30px] flex flex-col gap-5">{users.map(([image, name], index) => <div className="flex items-center justify-between rounded-lg border border-light-grey px-5 py-[15px]" key={name}><div className="flex items-center gap-2.5"><span className="w-2 text-base">{index + 1}</span><img className="h-[49px] w-[49px] rounded-full object-cover" src={image} alt="" /><div className="ml-0.5"><p className="text-base font-semibold">{name}</p><p className="mt-[5px] text-base font-medium text-grey">리뷰왕</p></div></div><span className="rounded-full bg-off-black px-[14px] py-[7px] text-base text-white">프로필</span></div>)}</div></section>;
 }
 
-function CommunityNavigation() {
-  const items = [[Home, "홈"], [Gift, "이벤트"], [MessageCircle, "커뮤니티"], [BookOpen, "매거진"], [UserRound, "마이"]] as const;
-  return <div className="sticky bottom-0 z-10 flex gap-2.5 bg-white/90 px-4 pb-[max(12px,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md"><nav className="flex h-[72px] flex-1 items-center justify-between rounded-[40px] border-[0.6px] border-light-grey bg-off-black px-[18px] py-[15px]">{items.map(([Icon, label], index) => <div className={`flex w-[38px] flex-col items-center gap-1 text-xs font-medium tracking-[-0.02em] ${index === 2 ? "text-white" : "text-light-grey"}`} key={label}><Icon size={24} /><span>{label}</span></div>)}</nav><div className="flex h-[72px] w-[58px] shrink-0 flex-col items-center justify-center gap-1 rounded-full bg-off-black text-xs text-white"><Sparkles size={24} /><span>AI</span></div></div>;
-}
-
 export function CommunityPage() {
-  return <PageLayout showNavigation={false} contentClassName="gap-0"><Header /><div className="mt-6"><Tabs /></div><div className="mt-10 flex flex-col gap-16 pb-8"><HotReviews /><Post /><Post second /><Ranking /></div><CommunityNavigation /></PageLayout>;
+  return <PageLayout title="커뮤니티" headerAction={<HeaderActions />} contentClassName="gap-0"><div className="mt-6"><Tabs /></div><div className="mt-10 flex flex-col gap-16 pb-8"><HotReviews /><Post /><Post second /><Ranking /></div></PageLayout>;
 }
