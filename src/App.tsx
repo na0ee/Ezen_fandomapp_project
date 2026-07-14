@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { EventPage } from "./pages/EventPage";
 import { HomePage } from "./pages/HomePage";
-import MagazinePage from "./pages/Magazine";
+import MagazinePage from "./pages/magazine";
 import { QuestionPage } from "./pages/QuestionPage";
 import { ResultPage } from "./pages/ResultPage";
 import MyPage from "./pages/MyPage";
