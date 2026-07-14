@@ -9,22 +9,6 @@ const recommendationRows = [
   ["우디 향수", "여행용 향수"],
 ];
 
-function FilterTabs() {
-  return (
-    <div className="flex w-full items-center gap-[5px] overflow-hidden px-side">
-      <button className="shrink-0 rounded-[50px] bg-off-black px-3.5 py-2 text-xs font-medium leading-normal tracking-[-0.02em] text-off-white" type="button">
-        전체
-      </button>
-      <button className="shrink-0 rounded-[50px] border-[0.8px] border-light-grey bg-off-white px-3.5 py-2 text-xs font-medium leading-normal tracking-[-0.02em] text-grey" type="button">
-        향 계열
-      </button>
-      <button className="shrink-0 rounded-[50px] border-[0.8px] border-light-grey bg-off-white px-3.5 py-2 text-xs font-medium leading-normal tracking-[-0.02em] text-grey" type="button">
-        브랜드
-      </button>
-    </div>
-  );
-}
-
 function KeywordChip({ children }: { children: string }) {
   return (
     <button className="shrink-0 rounded-[50px] border-[0.8px] border-light-grey bg-off-white px-3.5 py-2 text-xs font-medium leading-normal tracking-[-0.02em] text-grey" type="button">
@@ -36,10 +20,11 @@ function KeywordChip({ children }: { children: string }) {
 export default function Search() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+  const [visibleRecentSearches, setVisibleRecentSearches] = useState(recentSearches);
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col items-center gap-10 overflow-x-hidden bg-off-white pb-6 text-off-black">
-      <div className="flex w-full flex-col gap-2.5">
+      <div className="w-full">
         <div className="flex w-full items-center gap-3 px-side py-[13px]">
           <button aria-label="이전 페이지" className="size-6 shrink-0" onClick={() => navigate(-1)} type="button">
             <ChevronLeft aria-hidden="true" className="size-full" strokeWidth={1.6} />
@@ -64,7 +49,6 @@ export default function Search() {
             />
           </form>
         </div>
-        <FilterTabs />
       </div>
 
       <section className="flex w-full flex-col items-start gap-2.5 px-side">
@@ -77,13 +61,18 @@ export default function Search() {
       </section>
 
       <section aria-label="최근 검색어" className="flex w-full flex-col items-start gap-5">
-        {recentSearches.map((keyword) => (
+        {visibleRecentSearches.map((keyword) => (
           <div className="flex h-[19px] w-full items-center justify-between px-side" key={keyword}>
             <div className="flex items-center gap-3">
               <Clock3 aria-hidden="true" size={13} strokeWidth={1.5} />
               <span className="text-sm font-medium leading-normal tracking-[-0.02em]">{keyword}</span>
             </div>
-            <button aria-label={`${keyword} 삭제`} className="size-2.5 shrink-0" type="button">
+            <button
+              aria-label={`${keyword} 삭제`}
+              className="size-2.5 shrink-0"
+              onClick={() => setVisibleRecentSearches((items) => items.filter((item) => item !== keyword))}
+              type="button"
+            >
               <X aria-hidden="true" className="size-full" strokeWidth={1.2} />
             </button>
           </div>
