@@ -2,9 +2,10 @@
 import type { MouseEvent, UIEvent } from "react";
 import {
   ChevronRight,
+  PartyPopper,
   SlidersHorizontal,
-  Sparkles,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { PerfumeRankCard } from "../components/perfume/PerfumeRankCard";
 import type { PerfumeRankItem } from "../components/perfume/PerfumeRankCard";
@@ -311,11 +312,13 @@ function HomeHeader() {
         Layer
       </p>
       <div className="flex items-center gap-5 text-off-black">
-        <img alt="" className="size-7" src={assets.headerSearch} />
+        <Link aria-label="검색" className="size-7" to="/search">
+          <img alt="" className="size-full" src={assets.headerSearch} />
+        </Link>
         <img alt="" className="size-7" src={assets.headerBell} />
-        <span className="relative size-7 overflow-hidden">
+        <Link aria-label="향수 카테고리" className="relative size-7 overflow-hidden" to="/category">
           <img alt="" className="absolute inset-[12.5%] h-3/4 w-3/4 max-w-none" src={assets.headerPerfume} />
-        </span>
+        </Link>
       </div>
     </header>
   );
@@ -461,7 +464,7 @@ function ChallengeCard({
       </div>
       {card.isComplete && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 text-off-white">
-          <Sparkles aria-hidden="true" className="text-point-orange" size={36} />
+          <PartyPopper aria-hidden="true" className="text-point-orange" size={36} strokeWidth={1.7} />
           <p className="mt-1 text-xl font-bold leading-none tracking-[-0.02em]">챌린지 완료!</p>
         </div>
       )}

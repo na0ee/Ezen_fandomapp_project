@@ -5,6 +5,7 @@ import {
   ChevronRight,
   PartyPopper,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 
 const figmaNode = {
@@ -69,28 +70,38 @@ const challengeCards = [
   },
 ];
 
-const storyCards = [
+type StoryCardItem = {
+  id: string;
+  title: string;
+  cta: string;
+  count?: string;
+  images: string[];
+};
+
+const storyCards: StoryCardItem[] = [
   {
+    id: "story-one",
     title: "Juhoon",
     cta: "추천하러 가기",
     images: [assets.storyOneBase, assets.storyOne],
   },
   {
-    title: "요가",
-    cta: "gallery_note",
-    count: "2/10",
-    images: [assets.storyTwo],
+    id: "story-two",
+    title: "Juhoon",
+    cta: "추천하러 가기",
+    images: [assets.storyOneBase, assets.storyOne],
   },
   {
-    title: "3월 30일",
-    cta: "visual_log",
-    count: "3/10",
-    images: [assets.storyThree],
+    id: "story-three",
+    title: "Juhoon",
+    cta: "추천하러 가기",
+    images: [assets.storyOneBase, assets.storyOne],
   },
 ];
 
 const raffleItems = [
   {
+    id: "lazy-sunday-today",
     brand: "Maison Margiela Fragrances",
     name: "Lazy Sunday Morning",
     image: assets.raffleToday,
@@ -98,11 +109,13 @@ const raffleItems = [
     today: true,
   },
   {
+    id: "blackberry-bay",
     brand: "Jo Malone London",
     name: "Blackberry & Bay Cologne",
     image: assets.raffleToday,
   },
   {
+    id: "lazy-sunday-bottle",
     brand: "Maison Margiela Fragrances",
     name: "Lazy Sunday Morning",
     image: assets.raffleBottle,
@@ -119,11 +132,13 @@ function EventHeader() {
         이벤트
       </h1>
       <div className="flex items-center gap-5 text-off-black">
-        <img alt="" className="size-7" src={assets.headerSearch} />
+        <Link aria-label="검색" className="size-7" to="/search">
+          <img alt="" className="size-full" src={assets.headerSearch} />
+        </Link>
         <img alt="" className="size-7" src={assets.headerBell} />
-        <span className="relative size-7 overflow-hidden">
+        <Link aria-label="향수 카테고리" className="relative size-7 overflow-hidden" to="/category">
           <img alt="" className="absolute inset-[12.5%] h-3/4 w-3/4 max-w-none" src={assets.headerPerfume} />
-        </span>
+        </Link>
       </div>
     </header>
   );
@@ -385,7 +400,7 @@ function ChallengeSection() {
   );
 }
 
-function StoryCard({ story }: { story: (typeof storyCards)[number] }) {
+function StoryCard({ story }: { story: StoryCardItem }) {
   const hasCount = Boolean(story.count);
 
   return (
@@ -408,8 +423,8 @@ function StoryCard({ story }: { story: (typeof storyCards)[number] }) {
         {story.title}
       </p>
       <div
-        className={`absolute left-[14px] flex items-center gap-2 rounded-card px-2.5 py-[7px] text-off-white ${
-          hasCount ? "top-[405px] bg-[rgba(5,5,5,0.88)]" : "top-[409px] h-[27px] bg-off-black-70"
+        className={`absolute left-[14px] flex items-center gap-2 rounded-card border border-white/25 bg-white/15 px-2.5 py-[7px] text-off-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] backdrop-blur-md ${
+          hasCount ? "top-[405px]" : "top-[409px] h-[27px]"
         }`}
       >
         <span
@@ -458,7 +473,7 @@ function GallerySection() {
         >
           <div className="flex w-max gap-[14px]">
             {storyCards.map((story) => (
-              <StoryCard key={story.title} story={story} />
+              <StoryCard key={story.id} story={story} />
             ))}
           </div>
         </div>
@@ -473,7 +488,15 @@ function GallerySection() {
   );
 }
 
-function RaffleCard({ item }: { item: (typeof raffleItems)[number] }) {
+function RaffleCard({
+  isAlarmOn,
+  item,
+  onAlarmToggle,
+}: {
+  isAlarmOn: boolean;
+  item: (typeof raffleItems)[number];
+  onAlarmToggle: () => void;
+}) {
   return (
     <article className="flex h-[108px] w-full items-center gap-4 overflow-hidden rounded-[16px] border border-light-grey bg-off-white p-2">
       <div className="relative size-[92px] shrink-0 overflow-hidden rounded-[12px] bg-[#ededed]">
@@ -500,26 +523,47 @@ function RaffleCard({ item }: { item: (typeof raffleItems)[number] }) {
           >
             참여하기
           </span>
-          <BellRing
-            aria-hidden="true"
-            className={item.disabled ? "text-point-orange" : "text-off-black"}
-            size={13}
-            strokeWidth={1.8}
-          />
+            <button
+              aria-label={`${item.name} 알림 ${isAlarmOn ? "끄기" : "켜기"}`}
+              aria-pressed={isAlarmOn}
+              className={`flex size-5 items-center justify-center ${
+                isAlarmOn ? "text-point-orange" : "text-off-black"
+              }`}
+              onClick={onAlarmToggle}
+              type="button"
+            >
+              <BellRing aria-hidden="true" size={13} strokeWidth={1.8} />
+            </button>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
   );
 }
 
 function RaffleSection() {
+  const [alarmStates, setAlarmStates] = useState(() =>
+    Object.fromEntries(raffleItems.map((item) => [item.id, Boolean(item.disabled)])),
+  );
+
+  function handleAlarmToggle(id: string) {
+    setAlarmStates((current) => ({
+      ...current,
+      [id]: !current[id],
+    }));
+  }
+
   return (
     <section className="shrink-0 px-5" data-node-id={figmaNode.raffle}>
       <div className="inner flex flex-col gap-[30px]">
         <SectionHead title="래플 응모하기" />
         <div className="flex flex-col gap-3">
           {raffleItems.map((item) => (
-            <RaffleCard item={item} key={`${item.brand}-${item.name}-${item.disabled ? "disabled" : "active"}`} />
+            <RaffleCard
+              isAlarmOn={Boolean(alarmStates[item.id])}
+              item={item}
+              key={item.id}
+              onAlarmToggle={() => handleAlarmToggle(item.id)}
+            />
           ))}
         </div>
       </div>
