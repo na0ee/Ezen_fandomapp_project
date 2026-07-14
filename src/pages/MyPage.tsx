@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import type { PointerEvent, ReactNode } from "react";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { PerfumeIcon } from "../components/icons/PerfumeIcon";
 import fireBadge from "../assets/mypage/fire-badge.svg";
@@ -317,9 +318,13 @@ export default function MyPage() {
       <header className="flex h-[54px] items-center justify-between px-side">
         <h1 className="text-2xl font-semibold leading-[1.3] tracking-[-0.02em]">마이페이지</h1>
         <div className="flex items-center gap-5">
-          <Search aria-label="검색" size={28} strokeWidth={1.5} />
+          <Link aria-label="검색 페이지" className="size-7" to="/search">
+            <Search aria-hidden="true" size={28} strokeWidth={1.5} />
+          </Link>
           <Bell aria-label="알림" size={28} strokeWidth={1.5} />
-          <PerfumeIcon />
+          <Link aria-label="카테고리 페이지" className="size-7" to="/category">
+            <PerfumeIcon />
+          </Link>
         </div>
       </header>
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Bookmark, ChevronRight, Heart, MessageCircle, MoreHorizontal, Sparkles, UserRound, Gift, BookOpen, Home } from "lucide-react";
 import { PageLayout } from "../components/common/PageLayout";
+import { Link } from "react-router-dom";
 
 const joMalone = "https://www.figma.com/api/mcp/asset/c90c5c19-fe2e-43d8-84ad-9f6f1dfe7f57";
 const reviewImage = "https://www.figma.com/api/mcp/asset/f4ac2589-7ece-4c45-b856-1ea69e47aa36";
@@ -36,9 +37,9 @@ function Header() {
     <header className="flex h-[54px] items-center justify-between px-5">
       <h1 className="text-[24px] font-semibold leading-[1.08] tracking-[-0.03em]">커뮤니티</h1>
       <div className="flex items-start justify-end gap-5">
-        <img className="h-7 w-7" src={headerSearch} alt="검색" />
+        <Link aria-label="검색 페이지" className="size-7" to="/search"><img className="size-7" src={headerSearch} alt="" /></Link>
         <img className="h-7 w-7" src={headerBell} alt="알림" />
-        <div className="relative h-7 w-7 overflow-hidden"><div className="absolute inset-[12.5%]"><div className="absolute inset-[-4.29%]"><img className="block h-full w-full" src={headerPerfume} alt="향수" /></div></div></div>
+        <Link aria-label="카테고리 페이지" className="relative size-7 overflow-hidden" to="/category"><span className="absolute inset-[12.5%]"><span className="absolute inset-[-4.29%]"><img className="block size-full" src={headerPerfume} alt="" /></span></span></Link>
       </div>
     </header>
   );
