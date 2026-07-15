@@ -3,9 +3,8 @@ import type { MouseEvent, UIEvent } from "react";
 import {
   BellRing,
   ChevronRight,
-  PartyPopper,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 
 const figmaNode = {
@@ -144,16 +143,20 @@ function EventHeader() {
   );
 }
 
-function SectionHead({ title }: { title: string }) {
+function SectionHead({ hideViewAll = false, href, title }: { hideViewAll?: boolean; href?: string; title: string }) {
+  const viewAll = (
+    <div className="flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey">
+      <span>전체보기</span>
+      <ChevronRight aria-hidden="true" size={18} strokeWidth={1.6} />
+    </div>
+  );
+
   return (
     <div className="section-title flex w-full items-start justify-between">
       <h2 className="min-w-0 flex-1 text-2xl font-semibold leading-[1.08] tracking-[-0.02em] text-off-black">
         {title}
       </h2>
-      <div className="flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey">
-        <span>전체보기</span>
-        <ChevronRight aria-hidden="true" size={18} strokeWidth={1.6} />
-      </div>
+      {!hideViewAll && (href ? <Link aria-label={`${title} 전체보기`} to={href}>{viewAll}</Link> : viewAll)}
     </div>
   );
 }
@@ -260,7 +263,7 @@ function MainChallengeSection() {
   return (
     <section className="shrink-0 px-5" data-node-id={figmaNode.mainChallenge}>
       <div className="inner flex flex-col gap-[30px]">
-        <SectionHead title="오늘의 메인 챌린지" />
+        <SectionHead hideViewAll title="오늘의 메인 챌린지" />
         <div className="flex flex-col gap-[10px]">
           <div className="relative h-[272px] overflow-hidden rounded-[16px]">
             <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.mainHeroBase} />
@@ -346,12 +349,6 @@ function ChallengeCard({ card }: { card: (typeof challengeCards)[number] }) {
           </p>
         )}
       </div>
-      {card.complete && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 text-off-white">
-          <PartyPopper aria-hidden="true" className="text-point-orange" size={36} strokeWidth={1.7} />
-          <p className="mt-1 text-xl font-bold leading-none tracking-[-0.02em]">챌린지 완료!</p>
-        </div>
-      )}
     </article>
   );
 }
@@ -376,7 +373,7 @@ function ChallengeSection() {
   return (
     <section className="shrink-0 px-5" data-node-id={figmaNode.challenge}>
       <div className="inner">
-        <SectionHead title="챌린지" />
+        <SectionHead href="/event/challenges" title="챌린지" />
         <div
           className={`mt-[30px] -mx-5 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${dragClassName}`}
           onScroll={(event) => setScrollProgress(getHorizontalScrollProgress(event))}
@@ -422,10 +419,12 @@ function StoryCard({ story }: { story: StoryCardItem }) {
       >
         {story.title}
       </p>
-      <div
+      <Link
+        aria-label={`${story.title} 프로필에서 향수 추천하기`}
         className={`absolute left-[14px] flex items-center gap-2 rounded-card border border-white/25 bg-white/15 px-2.5 py-[7px] text-off-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] backdrop-blur-md ${
           hasCount ? "top-[405px]" : "top-[409px] h-[27px]"
         }`}
+        to={`/event/recommend-profile/${story.id}`}
       >
         <span
           className={`font-geist font-bold leading-none tracking-[-0.02em] ${hasCount ? "text-xl" : "text-[15px]"}`}
@@ -439,7 +438,7 @@ function StoryCard({ story }: { story: StoryCardItem }) {
         >
           {story.cta}
         </span>
-      </div>
+      </Link>
     </article>
   );
 }
@@ -464,7 +463,7 @@ function GallerySection() {
   return (
     <section className="h-[549px] shrink-0 overflow-visible px-5" data-node-id={figmaNode.gallery}>
       <div className="inner flex h-full flex-col items-center">
-        <SectionHead title="향 추천하기" />
+        <SectionHead href="/event/recommend-feed" title="향 추천하기" />
         <div
           className={`mt-[30px] h-[453px] w-full shrink-0 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${dragClassName}`}
           onScroll={(event) => setScrollProgress(getHorizontalScrollProgress(event))}
@@ -492,10 +491,12 @@ function RaffleCard({
   isAlarmOn,
   item,
   onAlarmToggle,
+  onOpen,
 }: {
   isAlarmOn: boolean;
   item: (typeof raffleItems)[number];
   onAlarmToggle: () => void;
+  onOpen?: () => void;
 }) {
   return (
     <article className="flex h-[108px] w-full items-center gap-4 overflow-hidden rounded-[16px] border border-light-grey bg-off-white p-2">
@@ -516,13 +517,16 @@ function RaffleCard({
           {item.name}
         </p>
         <div className="mt-4 flex items-center gap-2">
-          <span
+          <button
             className={`rounded-chip px-3.5 py-[5px] text-xs font-normal leading-none tracking-[-0.02em] text-off-white ${
               item.disabled ? "bg-light-grey" : "bg-off-black"
             }`}
+            disabled={item.disabled}
+            onClick={onOpen}
+            type="button"
           >
             참여하기
-          </span>
+          </button>
             <button
               aria-label={`${item.name} 알림 ${isAlarmOn ? "끄기" : "켜기"}`}
               aria-pressed={isAlarmOn}
@@ -541,6 +545,7 @@ function RaffleCard({
 }
 
 function RaffleSection() {
+  const navigate = useNavigate();
   const [alarmStates, setAlarmStates] = useState(() =>
     Object.fromEntries(raffleItems.map((item) => [item.id, Boolean(item.disabled)])),
   );
@@ -555,7 +560,7 @@ function RaffleSection() {
   return (
     <section className="shrink-0 px-5" data-node-id={figmaNode.raffle}>
       <div className="inner flex flex-col gap-[30px]">
-        <SectionHead title="래플 응모하기" />
+        <SectionHead href="/event/raffles" title="래플 응모하기" />
         <div className="flex flex-col gap-3">
           {raffleItems.map((item) => (
             <RaffleCard
@@ -563,6 +568,7 @@ function RaffleSection() {
               item={item}
               key={item.id}
               onAlarmToggle={() => handleAlarmToggle(item.id)}
+              onOpen={item.disabled ? undefined : () => navigate(`/event/raffles/${item.id}`)}
             />
           ))}
         </div>

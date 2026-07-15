@@ -2,7 +2,6 @@
 import type { MouseEvent, UIEvent } from "react";
 import {
   ChevronRight,
-  PartyPopper,
   SlidersHorizontal,
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -462,12 +461,6 @@ function ChallengeCard({
           </p>
         )}
       </div>
-      {card.isComplete && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 text-off-white">
-          <PartyPopper aria-hidden="true" className="text-point-orange" size={36} strokeWidth={1.7} />
-          <p className="mt-1 text-xl font-bold leading-none tracking-[-0.02em]">챌린지 완료!</p>
-        </div>
-      )}
     </article>
   );
 }
