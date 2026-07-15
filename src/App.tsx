@@ -14,9 +14,17 @@ import MagazineSeasonal from "./pages/Magazine/Magazine_seasonal";
 import { QuestionPage } from "./pages/QuestionPage";
 import { ResultPage } from "./pages/ResultPage";
 import MyPage from "./pages/Mypage/MyPage";
+import MyPerfumePage from "./pages/MyPerfumePage";
+import MyReviewsPage from "./pages/MyReviewsPage";
+import MyWishlistPage from "./pages/MyWishlistPage";
 import SearchResults from "./pages/SearchResults";
 import Category from "./pages/Category";
 import Search from "./pages/Search";
+import UserProfilePage from "./pages/UserProfilePage";
+import { RecommendationFeedPage } from "./pages/RecommendationFeedPage";
+import { ChallengeListPage } from "./pages/ChallengeListPage";
+import { RaffleListPage } from "./pages/RaffleListPage";
+import { RaffleDetailPage } from "./pages/RaffleDetailPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();

@@ -113,14 +113,16 @@ function CardScroller({ children, className = "" }: { children: ReactNode; class
   );
 }
 
-function SectionTitle({ children }: { children: string }) {
+function SectionTitle({ children, to }: { children: string; to?: string }) {
+  const actionClassName = "flex items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey";
+
   return (
     <div className="flex h-[26px] items-center justify-between">
       <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.02em]">{children}</h2>
-      <button className="flex items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey" type="button">
+      <Link className={actionClassName} to={to ?? "#"}>
         <span>전체보기</span>
         <ChevronRight aria-hidden="true" size={18} strokeWidth={1.5} />
-      </button>
+      </Link>
     </div>
   );
 }
@@ -177,7 +179,7 @@ function ProfileSection() {
 function PerfumeSection() {
   return (
     <section className="px-side">
-      <SectionTitle>내 향수 관리하기</SectionTitle>
+      <SectionTitle to="/mypage/perfumes">내 향수 관리하기</SectionTitle>
       <CardScroller className="-mr-side mt-title-gap flex gap-4 pb-px pr-side">
         {perfumes.map((perfume, index) => (
           <article className="flex h-[337px] w-[241px] shrink-0 snap-start items-center justify-center overflow-hidden rounded-card border-[0.8px] border-light-grey bg-off-white px-3 py-[30px]" key={`${perfume.brand}-${index}`}>
@@ -214,7 +216,7 @@ function PerfumeSection() {
 function MagazineSection() {
   return (
     <section className="px-side">
-      <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">최근 본 매거진</h2>
+      <SectionTitle to="/magazine">최근 본 매거진</SectionTitle>
       <CardScroller className="-mr-side mt-title-gap flex gap-4 pr-side">
         {[0, 1, 2].map((item) => (
           <article className="relative h-72 w-[262px] shrink-0 snap-start overflow-hidden rounded-card border-[0.8px] border-light-grey text-off-white" key={item}>
@@ -241,10 +243,10 @@ function MagazineSection() {
 function WishlistSection() {
   return (
     <section className="px-side">
-      <SectionTitle>위시리스트</SectionTitle>
-      <div className="mt-title-gap flex flex-col items-start gap-4 overflow-hidden">
+      <SectionTitle to="/mypage/wishlist">위시리스트</SectionTitle>
+      <div className="mt-title-gap flex w-full flex-col items-start gap-4">
         {wishlist.map((item) => (
-          <article className="relative flex h-[124px] w-[398px] shrink-0 items-end justify-end gap-5 overflow-hidden rounded-card border-[0.8px] border-light-grey bg-off-white p-3" key={item.name}>
+          <article className="relative flex h-[124px] w-full shrink-0 items-end justify-end gap-5 overflow-hidden rounded-card border-[0.8px] border-light-grey bg-off-white p-3" key={item.name}>
             <div className="flex min-w-0 flex-1 items-start gap-5 self-start">
               <div className="relative size-[100px] shrink-0 overflow-hidden rounded-card bg-[#EDEDED]">
                 {item.brand === "BVLGARI PERFUME" ? (
@@ -260,7 +262,7 @@ function WishlistSection() {
                 <h3 className="w-full truncate text-base font-semibold leading-none tracking-[-0.02em]">{item.name}</h3>
               </div>
             </div>
-            <button aria-label="위시리스트에서 삭제" className="absolute left-[361.2px] top-[87.2px] size-6" type="button">
+            <button aria-label="위시리스트에서 삭제" className="absolute bottom-3 right-3 size-6" type="button">
               <img alt="" aria-hidden="true" className="size-full" src={selectedHeart} />
             </button>
           </article>
@@ -277,7 +279,7 @@ function ReviewSection() {
   ];
   return (
     <section className="px-side">
-      <SectionTitle>내 리뷰 관리하기</SectionTitle>
+      <SectionTitle to="/mypage/reviews">내 리뷰 관리하기</SectionTitle>
       <div className="mt-title-gap flex flex-col gap-4">
         {reviews.map((review) => (
           <article className="flex h-14 items-center gap-3 rounded-[24px] border-[0.8px] border-light-grey p-3.5" key={review.text}>
