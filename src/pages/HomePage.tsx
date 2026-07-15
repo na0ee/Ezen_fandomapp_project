@@ -27,6 +27,9 @@ const assets = Object.fromEntries(
   headerSearch: "/assets/figma/d399596a-b788-46c8-9750-6098f4855e00.svg",
   headerBell: "/assets/figma/ba68afb5-4296-4856-8547-eaae5820c800.svg",
   headerPerfume: "/assets/figma/ccc64f72-0cd3-40e6-97bd-d60b7d84ef1e.svg",
+  heroFirst: "/assets/figma/home-hero-first.png",
+  heroSecond: "/assets/figma/home-hero-second.png",
+  heroThird: "/assets/figma/home-hero-third.png",
   heroDiptyque: "/assets/figma/3bb914a7-b4df-4526-8d2f-259d0b60c660.png",
   heroJomalone: "/assets/figma/4b9a3ff2-070c-4905-ba08-e6a4776fa09d.png",
   scentForest: "/assets/figma/ac764b67-8c19-45c1-9335-2c516ec3fbd1.png",
@@ -48,10 +51,10 @@ const assets = Object.fromEntries(
 const heroSlides = [
   {
     nodeId: "726:6580",
-    image: assets.heroDiptyque,
-    imageClassName: "left-0 top-[-108px] h-[752px] w-full",
-    overlayClassName: "bg-white/10",
-    logoClassName: "text-off-black",
+    image: assets.heroFirst,
+    imageClassName: "inset-0 h-full w-full",
+    overlayClassName: "bg-black/10",
+    logoClassName: "text-off-white",
     label: (
       <>
         <span className="font-pretendard text-base font-medium tracking-[-0.02em]">나의 향수</span>
@@ -59,25 +62,27 @@ const heroSlides = [
         <span className="font-pretendard text-base font-medium tracking-[-0.02em]">진단하기</span>
       </>
     ),
-    ctaClassName: "text-off-black",
+    ctaClassName: "text-off-white",
   },
   {
     nodeId: "726:6596",
-    image: assets.heroJomalone,
-    imageClassName: "left-1/2 top-1/2 h-[868px] w-[488px] -translate-x-1/2 -translate-y-1/2",
-    overlayClassName: "bg-[#A40000]/20",
-    logoClassName: "text-[#FFBABA]",
+    image: assets.heroThird,
+    imageClassName: "inset-0 h-full w-full",
+    imageStyle: { transform: "translateX(6px) scale(1.03)" },
+    overlayClassName: "bg-black/10",
+    logoClassName: "text-off-white",
     label: "래플 응모하기",
-    ctaClassName: "text-[#FFB5B5]",
+    ctaClassName: "text-off-white",
   },
   {
     nodeId: "726:6614",
-    image: assets.heroJomalone,
-    imageClassName: "left-1/2 top-1/2 h-[868px] w-[488px] -translate-x-1/2 -translate-y-1/2 grayscale sepia",
-    overlayClassName: "bg-[#6F5D43]/45",
-    logoClassName: "text-[#F6DBC4]",
+    image: assets.heroSecond,
+    imageClassName: "inset-0 h-full w-full",
+    imageStyle: { objectPosition: "22% center" },
+    overlayClassName: "bg-black/10",
+    logoClassName: "text-off-white",
     label: "인기향수 보러가기",
-    ctaClassName: "text-[#F6DBC4]",
+    ctaClassName: "text-off-white",
   },
 ];
 
@@ -307,16 +312,24 @@ function HomeHeader() {
       }`}
       data-node-id={figmaNode.header}
     >
-      <p className="font-cormorant text-2xl font-semibold leading-none tracking-[-0.02em] text-off-black">
+      <p
+        className={`font-cormorant text-2xl font-semibold leading-none tracking-[-0.02em] ${
+          hasSolidBackground ? "text-off-black" : "text-off-white"
+        }`}
+      >
         Layer
       </p>
       <div className="flex items-center gap-5 text-off-black">
         <Link aria-label="검색" className="size-7" to="/search">
-          <img alt="" className="size-full" src={assets.headerSearch} />
+          <img alt="" className={`size-full ${hasSolidBackground ? "" : "invert"}`} src={assets.headerSearch} />
         </Link>
-        <img alt="" className="size-7" src={assets.headerBell} />
+        <img alt="" className={`size-7 ${hasSolidBackground ? "" : "invert"}`} src={assets.headerBell} />
         <Link aria-label="향수 카테고리" className="relative size-7 overflow-hidden" to="/category">
-          <img alt="" className="absolute inset-[12.5%] h-3/4 w-3/4 max-w-none" src={assets.headerPerfume} />
+          <img
+            alt=""
+            className={`absolute inset-[12.5%] h-3/4 w-3/4 max-w-none ${hasSolidBackground ? "" : "invert"}`}
+            src={assets.headerPerfume}
+          />
         </Link>
       </div>
     </header>
@@ -325,6 +338,7 @@ function HomeHeader() {
 
 function HeroSection() {
   const [activeHeroIndex, setActiveHeroIndex] = useState(0);
+  const activeSlide = heroSlides[activeHeroIndex];
   const activeProgress = ((activeHeroIndex + 1) / heroSlides.length) * 100;
   const trackStyle = { transform: `translateX(-${activeHeroIndex * 100}%)` };
 
@@ -344,7 +358,7 @@ function HeroSection() {
       >
         {heroSlides.map((slide) => (
           <div
-            className="relative h-[536px] w-full shrink-0 overflow-hidden bg-off-white"
+            className="relative h-[536px] w-full shrink-0 overflow-hidden bg-black"
             data-node-id={slide.nodeId}
             key={slide.nodeId}
           >
@@ -352,22 +366,23 @@ function HeroSection() {
               alt=""
               className={`absolute max-w-none object-cover ${slide.imageClassName}`}
               src={slide.image}
+              style={slide.imageStyle}
             />
             <div className={`absolute inset-0 ${slide.overlayClassName}`} />
-            <p
-              className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-cormorant text-[98px] font-bold leading-none tracking-[-0.02em] ${slide.logoClassName}`}
-            >
-              LAYER
-            </p>
-            <div className="absolute inset-x-0 bottom-[42px] flex flex-col items-center px-4">
-              <div
-                className={`flex h-[42px] w-full max-w-[263px] items-center justify-center rounded-cta border-[0.5px] border-white/60 bg-white/15 px-10 text-center text-base font-medium leading-none tracking-[-0.02em] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-[10px] backdrop-saturate-150 ${slide.ctaClassName}`}
-              >
-                {slide.label}
-              </div>
-            </div>
           </div>
         ))}
+      </div>
+      <p
+        className={`pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 font-cormorant text-[98px] font-bold leading-none tracking-[-0.02em] ${activeSlide.logoClassName}`}
+      >
+        LAYER
+      </p>
+      <div className="absolute inset-x-0 bottom-[42px] z-10 flex flex-col items-center px-4">
+        <div
+          className={`flex h-[42px] w-full max-w-[263px] items-center justify-center rounded-cta border-[0.5px] border-white/60 bg-white/15 px-10 text-center text-base font-medium leading-none tracking-[-0.02em] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-[10px] backdrop-saturate-150 ${activeSlide.ctaClassName}`}
+        >
+          {activeSlide.label}
+        </div>
       </div>
       <div className="absolute inset-x-0 bottom-5 flex justify-center px-4">
         <div className="relative w-[120px]">
