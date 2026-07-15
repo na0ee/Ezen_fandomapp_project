@@ -5,7 +5,7 @@ import { HomePage } from "./pages/HomePage";
 import MagazinePage from "./pages/Magazine/Magazine";
 import Magazine1 from "./pages/Magazine/Magazine_1";
 import Magazine2 from "./pages/Magazine/Magazine_2";
-import Magazine3 from "./pages/Magazine/Magazine_3";
+import MagazineSeasonal from "./pages/Magazine/Magazine_seasonal";
 import { QuestionPage } from "./pages/QuestionPage";
 import { ResultPage } from "./pages/ResultPage";
 import MyPage from "./pages/Mypage/MyPage";
@@ -35,7 +35,7 @@ export default function App() {
       <Route path="/magazine" element={<MagazinePage />} />
       <Route path="/magazine/niche-trend" element={<Magazine1 />} />
       <Route path="/magazine/perfume-longevity" element={<Magazine2 />} />
-      <Route path="/magazine/seasonal-guide" element={<Magazine3 />} />
+      <Route path="/magazine/seasonal-guide" element={<MagazineSeasonal />} />
       <Route path="/question" element={<QuestionPage />} />
       <Route path="/result" element={<ResultPage />} />
       <Route path="/mypage" element={<MyPage />} />
