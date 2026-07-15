@@ -44,6 +44,17 @@
     height: 100%;
   }
 
+  html,
+  body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
   body {
     min-width: 320px;
     min-height: 100vh;
@@ -107,5 +118,14 @@
 
   .horizontal-scroller img {
     -webkit-user-drag: none;
+  }
+
+  @keyframes sheetUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
   }
 }

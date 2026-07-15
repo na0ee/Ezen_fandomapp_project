@@ -7,16 +7,16 @@ import {
 import type { PointerEvent, ReactNode, UIEvent } from "react";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { BottomNavigation } from "../components/common/BottomNavigation";
-import { PerfumeIcon } from "../components/icons/PerfumeIcon";
-import headerBell from "../assets/community/figma/header-bell.svg";
-import articleCardBase from "../assets/magazine/article-card-base.png";
-import articleCardOverlay from "../assets/magazine/article-card-overlay.png";
-import byredoStory from "../assets/magazine/byredo-story.png";
-import citrusCardBase from "../assets/magazine/citrus-card-base.png";
-import citrusCardOverlay from "../assets/magazine/citrus-card-overlay.png";
-import scentMatch from "../assets/magazine/scent-match.png";
-import trendBanner from "../assets/magazine/trend-banner.png";
+import { BottomNavigation } from "../../components/common/BottomNavigation";
+import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
+import headerBell from "../../assets/community/figma/header-bell.svg";
+import articleCardBase from "../../assets/magazine/article-card-base.png";
+import articleCardOverlay from "../../assets/magazine/article-card-overlay.png";
+import byredoStory from "../../assets/magazine/byredo-story.png";
+import citrusCardBase from "../../assets/magazine/citrus-card-base.png";
+import citrusCardOverlay from "../../assets/magazine/citrus-card-overlay.png";
+import scentMatch from "../../assets/magazine/scent-match.png";
+import trendBanner from "../../assets/magazine/trend-banner.png";
 
 const categories = ["전체", "향수 상식", "추천", "트렌드", "선물", "브랜드"];
 
@@ -24,6 +24,7 @@ const trendSlides = [
   {
     title: "니치 향수 트렌드 리포트",
     description: "지금 읽어보기",
+    href: "/magazine/niche-trend",
     image: trendBanner,
     textColor: "text-off-black",
   },
@@ -45,6 +46,7 @@ const popularArticles = [
   {
     title: "향수 지속력을 높이는 꿀팁",
     description: "같은 향도 오래 남기는 나만의 작은 습관들",
+    href: "/magazine/perfume-longevity",
     imageBase: articleCardBase,
     imageOverlay: articleCardOverlay,
   },
@@ -202,16 +204,23 @@ const HorizontalScroller = forwardRef<HorizontalScrollerHandle, HorizontalScroll
   );
 });
 
-function MoreLabel({ color = "grey", label = "전체보기" }: { color?: "grey" | "white"; label?: string }) {
-  return (
-    <span
-      className={`flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] ${
-        color === "white" ? "text-off-white" : "text-grey"
-      }`}
-    >
+function MoreLabel({ color = "grey", href, label = "전체보기" }: { color?: "grey" | "white"; href?: string; label?: string }) {
+  const className = `flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] ${
+    color === "white" ? "text-off-white" : "text-grey"
+  }`;
+  const content = (
+    <>
       {label}
       <ChevronRight aria-hidden="true" size={color === "white" ? 20 : 18} />
-    </span>
+    </>
+  );
+
+  return href ? (
+    <Link className={className} to={href}>
+      {content}
+    </Link>
+  ) : (
+    <span className={className}>{content}</span>
   );
 }
 
@@ -307,10 +316,20 @@ function TrendSection() {
                 <div className="absolute inset-0 bg-gradient-to-r from-white/35 via-transparent to-transparent" />
                 <div className={`absolute left-4 top-[39px] ${slide.textColor}`}>
                   <p className="text-base font-medium leading-none tracking-[-0.02em]">{slide.title}</p>
-                  <div className="mt-[17px] flex items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em]">
-                    <span>{slide.description}</span>
-                    <ChevronRight aria-hidden="true" size={18} />
-                  </div>
+                  {slide.href ? (
+                    <Link
+                      className="mt-[17px] flex items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em]"
+                      to={slide.href}
+                    >
+                      <span>{slide.description}</span>
+                      <ChevronRight aria-hidden="true" size={18} />
+                    </Link>
+                  ) : (
+                    <div className="mt-[17px] flex items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em]">
+                      <span>{slide.description}</span>
+                      <ChevronRight aria-hidden="true" size={18} />
+                    </div>
+                  )}
                 </div>
               </article>
             ))}
@@ -384,7 +403,7 @@ function PopularSection() {
                   </p>
                 </div>
                 <div className="mt-auto flex items-center justify-between">
-                  <MoreLabel />
+                  <MoreLabel href={article.href} />
                   <Heart aria-label="찜한 글" className="fill-point-orange text-point-orange" size={24} />
                 </div>
               </article>
@@ -452,7 +471,11 @@ function BrandStorySection() {
 }
 
 function ExploreSection() {
-  const exploreItems = [0, 1, 2];
+  const exploreItems = [
+    { id: 0, href: "/magazine/seasonal-guide" },
+    { id: 1 },
+    { id: 2 },
+  ];
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollerRef = useRef<HorizontalScrollerHandle>(null);
 
@@ -474,7 +497,7 @@ function ExploreSection() {
       >
         <div className="flex w-max gap-3 pr-4">
           {exploreItems.map((item) => (
-            <article className="relative h-72 w-[262px] shrink-0 snap-start overflow-hidden rounded-card" key={item}>
+            <article className="relative h-72 w-[262px] shrink-0 snap-start overflow-hidden rounded-card" key={item.id}>
               <img alt="어두운 공간의 향수" className="h-full w-full object-cover" src={scentMatch} />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80" />
               <p className="absolute left-3.5 top-8 font-cormorant text-xs font-medium tracking-[-0.02em] text-off-white">
@@ -490,7 +513,18 @@ function ExploreSection() {
               <p className="absolute bottom-5 left-[23px] text-xs leading-none tracking-[-0.02em] text-off-white">
                 2026.07.13
               </p>
-              <ArrowRight aria-hidden="true" className="absolute bottom-[15px] right-3 text-off-white" size={24} />
+              {item.href ? (
+                <Link
+                  aria-label="계절별 향수 선택 가이드 읽기"
+                  className="absolute right-3 bottom-[15px] size-6 text-off-white"
+                  onPointerDown={(event) => event.stopPropagation()}
+                  to={item.href}
+                >
+                  <ArrowRight aria-hidden="true" className="size-full" />
+                </Link>
+              ) : (
+                <ArrowRight aria-hidden="true" className="absolute right-3 bottom-[15px] text-off-white" size={24} />
+              )}
             </article>
           ))}
         </div>
