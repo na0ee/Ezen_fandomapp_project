@@ -216,7 +216,7 @@ function PerfumeSection() {
 function MagazineSection() {
   return (
     <section className="px-side">
-      <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">최근 본 매거진</h2>
+      <SectionTitle to="/magazine">최근 본 매거진</SectionTitle>
       <CardScroller className="-mr-side mt-title-gap flex gap-4 pr-side">
         {[0, 1, 2].map((item) => (
           <article className="relative h-72 w-[262px] shrink-0 snap-start overflow-hidden rounded-card border-[0.8px] border-light-grey text-off-white" key={item}>

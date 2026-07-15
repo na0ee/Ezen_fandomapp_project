@@ -1,4 +1,5 @@
 import { ChevronLeft, Heart, MessageCircle, Search, Star } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { PerfumeIcon } from "../components/icons/PerfumeIcon";
@@ -40,6 +41,50 @@ const writtenReviews = [
     text: "흔히 생각하는 방향제 같은 라벤더가 아니라 차가운 느낌의 라벤더 향수인듯 텁텁함 없이 투명한 향이라 계절 상관없이 미니멀하게 뿌리기 좋음",
   },
 ];
+
+const reviewableItems = [
+  {
+    brand: "LOEWE PERFUMES",
+    name: "로에베 아이레 수틸레사 오 드 뚜왈렛 50ml",
+    image: reviewProductTwo,
+    date: "2026.xx.xx",
+  }
+];
+
+function EmptyStars() {
+  return (
+    <div className="flex gap-0.5 text-[#DDDDDD]">
+      {Array.from({ length: 5 }).map((_, index) => (
+        <Star aria-hidden="true" className="fill-[#DDDDDD] text-[#DDDDDD]" key={index} size={14} strokeWidth={1.4} />
+      ))}
+    </div>
+  );
+}
+
+function ReviewableCard({ item }: { item: typeof reviewableItems[number] }) {
+  return (
+    <article className="rounded-card border-[0.8px] border-light-grey bg-white p-4">
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-1.5">
+          <EmptyStars />
+          <span className="text-[13px] font-normal leading-none tracking-[-0.02em] text-[#8A8A8A]">{item.date}</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="flex size-[42px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-[#F5F5F5]">
+            <img alt="" className="size-full object-contain mix-blend-multiply" src={item.image} />
+          </div>
+          <div className="flex min-w-0 flex-col gap-1.5">
+            <p className="truncate text-[12px] font-normal leading-none tracking-[-0.02em] text-[#8A8A8A] uppercase">{item.brand}</p>
+            <h2 className="truncate text-[14px] font-normal leading-[1.2] tracking-[-0.02em] text-[#1A1A1A]">{item.name}</h2>
+          </div>
+        </div>
+        <button className="h-[32px] w-fit rounded-full border-[0.8px] border-[#DDDDDD] bg-white px-3.5 text-[12px] font-medium leading-none tracking-[-0.02em] text-[#8A8A8A]" type="button">
+          리뷰 작성하기
+        </button>
+      </div>
+    </article>
+  );
+}
 
 function DetailHeader({ title }: { title: string }) {
   return (
@@ -135,6 +180,8 @@ function WrittenReviewCard({ review }: { review: (typeof writtenReviews)[number]
 }
 
 export default function MyReviewsPage() {
+  const [activeTab, setActiveTab] = useState<"reviewable" | "written">("reviewable");
+
   return (
     <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
       <DetailHeader title="내 리뷰 관리하기" />
@@ -150,20 +197,33 @@ export default function MyReviewsPage() {
 
         <div className="mt-4 border-b-[0.8px] border-light-grey px-side">
           <div className="flex gap-6 pt-4">
-            <button className="h-[30px] text-base font-medium leading-none tracking-[-0.02em] text-grey" type="button">
+            <button
+              className={`relative z-10 h-[30px] text-base font-medium leading-none tracking-[-0.02em] ${
+                activeTab === "reviewable" ? "text-off-black" : "text-grey"
+              }`}
+              onClick={() => setActiveTab("reviewable")}
+              type="button"
+            >
               작성 가능한 리뷰
+              {activeTab === "reviewable" && <span aria-hidden="true" className="absolute inset-x-0 -bottom-[1px] z-20 h-0.5 bg-point-orange" />}
             </button>
-            <button className="relative z-10 h-[30px] text-base font-medium leading-none tracking-[-0.02em]" type="button">
+            <button
+              className={`relative z-10 h-[30px] text-base font-medium leading-none tracking-[-0.02em] ${
+                activeTab === "written" ? "text-off-black" : "text-grey"
+              }`}
+              onClick={() => setActiveTab("written")}
+              type="button"
+            >
               작성한 리뷰
-              <span aria-hidden="true" className="absolute inset-x-0 -bottom-[1px] z-20 h-0.5 bg-point-orange" />
+              {activeTab === "written" && <span aria-hidden="true" className="absolute inset-x-0 -bottom-[1px] z-20 h-0.5 bg-point-orange" />}
             </button>
           </div>
         </div>
 
         <section className="mt-[30px] flex flex-col gap-4 px-side">
-          {writtenReviews.map((review) => (
-            <WrittenReviewCard key={review.name} review={review} />
-          ))}
+          {activeTab === "reviewable"
+            ? reviewableItems.map((item) => <ReviewableCard key={item.name} item={item} />)
+            : writtenReviews.map((review) => <WrittenReviewCard key={review.name} review={review} />)}
         </section>
       </div>
 

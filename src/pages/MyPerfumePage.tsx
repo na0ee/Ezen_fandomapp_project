@@ -111,9 +111,9 @@ export default function MyPerfumePage() {
                 </span>
                 <div className="relative flex h-[38px] w-[26px] flex-col items-center">
                   <svg width="26" height="38" viewBox="0 0 26 38" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute top-0 left-0">
-                    <path d="M8 0C7.44772 0 7 0.447715 7 1V7H19V1C19 0.447715 18.5523 0 18 0H8Z" fill={bottleFill}/>
-                    <rect x="10" y="7" width="6" height="3" fill={bottleFill}/>
-                    <path d="M0 13C0 11.3431 1.34315 10 3 10H23C24.6569 10 26 11.3431 26 13V35C26 36.6569 24.6569 38 23 38H3C1.34315 38 0 36.6569 0 35V13Z" fill={bottleFill}/>
+                    <path d="M8 0C7.44772 0 7 0.447715 7 1V7H19V1C19 0.447715 18.5523 0 18 0H8Z" fill={bottleFill} />
+                    <rect x="10" y="7" width="6" height="3" fill={bottleFill} />
+                    <path d="M0 13C0 11.3431 1.34315 10 3 10H23C24.6569 10 26 11.3431 26 13V35C26 36.6569 24.6569 38 23 38H3C1.34315 38 0 36.6569 0 35V13Z" fill={bottleFill} />
                   </svg>
                   <span className={`absolute top-[16px] text-[13px] font-bold tracking-[-0.02em] ${innerTextColor}`}>
                     {item.date}
@@ -129,9 +129,8 @@ export default function MyPerfumePage() {
             {["전체", "브랜드", "향 계열/향기", "용량"].map((label, index) => (
               <button
                 aria-pressed={index === 0}
-                className={`whitespace-nowrap rounded-full px-3.5 py-2 text-[13px] font-medium leading-none tracking-[-0.02em] ${
-                  index === 0 ? "bg-off-black text-off-white" : "border-[0.8px] border-light-grey bg-white text-grey"
-                }`}
+                className={`whitespace-nowrap rounded-full px-3.5 py-2 text-[13px] font-medium leading-none tracking-[-0.02em] ${index === 0 ? "bg-off-black text-off-white" : "border-[0.8px] border-light-grey bg-white text-grey"
+                  }`}
                 key={label}
                 type="button"
               >
