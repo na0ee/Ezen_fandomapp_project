@@ -1,5 +1,4 @@
 import {
-  ArrowRight,
   ChevronRight,
   CircleHelp,
   Search,
@@ -9,21 +8,22 @@ import {
 import type { PointerEvent, ReactNode } from "react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { BottomNavigation } from "../components/common/BottomNavigation";
-import { PerfumeIcon } from "../components/icons/PerfumeIcon";
-import headerBell from "../assets/community/figma/header-bell.svg";
-import fireBadge from "../assets/mypage/fire-badge.svg";
-import perfumeLoewe from "../assets/mypage/perfume-loewe.png";
-import perfumeSanta from "../assets/mypage/perfume-santa.png";
-import profileAvatar from "../assets/mypage/avatar.png";
-import profileBackground from "../assets/mypage/profile-bg.png";
-import reviewOne from "../assets/mypage/review-1.png";
-import reviewTwo from "../assets/mypage/review-2.png";
-import savedMagazine from "../assets/mypage/saved-magazine.png";
-import wishlistOne from "../assets/mypage/wishlist-1.png";
-import wishlistTwo from "../assets/mypage/wishlist-2.png";
-import wishlistThree from "../assets/mypage/wishlist-3.png";
-import selectedHeart from "../assets/mypage/heart-selected.svg";
+import { BottomNavigation } from "../../components/common/BottomNavigation";
+import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
+import headerBell from "../../assets/community/figma/header-bell.svg";
+import fireBadge from "../../assets/mypage/fire-badge.svg";
+import perfumeLoewe from "../../assets/mypage/perfume-loewe.png";
+import perfumeSanta from "../../assets/mypage/perfume-santa.png";
+import profileAvatar from "../../assets/mypage/avatar.png";
+import profileBackground from "../../assets/mypage/profile-bg.png";
+import reviewOne from "../../assets/mypage/review-1.png";
+import reviewTwo from "../../assets/mypage/review-2.png";
+import recentMagazineArrow from "../../assets/mypage/recent-magazine-arrow.svg";
+import recentMagazine from "../../assets/mypage/saved-magazine.png";
+import wishlistOne from "../../assets/mypage/wishlist-1.png";
+import wishlistTwo from "../../assets/mypage/wishlist-2.png";
+import wishlistThree from "../../assets/mypage/wishlist-3.png";
+import selectedHeart from "../../assets/mypage/heart-selected.svg";
 
 const perfumes = [
   {
@@ -214,20 +214,20 @@ function PerfumeSection() {
 function MagazineSection() {
   return (
     <section className="px-side">
-      <SectionTitle>저장한 매거진</SectionTitle>
+      <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">최근 본 매거진</h2>
       <CardScroller className="-mr-side mt-title-gap flex gap-4 pr-side">
         {[0, 1, 2].map((item) => (
-          <article className="relative h-72 w-[262px] shrink-0 snap-start overflow-hidden rounded-card text-off-white" key={item}>
-            <img alt="계절별 향수 선택 가이드" className="absolute inset-0 size-full object-cover" src={savedMagazine} />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/80" />
+          <article className="relative h-72 w-[262px] shrink-0 snap-start overflow-hidden rounded-card border-[0.8px] border-light-grey text-off-white" key={item}>
+            <img alt="계절별 향수 선택 가이드" className="absolute inset-0 size-full object-cover" src={recentMagazine} />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80" />
             <div className="absolute inset-0 flex flex-col p-5">
-              <p className="font-cormorant text-xs font-medium">Scent Match</p>
-              <div className="mt-auto">
-                <h3 className="text-base font-semibold leading-[1.4] tracking-[-0.02em]">계절별 향수 선택 가이드</h3>
-                <p className="mt-1.5 text-xs font-medium leading-[1.4] tracking-[-0.02em]">봄, 여름, 가을 , 겨울<br />어떤 향이 어울릴까?</p>
-                <div className="mt-4 flex items-center justify-between text-xs tracking-[-0.02em]">
+              <p className="font-cormorant text-xs font-medium leading-[normal]">Scent Match</p>
+              <div className="mt-[124px]">
+                <h3 className="h-[19px] w-[167px] truncate text-base font-semibold leading-[19px] tracking-[-0.02em]">계절별 향수 선택 가이드</h3>
+                <p className="mt-[7px] h-[34px] w-[167px] text-xs font-medium leading-[1.4] tracking-[-0.02em]">봄, 여름, 가을 , 겨울<br />어떤 향이 어울릴까?</p>
+                <div className="mt-5 flex h-4 w-[219px] items-center justify-between text-xs leading-[normal] tracking-[-0.02em]">
                   <span>2026.07.13</span>
-                  <ArrowRight aria-hidden="true" size={16} strokeWidth={1.5} />
+                  <img alt="" aria-hidden="true" className="size-4" src={recentMagazineArrow} />
                 </div>
               </div>
             </div>
