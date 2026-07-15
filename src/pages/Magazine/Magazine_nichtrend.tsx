@@ -1,4 +1,4 @@
-import { ChevronRight, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import type { PointerEvent, UIEvent } from "react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ import introLeftImage from "../../assets/magazine/detail/intro-left.jpg";
 import introRightImage from "../../assets/magazine/detail/intro-right.jpg";
 import layeringLeftImage from "../../assets/magazine/detail/layering-left.jpg";
 import layeringRightImage from "../../assets/magazine/detail/layering-right.jpg";
+import moreCardDiptyqueImage from "../../assets/magazine/detail/more-card-diptyque.jpg";
 import moreCardImage from "../../assets/magazine/detail/more-card.png";
 import moreCardArrow from "../../assets/magazine/detail/more-card-arrow.svg";
 import recommendationLeftImage from "../../assets/magazine/detail/recommendation-left.jpg";
@@ -17,9 +18,22 @@ import { BottomNavigation } from "../../components/common/BottomNavigation";
 import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
 
 const moreArticles = [
-  { title: "계절별 향수 선택 가이드", titleWidth: "w-[127px]" },
-  { title: "계절별 향수 선택 가이드", titleWidth: "w-[167px]" },
-  { title: "계절별 향수 선택 가이드", titleWidth: "w-[167px]" },
+  {
+    date: "2026.07.13",
+    description: "봄, 여름, 가을 , 겨울\n어떤 향이 어울릴까?",
+    href: "/magazine/seasonal-guide",
+    image: moreCardImage,
+    imageClassName: "inset-0 size-full object-cover",
+    title: "계절별 향수 선택 가이드",
+  },
+  {
+    date: "2026.05.10",
+    description: "예술과 여행이\n향으로 만나다",
+    href: "/magazine/diptyque",
+    image: moreCardDiptyqueImage,
+    imageClassName: "top-[-18.76%] left-[0.05%] h-[161.73%] w-full max-w-none",
+    title: "DIPTYQUE",
+  },
 ];
 
 type ArticleTextProps = {
@@ -40,7 +54,12 @@ function ArticleText({ body, bodyClassName = "w-full", title }: ArticleTextProps
 function MagazineDetailHeader() {
   return (
     <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
-      <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">매거진</h1>
+      <div className="flex items-center">
+        <Link aria-label="매거진으로 돌아가기" className="flex size-[21px] items-center justify-center" to="/magazine">
+          <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.4} />
+        </Link>
+        <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">매거진</h1>
+      </div>
       <div aria-label="매거진 메뉴" className="flex items-center gap-5">
         <Link aria-label="검색" className="size-7" to="/search">
           <Search aria-hidden="true" className="size-full" strokeWidth={1.8} />
@@ -171,12 +190,13 @@ function MoreSection() {
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
+    const safeIndex = Math.min(moreArticles.length - 1, Math.max(0, index));
     const maxScrollLeft = scroller.scrollWidth - scroller.clientWidth;
     scroller.scrollTo({
-      left: (maxScrollLeft * index) / (moreArticles.length - 1),
+      left: (maxScrollLeft * safeIndex) / (moreArticles.length - 1),
       behavior: "smooth",
     });
-    setActiveIndex(index);
+    setActiveIndex(safeIndex);
   };
 
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
@@ -236,7 +256,7 @@ function MoreSection() {
       </div>
 
       <div
-        className="horizontal-scroller scrollbar-hidden w-full snap-x snap-proximity overflow-x-auto overscroll-x-contain pl-4 touch-pan-x"
+        className="horizontal-scroller scrollbar-hidden w-[calc(100%_-_32px)] max-w-[398px] snap-x snap-proximity overflow-x-auto overscroll-x-contain touch-pan-x"
         onDragStart={(event) => event.preventDefault()}
         onLostPointerCapture={() => {
           dragState.current.isDragging = false;
@@ -249,30 +269,43 @@ function MoreSection() {
         onScroll={handleScroll}
         ref={scrollerRef}
       >
-        <div className="flex w-max gap-3 pr-4">
-          {moreArticles.map((article, index) => (
-            <article className="relative h-[289px] w-[262px] shrink-0 snap-start" key={index}>
-              <img
-                alt="계절별 향수 선택 가이드"
-                className="absolute inset-x-0 top-0 h-72 w-full rounded-card border-[0.8px] border-light-grey object-cover"
-                src={moreCardImage}
-              />
+        <div className="flex w-max gap-3">
+          {moreArticles.map((article) => (
+            <article className="relative h-[289px] w-[262px] shrink-0 snap-start" key={article.title}>
+              <div className="absolute inset-x-0 top-0 h-72 overflow-hidden rounded-card border-[0.8px] border-light-grey">
+                <img
+                  alt={`${article.title} 이미지`}
+                  className={`absolute ${article.imageClassName}`}
+                  src={article.image}
+                />
+              </div>
               <div className="absolute inset-x-0 top-px h-72 overflow-hidden rounded-card bg-gradient-to-b from-transparent to-black/80 text-off-white">
                 <p className="absolute top-8 left-3.5 font-cormorant text-xs font-medium leading-[normal] tracking-[-0.02em]">
                   Scent Match
                 </p>
                 <div className="absolute top-44 left-[22px] flex flex-col gap-[7px]">
-                  <h3 className={`${article.titleWidth} truncate text-base font-semibold leading-[normal] tracking-[-0.02em]`}>
+                  <h3 className="w-[167px] truncate text-base font-semibold leading-[normal] tracking-[-0.02em]">
                     {article.title}
                   </h3>
-                  <p className="h-[30px] w-[127px] text-xs font-medium leading-[normal] tracking-[-0.02em]">
-                    봄, 여름, 가을 , 겨울<br />어떤 향이 어울릴까?
+                  <p className="h-[30px] w-[127px] whitespace-pre-line text-xs font-medium leading-[normal] tracking-[-0.02em]">
+                    {article.description}
                   </p>
                 </div>
                 <p className="absolute top-[254px] left-[23px] h-3.5 w-[60px] text-xs leading-[normal] tracking-[-0.02em]">
-                  2026.07.13
+                  {article.date}
                 </p>
-                <img alt="" aria-hidden="true" className="absolute top-[249px] left-[226px] size-6" src={moreCardArrow} />
+                {article.href ? (
+                  <Link
+                    aria-label={`${article.title} 읽기`}
+                    className="absolute top-[239px] left-[216px] z-10 flex size-11 items-center justify-center"
+                    onPointerDown={(event) => event.stopPropagation()}
+                    to={article.href}
+                  >
+                    <img alt="" aria-hidden="true" className="size-6" src={moreCardArrow} />
+                  </Link>
+                ) : (
+                  <img alt="" aria-hidden="true" className="absolute top-[249px] left-[226px] size-6" src={moreCardArrow} />
+                )}
               </div>
             </article>
           ))}
@@ -282,12 +315,16 @@ function MoreSection() {
       <div className="relative h-0.5 w-[120px] bg-grey">
         <div
           className="absolute top-0 left-0 h-0.5 w-10 bg-off-black transition-transform duration-200"
-          style={{ transform: `translateX(${activeIndex * 40}px)` }}
+          style={{ transform: `translateX(${(activeIndex / (moreArticles.length - 1)) * 80}px)` }}
         />
-        <div className="absolute -top-2 left-0 grid h-4 w-full grid-cols-3">
+        <div
+          className="absolute -top-2 left-0 grid h-4 w-full"
+          style={{ gridTemplateColumns: `repeat(${moreArticles.length}, 1fr)` }}
+        >
           {moreArticles.map((_, index) => (
             <button
               aria-label={`${index + 1}번 글로 이동`}
+              aria-pressed={activeIndex === index}
               className="cursor-pointer"
               key={index}
               onClick={() => scrollToIndex(index)}
@@ -300,7 +337,7 @@ function MoreSection() {
   );
 }
 
-export default function Magazine1() {
+export default function MagazineNichTrend() {
   return (
     <main className="min-h-dvh overflow-x-hidden bg-off-white text-off-black">
       <div className="mx-auto min-h-dvh w-full max-w-[430px] bg-off-white">
