@@ -9,6 +9,9 @@ import Magazine3 from "./pages/Magazine/Magazine_3";
 import { QuestionPage } from "./pages/QuestionPage";
 import { ResultPage } from "./pages/ResultPage";
 import MyPage from "./pages/Mypage/MyPage";
+import MyPerfumePage from "./pages/MyPerfumePage";
+import MyReviewsPage from "./pages/MyReviewsPage";
+import MyWishlistPage from "./pages/MyWishlistPage";
 import SearchResults from "./pages/SearchResults";
 import Category from "./pages/Category";
 import Search from "./pages/Search";
@@ -36,6 +39,9 @@ export default function App() {
       <Route path="/question" element={<QuestionPage />} />
       <Route path="/result" element={<ResultPage />} />
       <Route path="/mypage" element={<MyPage />} />
+      <Route path="/mypage/perfumes" element={<MyPerfumePage />} />
+      <Route path="/mypage/wishlist" element={<MyWishlistPage />} />
+      <Route path="/mypage/reviews" element={<MyReviewsPage />} />
       <Route path="/search-results" element={<SearchResults />} />
       <Route path="/category" element={<Category />} />
       <Route path="/search" element={<Search />} />
