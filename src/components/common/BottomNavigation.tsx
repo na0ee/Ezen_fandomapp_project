@@ -27,6 +27,8 @@ export function BottomNavigation({ placement = "sticky" }: BottomNavigationProps
   const containerClassName =
     placement === "overlay"
       ? "absolute inset-x-0 bottom-0 z-50 flex gap-2.5 px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))]"
+      : placement === "frame"
+        ? "relative z-40 mx-auto flex w-full max-w-[430px] gap-2.5 px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))]"
       : "fixed bottom-0 left-1/2 z-50 flex w-full max-w-[430px] -translate-x-1/2 gap-2.5 px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))]";
 
   return (
