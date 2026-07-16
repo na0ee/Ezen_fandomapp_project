@@ -23,8 +23,8 @@ export default function Search() {
   const [visibleRecentSearches, setVisibleRecentSearches] = useState(recentSearches);
 
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col items-center gap-10 overflow-x-hidden bg-off-white pb-6 text-off-black">
-      <div className="w-full">
+    <main className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col items-center gap-10 overflow-x-hidden bg-off-white pt-[var(--app-header-height)] pb-6 text-off-black">
+      <div className="fixed top-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 bg-off-white pt-[var(--app-safe-top)]">
         <div className="flex w-full items-center gap-3 px-side py-[13px]">
           <button aria-label="이전 페이지" className="size-6 shrink-0" onClick={() => navigate(-1)} type="button">
             <ChevronLeft aria-hidden="true" className="size-full" strokeWidth={1.6} />
