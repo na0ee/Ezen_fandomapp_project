@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import { Heart } from "lucide-react";
 
 export type PerfumeRankItem = {
   id: string;
@@ -16,27 +16,16 @@ export type PerfumeRankItem = {
 type PerfumeRankCardProps = {
   perfume: PerfumeRankItem;
   isSelected: boolean;
-  heartSrc: string;
-  heartSelectedSrc: string;
   onHeartToggle: () => void;
 };
 
 function PerfumeHeartButton({
   isSelected,
-  heartSrc,
-  heartSelectedSrc,
   onToggle,
 }: {
   isSelected: boolean;
-  heartSrc: string;
-  heartSelectedSrc: string;
   onToggle: () => void;
 }) {
-  const selectedHeartStyle: CSSProperties = {
-    WebkitMask: `url(${heartSelectedSrc}) center / contain no-repeat`,
-    mask: `url(${heartSelectedSrc}) center / contain no-repeat`,
-  };
-
   return (
     <button
       aria-label={isSelected ? "찜 해제" : "찜하기"}
@@ -49,11 +38,12 @@ function PerfumeHeartButton({
       onMouseDown={(event) => event.stopPropagation()}
       type="button"
     >
-      {isSelected ? (
-        <span className="block size-6 bg-point-orange" style={selectedHeartStyle} />
-      ) : (
-        <img alt="" className="block size-6" src={heartSrc} />
-      )}
+      <Heart
+        aria-hidden="true"
+        className={isSelected ? "fill-point-orange text-point-orange" : "text-off-black"}
+        size={24}
+        strokeWidth={1.6}
+      />
     </button>
   );
 }
@@ -61,8 +51,6 @@ function PerfumeHeartButton({
 export function PerfumeRankCard({
   perfume,
   isSelected,
-  heartSrc,
-  heartSelectedSrc,
   onHeartToggle,
 }: PerfumeRankCardProps) {
   return (
@@ -89,8 +77,6 @@ export function PerfumeRankCard({
         <p className="mt-1 text-xs font-medium leading-none tracking-[-0.02em] text-grey">{perfume.brand}</p>
       </div>
       <PerfumeHeartButton
-        heartSelectedSrc={heartSelectedSrc}
-        heartSrc={heartSrc}
         isSelected={isSelected}
         onToggle={onHeartToggle}
       />

@@ -21,7 +21,7 @@ export function PageLayout({
     <main className="min-h-dvh bg-off-white">
       <div className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-off-white">
         <Header title={title} action={headerAction} />
-        <div className={`wrap flex flex-1 flex-col pt-[54px] pb-[112px] ${contentClassName}`}>{children}</div>
+        <div className={`wrap flex flex-1 flex-col pt-[calc(54px+env(safe-area-inset-top))] pb-[112px] ${contentClassName}`}>{children}</div>
         {showNavigation && <BottomNavigation />}
       </div>
     </main>

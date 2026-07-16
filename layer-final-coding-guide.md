@@ -430,6 +430,7 @@ import { ChevronRight, Gift, Heart, Home, MessageCircle, Sparkles, User } from "
 - 홈: 로고 `Layer`
 - 상세/매거진: 페이지 타이틀
 - 우측 액션: 검색, 알림, 가격 필터 등
+- 우측 검색·알림·향수 아이콘: 외부 프레임은 각각 28px, 아이콘 사이 간격은 20px로 통일한다. 향수 아이콘 도형은 검색·알림의 실제 선 영역과 맞도록 프레임 안에서 24px로 표시하고, 세 아이콘의 선 두께는 1.5px로 통일한다.
 - 가격 필터 예시: faders horizontal 아이콘 16px + `가격` caption + gap 6px
 - 상단 safe-area가 필요하면 `pt-[env(safe-area-inset-top)]` 적용
 
@@ -461,7 +462,7 @@ import { ChevronRight, Gift, Heart, Home, MessageCircle, Sparkles, User } from "
 - 메인 배경: `offBlack`
 - radius: 40px
 - padding: `15px 18px`
-- border: `0.6px lightGrey`
+- border: 없음 (메인 네비와 AI 버튼 모두 외곽선 미사용)
 - 탭 항목 폭: 38px
 - 아이콘: 24px
 - 라벨: 12px Medium
