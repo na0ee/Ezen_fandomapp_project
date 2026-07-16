@@ -2,14 +2,12 @@ import {
   ArrowRight,
   ChevronRight,
   Heart,
-  Search,
 } from "lucide-react";
 import type { PointerEvent, ReactNode, UIEvent } from "react";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { BottomNavigation } from "../../components/common/BottomNavigation";
-import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
-import headerBell from "../../assets/community/figma/header-bell.svg";
+import { HeaderActions } from "../../components/common/HeaderActions";
 import articleCardBase from "../../assets/magazine/article-card-base.png";
 import articleCardOverlay from "../../assets/magazine/article-card-overlay.png";
 import byredoStory from "../../assets/magazine/byredo-story.png";
@@ -267,22 +265,14 @@ function Indicator({ activeIndex, itemCount, onSelect }: IndicatorProps) {
 
 function MagazineHeader() {
   return (
-    <header className="header fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 flex-col items-center justify-center bg-off-white px-5">
+    <header className="fixed left-1/2 top-0 z-50 flex h-[calc(54px+env(safe-area-inset-top))] w-full max-w-[430px] -translate-x-1/2 flex-col items-center justify-center bg-off-white px-5 pt-[env(safe-area-inset-top)]">
       <div className="flex w-full items-center justify-between">
         <div className="flex shrink-0 items-center">
           <h1 className="whitespace-nowrap text-center text-2xl font-semibold leading-[1.08] tracking-[-0.02em]">
             매거진
           </h1>
         </div>
-        <div className="flex shrink-0 items-start justify-end gap-5" aria-label="매거진 메뉴">
-          <Link aria-label="검색" className="size-7 shrink-0" to="/search">
-            <Search aria-hidden="true" className="size-full" strokeWidth={1.8} />
-          </Link>
-          <img alt="" aria-hidden="true" className="size-7 shrink-0" src={headerBell} />
-          <Link aria-label="향수 카테고리" to="/category">
-            <PerfumeIcon />
-          </Link>
-        </div>
+        <HeaderActions />
       </div>
     </header>
   );
@@ -385,7 +375,7 @@ function PopularSection() {
           <div className="flex w-max gap-2.5 px-5">
             {popularArticles.map((article) => (
               <article
-                className="flex h-[336px] w-[262px] shrink-0 snap-start flex-col rounded-card border-[0.5px] border-[#BEBEBE] bg-off-white px-4 py-6"
+                className="flex h-[336px] w-[262px] shrink-0 snap-start flex-col rounded-card border-[0.5px] border-light-grey bg-off-white px-4 py-6"
                 key={article.title}
               >
                 <div className="relative h-[190px] w-[230px] overflow-hidden rounded-card">
@@ -545,7 +535,7 @@ export default function MagazinePage() {
     <main className="min-h-dvh bg-off-white">
       <div className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-off-white">
         <MagazineHeader />
-        <div className="wrap flex flex-col gap-16 pt-[118px] pb-[112px]">
+        <div className="wrap flex flex-col gap-16 pt-[calc(118px+env(safe-area-inset-top))] pb-[112px]">
           <TrendSection />
           <PopularSection />
           <BrandStorySection />

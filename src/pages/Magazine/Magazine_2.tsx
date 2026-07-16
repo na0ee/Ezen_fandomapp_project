@@ -1,8 +1,8 @@
-import { ChevronLeft, Search } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import type { PointerEvent, ReactNode } from "react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import headerBell from "../../assets/community/figma/header-bell.svg";
+import { HeaderActions } from "../../components/common/HeaderActions";
 import longevityHero from "../../assets/magazine/longevity/hero.png";
 import tipImageOne from "../../assets/magazine/longevity/tip-1.png";
 import tipImageTwo from "../../assets/magazine/longevity/tip-2.png";
@@ -10,7 +10,6 @@ import tipImageThree from "../../assets/magazine/longevity/tip-3.png";
 import tipImageFour from "../../assets/magazine/longevity/tip-4.png";
 import tipImageFive from "../../assets/magazine/longevity/tip-5.png";
 import { BottomNavigation } from "../../components/common/BottomNavigation";
-import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
 
 const tips = [
   {
@@ -63,22 +62,14 @@ const tips = [
 
 function MagazineDetailHeader() {
   return (
-    <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
+    <header className="fixed left-1/2 top-0 z-50 flex h-[calc(54px+env(safe-area-inset-top))] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side pt-[env(safe-area-inset-top)]">
       <div className="flex items-center">
         <Link aria-label="매거진으로 돌아가기" className="flex size-[21px] items-center justify-center" to="/magazine">
           <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.4} />
         </Link>
-        <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">매거진</h1>
+        <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.02em]">매거진</h1>
       </div>
-      <div aria-label="매거진 메뉴" className="flex items-center gap-5">
-        <Link aria-label="검색" className="size-7" to="/search">
-          <Search aria-hidden="true" className="size-full" strokeWidth={1.8} />
-        </Link>
-        <img alt="" aria-hidden="true" className="size-7" src={headerBell} />
-        <Link aria-label="향수 카테고리" to="/category">
-          <PerfumeIcon />
-        </Link>
-      </div>
+      <HeaderActions />
     </header>
   );
 }
@@ -144,7 +135,7 @@ function SmoothScroller({ children }: { children: ReactNode }) {
 
   return (
     <div
-      className="horizontal-scroller scrollbar-hidden w-[390px] snap-x snap-proximity overflow-x-auto overscroll-x-contain touch-pan-x"
+      className="horizontal-scroller scrollbar-hidden w-full max-w-[390px] snap-x snap-proximity overflow-x-auto overscroll-x-contain touch-pan-x"
       onDragStart={(event) => event.preventDefault()}
       onLostPointerCapture={() => {
         dragState.current.isDragging = false;
@@ -163,7 +154,7 @@ function SmoothScroller({ children }: { children: ReactNode }) {
 
 function TipCard({ tip }: { tip: (typeof tips)[number] }) {
   return (
-    <article className="relative flex h-[336px] w-[262px] shrink-0 snap-start flex-col items-start justify-end gap-4 overflow-hidden rounded-card border-[0.5px] border-[#BEBEBE] px-[22px] py-6 text-off-white">
+    <article className="relative flex h-[336px] w-[262px] shrink-0 snap-start flex-col items-start justify-end gap-4 overflow-hidden rounded-card border-[0.5px] border-light-grey px-[22px] py-6 text-off-white">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-card">
         <div className="absolute inset-0 overflow-hidden rounded-card">
           <img alt="" className={`absolute max-w-none ${tip.imageClassName}`} src={tip.image} />
@@ -181,7 +172,7 @@ function TipCard({ tip }: { tip: (typeof tips)[number] }) {
       </p>
       <div className="relative flex w-full flex-col items-start gap-[7px] [word-break:break-word]">
         <h2 className="whitespace-nowrap text-base font-semibold leading-[normal] tracking-[-0.02em]">{tip.title}</h2>
-        <p className="w-[218px] text-xs font-medium leading-[1.5] tracking-[-0.05em]">{tip.description}</p>
+        <p className="w-[218px] text-xs font-medium leading-[1.5] tracking-[-0.02em]">{tip.description}</p>
       </div>
     </article>
   );
@@ -193,20 +184,20 @@ export default function Magazine2() {
       <div className="mx-auto min-h-dvh w-full max-w-[430px] bg-off-white">
         <MagazineDetailHeader />
 
-        <div className="flex flex-col items-start gap-[30px] px-[22px] pt-[119px] pb-[112px]">
+        <div className="wrap flex flex-col items-start gap-[30px] px-[22px] pb-[112px] pt-[calc(119px+env(safe-area-inset-top))]">
           <section className="flex w-full flex-col items-start gap-[7px]">
             <span className="rounded-chip bg-off-black px-3.5 py-[5px] text-xs leading-[normal] tracking-[-0.02em] text-off-white">
               향수상식
             </span>
-            <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">향수 지속력을 높이는 꿀팁</h2>
+            <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.02em]">향수 지속력을 높이는 꿀팁</h2>
           </section>
 
           <div className="flex flex-col items-start gap-16">
-            <section className="flex w-[388px] flex-col items-center gap-4">
+            <section className="flex w-full max-w-[388px] flex-col items-center gap-4">
               <img alt="손에 든 향수 보틀" className="aspect-[1200/675] w-full object-cover" src={longevityHero} />
               <div className="flex w-96 flex-col items-start gap-1 [word-break:break-word]">
                 <h2 className="w-full text-xl font-bold leading-[normal] tracking-[-0.02em]">오래 기억되는 향을 위한 작은 습관</h2>
-                <p className="w-full text-base font-medium leading-6 tracking-[-0.05em]">
+                <p className="w-full text-base font-medium leading-6 tracking-[-0.02em]">
                   향수는 뿌리는 방법에 따라 지속 시간이 크게 달라질 수 있습니다. 같은 향수라도 올바르게 사용하면 더욱 오래,<br />
                   깊게 향을 즐길 수 있습니다.
                 </p>

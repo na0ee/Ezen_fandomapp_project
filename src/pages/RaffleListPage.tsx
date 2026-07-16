@@ -1,13 +1,13 @@
 import { useMemo, useState } from "react";
-import { BellRing, ChevronLeft, Search } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { BellRing, ChevronLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
+import { HeaderActions } from "../components/common/HeaderActions";
 import { Chip } from "../components/ui/Chip";
+import { Tab } from "../components/ui/Tab";
 
 const assets = Object.fromEntries(
   Object.entries({
-    headerBell: "/assets/figma/f9ee5857-96be-4f4a-8990-a11893c44f8c.svg",
-    headerPerfume: "/assets/figma/db67ca5c-7071-47f0-935e-5dbdd0fd409f.svg",
     product: "/assets/figma/raffle-product.png",
   }).map(([key, path]) => [key, `${import.meta.env.BASE_URL}${path.slice(1)}`]),
 ) as Record<string, string>;
@@ -58,7 +58,7 @@ function RaffleHeader() {
   const navigate = useNavigate();
 
   return (
-    <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5">
+    <header className="header fixed top-0 left-1/2 z-50 flex h-[calc(54px+env(safe-area-inset-top))] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[env(safe-area-inset-top)]">
       <div className="flex min-w-0 items-center">
         <button
           aria-label="이전 페이지로 돌아가기"
@@ -68,21 +68,11 @@ function RaffleHeader() {
         >
           <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.7} />
         </button>
-        <h1 className="ml-1 truncate text-2xl font-semibold leading-[1.08] tracking-[-0.03em] text-off-black">
+        <h1 className="ml-1 truncate text-2xl font-semibold leading-[1.08] tracking-[-0.02em] text-off-black">
           래플응모하기
         </h1>
       </div>
-      <div className="flex shrink-0 items-center gap-5 text-off-black">
-        <Link aria-label="검색" className="flex size-7 items-center justify-center" to="/search">
-          <Search aria-hidden="true" size={27} strokeWidth={1.5} />
-        </Link>
-        <button aria-label="알림" className="flex size-7 items-center justify-center" type="button">
-          <img alt="" aria-hidden="true" className="size-full" src={assets.headerBell} />
-        </button>
-        <Link aria-label="향수 카테고리" className="relative size-7 overflow-hidden" to="/category">
-          <img alt="" aria-hidden="true" className="absolute inset-[12.5%] h-3/4 w-3/4 max-w-none" src={assets.headerPerfume} />
-        </Link>
-      </div>
+      <HeaderActions />
     </header>
   );
 }
@@ -118,7 +108,7 @@ function RaffleCard({
           <p className="w-full truncate text-xs font-medium leading-none tracking-[-0.02em] text-grey">
             {item.brand}
           </p>
-          <p className="mt-[2px] w-full truncate text-[15px] font-semibold leading-[1.25] tracking-[-0.02em] text-[#171717]">
+          <p className="mt-[2px] w-full truncate text-[15px] font-semibold leading-[1.25] tracking-[-0.02em] text-off-black">
             {item.name}
           </p>
         </div>
@@ -179,30 +169,24 @@ export function RaffleListPage() {
     <main className="min-h-dvh bg-off-white text-off-black" data-node-id="1034:13606">
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <RaffleHeader />
-        <section className="flex justify-center px-5 pb-[132px] pt-[78px]">
-          <div className="mx-auto flex w-full max-w-[390px] flex-col gap-4">
+        <section className="wrap flex justify-center px-5 pb-[132px] pt-[calc(78px+env(safe-area-inset-top))]">
+          <div className="mx-auto flex w-full max-w-[390px] flex-col gap-[30px]">
             <div className="flex h-[30px] w-full items-start gap-2 overflow-hidden">
               {categoryTabs.map((tab) => {
                 const isActive = tab === activeTab;
 
                 return (
-                  <button
-                    aria-pressed={isActive}
-                    className={`flex h-[30px] shrink-0 items-center justify-center rounded-[50px] px-3.5 py-2 text-xs font-medium leading-none tracking-[-0.02em] ${
-                      isActive
-                        ? "bg-off-black text-off-white"
-                        : "border border-light-grey bg-off-white text-off-black"
-                    }`}
+                  <Tab
+                    className="h-[30px] py-0"
+                    isActive={isActive}
                     key={tab}
+                    label={tab}
                     onClick={() => setActiveTab(tab)}
-                    type="button"
-                  >
-                    {tab}
-                  </button>
+                  />
                 );
               })}
             </div>
-            <div className="flex w-full flex-col gap-3">
+            <div className="flex w-full flex-col gap-[10px]">
               {filteredItems.map((item) => (
                 <RaffleCard
                   isAlarmOn={Boolean(alarmStates[item.id])}
