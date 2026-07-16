@@ -506,6 +506,7 @@ export default function MagazinePage() {
   return (
     <main className="min-h-dvh bg-off-white text-off-black">
       <div className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
+        <div aria-hidden="true" className="fixed top-0 left-1/2 z-50 h-[65px] w-full max-w-[430px] -translate-x-1/2 bg-off-white" />
         <MagazineHeader />
         <div className="pt-[183px] pb-[160px]">
           <TrendSection />
