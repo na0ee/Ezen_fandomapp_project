@@ -1,11 +1,12 @@
-﻿import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { MouseEvent, UIEvent } from "react";
 import {
   ChevronRight,
   SlidersHorizontal,
 } from "lucide-react";
-import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
+import { HeaderActions } from "../components/common/HeaderActions";
+import { SectionTitle } from "../components/common/SectionTitle";
 import { PerfumeRankCard } from "../components/perfume/PerfumeRankCard";
 import type { PerfumeRankItem } from "../components/perfume/PerfumeRankCard";
 
@@ -24,9 +25,6 @@ const figmaNode = {
 
 const assets = Object.fromEntries(
   Object.entries({
-  headerSearch: "/assets/figma/d399596a-b788-46c8-9750-6098f4855e00.svg",
-  headerBell: "/assets/figma/ba68afb5-4296-4856-8547-eaae5820c800.svg",
-  headerPerfume: "/assets/figma/ccc64f72-0cd3-40e6-97bd-d60b7d84ef1e.svg",
   heroFirst: "/assets/figma/home-hero-first.png",
   heroSecond: "/assets/figma/home-hero-second.png",
   heroThird: "/assets/figma/home-hero-third.png",
@@ -40,8 +38,6 @@ const assets = Object.fromEntries(
   rankOne: "/assets/figma/b8ae253f-9654-4c82-9435-8a5d7821a8f0.png",
   rankTwo: "/assets/figma/347dc7c9-ab3e-46a4-8fef-cb759308244d.png",
   rankThree: "/assets/figma/d89aa68f-ffec-492c-a293-1b46bb118478.png",
-  rankHeartSelected: "/assets/figma/c440821e-d5b1-44dc-b9b3-3c7e0c5a84d9.svg",
-  rankHeart: "/assets/figma/c626147a-173e-4f82-8407-66cad966801b.svg",
   magazineOne: "/assets/figma/604cad28-ee28-4352-a88f-57b5c6cdb1ae.png",
   magazineTwo: "/assets/figma/cae4a0ad-1f49-46d9-81c0-f893afb376e1.png",
     gift: "/assets/figma/21ec3215-67f3-40e5-a91d-630537632bb9.png",
@@ -67,8 +63,7 @@ const heroSlides = [
   {
     nodeId: "726:6596",
     image: assets.heroThird,
-    imageClassName: "inset-0 h-full w-full",
-    imageStyle: { transform: "translateX(6px) scale(1.03)" },
+    imageClassName: "inset-0 h-full w-full translate-x-[6px] scale-[1.03]",
     overlayClassName: "bg-black/10",
     logoClassName: "text-off-white",
     label: "래플 응모하기",
@@ -77,8 +72,7 @@ const heroSlides = [
   {
     nodeId: "726:6614",
     image: assets.heroSecond,
-    imageClassName: "inset-0 h-full w-full",
-    imageStyle: { objectPosition: "22% center" },
+    imageClassName: "inset-0 h-full w-full [object-position:22%_center]",
     overlayClassName: "bg-black/10",
     logoClassName: "text-off-white",
     label: "인기향수 보러가기",
@@ -205,7 +199,7 @@ function SlideIndicator({ progress = 33, className = "" }: { progress?: number; 
   const progressStyle = { width: `${progress}%` };
 
   return (
-    <div className={`h-0.5 bg-[#8a8a8a] ${className}`}>
+    <div className={`h-0.5 bg-grey ${className}`}>
       <div className="h-full bg-off-black transition-[width] duration-500 ease-out" style={progressStyle} />
     </div>
   );
@@ -231,7 +225,7 @@ function ScrollIndicator({
 
   return (
     <div
-      className={`h-0.5 overflow-hidden bg-[#8a8a8a] ${onProgressSelect ? "cursor-pointer" : ""} ${className}`}
+      className={`h-0.5 overflow-hidden bg-grey ${onProgressSelect ? "cursor-pointer" : ""} ${className}`}
       onClick={(event) => {
         if (!onProgressSelect) {
           return;
@@ -326,7 +320,7 @@ function HomeHeader() {
 
   return (
     <header
-      className={`header fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between px-5 transition-colors duration-200 ${
+      className={`header fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between px-5 pt-[var(--app-safe-top)] transition-colors duration-200 ${
         hasSolidBackground ? "bg-off-white" : "bg-transparent"
       }`}
       data-node-id={figmaNode.header}
@@ -338,19 +332,7 @@ function HomeHeader() {
       >
         Layer
       </p>
-      <div className="flex items-center gap-5 text-off-black">
-        <Link aria-label="검색" className="size-7" to="/search">
-          <img alt="" className={`size-full ${hasSolidBackground ? "" : "invert"}`} src={assets.headerSearch} />
-        </Link>
-        <img alt="" className={`size-7 ${hasSolidBackground ? "" : "invert"}`} src={assets.headerBell} />
-        <Link aria-label="향수 카테고리" className="relative size-7 overflow-hidden" to="/category">
-          <img
-            alt=""
-            className={`absolute inset-[12.5%] h-3/4 w-3/4 max-w-none ${hasSolidBackground ? "" : "invert"}`}
-            src={assets.headerPerfume}
-          />
-        </Link>
-      </div>
+      <HeaderActions iconClassName={hasSolidBackground ? "text-off-black" : "text-off-white [&_img]:invert"} />
     </header>
   );
 }
@@ -385,7 +367,6 @@ function HeroSection() {
               alt=""
               className={`absolute max-w-none object-cover ${slide.imageClassName}`}
               src={slide.image}
-              style={slide.imageStyle}
             />
             <div className={`absolute inset-0 ${slide.overlayClassName}`} />
           </div>
@@ -398,7 +379,7 @@ function HeroSection() {
       </p>
       <div className="absolute inset-x-0 bottom-[42px] z-10 flex flex-col items-center px-4">
         <div
-          className={`flex h-[42px] w-full max-w-[263px] items-center justify-center rounded-cta border-[0.5px] border-white/60 bg-white/15 px-10 text-center text-base font-medium leading-none tracking-[-0.02em] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-[10px] backdrop-saturate-150 ${activeSlide.ctaClassName}`}
+          className={`flex h-[42px] w-full max-w-[263px] items-center justify-center rounded-cta border-[0.5px] border-off-white/60 bg-off-white/15 px-10 text-center text-base font-medium leading-none tracking-[-0.02em] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-[10px] backdrop-saturate-150 ${activeSlide.ctaClassName}`}
         >
           {activeSlide.label}
         </div>
@@ -450,7 +431,7 @@ function ChallengeCard({
   card: (typeof challengeCards)[number];
 }) {
   return (
-    <article className="relative flex h-[340px] w-[190px] shrink-0 flex-col items-center justify-center gap-4 overflow-hidden rounded-card border-[0.5px] border-[#BEBEBE] bg-off-white px-3.5 py-6">
+    <article className="relative flex h-[340px] w-[190px] shrink-0 flex-col items-center justify-center gap-4 overflow-hidden rounded-card border-[0.5px] border-light-grey bg-off-white px-3.5 py-6">
       <div className="flex flex-col items-center gap-2">
         <p className="max-w-[150px] truncate text-xs font-medium leading-none tracking-[-0.02em] text-off-black">
           {card.title}
@@ -518,7 +499,7 @@ function ChallengeSection() {
 
   return (
     <section className="px-5" data-node-id={figmaNode.challenge}>
-      <SectionTitle title="Challenge" subtitle="함께하는 챌린지로 꾸준함을 만들어요" />
+      <SectionTitle showMore title="Challenge" subtitle="함께하는 챌린지로 꾸준함을 만들어요" />
       <div
         className={`mt-[30px] -mx-5 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${dragClassName}`}
         onScroll={(event) => setScrollProgress(getHorizontalScrollProgress(event))}
@@ -553,7 +534,7 @@ function RankSection() {
 
   return (
     <section className="px-5" data-node-id={figmaNode.rank}>
-      <SectionTitle title="TODAY'S Rank" subtitle="지금 가장 많은 사랑을 받는 향을 보여드려요" />
+      <SectionTitle showMore title="TODAY'S Rank" subtitle="지금 가장 많은 사랑을 받는 향을 보여드려요" />
       <div className="mt-[30px] flex items-center justify-between gap-5">
         <div className="flex flex-nowrap gap-1.5">
           {tabs.map((tab, index) => (
@@ -581,8 +562,6 @@ function RankSection() {
         <div className="flex w-max gap-3 px-5">
           {rankCards.map((item, index) => (
             <PerfumeRankCard
-              heartSelectedSrc={assets.rankHeartSelected}
-              heartSrc={assets.rankHeart}
               isSelected={selectedRanks[index]}
               key={item.id}
               onHeartToggle={() => handleRankHeartToggle(index)}
@@ -614,7 +593,7 @@ function MagazineSection() {
 
   return (
     <section className="px-5" data-node-id={figmaNode.magazine}>
-      <SectionTitle title="Magazine" subtitle="당신의 향을 이야기해요" />
+      <SectionTitle showMore title="Magazine" subtitle="당신의 향을 이야기해요" />
       <div
         className={`mt-[30px] -mr-5 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${dragClassName}`}
         onScroll={(event) => setScrollProgress(getHorizontalScrollProgress(event))}

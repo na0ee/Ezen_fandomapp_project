@@ -67,7 +67,7 @@ export default function UserProfilePage() {
 
   return (
     <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
-      <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 flex-col bg-off-white">
+      <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 flex-col bg-off-white pt-[var(--app-safe-top)]">
         <button
           aria-label="이벤트로 돌아가기"
           className="flex h-[54px] w-14 items-center justify-center"
@@ -78,7 +78,7 @@ export default function UserProfilePage() {
         </button>
       </header>
 
-      <section className="pt-[54px]">
+      <section className="wrap pt-[var(--app-header-height)]">
         <div className="relative h-[560px] overflow-hidden bg-off-black text-off-white">
           <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.profileBase} />
           <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.profileOverlay} />
@@ -200,7 +200,7 @@ function RecommendBottomSheet({
             <Search aria-hidden="true" className="shrink-0 text-off-black/70" size={25} strokeWidth={1.5} />
             <span className="sr-only">향수 검색</span>
             <input
-              className="ml-3 min-w-0 flex-1 bg-transparent text-sm font-medium tracking-[-0.02em] text-off-black outline-none placeholder:text-[#4d4d4d]"
+              className="ml-3 min-w-0 flex-1 bg-transparent text-sm font-medium tracking-[-0.02em] text-off-black outline-none placeholder:text-off-black-70"
               onChange={(event) => setSearchQuery(event.target.value)}
               placeholder="향수, 브랜드, 노트로 검색"
               type="search"

@@ -32,6 +32,11 @@
 }
 
 @layer base {
+  :root {
+    --app-safe-top: max(24px, env(safe-area-inset-top));
+    --app-header-height: calc(54px + var(--app-safe-top));
+  }
+
   *,
   *::before,
   *::after {

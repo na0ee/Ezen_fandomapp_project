@@ -1,13 +1,12 @@
-import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { Activity, ChevronLeft, ChevronRight, Heart } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import fireBadge from "../assets/mypage/fire-badge.svg";
 import { BottomNavigation } from "../components/common/BottomNavigation";
+import { HeaderActions } from "../components/common/HeaderActions";
 
 const assets = Object.fromEntries(
   Object.entries({
-    headerBell: "/assets/figma/f9ee5857-96be-4f4a-8990-a11893c44f8c.svg",
-    headerPerfume: "/assets/figma/db67ca5c-7071-47f0-935e-5dbdd0fd409f.svg",
     storyBase: "/assets/figma/e7f85eba-5c40-42f9-9816-f5f832b73194.png",
     storyOverlay: "/assets/figma/f14bfcee-7044-4182-b366-ad50ccf0406d.png",
     blond: "/assets/figma/b8ae253f-9654-4c82-9435-8a5d7821a8f0.png",
@@ -41,27 +40,11 @@ const receivedRecommendations = Array.from({ length: 4 }, (_, index) => ({
 type MainTab = "mine" | "recommend";
 type RecommendationTab = "received" | "sent";
 
-function HeaderActions() {
-  return (
-    <div className="flex items-center gap-5 text-off-black">
-      <Link aria-label="검색" className="flex size-7 items-center justify-center" to="/search">
-        <Search aria-hidden="true" size={27} strokeWidth={1.5} />
-      </Link>
-      <button aria-label="알림" className="flex size-7 items-center justify-center" type="button">
-        <img alt="" aria-hidden="true" className="size-full" src={assets.headerBell} />
-      </button>
-      <Link aria-label="향수 카테고리" className="relative size-7 overflow-hidden" to="/category">
-        <img alt="" aria-hidden="true" className="absolute inset-[12.5%] h-3/4 w-3/4 max-w-none" src={assets.headerPerfume} />
-      </Link>
-    </div>
-  );
-}
-
 function RecommendationHeader() {
   const navigate = useNavigate();
 
   return (
-    <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5">
+    <header className="header fixed top-0 left-1/2 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[var(--app-safe-top)]">
       <div className="flex min-w-0 items-center">
         <button
           aria-label="이전 페이지로 돌아가기"
@@ -71,7 +54,7 @@ function RecommendationHeader() {
         >
           <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.7} />
         </button>
-        <h1 className="ml-1 truncate text-2xl font-semibold leading-[1.08] tracking-[-0.03em] text-off-black">
+        <h1 className="ml-1 truncate text-2xl font-semibold leading-[1.08] tracking-[-0.02em] text-off-black">
           향 추천하기
         </h1>
       </div>
@@ -187,19 +170,7 @@ function RecommendationFilterTabs({
             onClick={() => onChange(tab.id)}
             type="button"
           >
-            <span
-              aria-hidden="true"
-              className="shrink-0"
-              style={{
-                alignItems: "center",
-                backgroundColor: isActive ? "#ffffff" : "#1a1a1a",
-                borderRadius: 999,
-                display: "inline-flex",
-                height: 14,
-                justifyContent: "center",
-                width: 14,
-              }}
-            >
+            <span aria-hidden="true" className={`inline-flex size-3.5 shrink-0 items-center justify-center rounded-full ${isActive ? "bg-off-white" : "bg-off-black"}`}>
               {tab.id === "received" ? <HeartIcon active={isActive} /> : <ActivityIcon active={isActive} />}
             </span>
             {tab.label}
@@ -211,30 +182,11 @@ function RecommendationFilterTabs({
 }
 
 function HeartIcon({ active }: { active: boolean }) {
-  return (
-    <svg aria-hidden="true" fill="none" height="14" viewBox="0 0 14 14" width="14">
-      <path
-        d="M10.1515 4.80599C9.96944 4.62381 9.75324 4.47929 9.51528 4.38069C9.27731 4.28209 9.02226 4.23134 8.76468 4.23134C8.5071 4.23134 8.25204 4.28209 8.01408 4.38069C7.77611 4.47929 7.55991 4.62381 7.37782 4.80599L6.99991 5.1839L6.62199 4.80599C6.25418 4.43817 5.75531 4.23154 5.23513 4.23154C4.71496 4.23154 4.21609 4.43817 3.84827 4.80599C3.48045 5.17381 3.27382 5.67268 3.27382 6.19285C3.27382 6.71303 3.48045 7.21189 3.84827 7.57971L4.22618 7.95762L6.99991 10.7313L9.77363 7.95762L10.1515 7.57971C10.3337 7.39762 10.4782 7.18141 10.5768 6.94345C10.6754 6.70549 10.7262 6.45043 10.7262 6.19285C10.7262 5.93527 10.6754 5.68021 10.5768 5.44225C10.4782 5.20429 10.3337 4.98809 10.1515 4.80599Z"
-        stroke={active ? "#1A1A1A" : "#FFFFFF"}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+  return <Heart aria-hidden="true" className={active ? "text-off-black" : "text-off-white"} size={11} strokeWidth={1.5} />;
 }
 
 function ActivityIcon({ active }: { active: boolean }) {
-  return (
-    <svg aria-hidden="true" fill="none" height="14" viewBox="0 0 14 14" width="14">
-      <path
-        d="M11.1667 7H9.5L8.25 10.75L5.75 3.25L4.5 7H2.83333"
-        stroke={active ? "#1A1A1A" : "#FFFFFF"}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.16667"
-      />
-    </svg>
-  );
+  return <Activity aria-hidden="true" className={active ? "text-off-black" : "text-off-white"} size={11} strokeWidth={1.5} />;
 }
 
 function RecommendationCard({
@@ -249,19 +201,18 @@ function RecommendationCard({
 
   return (
     <article
-      className="flex h-[116px] w-full items-center gap-4 overflow-hidden rounded-[16px] bg-off-white p-2"
-      style={{ border: "1px solid #ebebeb" }}
+      className="flex h-[116px] w-full items-center gap-4 overflow-hidden rounded-[16px] border border-light2-grey bg-off-white p-2"
     >
       <div className="flex size-[100px] shrink-0 items-center justify-center overflow-hidden rounded-[12px] bg-light2-grey">
         <img alt="" className="h-[76px] w-[76px] object-contain" src={item.image} />
       </div>
       <div className="min-w-0 flex-1">
         <div className="flex min-w-0 items-center gap-1">
-          <p className="truncate text-base font-semibold leading-none tracking-[-0.02em] text-[#171717]">
+          <p className="truncate text-base font-semibold leading-none tracking-[-0.02em] text-off-black">
             {primaryText}
           </p>
-          <span className="shrink-0 text-xs font-medium leading-none tracking-[-0.02em] text-[#171717]">|</span>
-          <p className="truncate text-xs font-medium leading-none tracking-[-0.02em] text-[#171717]">
+          <span className="shrink-0 text-xs font-medium leading-none tracking-[-0.02em] text-off-black">|</span>
+          <p className="truncate text-xs font-medium leading-none tracking-[-0.02em] text-off-black">
             {secondaryText}
           </p>
         </div>
@@ -293,11 +244,11 @@ function MyFeedContent() {
         }));
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-16">
       <MyFeedHero />
-      <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-[30px]">
         <RecommendationFilterTabs activeTab={activeRecommendationTab} onChange={setActiveRecommendationTab} />
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-[10px]">
           {list.map((item) => (
             <RecommendationCard item={item} key={item.id} variant={activeRecommendationTab} />
           ))}
@@ -315,7 +266,7 @@ export function RecommendationFeedPage() {
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <RecommendationHeader />
 
-        <section className="px-5 pb-[132px] pt-[54px]">
+        <section className="wrap px-5 pb-[132px] pt-[var(--app-header-height)]">
           <TopTabs activeTab={activeTab} onChange={setActiveTab} />
           {activeTab === "mine" ? <MyFeedContent /> : <RecommendFeedGrid />}
         </section>
