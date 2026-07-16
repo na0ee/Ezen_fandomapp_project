@@ -1,22 +1,12 @@
+import { BookOpen, Gift, Home, MessageCircle, Sparkles, User } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import aiIcon from "../../assets/navigation/figma/ai.svg";
-import communityActiveIcon from "../../assets/navigation/figma/community-active.svg";
-import communityInactiveIcon from "../../assets/navigation/figma/community-inactive.svg";
-import eventActiveIcon from "../../assets/navigation/figma/event-active.svg";
-import eventInactiveIcon from "../../assets/navigation/figma/event-inactive.svg";
-import homeActiveIcon from "../../assets/navigation/figma/home-active.svg";
-import homeInactiveIcon from "../../assets/navigation/figma/home-inactive.svg";
-import magazineActiveIcon from "../../assets/navigation/figma/magazine-active.svg";
-import magazineInactiveIcon from "../../assets/navigation/figma/magazine-inactive.svg";
-import mypageActiveIcon from "../../assets/navigation/figma/mypage-active.svg";
-import mypageInactiveIcon from "../../assets/navigation/figma/mypage-inactive.svg";
 
 const navigationItems = [
-  { label: "홈", href: "/", activeIcon: homeActiveIcon, inactiveIcon: homeInactiveIcon },
-  { label: "이벤트", href: "/event", activeIcon: eventActiveIcon, inactiveIcon: eventInactiveIcon },
-  { label: "커뮤니티", href: "/community", activeIcon: communityActiveIcon, inactiveIcon: communityInactiveIcon },
-  { label: "매거진", href: "/magazine", activeIcon: magazineActiveIcon, inactiveIcon: magazineInactiveIcon },
-  { label: "마이", href: "/mypage", activeIcon: mypageActiveIcon, inactiveIcon: mypageInactiveIcon },
+  { label: "홈", href: "/", Icon: Home },
+  { label: "이벤트", href: "/event", Icon: Gift },
+  { label: "커뮤니티", href: "/community", Icon: MessageCircle },
+  { label: "매거진", href: "/magazine", Icon: BookOpen },
+  { label: "마이", href: "/mypage", Icon: User },
 ];
 
 type BottomNavigationProps = {
@@ -34,9 +24,9 @@ export function BottomNavigation({ placement = "sticky" }: BottomNavigationProps
   return (
     <div className={containerClassName}>
       <div className="grid h-[72px] w-full grid-cols-[minmax(0,320px)_minmax(58px,68px)] gap-2.5">
-        <nav className="flex h-[72px] min-w-0 flex-col items-start rounded-nav border-[0.6px] border-light-grey bg-off-black py-[15px]">
+        <nav className="flex h-[72px] min-w-0 flex-col items-start rounded-nav bg-off-black py-[15px]">
           <div className="flex w-full items-center justify-between px-[18px]">
-            {navigationItems.map(({ label, href, activeIcon, inactiveIcon }) => (
+            {navigationItems.map(({ label, href, Icon }) => (
               <NavLink
                 className="flex h-10 w-[38px] shrink-0 flex-col items-center justify-center gap-1 text-xs font-medium leading-none tracking-[-0.02em]"
                 end={href === "/"}
@@ -44,20 +34,13 @@ export function BottomNavigation({ placement = "sticky" }: BottomNavigationProps
                 to={href}
               >
                 {({ isActive }) => {
-                  const color = isActive ? "#FFFFFF" : "#8A8A8A";
-
                   return (
-                    <>
-                      <img
-                        alt=""
-                        aria-hidden="true"
-                        className="size-6 shrink-0"
-                        src={isActive ? activeIcon : inactiveIcon}
-                      />
-                      <span className="w-full whitespace-nowrap text-center" style={{ color }}>
+                    <span className={`flex flex-col items-center gap-1 ${isActive ? "text-off-white" : "text-grey"}`}>
+                      <Icon aria-hidden="true" className="size-6 shrink-0" strokeWidth={1.6} />
+                      <span className="w-full whitespace-nowrap text-center">
                         {label}
                       </span>
-                    </>
+                    </span>
                   );
                 }}
               </NavLink>
@@ -66,12 +49,16 @@ export function BottomNavigation({ placement = "sticky" }: BottomNavigationProps
         </nav>
         <NavLink
           aria-label="AI 향수 진단"
-          className="flex h-[72px] min-w-0 flex-col items-start rounded-[200px] border-[0.6px] border-light2-grey bg-off-black py-[15px] text-xs font-medium leading-none tracking-[-0.02em]"
+          className="flex h-[72px] min-w-0 flex-col items-start rounded-[200px] bg-off-black py-[15px] text-xs font-medium leading-none tracking-[-0.02em]"
           to="/question"
         >
           <div className="flex w-full items-center justify-center px-[18px]">
             <div className="flex h-10 w-[38px] shrink-0 flex-col items-center justify-center gap-1">
-              <img alt="" aria-hidden="true" className="size-6 shrink-0" src={aiIcon} />
+              <Sparkles
+                aria-hidden="true"
+                className="size-6 shrink-0 fill-point-orange text-point-orange"
+                strokeWidth={1.5}
+              />
               <span className="whitespace-nowrap text-center text-off-white">AI</span>
             </div>
           </div>

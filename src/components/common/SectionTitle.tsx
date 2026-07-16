@@ -5,6 +5,7 @@ type SectionTitleProps = {
   title: string;
   subtitle?: string;
   moreHref?: string;
+  showMore?: boolean;
   variant?: "english" | "detail";
 };
 
@@ -12,6 +13,7 @@ export function SectionTitle({
   title,
   subtitle,
   moreHref,
+  showMore = false,
   variant = "english",
 }: SectionTitleProps) {
   return (
@@ -30,15 +32,21 @@ export function SectionTitle({
           <p className="text-base font-medium leading-none tracking-[-0.02em]">{subtitle}</p>
         )}
       </div>
-      {moreHref && (
-        <Link
-          className="flex shrink-0 items-center text-sm font-medium leading-none tracking-[-0.02em] text-grey"
-          to={moreHref}
-        >
-          전체보기
-          <ChevronRight aria-hidden="true" size={18} />
-        </Link>
-      )}
+      {(showMore || moreHref) &&
+        (moreHref ? (
+          <Link
+            className="flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey"
+            to={moreHref}
+          >
+            전체보기
+            <ChevronRight aria-hidden="true" size={18} />
+          </Link>
+        ) : (
+          <span className="flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey">
+            전체보기
+            <ChevronRight aria-hidden="true" size={18} />
+          </span>
+        ))}
     </div>
   );
 }

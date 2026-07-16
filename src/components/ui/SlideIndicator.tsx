@@ -8,7 +8,7 @@ export function SlideIndicator({ progress, variant = "full", accent = "black" }:
   const safeProgress = Math.min(100, Math.max(0, progress));
 
   return (
-    <div className={`h-0.5 bg-[#D9D9D9] ${variant === "mini" ? "w-[120px]" : "w-full"}`}>
+    <div className={`h-0.5 bg-light-grey ${variant === "mini" ? "w-[120px]" : "w-full"}`}>
       <div
         aria-hidden="true"
         className={`h-full ${accent === "orange" ? "bg-point-orange" : "bg-off-black"}`}

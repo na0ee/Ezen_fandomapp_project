@@ -1,4 +1,4 @@
-﻿import { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import type { MouseEvent, UIEvent } from "react";
 import {
   BellRing,
@@ -6,6 +6,8 @@ import {
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
+import { HeaderActions } from "../components/common/HeaderActions";
+import { SectionTitle } from "../components/common/SectionTitle";
 
 const figmaNode = {
   screen: "737:13784",
@@ -20,9 +22,6 @@ const figmaNode = {
 
 const assets = Object.fromEntries(
   Object.entries({
-  headerSearch: "/assets/figma/f94998b0-6ec1-4bb9-9061-0d7963d06473.svg",
-  headerBell: "/assets/figma/f9ee5857-96be-4f4a-8990-a11893c44f8c.svg",
-  headerPerfume: "/assets/figma/db67ca5c-7071-47f0-935e-5dbdd0fd409f.svg",
   mainHeroBase: "/assets/figma/f67b7258-6ae0-4f61-bed3-cd9775794c64.jpg",
   mainHeroLight: "/assets/figma/3b211a80-f9bf-4367-bdaa-13d870ef377e.png",
   mainHeroBottle: "/assets/figma/8d3c9982-c240-4b55-9042-391add55bbf2.png",
@@ -124,41 +123,19 @@ const raffleItems = [
 function EventHeader() {
   return (
     <header
-      className="header fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5"
+      className="header fixed top-0 left-1/2 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[var(--app-safe-top)]"
       data-node-id={figmaNode.header}
     >
       <h1 className="text-2xl font-semibold leading-none tracking-[-0.02em] text-off-black">
         이벤트
       </h1>
-      <div className="flex items-center gap-5 text-off-black">
-        <Link aria-label="검색" className="size-7" to="/search">
-          <img alt="" className="size-full" src={assets.headerSearch} />
-        </Link>
-        <img alt="" className="size-7" src={assets.headerBell} />
-        <Link aria-label="향수 카테고리" className="relative size-7 overflow-hidden" to="/category">
-          <img alt="" className="absolute inset-[12.5%] h-3/4 w-3/4 max-w-none" src={assets.headerPerfume} />
-        </Link>
-      </div>
+      <HeaderActions />
     </header>
   );
 }
 
 function SectionHead({ hideViewAll = false, href, title }: { hideViewAll?: boolean; href?: string; title: string }) {
-  const viewAll = (
-    <div className="flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey">
-      <span>전체보기</span>
-      <ChevronRight aria-hidden="true" size={18} strokeWidth={1.6} />
-    </div>
-  );
-
-  return (
-    <div className="section-title flex w-full items-start justify-between">
-      <h2 className="min-w-0 flex-1 text-2xl font-semibold leading-[1.08] tracking-[-0.02em] text-off-black">
-        {title}
-      </h2>
-      {!hideViewAll && (href ? <Link aria-label={`${title} 전체보기`} to={href}>{viewAll}</Link> : viewAll)}
-    </div>
-  );
+  return <SectionTitle moreHref={href} showMore={!hideViewAll} title={title} variant="detail" />;
 }
 
 function ScrollIndicator({
@@ -293,7 +270,7 @@ function MainChallengeSection() {
 
 function ChallengeCard({ card }: { card: (typeof challengeCards)[number] }) {
   return (
-    <article className="relative flex h-[340px] w-[190px] shrink-0 flex-col items-center justify-center gap-4 overflow-hidden rounded-card border-[0.5px] border-[#BEBEBE] bg-off-white px-3.5 py-6">
+    <article className="relative flex h-[340px] w-[190px] shrink-0 flex-col items-center justify-center gap-4 overflow-hidden rounded-card border-[0.5px] border-light-grey bg-off-white px-3.5 py-6">
       <div className="flex flex-col items-center gap-2">
         <p className="max-w-[150px] truncate text-xs font-medium leading-none tracking-[-0.02em] text-off-black">
           {card.title}
@@ -421,7 +398,7 @@ function StoryCard({ story }: { story: StoryCardItem }) {
       </p>
       <Link
         aria-label={`${story.title} 프로필에서 향수 추천하기`}
-        className={`absolute left-[14px] flex items-center gap-2 rounded-card border border-white/25 bg-white/15 px-2.5 py-[7px] text-off-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] backdrop-blur-md ${
+        className={`absolute left-[14px] flex items-center gap-2 rounded-card border border-off-white/25 bg-off-white/15 px-2.5 py-[7px] text-off-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] backdrop-blur-md ${
           hasCount ? "top-[405px]" : "top-[409px] h-[27px]"
         }`}
         to={`/event/recommend-profile/${story.id}`}
@@ -500,7 +477,7 @@ function RaffleCard({
 }) {
   return (
     <article className="flex h-[108px] w-full items-center gap-4 overflow-hidden rounded-[16px] border border-light-grey bg-off-white p-2">
-      <div className="relative size-[92px] shrink-0 overflow-hidden rounded-[12px] bg-[#ededed]">
+      <div className="relative size-[92px] shrink-0 overflow-hidden rounded-[12px] bg-light2-grey">
         <img alt="" className="absolute inset-0 h-full w-full object-cover" src={item.image} />
         {item.today && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/45 text-center text-off-white">
@@ -513,7 +490,7 @@ function RaffleCard({
         <p className="truncate text-xs font-medium leading-none tracking-[-0.02em] text-grey">
           {item.brand}
         </p>
-        <p className="mt-1 truncate text-base font-bold leading-none tracking-[-0.02em] text-[#171717]">
+        <p className="mt-1 truncate text-base font-bold leading-none tracking-[-0.02em] text-off-black">
           {item.name}
         </p>
         <div className="mt-4 flex items-center gap-2">
@@ -561,7 +538,7 @@ function RaffleSection() {
     <section className="shrink-0 px-5" data-node-id={figmaNode.raffle}>
       <div className="inner flex flex-col gap-[30px]">
         <SectionHead href="/event/raffles" title="래플 응모하기" />
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-[10px]">
           {raffleItems.map((item) => (
             <RaffleCard
               isAlarmOn={Boolean(alarmStates[item.id])}

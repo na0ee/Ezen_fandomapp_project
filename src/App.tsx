@@ -54,6 +54,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/event" element={<EventPage />} />
+        <Route path="/event/challenges" element={<ChallengeListPage />} />
+        <Route path="/event/recommend-feed" element={<RecommendationFeedPage />} />
+        <Route path="/event/raffles" element={<RaffleListPage />} />
+        <Route path="/event/raffles/:raffleId" element={<RaffleDetailPage />} />
+        <Route path="/event/recommend-profile/:profileId" element={<UserProfilePage />} />
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/community/question" element={<CommunityQuestion />} />
         <Route path="/community/select" element={<CommunitySelect />} />
@@ -70,6 +75,9 @@ export default function App() {
         <Route path="/question" element={<QuestionPage />} />
         <Route path="/result" element={<ResultPage />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/perfumes" element={<MyPerfumePage />} />
+        <Route path="/mypage/wishlist" element={<MyWishlistPage />} />
+        <Route path="/mypage/reviews" element={<MyReviewsPage />} />
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/category" element={<Category />} />
         <Route path="/search" element={<Search />} />
