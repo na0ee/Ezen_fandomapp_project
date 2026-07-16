@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { PerfumeIcon } from "../components/icons/PerfumeIcon";
+import { HeartButton } from "../components/ui/HeartButton";
 import headerBell from "../assets/community/figma/header-bell.svg";
-import selectedHeart from "../assets/mypage/heart-selected.svg";
 import wishlistCardBuly from "../assets/mypage/wishlist-card-buly.png";
 import wishlistCardBvlgari from "../assets/mypage/wishlist-card-bvlgari.png";
 import wishlistCardReplicaOrange from "../assets/mypage/wishlist-card-replica-orange.png";
@@ -73,13 +73,18 @@ function DetailHeader({ title }: { title: string }) {
 }
 
 function WishCard({ item }: { item: (typeof wishItems)[number] }) {
+  const [isFavorite, setIsFavorite] = useState(true);
+
   return (
     <article className="h-[390px] min-w-0">
       <div className="relative h-[254px] overflow-hidden bg-off-white">
         <img alt={item.name} className="size-full object-cover" src={item.image} />
-        <button aria-label={`${item.name} 위시리스트에서 제거`} className="absolute bottom-4 right-4 size-6" type="button">
-          <img alt="" aria-hidden="true" className="size-full" src={selectedHeart} />
-        </button>
+        <HeartButton
+          aria-label={`${item.name} ${isFavorite ? "위시리스트에서 제거" : "위시리스트에 추가"}`}
+          className="absolute bottom-4 right-4 size-6"
+          isSelected={isFavorite}
+          onClick={() => setIsFavorite((favorite) => !favorite)}
+        />
       </div>
 
       <div className="mt-3 flex h-14 flex-col gap-1">
@@ -213,7 +218,7 @@ export default function MyWishlistPage() {
     <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
       <DetailHeader title="위시리스트" />
 
-      <div className="px-side pb-[112px] pt-[78px]">
+      <div className="px-side pb-[112px] pt-[calc(var(--app-header-height)+24px)]">
         <p className="text-sm font-normal leading-none tracking-[-0.02em] text-grey">
           담아둔 향수 <span className="text-off-black">4</span>개 · 플로럴 계열에 관심이 많아요
         </p>

@@ -86,7 +86,7 @@ export default function MyPerfumePage() {
     <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
       <DetailHeader title="내 향수 관리하기" />
 
-      <div className="px-side pb-[112px] pt-[78px]">
+      <div className="px-side pb-[112px] pt-[calc(var(--app-header-height)+24px)]">
         <div className="flex items-center justify-between">
           <p className="text-sm font-normal leading-none tracking-[-0.02em] text-grey">
             이번 주 <span className="text-off-black">5일</span> 기록했어요

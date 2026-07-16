@@ -78,7 +78,7 @@ export default function UserProfilePage() {
         </button>
       </header>
 
-      <section className="pt-[54px]">
+      <section className="pt-[var(--app-header-height)]">
         <div className="relative h-[560px] overflow-hidden bg-off-black text-off-white">
           <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.profileBase} />
           <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.profileOverlay} />

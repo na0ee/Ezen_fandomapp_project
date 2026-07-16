@@ -1,4 +1,4 @@
-import { ChevronLeft, Heart, Search } from "lucide-react";
+import { ChevronLeft, Search } from "lucide-react";
 import type { PointerEvent, ReactNode } from "react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -8,7 +8,6 @@ import diorImage from "../../assets/magazine/fragrance-collection/dior.png";
 import fragranceHeroImage from "../../assets/magazine/fragrance-collection/hero.png";
 import maisonMargielaImage from "../../assets/magazine/fragrance-collection/maison-margiela.png";
 import milkyGourmandImage from "../../assets/magazine/fragrance-collection/milky-gourmand.png";
-import { BottomNavigation } from "../../components/common/BottomNavigation";
 import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
 
 const fragranceCollections = [
@@ -44,7 +43,7 @@ const fragranceCollections = [
 
 function MagazineDetailHeader() {
   return (
-    <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
+    <header className="fixed top-[65px] left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
       <div className="flex items-center">
         <Link aria-label="매거진으로 돌아가기" className="flex size-[21px] items-center justify-center" to="/magazine">
           <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.4} />
@@ -217,34 +216,17 @@ function FragranceCard({ collection }: { collection: (typeof fragranceCollection
 }
 
 export default function MagazineFragranceCollection() {
-  const [isSaved, setIsSaved] = useState(true);
-
   return (
     <main className="min-h-dvh overflow-x-hidden bg-off-white text-off-black">
       <div className="mx-auto min-h-dvh w-full max-w-[430px] bg-off-white">
+        <div aria-hidden="true" className="fixed top-0 left-1/2 z-50 h-[65px] w-full max-w-[430px] -translate-x-1/2 bg-off-white" />
         <MagazineDetailHeader />
 
-        <div className="flex flex-col items-start gap-[30px] px-[22px] pt-[119px] pb-[160px]">
+        <div className="flex flex-col items-start gap-[30px] px-[22px] pt-[143px] pb-[115px]">
           <section className="flex w-full flex-col items-start gap-[7px]">
-            <div className="flex w-full items-start justify-between">
-              <span className="rounded-chip bg-off-black px-3.5 py-[5px] text-xs leading-[normal] tracking-[-0.02em] text-off-white">
-                향수 트렌드
-              </span>
-              <button
-                aria-label={isSaved ? "New Fragrance Collection 2026 저장 취소" : "New Fragrance Collection 2026 저장"}
-                aria-pressed={isSaved}
-                className="flex size-6 items-center justify-center"
-                onClick={() => setIsSaved((saved) => !saved)}
-                type="button"
-              >
-                <Heart
-                  aria-hidden="true"
-                  className={isSaved ? "fill-point-orange text-point-orange" : "text-grey"}
-                  size={24}
-                  strokeWidth={1.5}
-                />
-              </button>
-            </div>
+            <span className="rounded-chip bg-off-black px-3.5 py-[5px] text-xs leading-[normal] tracking-[-0.02em] text-off-white">
+              향수 트렌드
+            </span>
             <h2 className="whitespace-nowrap text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">
               New Fragrance Collection 2026
             </h2>
@@ -276,8 +258,6 @@ export default function MagazineFragranceCollection() {
             </CollectionScroller>
           </div>
         </div>
-
-        <BottomNavigation />
       </div>
     </main>
   );

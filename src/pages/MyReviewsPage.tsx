@@ -1,8 +1,9 @@
-import { ChevronLeft, Heart, MessageCircle, Search, Star } from "lucide-react";
+import { ChevronLeft, MessageCircle, Search, Star } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { PerfumeIcon } from "../components/icons/PerfumeIcon";
+import { HeartButton } from "../components/ui/HeartButton";
 import headerBell from "../assets/community/figma/header-bell.svg";
 import reviewProductOne from "../assets/mypage/review-product-1.png";
 import reviewProductTwo from "../assets/mypage/review-product-2.png";
@@ -119,6 +120,8 @@ function RatingStars() {
 }
 
 function PendingReviewCard({ review }: { review: (typeof pendingReviews)[number] }) {
+  const [isLiked, setIsLiked] = useState(false);
+
   return (
     <article className="flex h-[159px] w-[260px] shrink-0 flex-col gap-5 rounded-2xl border-[0.5px] border-light-grey bg-off-white p-4">
       <div className="flex h-[93px] items-start justify-between gap-4">
@@ -136,7 +139,14 @@ function PendingReviewCard({ review }: { review: (typeof pendingReviews)[number]
         </div>
       </div>
       <div className="flex h-3.5 items-center gap-4">
-        <Heart aria-hidden="true" className="text-light-grey" size={14} strokeWidth={1.5} />
+        <HeartButton
+          aria-label={`${review.title} 좋아요 ${isLiked ? "취소" : "누르기"}`}
+          className="flex size-3.5 items-center justify-center"
+          iconSize={14}
+          isSelected={isLiked}
+          onClick={() => setIsLiked((liked) => !liked)}
+          tone="light"
+        />
         <MessageCircle aria-hidden="true" className="text-light-grey" size={14} strokeWidth={1.5} />
         <span className="flex items-center gap-1 text-xs font-medium tracking-[-0.02em]">
           <Star aria-hidden="true" className="fill-[#FFBB00] text-[#FFBB00]" size={14} strokeWidth={1.4} />
@@ -186,7 +196,7 @@ export default function MyReviewsPage() {
     <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
       <DetailHeader title="내 리뷰 관리하기" />
 
-      <div className="pb-[112px] pt-[78px]">
+      <div className="pb-[112px] pt-[calc(var(--app-header-height)+24px)]">
         <section className="overflow-x-auto px-side pb-px scrollbar-hidden">
           <div className="flex w-max gap-4">
             {pendingReviews.map((review) => (

@@ -256,7 +256,7 @@ export default function CommunityWrite() {
           </button>
         </header>
 
-        <div className="flex flex-1 flex-col gap-[30px] px-5 pt-[78px] pb-[132px]">
+        <div className="flex flex-1 flex-col gap-[30px] px-5 pt-[calc(var(--app-header-height)+24px)] pb-[132px]">
           <Section title="향수 선택">
             <div className="flex items-center gap-4">
               <Link className="flex size-[68px] shrink-0 flex-col items-center justify-center gap-1.5 rounded-lg border-[0.8px] border-light-grey text-grey" to="/community/select">

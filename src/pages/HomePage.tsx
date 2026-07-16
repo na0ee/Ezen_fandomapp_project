@@ -40,8 +40,6 @@ const assets = Object.fromEntries(
   rankOne: "/assets/figma/b8ae253f-9654-4c82-9435-8a5d7821a8f0.png",
   rankTwo: "/assets/figma/347dc7c9-ab3e-46a4-8fef-cb759308244d.png",
   rankThree: "/assets/figma/d89aa68f-ffec-492c-a293-1b46bb118478.png",
-  rankHeartSelected: "/assets/figma/c440821e-d5b1-44dc-b9b3-3c7e0c5a84d9.svg",
-  rankHeart: "/assets/figma/c626147a-173e-4f82-8407-66cad966801b.svg",
   magazineOne: "/assets/figma/604cad28-ee28-4352-a88f-57b5c6cdb1ae.png",
   magazineTwo: "/assets/figma/cae4a0ad-1f49-46d9-81c0-f893afb376e1.png",
     gift: "/assets/figma/21ec3215-67f3-40e5-a91d-630537632bb9.png",
@@ -562,8 +560,6 @@ function RankSection() {
         <div className="flex w-max gap-3 px-5">
           {rankCards.map((item, index) => (
             <PerfumeRankCard
-              heartSelectedSrc={assets.rankHeartSelected}
-              heartSrc={assets.rankHeart}
               isSelected={selectedRanks[index]}
               key={item.id}
               onHeartToggle={() => handleRankHeartToggle(index)}

@@ -6,10 +6,11 @@ import {
   UserRoundCog,
 } from "lucide-react";
 import type { PointerEvent, ReactNode } from "react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { BottomNavigation } from "../../components/common/BottomNavigation";
 import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
+import { HeartButton } from "../../components/ui/HeartButton";
 import headerBell from "../../assets/community/figma/header-bell.svg";
 import fireBadge from "../../assets/mypage/fire-badge.svg";
 import perfumeLoewe from "../../assets/mypage/perfume-loewe.png";
@@ -23,7 +24,6 @@ import recentMagazine from "../../assets/mypage/saved-magazine.png";
 import wishlistOne from "../../assets/mypage/wishlist-1.png";
 import wishlistTwo from "../../assets/mypage/wishlist-2.png";
 import wishlistThree from "../../assets/mypage/wishlist-3.png";
-import selectedHeart from "../../assets/mypage/heart-selected.svg";
 
 const perfumes = [
   {
@@ -241,11 +241,13 @@ function MagazineSection() {
 }
 
 function WishlistSection() {
+  const [favoriteItems, setFavoriteItems] = useState(() => wishlist.map(() => true));
+
   return (
     <section className="px-side">
       <SectionTitle to="/mypage/wishlist">위시리스트</SectionTitle>
       <div className="mt-title-gap flex w-full flex-col items-start gap-4">
-        {wishlist.map((item) => (
+        {wishlist.map((item, index) => (
           <article className="relative flex h-[124px] w-full shrink-0 items-end justify-end gap-5 overflow-hidden rounded-card border-[0.8px] border-light-grey bg-off-white p-3" key={item.name}>
             <div className="flex min-w-0 flex-1 items-start gap-5 self-start">
               <div className="relative size-[100px] shrink-0 overflow-hidden rounded-card bg-[#EDEDED]">
@@ -262,9 +264,16 @@ function WishlistSection() {
                 <h3 className="w-full truncate text-base font-semibold leading-none tracking-[-0.02em]">{item.name}</h3>
               </div>
             </div>
-            <button aria-label="위시리스트에서 삭제" className="absolute bottom-3 right-3 size-6" type="button">
-              <img alt="" aria-hidden="true" className="size-full" src={selectedHeart} />
-            </button>
+            <HeartButton
+              aria-label={`${item.name} ${favoriteItems[index] ? "위시리스트에서 삭제" : "위시리스트에 추가"}`}
+              className="absolute bottom-3 right-3 size-6"
+              isSelected={favoriteItems[index]}
+              onClick={() =>
+                setFavoriteItems((currentItems) =>
+                  currentItems.map((isFavorite, currentIndex) => (currentIndex === index ? !isFavorite : isFavorite)),
+                )
+              }
+            />
           </article>
         ))}
       </div>
@@ -330,7 +339,7 @@ export default function MyPage() {
         </div>
       </header>
 
-      <div className="flex flex-col gap-section pt-[54px] pb-[112px]">
+      <div className="flex flex-col gap-section pt-[var(--app-header-height)] pb-[112px]">
         <ProfileSection />
         <PerfumeSection />
         <MagazineSection />
