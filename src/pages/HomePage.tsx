@@ -158,10 +158,21 @@ const tabs = ["전체", "선물", "여성", "20대", "30대", "남성"];
 function SectionTitle({
   title,
   subtitle,
+  viewAllLabel = "전체보기",
+  viewAllTo,
 }: {
   title: string;
   subtitle?: string;
+  viewAllLabel?: string;
+  viewAllTo?: string;
 }) {
+  const viewAllContent = (
+    <>
+      <span>{viewAllLabel}</span>
+      <ChevronRight aria-hidden="true" size={18} strokeWidth={1.6} />
+    </>
+  );
+
   return (
     <div className="section-title flex w-full items-start justify-between gap-4">
       <div className="min-w-0">
@@ -174,10 +185,18 @@ function SectionTitle({
           </p>
         )}
       </div>
-      <div className="flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey">
-        <span>전체보기</span>
-        <ChevronRight aria-hidden="true" size={18} strokeWidth={1.6} />
-      </div>
+      {viewAllTo ? (
+        <Link
+          className="flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey"
+          to={viewAllTo}
+        >
+          {viewAllContent}
+        </Link>
+      ) : (
+        <div className="flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey">
+          {viewAllContent}
+        </div>
+      )}
     </div>
   );
 }
@@ -373,7 +392,7 @@ function HeroSection() {
         ))}
       </div>
       <p
-        className={`pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 font-cormorant text-[98px] font-bold leading-none tracking-[-0.02em] ${activeSlide.logoClassName}`}
+        className={`pointer-events-none absolute left-1/2 top-1/2 z-10 mix-blend-difference opacity-80 -translate-x-1/2 -translate-y-1/2 font-cormorant text-[98px] font-bold leading-none tracking-[-0.02em] ${activeSlide.logoClassName}`}
       >
         LAYER
       </p>
@@ -407,7 +426,7 @@ function HeroSection() {
 function TodaysScentSection() {
   return (
     <section className="px-5" data-node-id={figmaNode.todaysScent}>
-      <SectionTitle title="TODAY'S Scent" />
+      <SectionTitle title="TODAY'S Scent" viewAllLabel="찾아보기" viewAllTo="/chatbot?intent=recommend" />
       <div className="mt-[30px] flex min-h-[258px] items-start justify-between gap-4">
         <div className="shrink-0 pt-1">
           <p className="text-xl font-bold leading-none tracking-[-0.02em] text-off-black">비 온 뒤의 숲</p>
@@ -661,7 +680,12 @@ function MagazineSection() {
 function GiftSection() {
   return (
     <section className="px-5" data-node-id={figmaNode.gift}>
-      <SectionTitle title="Gift" subtitle="AI챗봇과 함께 그 사람에게 꼭 맞는 향수를 찾아요" />
+      <SectionTitle
+        subtitle="AI챗봇과 함께 그 사람에게 꼭 맞는 향수를 찾아요"
+        title="Gift"
+        viewAllLabel="찾아보기"
+        viewAllTo="/chatbot?intent=gift"
+      />
       <img
         alt=""
         className="mt-[30px] h-[469px] w-full rounded-magazine object-cover"

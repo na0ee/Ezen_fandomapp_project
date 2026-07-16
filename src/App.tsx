@@ -18,6 +18,7 @@ import Search from "./pages/Search";
 import UserProfilePage from "./pages/UserProfilePage";
 import { RecommendationFeedPage } from "./pages/RecommendationFeedPage";
 import { ChallengeListPage } from "./pages/ChallengeListPage";
+import { ChatbotPage } from "./pages/Chatbot";
 import { RaffleListPage } from "./pages/RaffleListPage";
 import { RaffleDetailPage } from "./pages/RaffleDetailPage";
 
@@ -37,6 +38,7 @@ export default function App() {
       <Route path="/magazine/perfume-longevity" element={<Magazine2 />} />
       <Route path="/magazine/seasonal-guide" element={<MagazineSeasonal />} />
       <Route path="/question" element={<QuestionPage />} />
+      <Route path="/chatbot" element={<ChatbotPage />} />
       <Route path="/result" element={<ResultPage />} />
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/mypage/perfumes" element={<MyPerfumePage />} />
