@@ -67,7 +67,7 @@ export default function UserProfilePage() {
 
   return (
     <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
-      <header className="fixed left-1/2 top-0 z-50 flex h-[calc(54px+env(safe-area-inset-top))] w-full max-w-[430px] -translate-x-1/2 flex-col bg-off-white pt-[env(safe-area-inset-top)]">
+      <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 flex-col bg-off-white pt-[var(--app-safe-top)]">
         <button
           aria-label="이벤트로 돌아가기"
           className="flex h-[54px] w-14 items-center justify-center"
@@ -78,7 +78,7 @@ export default function UserProfilePage() {
         </button>
       </header>
 
-      <section className="wrap pt-[calc(54px+env(safe-area-inset-top))]">
+      <section className="wrap pt-[var(--app-header-height)]">
         <div className="relative h-[560px] overflow-hidden bg-off-black text-off-white">
           <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.profileBase} />
           <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.profileOverlay} />

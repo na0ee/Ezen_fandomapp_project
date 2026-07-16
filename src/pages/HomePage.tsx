@@ -274,7 +274,7 @@ function HomeHeader() {
 
   return (
     <header
-      className={`header fixed left-1/2 top-0 z-50 flex h-[calc(54px+env(safe-area-inset-top))] w-full max-w-[430px] -translate-x-1/2 items-center justify-between px-5 pt-[env(safe-area-inset-top)] transition-colors duration-200 ${
+      className={`header fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between px-5 pt-[var(--app-safe-top)] transition-colors duration-200 ${
         hasSolidBackground ? "bg-off-white" : "bg-transparent"
       }`}
       data-node-id={figmaNode.header}

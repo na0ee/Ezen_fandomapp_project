@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react";
+import { HeartButton } from "../ui/HeartButton";
 
 export type PerfumeRankItem = {
   id: string;
@@ -27,24 +27,16 @@ function PerfumeHeartButton({
   onToggle: () => void;
 }) {
   return (
-    <button
+    <HeartButton
       aria-label={isSelected ? "찜 해제" : "찜하기"}
-      aria-pressed={isSelected}
       className="absolute bottom-4 right-4 size-6"
+      isSelected={isSelected}
       onClick={(event) => {
         event.stopPropagation();
         onToggle();
       }}
       onMouseDown={(event) => event.stopPropagation()}
-      type="button"
-    >
-      <Heart
-        aria-hidden="true"
-        className={isSelected ? "fill-point-orange text-point-orange" : "text-off-black"}
-        size={24}
-        strokeWidth={1.6}
-      />
-    </button>
+    />
   );
 }
 

@@ -51,7 +51,7 @@ function ChallengeHeader() {
   const navigate = useNavigate();
 
   return (
-    <header className="header fixed top-0 left-1/2 z-50 flex h-[calc(54px+env(safe-area-inset-top))] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[env(safe-area-inset-top)]">
+    <header className="header fixed top-0 left-1/2 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[var(--app-safe-top)]">
       <div className="flex items-center">
         <button
           aria-label="이전 페이지로 돌아가기"
@@ -103,7 +103,7 @@ export function ChallengeListPage() {
     <main className="min-h-dvh bg-off-white text-off-black">
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <ChallengeHeader />
-        <section className="wrap flex flex-col items-center px-5 pb-[132px] pt-[calc(78px+env(safe-area-inset-top))]">
+        <section className="wrap flex flex-col items-center px-5 pb-[132px] pt-[calc(var(--app-header-height)+24px)]">
           <div className="flex w-full flex-col gap-[10px]">
             {challengeItems.map((item) => (
               <ChallengeListCard item={item} key={item.title} />

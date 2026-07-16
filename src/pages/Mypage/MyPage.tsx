@@ -2,14 +2,14 @@ import {
   ArrowRight,
   ChevronRight,
   CircleHelp,
-  Heart,
   Star,
   UserRoundCog,
 } from "lucide-react";
 import type { PointerEvent, ReactNode } from "react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { BottomNavigation } from "../../components/common/BottomNavigation";
 import { HeaderActions } from "../../components/common/HeaderActions";
+import { HeartButton } from "../../components/ui/HeartButton";
 import { SectionTitle as CommonSectionTitle } from "../../components/common/SectionTitle";
 import fireBadge from "../../assets/mypage/fire-badge.svg";
 import perfumeLoewe from "../../assets/mypage/perfume-loewe.png";
@@ -229,11 +229,13 @@ function MagazineSection() {
 }
 
 function WishlistSection() {
+  const [favoriteItems, setFavoriteItems] = useState(() => wishlist.map(() => true));
+
   return (
     <section className="px-side">
       <SectionTitle to="/mypage/wishlist">위시리스트</SectionTitle>
       <div className="mt-title-gap flex w-full flex-col items-start gap-[10px]">
-        {wishlist.map((item) => (
+        {wishlist.map((item, index) => (
           <article className="relative flex h-[124px] w-full shrink-0 items-end justify-end gap-5 overflow-hidden rounded-card border-[0.8px] border-light-grey bg-off-white p-3" key={item.name}>
             <div className="flex min-w-0 flex-1 items-start gap-5 self-start">
               <div className="relative size-[100px] shrink-0 overflow-hidden rounded-card bg-light2-grey">
@@ -250,9 +252,16 @@ function WishlistSection() {
                 <h3 className="w-full truncate text-base font-semibold leading-none tracking-[-0.02em]">{item.name}</h3>
               </div>
             </div>
-            <button aria-label="위시리스트에서 삭제" className="absolute bottom-3 right-3 grid size-7 place-items-center text-point-orange" type="button">
-              <Heart aria-hidden="true" className="fill-current" size={24} strokeWidth={1.7} />
-            </button>
+            <HeartButton
+              aria-label={`${item.name} ${favoriteItems[index] ? "위시리스트에서 삭제" : "위시리스트에 추가"}`}
+              className="absolute bottom-3 right-3 size-6"
+              isSelected={favoriteItems[index]}
+              onClick={() =>
+                setFavoriteItems((currentItems) =>
+                  currentItems.map((isFavorite, currentIndex) => (currentIndex === index ? !isFavorite : isFavorite)),
+                )
+              }
+            />
           </article>
         ))}
       </div>
@@ -305,12 +314,12 @@ function AccountSection() {
 export default function MyPage() {
   return (
     <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
-      <header className="fixed left-1/2 top-0 z-50 flex h-[calc(54px+env(safe-area-inset-top))] w-full max-w-[430px] -translate-x-1/2 items-center justify-between overflow-hidden bg-off-white px-side pt-[env(safe-area-inset-top)]">
+      <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between overflow-hidden bg-off-white px-side pt-[var(--app-safe-top)]">
         <h1 className="text-2xl font-semibold leading-[1.3] tracking-[-0.02em]">마이페이지</h1>
         <HeaderActions />
       </header>
 
-      <div className="wrap flex flex-col gap-section bg-off-white pb-[112px] pt-[calc(62px+env(safe-area-inset-top))]">
+      <div className="wrap flex flex-col gap-section bg-off-white pb-[112px] pt-[calc(var(--app-header-height)+8px)]">
         <ProfileSection />
         <PerfumeSection />
         <MagazineSection />

@@ -16,7 +16,7 @@ export default function SearchResults() {
   return (
     <main className="min-h-dvh bg-off-white text-off-black">
       <div className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col overflow-x-hidden bg-off-white pb-6">
-        <header className="w-full px-side pb-3 pt-[calc(18px+env(safe-area-inset-top))]">
+        <header className="w-full px-side pb-3 pt-[var(--app-safe-top)]">
           <SearchBar
             onBack={() => navigate(-1)}
             onQueryChange={setQuery}

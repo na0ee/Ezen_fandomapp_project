@@ -42,7 +42,7 @@ const perfumes = [
 
 function DetailHeader({ title }: { title: string }) {
   return (
-    <header className="fixed left-1/2 top-0 z-50 flex h-[calc(54px+env(safe-area-inset-top))] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side pt-[env(safe-area-inset-top)]">
+    <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side pt-[var(--app-safe-top)]">
       <div className="flex min-w-0 items-center">
         <Link aria-label="마이페이지로 돌아가기" className="-ml-1 flex size-7 items-center justify-center" to="/mypage">
           <ChevronLeft aria-hidden="true" size={24} strokeWidth={1.6} />
@@ -77,7 +77,7 @@ export default function MyPerfumePage() {
     <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
       <DetailHeader title="내 향수 관리하기" />
 
-      <div className="wrap px-side pb-[112px] pt-[calc(78px+env(safe-area-inset-top))]">
+      <div className="wrap px-side pb-[112px] pt-[calc(var(--app-header-height)+24px)]">
         <div className="flex items-center justify-between">
           <p className="text-sm font-normal leading-none tracking-[-0.02em] text-grey">
             이번 주 <span className="text-off-black">5일</span> 기록했어요

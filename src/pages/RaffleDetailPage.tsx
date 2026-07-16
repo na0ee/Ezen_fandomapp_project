@@ -22,7 +22,7 @@ function RaffleDetailHeader() {
   const navigate = useNavigate();
 
   return (
-    <header className="header fixed top-0 left-1/2 z-50 flex h-[calc(54px+env(safe-area-inset-top))] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[env(safe-area-inset-top)]">
+    <header className="header fixed top-0 left-1/2 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[var(--app-safe-top)]">
       <div className="flex min-w-0 items-center">
         <button
           aria-label="이전 페이지로 돌아가기"
@@ -46,7 +46,7 @@ export function RaffleDetailPage() {
     <main className="min-h-dvh bg-off-white text-off-black" data-node-id="1034:13631">
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <RaffleDetailHeader />
-        <div className="wrap flex flex-col items-center px-5 pb-[124px] pt-[calc(119px+env(safe-area-inset-top))]">
+        <div className="wrap flex flex-col items-center px-5 pb-[124px] pt-[calc(var(--app-header-height)+65px)]">
           <section className="flex w-full max-w-[390px] flex-col gap-3">
             <div className="h-[338px] w-full overflow-hidden">
               <img alt="" className="h-full w-full object-cover" src={assets.hero} />

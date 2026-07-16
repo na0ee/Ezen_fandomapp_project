@@ -123,7 +123,7 @@ const raffleItems = [
 function EventHeader() {
   return (
     <header
-      className="header fixed top-0 left-1/2 z-50 flex h-[calc(54px+env(safe-area-inset-top))] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[env(safe-area-inset-top)]"
+      className="header fixed top-0 left-1/2 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[var(--app-safe-top)]"
       data-node-id={figmaNode.header}
     >
       <h1 className="text-2xl font-semibold leading-none tracking-[-0.02em] text-off-black">

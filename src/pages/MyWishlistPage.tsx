@@ -1,8 +1,9 @@
-import { Check, ChevronDown, ChevronLeft, Heart, Search, X } from "lucide-react";
+import { Check, ChevronDown, ChevronLeft, Search, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { HeartButton } from "../components/ui/HeartButton";
 import wishlistCardBuly from "../assets/mypage/wishlist-card-buly.png";
 import wishlistCardBvlgari from "../assets/mypage/wishlist-card-bvlgari.png";
 import wishlistCardReplicaOrange from "../assets/mypage/wishlist-card-replica-orange.png";
@@ -50,7 +51,7 @@ const wishItems = [
 
 function DetailHeader({ title }: { title: string }) {
   return (
-    <header className="fixed left-1/2 top-0 z-50 flex h-[calc(54px+env(safe-area-inset-top))] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side pt-[env(safe-area-inset-top)]">
+    <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side pt-[var(--app-safe-top)]">
       <div className="flex min-w-0 items-center">
         <Link aria-label="마이페이지로 돌아가기" className="-ml-1 flex size-7 items-center justify-center" to="/mypage">
           <ChevronLeft aria-hidden="true" size={24} strokeWidth={1.6} />
@@ -63,13 +64,18 @@ function DetailHeader({ title }: { title: string }) {
 }
 
 function WishCard({ item }: { item: (typeof wishItems)[number] }) {
+  const [isFavorite, setIsFavorite] = useState(true);
+
   return (
     <article className="h-[390px] min-w-0">
       <div className="relative h-[254px] overflow-hidden bg-off-white">
         <img alt={item.name} className="size-full object-cover" src={item.image} />
-        <button aria-label={`${item.name} 위시리스트에서 제거`} className="absolute bottom-4 right-4 grid size-7 place-items-center text-point-orange" type="button">
-          <Heart aria-hidden="true" className="fill-current" size={24} strokeWidth={1.7} />
-        </button>
+        <HeartButton
+          aria-label={`${item.name} ${isFavorite ? "위시리스트에서 제거" : "위시리스트에 추가"}`}
+          className="absolute bottom-4 right-4 size-6"
+          isSelected={isFavorite}
+          onClick={() => setIsFavorite((favorite) => !favorite)}
+        />
       </div>
 
       <div className="mt-3 flex h-14 flex-col gap-1">
@@ -203,7 +209,7 @@ export default function MyWishlistPage() {
     <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
       <DetailHeader title="위시리스트" />
 
-      <div className="wrap px-side pb-[112px] pt-[calc(78px+env(safe-area-inset-top))]">
+      <div className="wrap px-side pb-[112px] pt-[calc(var(--app-header-height)+24px)]">
         <p className="text-sm font-normal leading-none tracking-[-0.02em] text-grey">
           담아둔 향수 <span className="text-off-black">4</span>개 · 플로럴 계열에 관심이 많아요
         </p>
