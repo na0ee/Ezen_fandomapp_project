@@ -1,7 +1,7 @@
 import { ChevronRight, Heart, Search } from "lucide-react";
-import type { PointerEvent, ReactNode, UIEvent } from "react";
+import type { MouseEvent, PointerEvent, ReactNode, UIEvent } from "react";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import headerBell from "../../assets/community/figma/header-bell.svg";
 import brandByredoImage from "../../assets/magazine/byredo/hero.png";
 import brandJoMaloneImage from "../../assets/magazine/main/brand-jo-malone.jpg";
@@ -20,6 +20,7 @@ const popularArticles = [
   {
     title: "New Fragrance Collection 2026",
     description: "올해 가장 주목해야 할 새로운 향수들",
+    href: "/magazine/fragrance-collection",
     image: popularNewFragranceImage,
   },
   {
@@ -179,6 +180,7 @@ const HorizontalScroller = forwardRef<HorizontalScrollerHandle, HorizontalScroll
 });
 
 function MoreLabel({ color = "grey", href }: { color?: "grey" | "white"; href?: string }) {
+  const navigate = useNavigate();
   const className = `flex shrink-0 items-center gap-1.5 text-sm font-medium leading-[normal] tracking-[-0.02em] ${
     color === "white" ? "text-off-white" : "text-grey"
   }`;
@@ -189,8 +191,22 @@ function MoreLabel({ color = "grey", href }: { color?: "grey" | "white"; href?: 
     </>
   );
 
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (!href) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    navigate(href);
+  };
+
   return href ? (
-    <Link className={className} onPointerDown={(event) => event.stopPropagation()} to={href}>
+    <Link
+      className={`${className} relative z-10 cursor-pointer`}
+      draggable={false}
+      onClick={handleClick}
+      onPointerDown={(event) => event.stopPropagation()}
+      to={href}
+    >
       {content}
     </Link>
   ) : (

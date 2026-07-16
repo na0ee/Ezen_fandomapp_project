@@ -7,6 +7,7 @@ import MagazinePage from "./pages/Magazine/Magazine";
 import MagazineLastingPower from "./pages/Magazine/Magazine_Lasting power";
 import MagazineByredo from "./pages/Magazine/Magazine_BYREDO";
 import MagazineDiptyque from "./pages/Magazine/Magazine_DIPTYQUE";
+import MagazineFragranceCollection from "./pages/Magazine/Magazine_FragranceCollection";
 import MagazineJomalone from "./pages/Magazine/Magazine_JOMALONE";
 import MagazineMoreView from "./pages/Magazine/Magazine_MoreView";
 import MagazineNichTrend from "./pages/Magazine/Magazine_nichtrend";
@@ -54,6 +55,7 @@ export default function App() {
         <Route path="/magazine" element={<MagazinePage />} />
         <Route path="/magazine/byredo" element={<MagazineByredo />} />
         <Route path="/magazine/diptyque" element={<MagazineDiptyque />} />
+        <Route path="/magazine/fragrance-collection" element={<MagazineFragranceCollection />} />
         <Route path="/magazine/jo-malone" element={<MagazineJomalone />} />
         <Route path="/magazine/more-view" element={<MagazineMoreView />} />
         <Route path="/magazine/niche-trend" element={<MagazineNichTrend />} />
