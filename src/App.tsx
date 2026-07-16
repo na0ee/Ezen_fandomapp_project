@@ -1,6 +1,9 @@
 import { useLayoutEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { CommunityPage } from "./pages/CommunityPage";
+import CommunityQuestion from "./pages/Community/Community_Question";
+import CommunitySelect from "./pages/Community/Community_Select";
+import CommunityWrite from "./pages/Community/Community_Write";
+import { CommunityPage } from "./pages/Community/CommunityPage";
 import { EventPage } from "./pages/EventPage";
 import { HomePage } from "./pages/HomePage";
 import MagazinePage from "./pages/Magazine/Magazine";
@@ -52,6 +55,9 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/event" element={<EventPage />} />
         <Route path="/community" element={<CommunityPage />} />
+        <Route path="/community/question" element={<CommunityQuestion />} />
+        <Route path="/community/select" element={<CommunitySelect />} />
+        <Route path="/community/write" element={<CommunityWrite />} />
         <Route path="/magazine" element={<MagazinePage />} />
         <Route path="/magazine/byredo" element={<MagazineByredo />} />
         <Route path="/magazine/diptyque" element={<MagazineDiptyque />} />

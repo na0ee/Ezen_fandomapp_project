@@ -1,28 +1,28 @@
 import { useState } from "react";
-import { Bookmark, ChevronRight, Heart, MessageCircle, MoreHorizontal } from "lucide-react";
+import { Bookmark, ChevronRight, Heart, MessageCircle, MoreHorizontal, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
-import { PageLayout } from "../components/common/PageLayout";
-import avatarHaesu from "../assets/community/figma/avatar-haesu.png";
-import avatarYeeun from "../assets/community/figma/avatar-yeeun.png";
-import carouselFour from "../assets/community/figma/carousel-four.png";
-import carouselThree from "../assets/community/figma/carousel-three.png";
-import carouselTwo from "../assets/community/figma/carousel-two.png";
-import headerBell from "../assets/community/figma/header-bell.svg";
-import headerPerfume from "../assets/community/figma/header-perfume.svg";
-import headerSearch from "../assets/community/figma/header-search.svg";
-import joMalone from "../assets/community/figma/jo-malone.png";
-import plusImageOne from "../assets/community/figma/plus-image-one.svg";
-import plusImageTwo from "../assets/community/figma/plus-image-two.svg";
-import postImageOne from "../assets/community/figma/post-image-one.png";
-import postImageTwo from "../assets/community/figma/post-image-two.png";
-import rankOne from "../assets/community/figma/rank-one.png";
-import rankThree from "../assets/community/figma/rank-three.png";
-import rankTwo from "../assets/community/figma/rank-two.png";
-import reviewImage from "../assets/community/figma/review-image.png";
-import tagFour from "../assets/community/figma/tag-four.png";
-import tagOne from "../assets/community/figma/tag-one.png";
-import tagThree from "../assets/community/figma/tag-three.png";
-import tagTwo from "../assets/community/figma/tag-two.png";
+import { PageLayout } from "../../components/common/PageLayout";
+import avatarHaesu from "../../assets/community/figma/avatar-haesu.png";
+import avatarYeeun from "../../assets/community/figma/avatar-yeeun.png";
+import carouselFour from "../../assets/community/figma/carousel-four.png";
+import carouselThree from "../../assets/community/figma/carousel-three.png";
+import carouselTwo from "../../assets/community/figma/carousel-two.png";
+import headerBell from "../../assets/community/figma/header-bell.svg";
+import headerPerfume from "../../assets/community/figma/header-perfume.svg";
+import headerSearch from "../../assets/community/figma/header-search.svg";
+import joMalone from "../../assets/community/figma/jo-malone.png";
+import plusImageOne from "../../assets/community/figma/plus-image-one.svg";
+import plusImageTwo from "../../assets/community/figma/plus-image-two.svg";
+import postImageOne from "../../assets/community/figma/post-image-one.png";
+import postImageTwo from "../../assets/community/figma/post-image-two.png";
+import rankOne from "../../assets/community/figma/rank-one.png";
+import rankThree from "../../assets/community/figma/rank-three.png";
+import rankTwo from "../../assets/community/figma/rank-two.png";
+import reviewImage from "../../assets/community/figma/review-image.png";
+import tagFour from "../../assets/community/figma/tag-four.png";
+import tagOne from "../../assets/community/figma/tag-one.png";
+import tagThree from "../../assets/community/figma/tag-three.png";
+import tagTwo from "../../assets/community/figma/tag-two.png";
 
 const carouselImages = [
   { src: postImageOne, fit: "object-bottom" },
@@ -54,10 +54,23 @@ function HeaderActions() {
 }
 
 function Tabs() {
-  return <div className="flex h-[30px] items-center gap-[5px] px-5">
-    <div className="rounded-full bg-off-black px-[14px] py-2 text-xs font-medium tracking-[-0.02em] text-off-white">후기 · 리뷰</div>
-    <div className="rounded-full border-[0.8px] border-light-grey px-[14px] py-2 text-xs font-medium tracking-[-0.02em] text-grey">질문게시판</div>
-  </div>;
+  return (
+    <nav className="flex items-start gap-6 px-5 pt-4" aria-label="커뮤니티 메뉴">
+      <div className="flex flex-col items-center gap-3">
+        <div className="flex items-center justify-center">
+          <span className="whitespace-nowrap text-base font-medium leading-normal tracking-[-0.02em] text-off-black">
+            후기 · 리뷰
+          </span>
+        </div>
+        <span className="h-0.5 w-full bg-[#ff4800]" aria-hidden="true" />
+      </div>
+      <Link className="flex h-[30px] items-start justify-center" to="/community/question">
+        <span className="whitespace-nowrap text-base font-medium leading-normal tracking-[-0.02em] text-grey">
+          질문 게시판
+        </span>
+      </Link>
+    </nav>
+  );
 }
 
 function HotReviews() {
@@ -122,6 +135,18 @@ function Ranking() {
   return <section className="px-5" data-node-id="891:4602"><h2 className="text-[24px] font-semibold leading-[1.08] tracking-[-0.03em]">이번 주 유저랭킹</h2><div className="mt-[30px] flex flex-col gap-5">{users.map(([image, name], index) => <div className="flex items-center justify-between rounded-lg border border-light-grey px-5 py-[15px]" key={name}><div className="flex items-center gap-2.5"><span className="w-2 text-base">{index + 1}</span><img className="h-[49px] w-[49px] rounded-full object-cover" src={image} alt="" /><div className="ml-0.5"><p className="text-base font-semibold">{name}</p><p className="mt-[5px] text-base font-medium text-grey">리뷰왕</p></div></div><span className="rounded-full bg-off-black px-[14px] py-[7px] text-base text-white">프로필</span></div>)}</div></section>;
 }
 
+function WriteButton() {
+  return (
+    <Link
+      className="fixed bottom-[104px] left-[calc(50%+117px)] z-40 flex items-center justify-center gap-1 rounded-full bg-off-black py-2 pl-2.5 pr-3.5 text-sm font-medium tracking-[-0.02em] text-off-white"
+      to="/community/write"
+    >
+      <Plus className="size-3.5" strokeWidth={2} />
+      글쓰기
+    </Link>
+  );
+}
+
 export function CommunityPage() {
-  return <PageLayout title="커뮤니티" headerAction={<HeaderActions />} contentClassName="gap-0"><div className="mt-6"><Tabs /></div><div className="mt-10 flex flex-col gap-16 pb-8"><HotReviews /><Post /><Post second /><Ranking /></div></PageLayout>;
+  return <PageLayout title="커뮤니티" headerAction={<HeaderActions />} contentClassName="gap-0"><Tabs /><div className="mt-10 flex flex-col gap-16 pb-8"><HotReviews /><Post /><Post second /><Ranking /></div><WriteButton /></PageLayout>;
 }
