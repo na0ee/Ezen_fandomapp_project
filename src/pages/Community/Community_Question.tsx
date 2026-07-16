@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Heart, MessageCircle, Plus } from "lucide-react";
+import { MessageCircle, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PageLayout } from "../../components/common/PageLayout";
+import { HeartButton } from "../../components/ui/HeartButton";
 import headerBell from "../../assets/community/figma/header-bell.svg";
 import headerPerfume from "../../assets/community/figma/header-perfume.svg";
 import headerSearch from "../../assets/community/figma/header-search.svg";
@@ -86,6 +87,8 @@ function QuestionCard({
   likes: number;
   replies: number;
 }) {
+  const [isLiked, setIsLiked] = useState(false);
+
   return (
     <article className="flex w-full flex-col items-end justify-center gap-5 rounded-[16px] border-[0.5px] border-light-grey bg-off-white p-4">
       <div className="flex w-full flex-col gap-1.5">
@@ -94,7 +97,13 @@ function QuestionCard({
       </div>
       <div className="flex items-center gap-4">
         <span className="flex items-center gap-1 text-xs font-medium tracking-[-0.02em] text-off-black">
-          <Heart className="size-3.5" strokeWidth={1.6} />
+          <HeartButton
+            aria-label={`${title} 좋아요 ${isLiked ? "취소" : "누르기"}`}
+            className="flex size-3.5 items-center justify-center"
+            iconSize={14}
+            isSelected={isLiked}
+            onClick={() => setIsLiked((liked) => !liked)}
+          />
           {likes}
         </span>
         <span className="flex items-center gap-1 text-xs font-medium tracking-[-0.02em] text-off-black">

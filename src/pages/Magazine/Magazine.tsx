@@ -1,48 +1,55 @@
-import { ChevronRight, Heart, Search } from "lucide-react";
+import { ChevronRight, Search } from "lucide-react";
 import type { MouseEvent, PointerEvent, ReactNode, UIEvent } from "react";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import headerBell from "../../assets/community/figma/header-bell.svg";
 import brandByredoImage from "../../assets/magazine/byredo/hero.png";
+import brandDiptyqueImage from "../../assets/magazine/detail/more-card-diptyque.jpg";
 import brandJoMaloneImage from "../../assets/magazine/main/brand-jo-malone.jpg";
 import popularNewFragranceImage from "../../assets/magazine/main/popular-new-fragrance.jpg";
 import trendHeroImage from "../../assets/magazine/detail/hero.jpg";
 import moreCardArrow from "../../assets/magazine/detail/more-card-arrow.svg";
-import moreCardDiptyqueImage from "../../assets/magazine/detail/more-card-diptyque.jpg";
 import moreCardSeasonalImage from "../../assets/magazine/detail/more-card.png";
 import longevityImage from "../../assets/magazine/longevity/hero.png";
 import { BottomNavigation } from "../../components/common/BottomNavigation";
 import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
+import { HeartButton } from "../../components/ui/HeartButton";
 
 const categories = ["전체", "향수 상식", "추천", "트렌드", "선물", "브랜드"];
 
 const popularArticles = [
   {
-    title: "New Fragrance Collection 2026",
-    description: "올해 가장 주목해야 할 새로운 향수들",
-    href: "/magazine/fragrance-collection",
-    image: popularNewFragranceImage,
-  },
-  {
+    eyebrow: "Fragrance Tip",
     title: "향수 지속력을 높이는 꿀팁",
-    description: "같은 향도 오래 남기는 나만의 작은 습관들",
+    description: "같은 향도 오래 남기는 사용법",
     href: "/magazine/perfume-longevity",
     image: longevityImage,
+    panel: "dark",
+  },
+  {
+    eyebrow: "Niche Perfume",
+    title: "BYREDO",
+    description: "기억과 감정을 향으로 담아내는 브랜드",
+    href: "/magazine/byredo",
+    image: brandByredoImage,
+    panel: "light",
   },
 ];
 
 const brandStories = [
   {
-    title: "BYREDO",
-    description: "기억과 감정을 향으로 담아내는 브랜드",
-    href: "/magazine/byredo",
-    image: brandByredoImage,
-  },
-  {
-    title: "JO MALONE LONDON",
-    description: "나만의 향을 완성하는 레이어링의 시작",
+    title: "JOMALONE LONDON",
+    description: "나만의 향을 완성해가는 레이어링의 시작",
     href: "/magazine/jo-malone",
     image: brandJoMaloneImage,
+    variant: "tall",
+  },
+  {
+    title: "DIPTYQUE",
+    description: "예술과 여행이 향으로 만나다",
+    href: "/magazine/diptyque",
+    image: brandDiptyqueImage,
+    variant: "short",
   },
 ];
 
@@ -57,11 +64,11 @@ const exploreArticles = [
   },
   {
     date: "2026.05.10",
-    description: "예술과 여행이\n향으로 만나다",
-    href: "/magazine/diptyque",
-    image: moreCardDiptyqueImage,
-    imageClassName: "top-[-18.76%] left-[0.05%] h-[161.73%] w-full max-w-none",
-    title: "DIPTYQUE",
+    description: "올해 가장 주목해야 할 새로운 향수들",
+    href: "/magazine/fragrance-collection",
+    image: popularNewFragranceImage,
+    imageClassName: "inset-0 size-full object-cover",
+    title: "New Fragrance Collection 2026",
   },
 ];
 
@@ -179,10 +186,10 @@ const HorizontalScroller = forwardRef<HorizontalScrollerHandle, HorizontalScroll
   );
 });
 
-function MoreLabel({ color = "grey", href }: { color?: "grey" | "white"; href?: string }) {
+function MoreLabel({ color = "grey", href }: { color?: "black" | "grey" | "white"; href?: string }) {
   const navigate = useNavigate();
   const className = `flex shrink-0 items-center gap-1.5 text-sm font-medium leading-[normal] tracking-[-0.02em] ${
-    color === "white" ? "text-off-white" : "text-grey"
+    color === "white" ? "text-off-white" : color === "black" ? "text-off-black" : "text-grey"
   }`;
   const content = (
     <>
@@ -256,9 +263,36 @@ function Indicator({ activeIndex, itemCount, onSelect }: IndicatorProps) {
   );
 }
 
+function WideIndicator({ activeIndex, itemCount, onSelect }: IndicatorProps) {
+  const position = itemCount > 1 ? activeIndex / (itemCount - 1) : 0;
+
+  return (
+    <div className="relative mx-auto h-0.5 w-[398px] bg-[#d9d9d9]">
+      <div
+        className="absolute top-0 left-0 h-0.5 w-[199px] bg-off-black transition-transform duration-200 ease-out"
+        style={{ transform: `translateX(${position * 199}px)` }}
+      />
+      {onSelect && (
+        <div className="absolute -top-[9px] left-0 grid h-5 w-full" style={{ gridTemplateColumns: `repeat(${itemCount}, 1fr)` }}>
+          {Array.from({ length: itemCount }, (_, index) => (
+            <button
+              aria-label={`${index + 1}번 카드로 이동`}
+              aria-pressed={activeIndex === index}
+              className="cursor-pointer"
+              key={index}
+              onClick={() => onSelect(index)}
+              type="button"
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function MagazineHeader() {
   return (
-    <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
+    <header className="fixed top-[65px] left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
       <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">매거진</h1>
       <div aria-label="매거진 메뉴" className="flex items-start justify-end gap-5">
         <Link aria-label="검색" className="size-7" to="/search">
@@ -281,11 +315,11 @@ function TrendSection() {
         <div className="absolute top-0 left-0 h-[195px] w-full">
           <img alt="꽃과 향수로 얼굴을 표현한 니치 향수 화보" className="size-full object-cover" src={trendHeroImage} />
         </div>
-        <h3 className="absolute top-[39px] left-4 text-base font-medium leading-[normal] tracking-[-0.02em]">
+        <h3 className="absolute top-[113px] left-3 text-xl font-bold leading-[normal] tracking-[-0.02em]">
           니치 향수 트렌드
         </h3>
         <Link
-          className="absolute top-[71px] left-[18px] flex items-center gap-1.5 text-sm font-medium leading-[normal] tracking-[-0.02em]"
+          className="absolute top-[147px] left-3 flex items-center gap-1.5 text-sm font-medium leading-[normal] tracking-[-0.02em]"
           to="/magazine/niche-trend"
         >
           지금 읽어보기
@@ -300,12 +334,115 @@ function TrendSection() {
 }
 
 function PopularSection() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollerRef = useRef<HorizontalScrollerHandle>(null);
+
+  const handleIndicatorSelect = (index: number) => {
+    setActiveIndex(index);
+    scrollerRef.current?.scrollToIndex(index);
+  };
+
   return (
     <section>
       <div className="px-side">
         <SectionHead title="많이 읽은 글" />
       </div>
-      <div className="mt-[30px] flex justify-center gap-2.5 px-side">
+      <HorizontalScroller
+        className="mx-auto mt-[30px] w-[calc(100%_-_40px)] max-w-[390px]"
+        itemCount={popularArticles.length}
+        onActiveIndexChange={setActiveIndex}
+        ref={scrollerRef}
+      >
+        <div className="flex w-max gap-2.5">
+          {popularArticles.map((article) => (
+            <article
+              className="relative flex h-[520px] w-[368px] shrink-0 snap-start flex-col items-end justify-end overflow-hidden rounded-magazine p-2.5"
+              key={article.title}
+            >
+              <img alt={`${article.title} 이미지`} className="absolute inset-0 size-full rounded-magazine object-cover" src={article.image} />
+              <div className="relative flex h-[97px] w-5 shrink-0 items-center justify-center">
+                <div className="rotate-90 whitespace-nowrap font-cormorant text-base italic leading-[normal] text-off-white">
+                  {article.eyebrow}
+                </div>
+              </div>
+              <div
+                className={`relative flex w-full shrink-0 flex-col items-start gap-[30px] rounded-[20px] p-4 ${
+                  article.panel === "light" ? "bg-off-white-70 text-off-black" : "bg-off-black-70 text-off-white"
+                }`}
+              >
+                <div className="flex w-[203px] flex-col gap-1.5">
+                  <h3 className="truncate text-xl font-semibold leading-[normal] tracking-[-0.02em]">{article.title}</h3>
+                  <p className="text-xs font-medium leading-[normal] tracking-[-0.02em]">{article.description}</p>
+                </div>
+                <MoreLabel color={article.panel === "light" ? "black" : "white"} href={article.href} />
+              </div>
+            </article>
+          ))}
+        </div>
+      </HorizontalScroller>
+      <div className="mt-3">
+        <WideIndicator activeIndex={activeIndex} itemCount={popularArticles.length} onSelect={handleIndicatorSelect} />
+      </div>
+    </section>
+  );
+}
+
+function BrandStorySection() {
+  const [favoriteStories, setFavoriteStories] = useState(() => brandStories.map(() => true));
+
+  return (
+    <section>
+      <div className="px-side">
+        <SectionHead title="브랜드 스토리" />
+      </div>
+      <HorizontalScroller className="mt-[30px]" itemCount={brandStories.length}>
+        <div className="flex w-max gap-2.5 px-side">
+          {brandStories.map((story, index) => (
+            <article
+              className={`flex h-[336px] w-[262px] shrink-0 snap-start flex-col gap-4 overflow-hidden rounded-card border-[0.5px] border-[#BEBEBE] bg-off-white px-4 ${
+                story.variant === "short" ? "py-6" : "py-4"
+              }`}
+              key={story.title}
+            >
+              <img
+                alt={`${story.title} 향수`}
+                className={`${story.variant === "short" ? "h-[190px]" : "h-[206px]"} w-full shrink-0 rounded-card object-cover`}
+                src={story.image}
+              />
+              <div className="flex w-full shrink-0 flex-col gap-2.5">
+                <div className="flex h-[15px] w-full flex-col gap-1.5">
+                  <h3 className="w-[230px] truncate text-base font-semibold leading-[normal] tracking-[-0.02em]">{story.title}</h3>
+                </div>
+                <p className="w-full truncate text-sm font-medium leading-[normal] tracking-[-0.02em]">{story.description}</p>
+              </div>
+              <div className="flex w-full shrink-0 items-start justify-between">
+                <MoreLabel href={story.href} />
+                <HeartButton
+                  aria-label={`${story.title} ${favoriteStories[index] ? "찜 해제" : "찜하기"}`}
+                  className="size-6"
+                  isSelected={favoriteStories[index]}
+                  onClick={() =>
+                    setFavoriteStories((currentFavorites) =>
+                      currentFavorites.map((isFavorite, currentIndex) => (currentIndex === index ? !isFavorite : isFavorite)),
+                    )
+                  }
+                />
+              </div>
+            </article>
+          ))}
+        </div>
+      </HorizontalScroller>
+    </section>
+  );
+}
+
+function ExploreSection() {
+  return (
+    <section className="flex w-full flex-col items-center">
+      <div className="w-[calc(100%_-_40px)] max-w-[390px]">
+        <SectionHead moreHref="/magazine/more-view" showMore title="더 둘러보기" />
+      </div>
+      <div className="mt-[30px] flex w-[calc(100%_-_40px)] max-w-[390px] items-center gap-1.5 overflow-x-auto scrollbar-hidden">
         {categories.map((category, index) => (
           <span
             className={`shrink-0 rounded-full px-3.5 py-2 text-xs font-medium leading-[normal] tracking-[-0.02em] ${
@@ -319,95 +456,11 @@ function PopularSection() {
           </span>
         ))}
       </div>
-      <HorizontalScroller className="mt-4" itemCount={popularArticles.length}>
-        <div className="flex w-max gap-2.5 px-side">
-          {popularArticles.map((article) => (
-            <article
-              className="flex h-[336px] w-[262px] shrink-0 snap-start flex-col gap-4 overflow-hidden rounded-card border-[0.5px] border-[#BEBEBE] bg-off-white px-4 py-6"
-              key={article.title}
-            >
-              <img alt={`${article.title} 이미지`} className="h-[190px] w-[230px] shrink-0 rounded-card object-cover" src={article.image} />
-              <div className="flex h-[42px] w-full shrink-0 flex-col gap-1.5">
-                <h3 className="w-full truncate text-base font-semibold leading-[normal] tracking-[-0.02em]">{article.title}</h3>
-                <p className="w-full truncate text-sm font-medium leading-[normal] tracking-[-0.02em]">{article.description}</p>
-              </div>
-              <div className="flex h-6 w-full shrink-0 items-start justify-between">
-                <MoreLabel href={article.href} />
-                <button aria-label={`${article.title} 찜하기`} className="size-6" type="button">
-                  <Heart aria-hidden="true" className="size-full fill-point-orange text-point-orange" strokeWidth={1.5} />
-                </button>
-              </div>
-            </article>
-          ))}
-        </div>
-      </HorizontalScroller>
-    </section>
-  );
-}
-
-function BrandStorySection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const scrollerRef = useRef<HorizontalScrollerHandle>(null);
-
-  const handleIndicatorSelect = (index: number) => {
-    setActiveIndex(index);
-    scrollerRef.current?.scrollToIndex(index);
-  };
-
-  return (
-    <section>
-      <div className="px-side">
-        <SectionHead title="브랜드 스토리" />
-      </div>
       <HorizontalScroller
-        className="mx-auto mt-[30px] w-[calc(100%_-_40px)] max-w-[390px]"
-        itemCount={brandStories.length}
-        onActiveIndexChange={setActiveIndex}
-        ref={scrollerRef}
-      >
-        <div className="flex w-max gap-2.5">
-          {brandStories.map((story) => (
-            <article className="relative h-[520px] w-[368px] shrink-0 snap-start overflow-hidden rounded-magazine" key={story.title}>
-              <img alt={`${story.title} 향수`} className="size-full object-cover" src={story.image} />
-              <div className="absolute bottom-2.5 left-2.5 flex w-[348px] flex-col gap-[30px] rounded-[20px] bg-off-black-70 p-4 text-off-white backdrop-blur-[4px]">
-                <div className="flex w-[255px] flex-col gap-1.5">
-                  <h3 className="font-cormorant text-xl font-semibold leading-[normal] tracking-[-0.02em]">{story.title}</h3>
-                  <p className="text-xs font-medium leading-[normal] tracking-[-0.02em]">{story.description}</p>
-                </div>
-                <MoreLabel color="white" href={story.href} />
-              </div>
-            </article>
-          ))}
-        </div>
-      </HorizontalScroller>
-      <div className="mt-[30px]">
-        <Indicator activeIndex={activeIndex} itemCount={brandStories.length} onSelect={handleIndicatorSelect} />
-      </div>
-    </section>
-  );
-}
-
-function ExploreSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const scrollerRef = useRef<HorizontalScrollerHandle>(null);
-
-  const handleIndicatorSelect = (index: number) => {
-    setActiveIndex(index);
-    scrollerRef.current?.scrollToIndex(index);
-  };
-
-  return (
-    <section className="flex w-full flex-col items-center gap-[30px]">
-      <div className="w-[calc(100%_-_40px)] max-w-[390px]">
-        <SectionHead moreHref="/magazine/more-view" showMore title="더 둘러보기" />
-      </div>
-      <HorizontalScroller
-        className="w-[calc(100%_-_32px)] max-w-[398px]"
+        className="mt-4 w-[calc(100%_-_40px)] max-w-[390px]"
         itemCount={exploreArticles.length}
-        onActiveIndexChange={setActiveIndex}
-        ref={scrollerRef}
       >
-        <div className="flex w-max gap-3">
+        <div className="flex w-max gap-4">
           {exploreArticles.map((article) => (
             <article className="relative h-[289px] w-[262px] shrink-0 snap-start" key={article.title}>
               <div className="absolute inset-x-0 top-0 h-72 overflow-hidden rounded-card border-[0.8px] border-light-grey">
@@ -445,7 +498,6 @@ function ExploreSection() {
           ))}
         </div>
       </HorizontalScroller>
-      <Indicator activeIndex={activeIndex} itemCount={exploreArticles.length} onSelect={handleIndicatorSelect} />
     </section>
   );
 }
@@ -455,15 +507,15 @@ export default function MagazinePage() {
     <main className="min-h-dvh bg-off-white text-off-black">
       <div className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <MagazineHeader />
-        <div className="pt-[118px] pb-[160px]">
+        <div className="pt-[183px] pb-[160px]">
           <TrendSection />
           <div className="mt-16">
-            <PopularSection />
-          </div>
-          <div className="mt-[85px]">
             <BrandStorySection />
           </div>
-          <div className="mt-16">
+          <div className="mt-[131px]">
+            <PopularSection />
+          </div>
+          <div className="mt-[67px]">
             <ExploreSection />
           </div>
         </div>

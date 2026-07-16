@@ -56,7 +56,7 @@ export function RaffleDetailPage() {
     <main className="min-h-dvh bg-off-white text-off-black" data-node-id="1034:13631">
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <RaffleDetailHeader />
-        <div className="flex flex-col items-center px-5 pb-[124px] pt-[119px]">
+        <div className="flex flex-col items-center px-5 pb-[124px] pt-[calc(var(--app-header-height)+65px)]">
           <section className="flex w-full max-w-[390px] flex-col gap-3">
             <div className="h-[338px] w-full overflow-hidden">
               <img alt="" className="h-full w-full object-cover" src={assets.hero} />

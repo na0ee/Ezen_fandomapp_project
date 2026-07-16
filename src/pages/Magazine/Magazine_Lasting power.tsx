@@ -9,7 +9,6 @@ import tipImageTwo from "../../assets/magazine/longevity/tip-2.png";
 import tipImageThree from "../../assets/magazine/longevity/tip-3.png";
 import tipImageFour from "../../assets/magazine/longevity/tip-4.png";
 import tipImageFive from "../../assets/magazine/longevity/tip-5.png";
-import { BottomNavigation } from "../../components/common/BottomNavigation";
 import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
 
 const tips = [
@@ -63,7 +62,7 @@ const tips = [
 
 function MagazineDetailHeader() {
   return (
-    <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
+    <header className="fixed top-[65px] left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
       <div className="flex items-center">
         <Link aria-label="매거진으로 돌아가기" className="flex size-[21px] items-center justify-center" to="/magazine">
           <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.4} />
@@ -191,9 +190,10 @@ export default function MagazineLastingPower() {
   return (
     <main className="min-h-dvh overflow-x-hidden bg-off-white text-off-black">
       <div className="mx-auto min-h-dvh w-full max-w-[430px] bg-off-white">
+        <div aria-hidden="true" className="fixed top-0 left-1/2 z-50 h-[65px] w-full max-w-[430px] -translate-x-1/2 bg-off-white" />
         <MagazineDetailHeader />
 
-        <div className="flex flex-col items-start gap-[30px] px-[22px] pt-[119px] pb-[112px]">
+        <div className="flex flex-col items-start gap-[30px] px-[22px] pt-[143px] pb-[124px]">
           <section className="flex w-full flex-col items-start gap-[7px]">
             <span className="rounded-chip bg-off-black px-3.5 py-[5px] text-xs leading-[normal] tracking-[-0.02em] text-off-white">
               향수상식
@@ -222,8 +222,6 @@ export default function MagazineLastingPower() {
             </SmoothScroller>
           </div>
         </div>
-
-        <BottomNavigation />
       </div>
     </main>
   );

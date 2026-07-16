@@ -1,6 +1,4 @@
-import { ChevronLeft, ChevronRight, Search } from "lucide-react";
-import type { PointerEvent, UIEvent } from "react";
-import { useRef, useState } from "react";
+import { ChevronLeft, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import headerBell from "../../assets/community/figma/header-bell.svg";
 import diptyqueHeroImage from "../../assets/magazine/diptyque/hero.png";
@@ -9,34 +7,11 @@ import memoryRightImage from "../../assets/magazine/diptyque/memory-right.png";
 import signatureImage from "../../assets/magazine/diptyque/signature.png";
 import storyLeftImage from "../../assets/magazine/diptyque/story-left.png";
 import storyRightImage from "../../assets/magazine/diptyque/story-right.png";
-import moreCardArrow from "../../assets/magazine/detail/more-card-arrow.svg";
-import moreCardDiptyqueImage from "../../assets/magazine/detail/more-card-diptyque.jpg";
-import moreCardSeasonalImage from "../../assets/magazine/detail/more-card.png";
-import { BottomNavigation } from "../../components/common/BottomNavigation";
 import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
-
-const moreArticles = [
-  {
-    date: "2026.07.13",
-    description: "봄, 여름, 가을 , 겨울\n어떤 향이 어울릴까?",
-    href: "/magazine/seasonal-guide",
-    image: moreCardSeasonalImage,
-    imageClassName: "inset-0 size-full object-cover",
-    title: "계절별 향수 선택 가이드",
-  },
-  {
-    date: "2026.05.10",
-    description: "예술과 여행이\n향으로 만나다",
-    href: "/magazine/diptyque",
-    image: moreCardDiptyqueImage,
-    imageClassName: "top-[-18.76%] left-[0.05%] h-[161.73%] w-full max-w-none",
-    title: "DIPTYQUE",
-  },
-];
 
 function MagazineDetailHeader() {
   return (
-    <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
+    <header className="fixed top-[65px] left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
       <div className="flex items-center">
         <Link aria-label="매거진으로 돌아가기" className="flex size-[21px] items-center justify-center" to="/magazine">
           <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.4} />
@@ -113,174 +88,16 @@ function ArticleBody() {
   );
 }
 
-function MoreSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const scrollerRef = useRef<HTMLDivElement>(null);
-  const dragState = useRef({ isDragging: false, startX: 0, scrollLeft: 0, startIndex: 0 });
-
-  const getIndexFromScroll = (scroller: HTMLDivElement) => {
-    const maxScrollLeft = scroller.scrollWidth - scroller.clientWidth;
-    if (maxScrollLeft <= 0) return 0;
-
-    return Math.round((scroller.scrollLeft / maxScrollLeft) * (moreArticles.length - 1));
-  };
-
-  const handleScroll = (event: UIEvent<HTMLDivElement>) => {
-    setActiveIndex(getIndexFromScroll(event.currentTarget));
-  };
-
-  const scrollToIndex = (index: number) => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    const safeIndex = Math.min(moreArticles.length - 1, Math.max(0, index));
-    const maxScrollLeft = scroller.scrollWidth - scroller.clientWidth;
-    scroller.scrollTo({
-      left: (maxScrollLeft * safeIndex) / (moreArticles.length - 1),
-      behavior: "smooth",
-    });
-    setActiveIndex(safeIndex);
-  };
-
-  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    const scroller = scrollerRef.current;
-    if (event.pointerType !== "mouse" || event.button !== 0 || !scroller) return;
-    if (event.target instanceof Element && event.target.closest("a, button")) return;
-
-    dragState.current = {
-      isDragging: true,
-      startX: event.clientX,
-      scrollLeft: scroller.scrollLeft,
-      startIndex: getIndexFromScroll(scroller),
-    };
-    event.preventDefault();
-    scroller.setPointerCapture(event.pointerId);
-    scroller.classList.add("is-dragging");
-  };
-
-  const stopDragging = (event: PointerEvent<HTMLDivElement>) => {
-    const scroller = scrollerRef.current;
-    if (!dragState.current.isDragging || !scroller) return;
-
-    dragState.current.isDragging = false;
-    scroller.classList.remove("is-dragging");
-    if (scroller.hasPointerCapture(event.pointerId)) {
-      scroller.releasePointerCapture(event.pointerId);
-    }
-
-    const dragDistance = event.clientX - dragState.current.startX;
-    let nextIndex = getIndexFromScroll(scroller);
-
-    if (Math.abs(dragDistance) >= 18) {
-      nextIndex = dragState.current.startIndex + (dragDistance < 0 ? 1 : -1);
-    }
-
-    scrollToIndex(nextIndex);
-  };
-
-  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    const scroller = scrollerRef.current;
-    if (!dragState.current.isDragging || !scroller) return;
-    if (event.buttons !== 1) return stopDragging(event);
-
-    event.preventDefault();
-    scroller.scrollLeft = dragState.current.scrollLeft - (event.clientX - dragState.current.startX) * 1.2;
-  };
-
-  return (
-    <section className="flex w-full flex-col items-center gap-[30px]">
-      <div className="flex h-[26px] w-[390px] items-start justify-between overflow-hidden">
-        <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">더 둘러보기</h2>
-        <Link className="flex items-center gap-1.5 text-sm font-medium leading-[normal] tracking-[-0.02em] text-grey" to="/magazine">
-          전체보기
-          <ChevronRight aria-hidden="true" size={18} strokeWidth={1.5} />
-        </Link>
-      </div>
-
-      <div
-        className="horizontal-scroller scrollbar-hidden w-[calc(100%_-_32px)] max-w-[398px] snap-x snap-proximity overflow-x-auto overscroll-x-contain touch-pan-x"
-        onDragStart={(event) => event.preventDefault()}
-        onLostPointerCapture={() => {
-          dragState.current.isDragging = false;
-          scrollerRef.current?.classList.remove("is-dragging");
-        }}
-        onPointerCancel={stopDragging}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={stopDragging}
-        onScroll={handleScroll}
-        ref={scrollerRef}
-      >
-        <div className="flex w-max gap-3">
-          {moreArticles.map((article) => (
-            <article className="relative h-[289px] w-[262px] shrink-0 snap-start" key={article.title}>
-              <div className="absolute inset-x-0 top-0 h-72 overflow-hidden rounded-card border-[0.8px] border-light-grey">
-                <img alt={`${article.title} 이미지`} className={`absolute ${article.imageClassName}`} src={article.image} />
-              </div>
-              <div className="absolute inset-x-0 top-px h-72 overflow-hidden rounded-card bg-gradient-to-b from-transparent to-black/80 text-off-white">
-                <p className="absolute top-8 left-3.5 font-cormorant text-xs font-medium leading-[normal] tracking-[-0.02em]">
-                  Scent Match
-                </p>
-                <div className="absolute top-44 left-[22px] flex flex-col gap-[7px]">
-                  <h3 className="w-[167px] truncate text-base font-semibold leading-[normal] tracking-[-0.02em]">{article.title}</h3>
-                  <p className="h-[30px] w-[127px] whitespace-pre-line text-xs font-medium leading-[normal] tracking-[-0.02em]">
-                    {article.description}
-                  </p>
-                </div>
-                <p className="absolute top-[254px] left-[23px] h-3.5 w-[60px] text-xs leading-[normal] tracking-[-0.02em]">
-                  {article.date}
-                </p>
-                {article.href ? (
-                  <Link
-                    aria-label={`${article.title} 읽기`}
-                    className="absolute top-[239px] left-[216px] z-10 flex size-11 items-center justify-center"
-                    onPointerDown={(event) => event.stopPropagation()}
-                    to={article.href}
-                  >
-                    <img alt="" aria-hidden="true" className="size-6" src={moreCardArrow} />
-                  </Link>
-                ) : (
-                  <img alt="" aria-hidden="true" className="absolute top-[249px] left-[226px] size-6" src={moreCardArrow} />
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-
-      <div className="relative h-0.5 w-[120px] bg-grey">
-        <div
-          className="absolute top-0 left-0 h-0.5 w-10 bg-off-black transition-transform duration-200"
-          style={{ transform: `translateX(${(activeIndex / (moreArticles.length - 1)) * 80}px)` }}
-        />
-        <div className="absolute -top-2 left-0 grid h-4 w-full" style={{ gridTemplateColumns: `repeat(${moreArticles.length}, 1fr)` }}>
-          {moreArticles.map((article, index) => (
-            <button
-              aria-label={`${article.title} 보기`}
-              aria-pressed={activeIndex === index}
-              className="cursor-pointer"
-              key={article.title}
-              onClick={() => scrollToIndex(index)}
-              type="button"
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export default function MagazineDiptyque() {
   return (
     <main className="min-h-dvh overflow-x-hidden bg-off-white text-off-black">
       <div className="mx-auto min-h-dvh w-full max-w-[430px] bg-off-white">
+        <div aria-hidden="true" className="fixed top-0 left-1/2 z-50 h-[65px] w-full max-w-[430px] -translate-x-1/2 bg-off-white" />
         <MagazineDetailHeader />
-        <div className="flex flex-col gap-16 pt-[119px] pb-[140px]">
+        <div className="flex flex-col gap-16 pt-[119px] pb-[178px]">
           <HeroSection />
           <ArticleBody />
-          <MoreSection />
         </div>
-        <BottomNavigation />
       </div>
     </main>
   );

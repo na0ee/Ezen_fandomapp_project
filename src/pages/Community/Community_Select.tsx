@@ -133,7 +133,7 @@ export default function CommunitySelect() {
           </div>
         </header>
 
-        <div className="flex flex-1 flex-col gap-[30px] px-5 pt-[78px] pb-[132px]">
+        <div className="flex flex-1 flex-col gap-[30px] px-5 pt-[calc(var(--app-header-height)+24px)] pb-[132px]">
           <label className="flex w-full items-center rounded-full border-[0.6px] border-light-grey bg-off-white px-[14px] py-3">
             <div className="flex min-w-0 flex-1 items-center gap-4">
               <Search className="size-[18px] shrink-0 text-grey" strokeWidth={1.6} />

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Bookmark, ChevronRight, Heart, MessageCircle, MoreHorizontal, Plus } from "lucide-react";
+import { Bookmark, ChevronRight, MessageCircle, MoreHorizontal, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PageLayout } from "../../components/common/PageLayout";
+import { HeartButton } from "../../components/ui/HeartButton";
 import avatarHaesu from "../../assets/community/figma/avatar-haesu.png";
 import avatarYeeun from "../../assets/community/figma/avatar-yeeun.png";
 import carouselFour from "../../assets/community/figma/carousel-four.png";
@@ -91,6 +92,7 @@ function HotReviews() {
 
 function Post({ second = false }: { second?: boolean }) {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
   const title = second ? "하얀 종이에 스며든 포근한 머스크 향" : "햇살 좋은 날의 베이지 룩";
   const tags = second ? ["# 머스크향", "# 살냄새향수", "# 보송한향", "# 은은한향"] : ["# 데일리향수", "# 베이지룩", "# 플로럴머스크", "# 지속력좋아요"];
   return <article className="px-5" data-node-id={second ? "891:4556" : "891:4493"}>
@@ -126,7 +128,7 @@ function Post({ second = false }: { second?: boolean }) {
     <div className="mt-[30px] flex h-[70px] items-center justify-between overflow-hidden">
       <div className="flex gap-3">{(second ? tagImagesTwo : tagImagesOne).map(({ src, className }) => <div className="flex h-[70px] w-[70px] items-center justify-center rounded-[10px] border border-light-grey bg-white" key={src}><img className={`${className} object-contain`} src={src} alt="향수" /></div>)}</div><ChevronRight size={18} className="text-grey" />
     </div>
-    <div className="mt-[30px] flex items-center justify-between"><div className="flex gap-4 text-sm"><span className="flex items-center gap-1"><Heart size={24} />42</span><span className="flex items-center gap-1"><MessageCircle size={24} />8</span></div><Bookmark size={24} /></div>
+    <div className="mt-[30px] flex items-center justify-between"><div className="flex gap-4 text-sm"><span className="flex items-center gap-1"><HeartButton aria-label={`${title} 좋아요 ${isLiked ? "취소" : "누르기"}`} className="flex size-6 items-center justify-center" isSelected={isLiked} onClick={() => setIsLiked((liked) => !liked)} />42</span><span className="flex items-center gap-1"><MessageCircle size={24} />8</span></div><Bookmark size={24} /></div>
   </article>;
 }
 

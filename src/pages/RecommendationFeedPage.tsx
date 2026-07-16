@@ -82,7 +82,7 @@ function RecommendationHeader() {
 
 function TopTabs({ activeTab, onChange }: { activeTab: MainTab; onChange: (tab: MainTab) => void }) {
   return (
-    <div className="sticky top-[54px] z-40 -mx-5 mb-5 flex h-[64px] items-start gap-2 bg-off-white px-5 pt-[34px]">
+    <div className="sticky top-[var(--app-header-height)] z-40 -mx-5 mb-5 flex h-[64px] items-start gap-2 bg-off-white px-5 pt-[34px]">
       {[
         ["mine", "내 피드"],
         ["recommend", "추천하기 피드"],
@@ -315,7 +315,7 @@ export function RecommendationFeedPage() {
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <RecommendationHeader />
 
-        <section className="px-5 pb-[132px] pt-[54px]">
+        <section className="px-5 pb-[132px] pt-[var(--app-header-height)]">
           <TopTabs activeTab={activeTab} onChange={setActiveTab} />
           {activeTab === "mine" ? <MyFeedContent /> : <RecommendFeedGrid />}
         </section>

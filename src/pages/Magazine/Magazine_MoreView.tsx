@@ -70,7 +70,7 @@ type Category = (typeof categories)[number];
 
 function MagazineHeader() {
   return (
-    <header className="sticky top-0 z-50 flex h-[54px] w-full items-center justify-between bg-off-white px-side">
+    <header className="fixed top-[65px] left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
       <div className="flex items-center">
         <Link aria-label="매거진으로 돌아가기" className="flex size-[21px] items-center justify-center" to="/magazine">
           <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.4} />
@@ -120,6 +120,7 @@ function MagazineCard({
         className="absolute top-[222px] left-[157px] z-20 size-6 cursor-pointer"
         isSelected={isFavorite}
         onClick={onToggleFavorite}
+        tone="light"
       />
     </article>
   );
@@ -150,9 +151,9 @@ export default function MagazineMoreView() {
   return (
     <main className="min-h-dvh overflow-x-hidden bg-off-white text-off-black">
       <div className="mx-auto min-h-dvh w-full max-w-[430px] bg-off-white">
-        <div aria-hidden="true" className="h-[65px]" />
+        <div aria-hidden="true" className="fixed top-0 left-1/2 z-50 h-[65px] w-full max-w-[430px] -translate-x-1/2 bg-off-white" />
         <MagazineHeader />
-        <section className="flex w-full flex-col items-center gap-[30px] pt-[15px] pb-[140px]">
+        <section className="flex w-full flex-col items-center gap-[30px] pt-[134px] pb-[170px]">
           <h2 className="h-[26px] w-[390px] text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">{activeCategory}</h2>
 
           <div className="w-[388px]">
@@ -176,7 +177,7 @@ export default function MagazineMoreView() {
               })}
             </div>
 
-            <div className="mt-4 grid grid-cols-2 items-start gap-x-2 gap-y-4">
+            <div className="mt-4 grid grid-cols-2 items-start gap-x-2 gap-y-[9px]">
               {filteredArticles.map((article) => (
                 <MagazineCard
                   article={article}

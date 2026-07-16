@@ -114,7 +114,7 @@ export function ChallengeListPage() {
     <main className="min-h-dvh bg-off-white text-off-black">
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <ChallengeHeader />
-        <section className="flex flex-col items-center pb-[132px] pt-[78px]">
+        <section className="flex flex-col items-center pb-[132px] pt-[calc(var(--app-header-height)+24px)]">
           <div className="flex w-[390px] flex-col gap-[14px]">
             {challengeItems.map((item) => (
               <ChallengeListCard item={item} key={item.title} />

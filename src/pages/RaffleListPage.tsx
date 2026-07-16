@@ -179,7 +179,7 @@ export function RaffleListPage() {
     <main className="min-h-dvh bg-off-white text-off-black" data-node-id="1034:13606">
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <RaffleHeader />
-        <section className="flex justify-center px-5 pb-[132px] pt-[78px]">
+        <section className="flex justify-center px-5 pb-[132px] pt-[calc(var(--app-header-height)+24px)]">
           <div className="mx-auto flex w-full max-w-[390px] flex-col gap-4">
             <div className="flex h-[30px] w-full items-start gap-2 overflow-hidden">
               {categoryTabs.map((tab) => {
