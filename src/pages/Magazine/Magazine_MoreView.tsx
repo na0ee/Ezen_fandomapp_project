@@ -70,7 +70,7 @@ type Category = (typeof categories)[number];
 
 function MagazineHeader() {
   return (
-    <header className="fixed top-[65px] left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
+    <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side pt-[var(--app-safe-top)]">
       <div className="flex items-center">
         <Link aria-label="매거진으로 돌아가기" className="flex size-[21px] items-center justify-center" to="/magazine">
           <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.4} />
@@ -151,9 +151,8 @@ export default function MagazineMoreView() {
   return (
     <main className="min-h-dvh overflow-x-hidden bg-off-white text-off-black">
       <div className="mx-auto min-h-dvh w-full max-w-[430px] bg-off-white">
-        <div aria-hidden="true" className="fixed top-0 left-1/2 z-50 h-[65px] w-full max-w-[430px] -translate-x-1/2 bg-off-white" />
         <MagazineHeader />
-        <section className="flex w-full flex-col items-center gap-[30px] pt-[134px] pb-[170px]">
+        <section className="flex w-full flex-col items-center gap-[30px] pt-[calc(var(--app-header-height)+15px)] pb-[170px]">
           <h2 className="h-[26px] w-[390px] text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">{activeCategory}</h2>
 
           <div className="w-[388px]">
