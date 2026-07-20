@@ -48,9 +48,9 @@ export default function Category() {
   const [query, setQuery] = useState("");
 
   return (
-    <main className="mx-auto flex h-[790px] w-full max-w-[430px] flex-col items-center justify-between overflow-x-hidden bg-off-white pb-6 text-off-black">
+    <main className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col items-center justify-between overflow-x-hidden bg-off-white pt-[calc(var(--app-header-height)+42px)] pb-6 text-off-black">
       <div className="flex w-full flex-col gap-10">
-        <div className="flex w-full flex-col gap-2.5">
+        <div className="fixed top-0 left-1/2 z-50 flex w-full max-w-[430px] -translate-x-1/2 flex-col gap-2.5 bg-off-white pt-[var(--app-safe-top)]">
           <div className="flex w-full items-center gap-3 px-side py-[13px]">
             <button aria-label="이전 페이지" className="size-6 shrink-0" onClick={() => navigate(-1)} type="button">
               <ChevronLeft aria-hidden="true" className="size-full" strokeWidth={1.6} />

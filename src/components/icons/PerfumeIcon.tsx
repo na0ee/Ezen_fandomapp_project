@@ -6,11 +6,11 @@ type PerfumeIconProps = {
 
 export function PerfumeIcon({ className = "" }: PerfumeIconProps) {
   return (
-    <span className={`relative block size-7 shrink-0 overflow-hidden ${className}`}>
+    <span className={`flex size-7 shrink-0 items-center justify-center overflow-hidden ${className}`}>
       <img
         alt=""
         aria-hidden="true"
-        className="absolute inset-[12.5%] h-[75%] w-[75%]"
+        className="size-6 max-w-none"
         src={perfumeIcon}
       />
     </span>
