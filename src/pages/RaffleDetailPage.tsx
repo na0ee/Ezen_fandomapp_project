@@ -20,6 +20,41 @@ const detailRows = [
   ["당첨인원", "10명"],
 ];
 
+const raffleDetails = {
+  "lazy-before-1": {
+    brand: "Maison Margiela Fragrances",
+    name: "Lazy Sunday Morning",
+    nameKo: "레이지 선데이 모닝",
+  },
+  "lazy-before-2": {
+    brand: "Maison Margiela Fragrances",
+    name: "Lazy Sunday Morning",
+    nameKo: "레이지 선데이 모닝",
+  },
+  "blackberry-1": {
+    brand: "Jo Malone London",
+    name: "Blackberry & Bay Cologne",
+    nameKo: "블랙베리 앤 베이 코롱",
+  },
+  "blackberry-2": {
+    brand: "Jo Malone London",
+    name: "Blackberry & Bay Cologne",
+    nameKo: "블랙베리 앤 베이 코롱",
+  },
+  "blackberry-3": {
+    brand: "Jo Malone London",
+    name: "Blackberry & Bay Cologne",
+    nameKo: "블랙베리 앤 베이 코롱",
+  },
+  "blackberry-4": {
+    brand: "Jo Malone London",
+    name: "Blackberry & Bay Cologne",
+    nameKo: "블랙베리 앤 베이 코롱",
+  },
+} as const;
+
+type RaffleDetailId = keyof typeof raffleDetails;
+
 function RaffleDetailHeader() {
   const navigate = useNavigate();
 
@@ -116,6 +151,10 @@ export function RaffleDetailPage() {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isCompleteOpen, setIsCompleteOpen] = useState(false);
   const isApplied = useRaffleApplied(raffleId);
+  const detail =
+    raffleId && raffleId in raffleDetails
+      ? raffleDetails[raffleId as RaffleDetailId]
+      : raffleDetails["lazy-before-1"];
 
   return (
     <main className="min-h-dvh bg-off-white text-off-black" data-node-id="1034:13631">
@@ -130,10 +169,10 @@ export function RaffleDetailPage() {
               <div className="relative flex flex-col items-center gap-8">
                 <div className="flex flex-col items-center gap-2 text-center">
                   <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.02em] text-off-black">
-                    Lazy Sunday Morning
+                    {detail.nameKo}
                   </h2>
                   <p className="text-sm font-medium leading-tight tracking-[-0.02em] text-off-black-70">
-                    Maison Margiela Fragrances
+                    {detail.brand}
                   </p>
                 </div>
                 <span className="absolute right-0 top-[55px] flex h-5 items-center justify-center rounded-badge bg-point-orange-40 px-2 text-[10px] font-semibold leading-none tracking-[-0.02em] text-point-orange">
