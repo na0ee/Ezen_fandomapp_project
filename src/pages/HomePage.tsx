@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import type { MouseEvent, UIEvent } from "react";
 import {
   ChevronRight,
@@ -148,52 +148,6 @@ const rankCards: PerfumeRankItem[] = [
 ];
 
 const tabs = ["전체", "선물", "여성", "20대", "30대", "남성"];
-
-function SectionTitle({
-  title,
-  subtitle,
-  viewAllLabel = "전체보기",
-  viewAllTo,
-}: {
-  title: string;
-  subtitle?: string;
-  viewAllLabel?: string;
-  viewAllTo?: string;
-}) {
-  const viewAllContent = (
-    <>
-      <span>{viewAllLabel}</span>
-      <ChevronRight aria-hidden="true" size={18} strokeWidth={1.6} />
-    </>
-  );
-
-  return (
-    <div className="section-title flex w-full items-start justify-between gap-4">
-      <div className="min-w-0">
-        <h2 className="font-cormorant text-[28px] font-bold leading-none tracking-[-0.02em] text-off-black">
-          {title}
-        </h2>
-        {subtitle && (
-          <p className="mt-1.5 text-base font-medium leading-none tracking-[-0.02em] text-off-black">
-            {subtitle}
-          </p>
-        )}
-      </div>
-      {viewAllTo ? (
-        <Link
-          className="flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey"
-          to={viewAllTo}
-        >
-          {viewAllContent}
-        </Link>
-      ) : (
-        <div className="flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey">
-          {viewAllContent}
-        </div>
-      )}
-    </div>
-  );
-}
 
 function SlideIndicator({ progress = 33, className = "" }: { progress?: number; className?: string }) {
   const progressStyle = { width: `${progress}%` };
@@ -407,7 +361,7 @@ function HeroSection() {
 function TodaysScentSection() {
   return (
     <section className="px-5" data-node-id={figmaNode.todaysScent}>
-      <SectionTitle title="TODAY'S Scent" viewAllLabel="찾아보기" viewAllTo="/chatbot?intent=recommend" />
+      <SectionTitle moreHref="/chatbot?intent=recommend" moreLabel="찾아보기" title="TODAY'S Scent" />
       <div className="mt-[30px] flex min-h-[258px] items-start justify-between gap-4">
         <div className="shrink-0 pt-1">
           <p className="text-xl font-bold leading-none tracking-[-0.02em] text-off-black">비 온 뒤의 숲</p>
@@ -662,8 +616,8 @@ function GiftSection() {
       <SectionTitle
         subtitle="AI챗봇과 함께 그 사람에게 꼭 맞는 향수를 찾아요"
         title="Gift"
-        viewAllLabel="찾아보기"
-        viewAllTo="/chatbot?intent=gift"
+        moreHref="/chatbot?intent=gift"
+        moreLabel="찾아보기"
       />
       <img
         alt=""
@@ -679,7 +633,7 @@ export function HomePage() {
     <main className="min-h-dvh bg-off-white" data-node-id={figmaNode.screen}>
       <div className="relative mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-off-white">
         <HomeHeader />
-        <div className="wrap flex flex-1 flex-col gap-[64px] pb-[160px]" data-node-id={figmaNode.wrap}>
+        <div className="wrap flex flex-1 flex-col gap-10 pb-[160px]" data-node-id={figmaNode.wrap}>
           <HeroSection />
           <TodaysScentSection />
           <ChallengeSection />
@@ -692,3 +646,4 @@ export function HomePage() {
     </main>
   );
 }
+

@@ -5,6 +5,7 @@ type SectionTitleProps = {
   title: string;
   subtitle?: string;
   moreHref?: string;
+  moreLabel?: string;
   showMore?: boolean;
   variant?: "english" | "detail";
 };
@@ -13,11 +14,12 @@ export function SectionTitle({
   title,
   subtitle,
   moreHref,
+  moreLabel = "전체보기",
   showMore = false,
   variant = "english",
 }: SectionTitleProps) {
   return (
-    <div className="section-title flex items-end justify-between gap-4">
+    <div className="section-title flex w-full items-center justify-between gap-4">
       <div className="flex min-w-0 flex-col gap-1.5">
         <h2
           className={
@@ -38,12 +40,12 @@ export function SectionTitle({
             className="flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey"
             to={moreHref}
           >
-            전체보기
+            {moreLabel}
             <ChevronRight aria-hidden="true" size={18} />
           </Link>
         ) : (
           <span className="flex shrink-0 items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey">
-            전체보기
+            {moreLabel}
             <ChevronRight aria-hidden="true" size={18} />
           </span>
         ))}

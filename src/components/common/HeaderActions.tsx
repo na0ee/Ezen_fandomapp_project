@@ -1,6 +1,7 @@
-import { Bell, Search } from "lucide-react";
 import { Link } from "react-router-dom";
-import { PerfumeIcon } from "../icons/PerfumeIcon";
+import headerBell from "../../assets/community/figma/header-bell.svg";
+import headerPerfume from "../../assets/community/figma/header-perfume.svg";
+import headerSearch from "../../assets/community/figma/header-search.svg";
 
 type HeaderActionsProps = {
   className?: string;
@@ -12,15 +13,20 @@ export function HeaderActions({ className = "", iconClassName = "", showSearch =
   return (
     <div className={`flex shrink-0 items-center gap-5 ${className}`}>
       {showSearch && (
-        <Link aria-label="검색" className={`flex size-7 items-center justify-center ${iconClassName}`} to="/search">
-          <Search aria-hidden="true" size={28} strokeWidth={1.5} />
+        <Link aria-label="검색" className={`size-7 ${iconClassName}`} to="/search">
+          <img alt="" aria-hidden="true" className="size-full" src={headerSearch} />
         </Link>
       )}
-      <button aria-label="알림" className={`flex size-7 items-center justify-center ${iconClassName}`} type="button">
-        <Bell aria-hidden="true" size={28} strokeWidth={1.5} />
+      <button aria-label="알림" className={`size-7 ${iconClassName}`} type="button">
+        <img alt="" aria-hidden="true" className="size-full" src={headerBell} />
       </button>
-      <Link aria-label="향수 카테고리" className={`flex size-7 items-center justify-center ${iconClassName}`} to="/search?tab=전체">
-        <PerfumeIcon />
+      <Link aria-label="향수 카테고리" className={`relative size-7 overflow-hidden ${iconClassName}`} to="/category">
+        <img
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-[12.5%] h-3/4 w-3/4 max-w-none"
+          src={headerPerfume}
+        />
       </Link>
     </div>
   );
