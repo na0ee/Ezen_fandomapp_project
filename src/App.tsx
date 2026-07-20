@@ -30,6 +30,9 @@ import { ChallengeListPage } from "./pages/ChallengeListPage";
 import { ChatbotPage } from "./pages/Chatbot";
 import { RaffleListPage } from "./pages/RaffleListPage";
 import { RaffleDetailPage } from "./pages/RaffleDetailPage";
+import Onboarding2 from "./pages/Onboarding/Onboarding_2";
+import Onboarding3 from "./pages/Onboarding/Onboarding_3";
+import { hasCompletedOnboarding } from "./pages/Onboarding/onboardingStorage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -48,12 +51,16 @@ function ScrollToTop() {
   return null;
 }
 
+function HomeEntry() {
+  return hasCompletedOnboarding() ? <HomePage /> : <Navigate to="/onboarding/2" replace />;
+}
+
 export default function App() {
   return (
     <>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomeEntry />} />
         <Route path="/event" element={<EventPage />} />
         <Route path="/event/challenges" element={<ChallengeListPage />} />
         <Route path="/event/recommend-feed" element={<RecommendationFeedPage />} />
@@ -74,6 +81,8 @@ export default function App() {
         <Route path="/magazine/perfume-longevity" element={<MagazineLastingPower />} />
         <Route path="/magazine/seasonal-guide" element={<MagazineSeasonal />} />
         <Route path="/question" element={<QuestionPage />} />
+        <Route path="/onboarding/2" element={<Onboarding2 />} />
+        <Route path="/onboarding/3" element={<Onboarding3 />} />
         <Route path="/chatbot" element={<ChatbotPage />} />
         <Route path="/result" element={<ResultPage />} />
         <Route path="/mypage" element={<MyPage />} />
