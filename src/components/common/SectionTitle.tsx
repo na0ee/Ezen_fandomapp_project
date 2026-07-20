@@ -19,7 +19,7 @@ export function SectionTitle({
   variant = "english",
 }: SectionTitleProps) {
   return (
-    <div className="section-title flex items-end justify-between gap-4">
+    <div className="section-title flex w-full items-center justify-between gap-4">
       <div className="flex min-w-0 flex-col gap-1.5">
         <h2
           className={
