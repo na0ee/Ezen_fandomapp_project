@@ -18,7 +18,7 @@ import travelImage from "../../assets/onboarding/travel.png";
 import wifi from "../../assets/onboarding/wifi.svg";
 import workSchoolImage from "../../assets/onboarding/work-school.png";
 import { CtaButton } from "../../components/ui/CtaButton";
-import { completeOnboarding } from "./onboardingStorage";
+import { completeOnboarding, getOnboardingSelections, saveOnboardingSelection } from "./onboardingStorage";
 
 type Moment = {
   id: string;
@@ -97,20 +97,31 @@ function StatusBar() {
 
 export default function Onboarding2() {
   const navigate = useNavigate();
-  const [selectedMoments, setSelectedMoments] = useState(() => new Set(["home"]));
+  const [primaryMoment, setPrimaryMoment] = useState(() => getOnboardingSelections().moment ?? "home");
+  const [selectedMoments, setSelectedMoments] = useState(
+    () => new Set([getOnboardingSelections().moment ?? "home"]),
+  );
 
   const toggleMoment = (id: string) => {
-    setSelectedMoments((current) => {
-      const next = new Set(current);
+    const next = new Set(selectedMoments);
 
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
+    if (next.has(id)) {
+      next.delete(id);
+
+      if (primaryMoment === id) {
+        setPrimaryMoment(next.values().next().value ?? "home");
       }
+    } else {
+      next.add(id);
+      setPrimaryMoment(id);
+    }
 
-      return next;
-    });
+    setSelectedMoments(next);
+  };
+
+  const goToNextStep = () => {
+    saveOnboardingSelection("moment", primaryMoment);
+    navigate("/onboarding/3");
   };
 
   const skipOnboarding = () => {
@@ -122,10 +133,6 @@ export default function Onboarding2() {
     <main className="min-h-dvh bg-off-white">
       <div className="relative mx-auto min-h-[932px] w-full max-w-[430px] overflow-hidden bg-off-white">
         <StatusBar />
-
-        <div className="absolute left-[15px] right-[15px] top-[75px] h-0.5 bg-light-grey">
-          <div className="h-full w-1/5 bg-point-orange" />
-        </div>
 
         <section className="absolute inset-x-0 top-[77px] flex flex-col items-center px-[19px] pb-10 pt-[75px]">
           <header className="flex flex-col items-center gap-2.5 text-center">
@@ -185,7 +192,7 @@ export default function Onboarding2() {
         </section>
 
         <div className="absolute bottom-5 left-5 right-5 flex flex-col items-center gap-5">
-          <CtaButton className="h-[51px] shrink-0" label="다음" onClick={() => navigate("/onboarding/3")} />
+          <CtaButton className="h-[51px] shrink-0" label="다음" onClick={goToNextStep} />
           <button
             className="flex h-[18px] items-center gap-1 text-center font-sans text-xs font-medium leading-[1.5] tracking-[-0.011em] text-off-black"
             onClick={skipOnboarding}
