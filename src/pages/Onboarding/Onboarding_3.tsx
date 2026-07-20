@@ -23,7 +23,7 @@ import woodyImage from "../../assets/onboarding/q3-woody.png";
 import woodyBaseImage from "../../assets/onboarding/q3-woody-base.png";
 import wifi from "../../assets/onboarding/wifi.svg";
 import { CtaButton } from "../../components/ui/CtaButton";
-import { completeOnboarding } from "./onboardingStorage";
+import { completeOnboarding, getOnboardingSelections, saveOnboardingSelection } from "./onboardingStorage";
 
 type Scent = {
   id: string;
@@ -149,23 +149,34 @@ function StatusBar() {
 
 export default function Onboarding3() {
   const navigate = useNavigate();
-  const [selectedScents, setSelectedScents] = useState(() => new Set(["oriental"]));
+  const [primaryScent, setPrimaryScent] = useState(() => getOnboardingSelections().scent ?? "oriental");
+  const [selectedScents, setSelectedScents] = useState(
+    () => new Set([getOnboardingSelections().scent ?? "oriental"]),
+  );
 
   const toggleScent = (id: string) => {
-    setSelectedScents((current) => {
-      const next = new Set(current);
+    const next = new Set(selectedScents);
 
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
+    if (next.has(id)) {
+      next.delete(id);
+
+      if (primaryScent === id) {
+        setPrimaryScent(next.values().next().value ?? "oriental");
       }
+    } else {
+      next.add(id);
+      setPrimaryScent(id);
+    }
 
-      return next;
-    });
+    setSelectedScents(next);
   };
 
-  const finishOnboarding = () => {
+  const goToNextStep = () => {
+    saveOnboardingSelection("scent", primaryScent);
+    navigate("/onboarding/4");
+  };
+
+  const skipOnboarding = () => {
     completeOnboarding();
     navigate("/", { replace: true });
   };
@@ -174,10 +185,6 @@ export default function Onboarding3() {
     <main className="min-h-dvh bg-off-white">
       <div className="relative mx-auto min-h-[932px] w-full max-w-[430px] overflow-hidden bg-off-white">
         <StatusBar />
-
-        <div className="absolute left-[15px] right-[15px] top-[75px] h-0.5 bg-light-grey">
-          <div className="h-full w-1/5 bg-off-black" />
-        </div>
 
         <section className="absolute inset-x-0 top-[77px] flex flex-col items-center px-[19px] pb-[50px] pt-[75px]">
           <header className="flex flex-col items-center gap-2.5 text-center">
@@ -226,10 +233,10 @@ export default function Onboarding3() {
         </section>
 
         <div className="absolute bottom-5 left-5 right-5 flex flex-col items-center gap-5">
-          <CtaButton className="h-[51px] shrink-0" label="다음" onClick={finishOnboarding} />
+          <CtaButton className="h-[51px] shrink-0" label="다음" onClick={goToNextStep} />
           <button
             className="flex h-[18px] items-center gap-1 text-center font-sans text-xs font-medium leading-[1.5] tracking-[-0.011em] text-off-black"
-            onClick={finishOnboarding}
+            onClick={skipOnboarding}
             type="button"
           >
             <span>건너뛰기</span>

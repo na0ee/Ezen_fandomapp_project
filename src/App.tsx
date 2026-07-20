@@ -30,8 +30,14 @@ import { ChallengeListPage } from "./pages/ChallengeListPage";
 import { ChatbotPage } from "./pages/Chatbot";
 import { RaffleListPage } from "./pages/RaffleListPage";
 import { RaffleDetailPage } from "./pages/RaffleDetailPage";
+import { OnboardingProgress } from "./components/onboarding/OnboardingProgress";
+import Onboarding1 from "./pages/Onboarding/Onboarding_1";
 import Onboarding2 from "./pages/Onboarding/Onboarding_2";
 import Onboarding3 from "./pages/Onboarding/Onboarding_3";
+import Onboarding4 from "./pages/Onboarding/Onboarding_4";
+import Onboarding5 from "./pages/Onboarding/Onboarding_5";
+import OnboardingLoading from "./pages/Onboarding/Onboarding_loading";
+import OnboardingResults from "./pages/Onboarding/Onboarding_results";
 import { hasCompletedOnboarding } from "./pages/Onboarding/onboardingStorage";
 import { NotificationPage } from "./pages/NotificationPage";
 
@@ -53,13 +59,14 @@ function ScrollToTop() {
 }
 
 function HomeEntry() {
-  return hasCompletedOnboarding() ? <HomePage /> : <Navigate to="/onboarding/2" replace />;
+  return hasCompletedOnboarding() ? <HomePage /> : <Navigate to="/onboarding/1" replace />;
 }
 
 export default function App() {
   return (
     <>
       <ScrollToTop />
+      <OnboardingProgress />
       <Routes>
         <Route path="/" element={<HomeEntry />} />
         <Route path="/event" element={<EventPage />} />
@@ -82,8 +89,13 @@ export default function App() {
         <Route path="/magazine/perfume-longevity" element={<MagazineLastingPower />} />
         <Route path="/magazine/seasonal-guide" element={<MagazineSeasonal />} />
         <Route path="/question" element={<QuestionPage />} />
+        <Route path="/onboarding/1" element={<Onboarding1 />} />
         <Route path="/onboarding/2" element={<Onboarding2 />} />
         <Route path="/onboarding/3" element={<Onboarding3 />} />
+        <Route path="/onboarding/4" element={<Onboarding4 />} />
+        <Route path="/onboarding/5" element={<Onboarding5 />} />
+        <Route path="/onboarding/loading" element={<OnboardingLoading />} />
+        <Route path="/onboarding/results" element={<OnboardingResults />} />
         <Route path="/chatbot" element={<ChatbotPage />} />
         <Route path="/result" element={<ResultPage />} />
         <Route path="/mypage" element={<MyPage />} />

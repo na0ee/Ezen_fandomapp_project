@@ -1,4 +1,4 @@
-const lazySundayMorningImage = `${import.meta.env.BASE_URL}assets/perfume/maison-margiela/lazy-sunday-morning.png`;
+import lazySundayMorningImage from "../../assets/search/figma/lazy-sunday-morning.png";
 
 export const searchTabs = ["전체", "브랜드", "향 계열", "무드"] as const;
 

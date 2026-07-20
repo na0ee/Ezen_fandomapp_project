@@ -1,6 +1,9 @@
-import { ChevronDown, ChevronLeft, Heart, Search } from "lucide-react";
+import { ChevronDown, Heart } from "lucide-react";
 import type { FormEvent } from "react";
 import { useState } from "react";
+import chevronLeftIcon from "../../assets/search/figma/chevron-left.svg";
+import heartSelectedIcon from "../../assets/search/figma/heart-selected.svg";
+import searchIcon from "../../assets/search/figma/search.svg";
 import { Tab } from "../ui/Tab";
 import { lazySundayMorning, searchTabs, type PerfumeSummary, type SearchTab } from "./SearchData";
 
@@ -20,14 +23,14 @@ export function SearchBar({ query, onBack, onQueryChange, onSubmit }: SearchBarP
         onClick={onBack}
         type="button"
       >
-        <ChevronLeft aria-hidden="true" className="size-full" strokeWidth={1.7} />
+        <img alt="" className="h-6 w-6" src={chevronLeftIcon} />
       </button>
       <form
         className="flex h-[39px] min-w-0 flex-1 items-center gap-[11px] rounded-[24px] bg-light2-grey px-5"
         onSubmit={onSubmit}
       >
         <button aria-label="검색" className="flex size-[25px] shrink-0 items-center justify-center text-off-black-70" type="submit">
-          <Search aria-hidden="true" className="size-full" strokeWidth={1.5} />
+          <img alt="" className="h-[25px] w-[25px]" src={searchIcon} />
         </button>
         <input
           aria-label="향수 검색어"
@@ -81,15 +84,21 @@ export function PerfumeCard({ perfume = lazySundayMorning }: PerfumeCardProps) {
 
   return (
     <article className="flex h-[115px] w-full items-center gap-4 overflow-hidden rounded-[16px] border border-light-grey bg-off-white p-[10px]">
-      <div className="flex size-[92px] shrink-0 items-center justify-center overflow-hidden rounded-[12px] bg-light2-grey p-2">
-        <img alt={`${perfume.brand} ${perfume.name}`} className="h-full w-full object-contain" src={perfume.image} />
+      <div className="flex size-[92px] shrink-0 items-center justify-center overflow-hidden rounded-[12px] bg-light2-grey">
+        <img
+          alt={`${perfume.brand} ${perfume.name}`}
+          className="h-[92px] w-[85.206px] max-w-none object-cover"
+          src={perfume.image}
+        />
       </div>
 
-      <div className="flex min-w-0 flex-1 self-stretch flex-col justify-between overflow-hidden">
-        <div className="min-w-0">
-          <p className="truncate text-xs font-medium leading-normal tracking-[-0.02em] text-grey">{perfume.brand}</p>
-          <h2 className="truncate text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">{perfume.name}</h2>
-          <div className="mt-1 flex min-w-0 gap-2 overflow-hidden text-xs font-medium leading-normal tracking-[-0.02em] text-grey">
+      <div className="flex min-w-0 flex-1 flex-col items-end justify-end gap-[18px] overflow-hidden">
+        <div className="flex w-full min-w-0 flex-col items-start gap-1.5">
+          <div className="min-w-0">
+            <p className="truncate text-xs font-medium leading-[normal] tracking-[-0.02em] text-[#888]">{perfume.brand}</p>
+            <h2 className="truncate text-base font-semibold leading-[normal] tracking-[-0.02em] text-[#171717]">{perfume.name}</h2>
+          </div>
+          <div className="flex min-w-0 gap-2 overflow-hidden text-xs font-medium leading-[normal] tracking-[-0.02em] text-grey">
             {perfume.keywords.map((keyword) => (
               <span className="shrink-0" key={keyword}>{keyword}</span>
             ))}
@@ -97,7 +106,7 @@ export function PerfumeCard({ perfume = lazySundayMorning }: PerfumeCardProps) {
         </div>
 
         <div className="flex w-full items-center justify-between">
-          <button className="rounded-chip bg-off-black px-3.5 py-[5px] text-xs leading-normal tracking-[-0.02em] text-off-white" type="button">
+          <button className="rounded-chip bg-off-black px-3.5 py-[5px] text-xs leading-[normal] tracking-[-0.02em] text-off-white" type="button">
             향수 보기
           </button>
           <button
@@ -107,12 +116,11 @@ export function PerfumeCard({ perfume = lazySundayMorning }: PerfumeCardProps) {
             onClick={() => setIsLiked((selected) => !selected)}
             type="button"
           >
-            <Heart
-              aria-hidden="true"
-              className={isLiked ? "fill-point-orange text-point-orange" : "text-light-grey"}
-              size={24}
-              strokeWidth={1.6}
-            />
+            {isLiked ? (
+              <img alt="" className="h-[17px] w-5" src={heartSelectedIcon} />
+            ) : (
+              <Heart aria-hidden="true" className="text-light-grey" size={24} strokeWidth={1.6} />
+            )}
           </button>
         </div>
       </div>

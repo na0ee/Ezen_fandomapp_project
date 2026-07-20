@@ -17,7 +17,7 @@ const brands = ["LE RABO", "JO MALONE", "DIPTYQUE", "TAMBURINS", "CHANEL", "CREE
 
 function FilterTabs() {
   return (
-    <div className="flex w-full items-center gap-[5px] overflow-hidden px-side">
+    <div className="scrollbar-hidden flex w-full items-center gap-[5px] overflow-x-auto px-side">
       <button className="shrink-0 rounded-[50px] bg-off-black px-3.5 py-2 text-xs font-medium leading-normal tracking-[-0.02em] text-off-white" type="button">
         전체
       </button>
@@ -48,64 +48,68 @@ export default function Category() {
   const [query, setQuery] = useState("");
 
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col items-center justify-between overflow-x-hidden bg-off-white pt-[calc(var(--app-header-height)+42px)] pb-6 text-off-black">
-      <div className="flex w-full flex-col gap-10">
-        <div className="fixed top-0 left-1/2 z-50 flex w-full max-w-[430px] -translate-x-1/2 flex-col gap-2.5 bg-off-white pt-[var(--app-safe-top)]">
-          <div className="flex w-full items-center gap-3 px-side py-[13px]">
-            <button aria-label="이전 페이지" className="size-6 shrink-0" onClick={() => navigate(-1)} type="button">
-              <ChevronLeft aria-hidden="true" className="size-full" strokeWidth={1.6} />
-            </button>
-            <form
-              className="flex min-w-0 flex-1 items-center gap-[11px] rounded-[24px] bg-[#EDEDED] px-5 py-[7px] text-left"
-              onSubmit={(event) => {
-                event.preventDefault();
-                navigate(`/search-results?q=${encodeURIComponent(query.trim())}`);
-              }}
-            >
-              <button aria-label="검색" className="size-[25px] shrink-0" type="submit">
-                <Search aria-hidden="true" className="size-full" strokeWidth={1.5} />
+    <main className="scrollbar-hidden mx-auto h-dvh w-full max-w-[430px] overflow-x-hidden overflow-y-auto overscroll-y-contain bg-off-white text-off-black [-webkit-overflow-scrolling:touch]">
+      <div className="flex min-h-full w-full flex-col items-center pb-[max(24px,env(safe-area-inset-bottom))]">
+        <div className="flex w-full flex-col gap-10">
+          <div className="sticky top-0 z-50 flex w-full flex-col gap-2.5 bg-off-white pt-[var(--app-safe-top)]">
+            <div className="flex w-full items-center gap-3 px-side py-[13px]">
+              <button aria-label="이전 페이지" className="size-6 shrink-0" onClick={() => navigate(-1)} type="button">
+                <ChevronLeft aria-hidden="true" className="size-full" strokeWidth={1.6} />
               </button>
-              <input
-                aria-label="향수 검색어"
-                className="min-w-0 flex-1 bg-transparent text-sm font-medium leading-none tracking-[-0.02em] text-[#4D4D4D] outline-none placeholder:text-[#4D4D4D]"
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="향수, 브랜드, 노트로 검색"
-                type="search"
-                value={query}
-              />
-            </form>
+              <form
+                className="flex min-w-0 flex-1 items-center gap-[11px] rounded-[24px] bg-[#EDEDED] px-5 py-[7px] text-left"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  navigate(`/search-results?q=${encodeURIComponent(query.trim())}`);
+                }}
+              >
+                <button aria-label="검색" className="size-[25px] shrink-0" type="submit">
+                  <Search aria-hidden="true" className="size-full" strokeWidth={1.5} />
+                </button>
+                <input
+                  aria-label="향수 검색어"
+                  className="min-w-0 flex-1 bg-transparent text-sm font-medium leading-none tracking-[-0.02em] text-[#4D4D4D] outline-none placeholder:text-[#4D4D4D]"
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="향수, 브랜드, 노트로 검색"
+                  type="search"
+                  value={query}
+                />
+              </form>
+            </div>
+            <FilterTabs />
           </div>
-          <FilterTabs />
+
+          <div className="flex w-full flex-col gap-10">
+            <section className="w-full">
+              <SectionHeader title="향 계열" />
+              <div className="mt-[18px] grid w-full grid-cols-2 gap-x-2.5 gap-y-3 px-[22px]">
+                {scentFamilies.map((scent) => (
+                  <button className="h-[54px] w-full rounded-[21px] border border-[#F3F4F6] bg-[#FEFEFE] text-xs leading-none tracking-[-0.02em] text-black" key={scent} type="button">
+                    {scent}
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <section className="w-full">
+              <SectionHeader title="브랜드" />
+              <div className="mt-[18px] grid w-full grid-cols-3 gap-2.5 px-[34px]">
+                {brands.map((brand) => (
+                  <button className="h-[54px] w-full min-w-0 rounded-[21px] border border-[#F3F4F6] bg-[#FEFEFE] px-1 text-xs leading-none tracking-[-0.02em] text-black" key={brand} type="button">
+                    <span className="block truncate">{brand}</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+          </div>
         </div>
 
-        <div className="flex w-full flex-col gap-10">
-          <section className="w-full">
-            <SectionHeader title="향 계열" />
-            <div className="mx-[22px] mt-[18px] grid grid-cols-2 gap-x-2.5 gap-y-3">
-              {scentFamilies.map((scent) => (
-                <button className="h-[54px] w-[188px] rounded-[21px] border border-[#F3F4F6] bg-[#FEFEFE] text-xs leading-none tracking-[-0.02em] text-black" key={scent} type="button">
-                  {scent}
-                </button>
-              ))}
-            </div>
-          </section>
-
-          <section className="w-full">
-            <SectionHeader title="브랜드" />
-            <div className="mx-[34px] mt-[18px] grid grid-cols-3 gap-2.5">
-              {brands.map((brand) => (
-                <button className="h-[54px] w-[114px] rounded-[21px] border border-[#F3F4F6] bg-[#FEFEFE] text-xs leading-none tracking-[-0.02em] text-black" key={brand} type="button">
-                  {brand}
-                </button>
-              ))}
-            </div>
-          </section>
+        <div className="mt-auto w-full px-[18px] pt-10">
+          <button className="flex h-[50px] w-full shrink-0 items-center justify-center rounded-cta border border-off-black bg-off-black px-10 font-pretendard text-lg font-bold leading-none tracking-[-0.02em] text-off-white" type="button">
+            더보기
+          </button>
         </div>
       </div>
-
-      <button className="flex h-[50px] w-[394px] max-w-[calc(100%_-_36px)] shrink-0 items-center justify-center rounded-cta border border-off-black bg-off-black px-10 font-pretendard text-lg font-bold leading-none tracking-[-0.02em] text-off-white" type="button">
-        더보기
-      </button>
     </main>
   );
 }
