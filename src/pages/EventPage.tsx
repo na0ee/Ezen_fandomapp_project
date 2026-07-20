@@ -497,7 +497,7 @@ function RaffleCard({
         )}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-xs font-medium leading-none tracking-[-0.02em] text-grey">
+        <p className="truncate text-xs font-medium leading-tight tracking-[-0.02em] text-grey">
           {item.brand}
         </p>
         <p className="mt-1 truncate text-base font-bold leading-none tracking-[-0.02em] text-off-black">
@@ -567,7 +567,7 @@ function RaffleSection() {
 export function EventPage() {
   return (
     <main className="min-h-dvh bg-off-white" data-node-id={figmaNode.screen}>
-      <div className="relative mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-off-white">
+      <div className="relative mx-auto flex min-h-dvh w-full max-w-[430px] flex-col overflow-x-hidden bg-off-white">
         <EventHeader />
         <div
           className="wrap flex flex-1 flex-col gap-[64px] pt-[94px] pb-[160px]"
