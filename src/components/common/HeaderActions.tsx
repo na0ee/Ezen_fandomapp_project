@@ -16,9 +16,9 @@ export function HeaderActions({ className = "", iconClassName = "", showSearch =
           <Search aria-hidden="true" size={28} strokeWidth={1.5} />
         </Link>
       )}
-      <button aria-label="알림" className={`flex size-7 items-center justify-center ${iconClassName}`} type="button">
+      <Link aria-label="알림" className={`flex size-7 items-center justify-center ${iconClassName}`} to="/notifications">
         <Bell aria-hidden="true" size={28} strokeWidth={1.5} />
-      </button>
+      </Link>
       <Link aria-label="향수 카테고리" className={`flex size-7 items-center justify-center ${iconClassName}`} to="/search?tab=전체">
         <PerfumeIcon />
       </Link>

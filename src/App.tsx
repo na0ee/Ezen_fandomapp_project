@@ -29,6 +29,7 @@ import { RecommendationFeedPage } from "./pages/RecommendationFeedPage";
 import { ChallengeListPage } from "./pages/ChallengeListPage";
 import { RaffleListPage } from "./pages/RaffleListPage";
 import { RaffleDetailPage } from "./pages/RaffleDetailPage";
+import { NotificationPage } from "./pages/NotificationPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -81,6 +82,7 @@ export default function App() {
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/category" element={<Category />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/notifications" element={<NotificationPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
