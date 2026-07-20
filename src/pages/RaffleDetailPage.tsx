@@ -132,7 +132,7 @@ export function RaffleDetailPage() {
                   <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.02em] text-off-black">
                     Lazy Sunday Morning
                   </h2>
-                  <p className="text-sm font-medium leading-none tracking-[-0.02em] text-off-black-70">
+                  <p className="text-sm font-medium leading-tight tracking-[-0.02em] text-off-black-70">
                     Maison Margiela Fragrances
                   </p>
                 </div>
