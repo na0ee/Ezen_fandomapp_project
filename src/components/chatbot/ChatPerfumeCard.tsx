@@ -30,7 +30,7 @@ export function ChatPerfumeCard({
       </div>
       <div className="flex min-w-0 flex-1 flex-col items-end gap-[18px]">
         <div className="flex w-full flex-col items-start gap-1.5">
-          <p className="truncate font-pretendard text-xs font-medium leading-none tracking-[-0.02em] text-grey">{brand}</p>
+          <p className="truncate font-pretendard text-xs font-medium leading-tight tracking-[-0.02em] text-grey">{brand}</p>
           <h3 className="truncate font-pretendard text-base font-semibold leading-none tracking-[-0.02em] text-off-black">
             {name}
           </h3>

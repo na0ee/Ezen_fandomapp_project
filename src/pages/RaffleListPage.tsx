@@ -108,7 +108,7 @@ function RaffleCard({
       </div>
       <div className="min-w-0 flex-1 overflow-hidden">
         <div className="flex flex-col">
-          <p className="w-full truncate text-xs font-medium leading-none tracking-[-0.02em] text-grey">
+          <p className="w-full truncate text-xs font-medium leading-tight tracking-[-0.02em] text-grey">
             {item.brand}
           </p>
           <p className="mt-[2px] w-full truncate text-[15px] font-semibold leading-[1.25] tracking-[-0.02em] text-off-black">

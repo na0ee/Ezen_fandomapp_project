@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import type { MouseEvent, UIEvent } from "react";
+import type { DragEvent, MouseEvent, UIEvent } from "react";
 import {
   BellRing,
   ChevronRight,
@@ -204,6 +204,7 @@ function useHorizontalDragScroll(onProgressChange?: (progress: number) => void) 
   function handleMouseDown(event: MouseEvent<HTMLDivElement>) {
     const target = event.currentTarget;
 
+    event.preventDefault();
     setIsDragging(true);
     startX.current = event.clientX;
     startScrollLeft.current = target.scrollLeft;
@@ -229,6 +230,7 @@ function useHorizontalDragScroll(onProgressChange?: (progress: number) => void) 
   return {
     dragClassName: isDragging ? "cursor-grabbing select-none" : "cursor-grab",
     dragHandlers: {
+      onDragStart: (event: DragEvent<HTMLDivElement>) => event.preventDefault(),
       onMouseDown: handleMouseDown,
       onMouseLeave: handleMouseUp,
       onMouseMove: handleMouseMove,
