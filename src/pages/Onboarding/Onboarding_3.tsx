@@ -23,7 +23,7 @@ import woodyImage from "../../assets/onboarding/q3-woody.png";
 import woodyBaseImage from "../../assets/onboarding/q3-woody-base.png";
 import wifi from "../../assets/onboarding/wifi.svg";
 import { CtaButton } from "../../components/ui/CtaButton";
-import { completeOnboarding, getOnboardingSelections, saveOnboardingSelection } from "./onboardingStorage";
+import { completeOnboarding, saveOnboardingSelection } from "./onboardingStorage";
 
 type Scent = {
   id: string;
@@ -149,10 +149,8 @@ function StatusBar() {
 
 export default function Onboarding3() {
   const navigate = useNavigate();
-  const [primaryScent, setPrimaryScent] = useState(() => getOnboardingSelections().scent ?? "oriental");
-  const [selectedScents, setSelectedScents] = useState(
-    () => new Set([getOnboardingSelections().scent ?? "oriental"]),
-  );
+  const [primaryScent, setPrimaryScent] = useState<string | null>(null);
+  const [selectedScents, setSelectedScents] = useState(() => new Set<string>());
 
   const toggleScent = (id: string) => {
     const next = new Set(selectedScents);
@@ -161,7 +159,7 @@ export default function Onboarding3() {
       next.delete(id);
 
       if (primaryScent === id) {
-        setPrimaryScent(next.values().next().value ?? "oriental");
+        setPrimaryScent(next.values().next().value ?? null);
       }
     } else {
       next.add(id);
@@ -172,6 +170,10 @@ export default function Onboarding3() {
   };
 
   const goToNextStep = () => {
+    if (primaryScent === null) {
+      return;
+    }
+
     saveOnboardingSelection("scent", primaryScent);
     navigate("/onboarding/4");
   };
@@ -233,7 +235,12 @@ export default function Onboarding3() {
         </section>
 
         <div className="absolute bottom-5 left-5 right-5 flex flex-col items-center gap-5">
-          <CtaButton className="h-[51px] shrink-0" label="다음" onClick={goToNextStep} />
+          <CtaButton
+            className="h-[51px] shrink-0"
+            disabled={selectedScents.size === 0}
+            label="다음"
+            onClick={goToNextStep}
+          />
           <button
             className="flex h-[18px] items-center gap-1 text-center font-sans text-xs font-medium leading-[1.5] tracking-[-0.011em] text-off-black"
             onClick={skipOnboarding}

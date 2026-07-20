@@ -70,7 +70,7 @@ function StatusBar() {
 
 export default function Onboarding5() {
   const navigate = useNavigate();
-  const [selectedMethod, setSelectedMethod] = useState<ApplicationMethod>("layering");
+  const [selectedMethod, setSelectedMethod] = useState<ApplicationMethod | null>(null);
 
   const finishOnboarding = () => {
     completeOnboarding();
@@ -78,6 +78,10 @@ export default function Onboarding5() {
   };
 
   const showLoading = () => {
+    if (selectedMethod === null) {
+      return;
+    }
+
     navigate("/onboarding/loading");
   };
 
@@ -132,7 +136,12 @@ export default function Onboarding5() {
           </div>
 
           <div className="absolute bottom-[50px] left-5 right-5 flex flex-col items-center gap-5">
-            <CtaButton className="h-[51px] shrink-0" label="다음" onClick={showLoading} />
+            <CtaButton
+              className="h-[51px] shrink-0"
+              disabled={selectedMethod === null}
+              label="다음"
+              onClick={showLoading}
+            />
             <button
               className="flex h-[18px] items-center gap-1 text-center font-sans text-xs font-medium leading-[1.5] tracking-[-0.011em] text-off-black"
               onClick={finishOnboarding}
