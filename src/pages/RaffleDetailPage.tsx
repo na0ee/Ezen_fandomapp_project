@@ -1,7 +1,9 @@
 import { ChevronLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { CtaButton } from "../components/ui/CtaButton";
+import { applyRaffle, useRaffleApplied } from "../store/raffleStore";
 
 const assets = Object.fromEntries(
   Object.entries({
@@ -23,25 +25,98 @@ function RaffleDetailHeader() {
 
   return (
     <header className="header fixed top-0 left-1/2 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[var(--app-safe-top)]">
-      <div className="flex min-w-0 items-center">
-        <button
-          aria-label="이전 페이지로 돌아가기"
-          className="-ml-1 flex size-[21px] shrink-0 items-center justify-center text-off-black"
-          onClick={() => navigate(-1)}
-          type="button"
-        >
-          <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.7} />
-        </button>
-        <h1 className="ml-1 truncate text-2xl font-semibold leading-[1.08] tracking-[-0.02em] text-off-black">
-          래플 상세페이지
-        </h1>
-      </div>
+      <button
+        aria-label="이전 페이지로 돌아가기"
+        className="-ml-1 flex size-[21px] shrink-0 items-center justify-center text-off-black"
+        onClick={() => navigate(-1)}
+        type="button"
+      >
+        <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.7} />
+      </button>
       <HeaderActions />
     </header>
   );
 }
 
+function RaffleApplyConfirmDialog({
+  isOpen,
+  onCancel,
+  onConfirm,
+}: {
+  isOpen: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  if (!isOpen) {
+    return null;
+  }
+
+  return (
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/35 px-10" onClick={onCancel}>
+      <section
+        aria-label="래플 응모 확인"
+        aria-modal="true"
+        className="w-full max-w-[320px] rounded-[20px] bg-off-white px-6 py-7 text-center shadow-[0_18px_50px_rgba(0,0,0,0.22)]"
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+      >
+        <p className="text-base font-semibold leading-[1.45] tracking-[-0.02em]">
+          해당 래플 응모를 하시겠습니까?
+        </p>
+        <div className="mt-6 flex gap-2">
+          <button
+            className="h-12 w-full rounded-[32px] border border-light-grey bg-off-white text-base font-bold tracking-[-0.02em] text-off-black"
+            onClick={onCancel}
+            type="button"
+          >
+            아니오
+          </button>
+          <button
+            className="h-12 w-full rounded-[32px] bg-off-black text-base font-bold tracking-[-0.02em] text-off-white"
+            onClick={onConfirm}
+            type="button"
+          >
+            예
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function RaffleApplyCompleteDialog({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  if (!isOpen) {
+    return null;
+  }
+
+  return (
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/35 px-10" onClick={onClose}>
+      <section
+        aria-label="래플 응모 완료"
+        aria-modal="true"
+        className="w-full max-w-[320px] rounded-[20px] bg-off-white px-6 py-7 text-center shadow-[0_18px_50px_rgba(0,0,0,0.22)]"
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+      >
+        <h2 className="text-xl font-bold tracking-[-0.02em]">응모 완료되었습니다</h2>
+        <button
+          className="mt-6 h-12 w-full rounded-[32px] bg-off-black text-base font-bold tracking-[-0.02em] text-off-white"
+          onClick={onClose}
+          type="button"
+        >
+          확인
+        </button>
+      </section>
+    </div>
+  );
+}
+
 export function RaffleDetailPage() {
+  const { raffleId } = useParams();
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isCompleteOpen, setIsCompleteOpen] = useState(false);
+  const isApplied = useRaffleApplied(raffleId);
+
   return (
     <main className="min-h-dvh bg-off-white text-off-black" data-node-id="1034:13631">
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
@@ -90,9 +165,25 @@ export function RaffleDetailPage() {
           </section>
         </div>
         <div className="fixed bottom-[max(20px,env(safe-area-inset-bottom))] left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 px-[18px]">
-          <CtaButton label="응모하기" />
+          <CtaButton
+            disabled={isApplied}
+            label={isApplied ? "응모완료" : "응모하기"}
+            onClick={() => setIsConfirmOpen(true)}
+          />
         </div>
       </div>
+      <RaffleApplyConfirmDialog
+        isOpen={isConfirmOpen}
+        onCancel={() => setIsConfirmOpen(false)}
+        onConfirm={() => {
+          setIsConfirmOpen(false);
+          if (raffleId) {
+            applyRaffle(raffleId);
+          }
+          setIsCompleteOpen(true);
+        }}
+      />
+      <RaffleApplyCompleteDialog isOpen={isCompleteOpen} onClose={() => setIsCompleteOpen(false)} />
     </main>
   );
 }

@@ -4,6 +4,7 @@ import {
   ChevronRight,
   SlidersHorizontal,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { SectionTitle } from "../components/common/SectionTitle";
@@ -68,6 +69,7 @@ const heroSlides = [
     logoClassName: "text-off-white",
     label: "래플 응모하기",
     ctaClassName: "text-off-white",
+    to: "/event/raffles",
   },
   {
     nodeId: "726:6614",
@@ -93,6 +95,7 @@ const challengeCards = [
     eyebrow: "Challenge",
     image: assets.challengeCommunity,
     body: "질문 · 답변 남기고 최대 75p받기",
+    to: "/community",
   },
   {
     title: "Scent DNA",
@@ -332,11 +335,20 @@ function HeroSection() {
         LAYER
       </p>
       <div className="absolute inset-x-0 bottom-[42px] z-10 flex flex-col items-center px-4">
-        <div
-          className={`flex h-[42px] w-full max-w-[263px] items-center justify-center rounded-cta border-[0.5px] border-off-white/60 bg-off-white/15 px-10 text-center text-base font-medium leading-none tracking-[-0.02em] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-[10px] backdrop-saturate-150 ${activeSlide.ctaClassName}`}
-        >
-          {activeSlide.label}
-        </div>
+        {activeSlide.to ? (
+          <Link
+            className={`flex h-[42px] w-full max-w-[263px] items-center justify-center rounded-cta border-[0.5px] border-off-white/60 bg-off-white/15 px-10 text-center text-base font-medium leading-none tracking-[-0.02em] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-[10px] backdrop-saturate-150 ${activeSlide.ctaClassName}`}
+            to={activeSlide.to}
+          >
+            {activeSlide.label}
+          </Link>
+        ) : (
+          <div
+            className={`flex h-[42px] w-full max-w-[263px] items-center justify-center rounded-cta border-[0.5px] border-off-white/60 bg-off-white/15 px-10 text-center text-base font-medium leading-none tracking-[-0.02em] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-[10px] backdrop-saturate-150 ${activeSlide.ctaClassName}`}
+          >
+            {activeSlide.label}
+          </div>
+        )}
       </div>
       <div className="absolute inset-x-0 bottom-5 flex justify-center px-4">
         <div className="relative w-[120px]">
@@ -424,6 +436,13 @@ function ChallengeCard({
               />
             ))}
           </div>
+        ) : card.to ? (
+          <Link
+            className="text-center text-xs font-medium leading-none tracking-[-0.02em] text-point-orange underline"
+            to={card.to}
+          >
+            참여하기
+          </Link>
         ) : (
           <p className="text-center text-xs font-medium leading-none tracking-[-0.02em] text-point-orange underline">
             참여하기
@@ -453,7 +472,7 @@ function ChallengeSection() {
 
   return (
     <section className="px-5" data-node-id={figmaNode.challenge}>
-      <SectionTitle showMore title="Challenge" subtitle="함께하는 챌린지로 꾸준함을 만들어요" />
+      <SectionTitle moreHref="/event/challenges" title="Challenge" subtitle="함께하는 챌린지로 꾸준함을 만들어요" />
       <div
         className={`mt-[30px] -mx-5 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${dragClassName}`}
         onScroll={(event) => setScrollProgress(getHorizontalScrollProgress(event))}
@@ -547,7 +566,7 @@ function MagazineSection() {
 
   return (
     <section className="px-5" data-node-id={figmaNode.magazine}>
-      <SectionTitle showMore title="Magazine" subtitle="당신의 향을 이야기해요" />
+      <SectionTitle moreHref="/magazine" title="Magazine" subtitle="당신의 향을 이야기해요" />
       <div
         className={`mt-[30px] -mr-5 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${dragClassName}`}
         onScroll={(event) => setScrollProgress(getHorizontalScrollProgress(event))}
@@ -561,11 +580,12 @@ function MagazineSection() {
               title: "향수 지속력 높이는 꿀팁",
               body: "같은 향도 오래 남기는 사용법",
               dark: true,
+              to: "/magazine/perfume-longevity",
             },
             {
               image: assets.magazineTwo,
               title: "이번주 가장 핫한 소식",
-              body: "무슨무슨 향수 브랜드가 한국에 들어온대요",
+              body: "지금 인기 매거진을 확인해보세요",
             },
           ].map((item) => (
             <article
@@ -591,10 +611,20 @@ function MagazineSection() {
                   <p className="truncate text-xl font-semibold leading-none tracking-[-0.02em]">{item.title}</p>
                   <p className="mt-1.5 text-xs font-medium leading-none tracking-[-0.02em]">{item.body}</p>
                 </div>
-                <div className="flex items-center gap-1 text-base font-medium leading-none tracking-[-0.02em]">
-                  전체보기
-                  <ChevronRight aria-hidden="true" size={20} strokeWidth={1.6} />
-                </div>
+                {item.to ? (
+                  <Link
+                    className="flex items-center gap-1 text-base font-medium leading-none tracking-[-0.02em]"
+                    to={item.to}
+                  >
+                    전체보기
+                    <ChevronRight aria-hidden="true" size={20} strokeWidth={1.6} />
+                  </Link>
+                ) : (
+                  <div className="flex items-center gap-1 text-base font-medium leading-none tracking-[-0.02em]">
+                    전체보기
+                    <ChevronRight aria-hidden="true" size={20} strokeWidth={1.6} />
+                  </div>
+                )}
               </div>
             </article>
           ))}

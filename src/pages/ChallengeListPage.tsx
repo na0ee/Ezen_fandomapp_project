@@ -1,8 +1,29 @@
 import { ChevronLeft, PartyPopper } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { Chip } from "../components/ui/Chip";
+
+const CHALLENGE_REWARD_STORAGE_KEY = "layer:pendingChallengeReward";
+
+function extractPoints(description: string): number | null {
+  const matches = [...description.matchAll(/(\d+)p/g)].map((match) => Number(match[1]));
+
+  if (matches.length === 0) {
+    return null;
+  }
+
+  return Math.max(...matches);
+}
+
+function buildRewardMessage(title: string, description: string): string {
+  const points = extractPoints(description);
+
+  return points
+    ? `${title} 참여로 ${points}p가 적립되었습니다!`
+    : `${title} 참여로 포인트가 적립되었습니다!`;
+}
 
 const assets = Object.fromEntries(
   Object.entries({
@@ -20,6 +41,7 @@ const challengeItems = [
     title: "커뮤니티 이용하기",
     description: "질문·답변·리뷰 남기고 최대 75p까지",
     images: [{ src: assets.community, className: "absolute inset-0 h-full w-full object-cover" }],
+    to: "/community",
   },
   {
     title: "내 향수 등록하기",
@@ -30,6 +52,7 @@ const challengeItems = [
     title: "향수 추천하기",
     description: "다른 유저에게 어울리는 향을 찾아주고, 포인트 받자!",
     images: [{ src: assets.recommend, className: "absolute inset-0 h-full w-full object-cover" }],
+    to: "/event/recommend-feed",
   },
   {
     title: "Gift with AI",
@@ -38,6 +61,7 @@ const challengeItems = [
       { src: assets.aiBase, className: "absolute inset-0 h-full w-full object-cover" },
       { src: assets.aiOverlay, className: "absolute inset-0 h-full w-full object-cover" },
     ],
+    to: "/chatbot?intent=gift",
   },
   {
     title: "My Layer",
@@ -71,8 +95,11 @@ function ChallengeHeader() {
 }
 
 function ChallengeListCard({ item }: { item: (typeof challengeItems)[number] }) {
-  return (
-    <article className="relative h-[260px] w-full overflow-hidden rounded-[16px] shadow-[5px_4px_4px_rgba(0,0,0,0.06)]">
+  const cardClassName =
+    "relative block h-[260px] w-full overflow-hidden rounded-[16px] shadow-[5px_4px_4px_rgba(0,0,0,0.06)]";
+
+  const content = (
+    <>
       {item.images.map((image) => (
         <img alt="" className={image.className} key={`${item.title}-${image.src}`} src={image.src} />
       ))}
@@ -82,7 +109,13 @@ function ChallengeListCard({ item }: { item: (typeof challengeItems)[number] }) 
           <h2 className="text-xl font-bold leading-none tracking-[-0.02em]">{item.title}</h2>
           <p className="mt-[7px] text-xs font-normal leading-none tracking-[-0.02em]">{item.description}</p>
         </div>
-        <Chip className="shrink-0 font-normal" label="참여하기" variant="filled" />
+        {item.to ? (
+          <span className="shrink-0 rounded-chip bg-off-black px-3.5 py-[5px] text-xs font-normal leading-none tracking-[-0.02em] text-off-white">
+            참여하기
+          </span>
+        ) : (
+          <Chip className="shrink-0 font-normal" label="참여하기" variant="filled" />
+        )}
       </div>
       {item.complete && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/50">
@@ -94,11 +127,70 @@ function ChallengeListCard({ item }: { item: (typeof challengeItems)[number] }) 
           </div>
         </div>
       )}
-    </article>
+    </>
+  );
+
+  if (item.to) {
+    return (
+      <Link
+        className={cardClassName}
+        onClick={() =>
+          sessionStorage.setItem(
+            CHALLENGE_REWARD_STORAGE_KEY,
+            buildRewardMessage(item.title, item.description),
+          )
+        }
+        to={item.to}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return <article className={cardClassName}>{content}</article>;
+}
+
+function RewardDialog({ message, onClose }: { message: string | null; onClose: () => void }) {
+  if (!message) {
+    return null;
+  }
+
+  return (
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/35 px-10" onClick={onClose}>
+      <section
+        aria-label="포인트 지급"
+        aria-modal="true"
+        className="w-full max-w-[320px] rounded-[20px] bg-off-white px-6 py-7 text-center shadow-[0_18px_50px_rgba(0,0,0,0.22)]"
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+      >
+        <PartyPopper aria-hidden="true" className="mx-auto text-point-orange" size={32} strokeWidth={1.8} />
+        <h2 className="mt-3 text-xl font-bold tracking-[-0.02em]">포인트 지급 완료</h2>
+        <p className="mt-3 text-sm font-medium leading-[1.45] tracking-[-0.02em] text-grey">{message}</p>
+        <button
+          className="mt-6 h-12 w-full rounded-[32px] bg-off-black text-base font-bold tracking-[-0.02em] text-off-white"
+          onClick={onClose}
+          type="button"
+        >
+          확인
+        </button>
+      </section>
+    </div>
   );
 }
 
 export function ChallengeListPage() {
+  const [rewardMessage, setRewardMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const pendingReward = sessionStorage.getItem(CHALLENGE_REWARD_STORAGE_KEY);
+
+    if (pendingReward) {
+      sessionStorage.removeItem(CHALLENGE_REWARD_STORAGE_KEY);
+      setRewardMessage(pendingReward);
+    }
+  }, []);
+
   return (
     <main className="min-h-dvh bg-off-white text-off-black">
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
@@ -112,6 +204,7 @@ export function ChallengeListPage() {
         </section>
         <BottomNavigation />
       </div>
+      <RewardDialog message={rewardMessage} onClose={() => setRewardMessage(null)} />
     </main>
   );
 }

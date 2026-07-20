@@ -5,6 +5,7 @@ import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { Chip } from "../components/ui/Chip";
 import { Tab } from "../components/ui/Tab";
+import { useAppliedRaffleIds, useRaffleApplied } from "../store/raffleStore";
 
 const assets = Object.fromEntries(
   Object.entries({
@@ -12,7 +13,7 @@ const assets = Object.fromEntries(
   }).map(([key, path]) => [key, `${import.meta.env.BASE_URL}${path.slice(1)}`]),
 ) as Record<string, string>;
 
-const categoryTabs = ["전체", "진행중", "오픈 전", "종료"] as const;
+const categoryTabs = ["전체", "진행중", "오픈 전", "응모완료"] as const;
 type CategoryTab = (typeof categoryTabs)[number];
 
 const raffleItems = [
@@ -69,7 +70,7 @@ function RaffleHeader() {
           <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.7} />
         </button>
         <h1 className="ml-1 truncate text-2xl font-semibold leading-[1.08] tracking-[-0.02em] text-off-black">
-          래플응모하기
+          래플
         </h1>
       </div>
       <HeaderActions />
@@ -89,6 +90,7 @@ function RaffleCard({
   onOpen?: () => void;
 }) {
   const isBefore = item.state === "before";
+  const isApplied = useRaffleApplied(item.id);
 
   return (
     <article className="flex h-[108px] w-full max-w-[390px] items-center gap-4 overflow-hidden rounded-[16px] border border-light-grey bg-off-white p-2">
@@ -102,6 +104,7 @@ function RaffleCard({
             <span className="mt-0.5 text-base font-bold leading-none tracking-[-0.02em]">20:00</span>
           </div>
         )}
+        {!isBefore && isApplied && <div className="absolute inset-0 bg-black/45" />}
       </div>
       <div className="min-w-0 flex-1 overflow-hidden">
         <div className="flex flex-col">
@@ -116,9 +119,9 @@ function RaffleCard({
           <Chip
             className="font-normal"
             disabled={isBefore}
-            label="참여하기"
+            label={isApplied ? "응모완료" : "참여하기"}
             onClick={isBefore ? undefined : onOpen}
-            variant={isBefore ? "disabled" : "filled"}
+            variant={isBefore || isApplied ? "disabled" : "filled"}
           />
           <button
             aria-label={`${item.name} 알림 ${isAlarmOn ? "끄기" : "켜기"}`}
@@ -141,6 +144,7 @@ export function RaffleListPage() {
   const [alarmStates, setAlarmStates] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(raffleItems.map((item) => [item.id, item.state === "before"])),
   );
+  const appliedRaffleIds = useAppliedRaffleIds();
 
   const filteredItems = useMemo(() => {
     if (activeTab === "진행중") {
@@ -151,12 +155,12 @@ export function RaffleListPage() {
       return raffleItems.filter((item) => item.state === "before");
     }
 
-    if (activeTab === "종료") {
-      return [];
+    if (activeTab === "응모완료") {
+      return raffleItems.filter((item) => appliedRaffleIds.has(item.id));
     }
 
     return raffleItems;
-  }, [activeTab]);
+  }, [activeTab, appliedRaffleIds]);
 
   function handleAlarmToggle(id: string) {
     setAlarmStates((current) => ({
