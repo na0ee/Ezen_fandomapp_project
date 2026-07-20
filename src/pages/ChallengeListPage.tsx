@@ -119,7 +119,7 @@ function ChallengeListCard({ item }: { item: (typeof challengeItems)[number] }) 
       </div>
       {item.complete && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <div className="relative flex flex-col items-center text-point-orange">
+          <div className="relative flex flex-col items-center text-off-white">
             <PartyPopper aria-hidden="true" size={36} strokeWidth={1.8} />
             <p className="mt-2 text-2xl font-semibold leading-[1.08] tracking-[-0.02em]">
               챌린지 완료!
