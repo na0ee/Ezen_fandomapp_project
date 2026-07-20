@@ -52,6 +52,7 @@ const challengeCards = [
     label: "Challenge",
     images: [assets.challengeCommunityBase, assets.challengeCommunity],
     description: "질문・답변 남기고 최대 75p받기",
+    to: "/community",
   },
   {
     title: "Scent DNA",
@@ -320,6 +321,13 @@ function ChallengeCard({ card }: { card: (typeof challengeCards)[number] }) {
               />
             ))}
           </div>
+        ) : card.to ? (
+          <Link
+            className="text-center text-xs font-medium leading-none tracking-[-0.02em] text-point-orange underline"
+            to={card.to}
+          >
+            참여하기
+          </Link>
         ) : (
           <p className="text-center text-xs font-medium leading-none tracking-[-0.02em] text-point-orange underline">
             참여하기

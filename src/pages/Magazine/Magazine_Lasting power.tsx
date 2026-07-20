@@ -1,7 +1,7 @@
 import { ChevronLeft, Search } from "lucide-react";
 import type { PointerEvent, ReactNode } from "react";
 import { useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import headerBell from "../../assets/community/figma/header-bell.svg";
 import longevityHero from "../../assets/magazine/longevity/hero.png";
 import tipImageOne from "../../assets/magazine/longevity/tip-1.png";
@@ -61,12 +61,19 @@ const tips = [
 ];
 
 function MagazineDetailHeader() {
+  const navigate = useNavigate();
+
   return (
     <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side pt-[var(--app-safe-top)]">
       <div className="flex items-center">
-        <Link aria-label="매거진으로 돌아가기" className="flex size-[21px] items-center justify-center" to="/magazine">
+        <button
+          aria-label="뒤로 가기"
+          className="flex size-[21px] items-center justify-center"
+          onClick={() => navigate(-1)}
+          type="button"
+        >
           <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.4} />
-        </Link>
+        </button>
         <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">매거진</h1>
       </div>
       <div aria-label="매거진 메뉴" className="flex items-center gap-5">
