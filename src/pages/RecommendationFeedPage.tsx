@@ -4,30 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import fireBadge from "../assets/mypage/fire-badge.svg";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { recommendUsers } from "../data/recommendUsers";
+import type { RecommendUser } from "../data/recommendUsers";
 
 const assets = Object.fromEntries(
   Object.entries({
-    storyBase: "/assets/figma/e7f85eba-5c40-42f9-9816-f5f832b73194.png",
-    storyOverlay: "/assets/figma/f14bfcee-7044-4182-b366-ad50ccf0406d.png",
-    blond: "/assets/figma/b8ae253f-9654-4c82-9435-8a5d7821a8f0.png",
-    perfumeBed: "/assets/community/figma/post-image-one.png",
-    perfumeShelf: "/assets/community/figma/post-image-two.png",
-    carouselTwo: "/assets/community/figma/carousel-two.png",
-    carouselThree: "/assets/community/figma/carousel-three.png",
     jazzClub: "/assets/figma/1a1cf807-eb4f-4aa5-a14f-c60de2901496.png",
     myHeroBase: "/assets/figma/recommend-my-hero-base.png",
     myHeroPhoto: "/assets/figma/recommend-my-hero-overlay.png",
   }).map(([key, path]) => [key, `${import.meta.env.BASE_URL}${path.slice(1)}`]),
 ) as Record<string, string>;
-
-const feedItems = [
-  { id: "story-one", images: [assets.perfumeBed], tags: "#비 오는 날 #꾸안꾸", user: "ch1g0tn" },
-  { id: "story-two", images: [assets.storyBase, assets.storyOverlay], tags: "#여행 #예쁘다", user: "Jennie" },
-  { id: "story-three", images: [assets.blond], tags: "#밤산책 #향수추천", user: "Juhoon" },
-  { id: "story-four", images: [assets.carouselTwo], tags: "#여름 #서울한강", user: "nanana" },
-  { id: "story-five", images: [assets.perfumeShelf], tags: "#여름스웩 #한산한날", user: "nanana." },
-  { id: "story-six", images: [assets.carouselThree], tags: "#겨울의향 #하얀눈", user: "lalalala" },
-];
 
 const receivedRecommendations = Array.from({ length: 4 }, (_, index) => ({
   id: `received-${index + 1}`,
@@ -89,20 +75,22 @@ function TopTabs({ activeTab, onChange }: { activeTab: MainTab; onChange: (tab: 
   );
 }
 
-function FeedCard({ item }: { item: (typeof feedItems)[number] }) {
+function FeedCard({ item }: { item: RecommendUser }) {
+  const tags = item.tags.join(" ");
+
   return (
     <Link
-      aria-label={`${item.user} 향 추천 피드 보기`}
+      aria-label={`${item.name} 향 추천 피드 보기`}
       className="relative block h-[243px] overflow-hidden rounded-[10px] bg-light2-grey"
       to={`/event/recommend-profile/${item.id}`}
     >
-      {item.images.map((image) => (
+      {item.feedImages.map((image) => (
         <img alt="" className="absolute inset-0 h-full w-full object-cover" key={image} src={image} />
       ))}
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 px-3 pb-3 text-off-white">
-        <p className="truncate text-xs font-medium leading-none tracking-[-0.02em]">{item.tags}</p>
-        <p className="truncate text-xl font-bold leading-none tracking-[-0.02em]">{item.user}</p>
+        <p className="truncate text-xs font-medium leading-none tracking-[-0.02em]">{tags}</p>
+        <p className="truncate text-xl font-bold leading-none tracking-[-0.02em]">{item.name}</p>
       </div>
     </Link>
   );
@@ -111,7 +99,7 @@ function FeedCard({ item }: { item: (typeof feedItems)[number] }) {
 function RecommendFeedGrid() {
   return (
     <div className="grid grid-cols-2 gap-2">
-      {feedItems.map((item) => (
+      {recommendUsers.map((item) => (
         <FeedCard item={item} key={item.id} />
       ))}
     </div>

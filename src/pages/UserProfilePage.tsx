@@ -2,16 +2,53 @@ import { ChevronLeft, Search, Send, UserCheck, UserPlus } from "lucide-react";
 import { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import fireBadge from "../assets/mypage/fire-badge.svg";
+import { brands } from "../data/brands";
+import { perfumeData } from "../data/perfumeData";
+import type { PerfumeEntry } from "../data/perfumeData";
+import { findRecommendUser } from "../data/recommendUsers";
 
 const assets = Object.fromEntries(
   Object.entries({
-    profileBase: "/assets/figma/e7f85eba-5c40-42f9-9816-f5f832b73194.png",
-    profileOverlay: "/assets/figma/f14bfcee-7044-4182-b366-ad50ccf0406d.png",
     perfume: "/assets/figma/1a1cf807-eb4f-4aa5-a14f-c60de2901496.png",
   }).map(([key, path]) => [key, `${import.meta.env.BASE_URL}${path.slice(1)}`]),
 ) as Record<string, string>;
 
-const perfumeItems = [
+type RecommendPerfumeItem = {
+  brand: string;
+  image: string;
+  name: string;
+};
+
+const brandNames = Object.fromEntries(brands.map((brand) => [brand.id, brand]));
+
+function getBrandName(brandId: string) {
+  return brandNames[brandId]?.nameEn ?? brandId;
+}
+
+function getPerfumeSearchText(entry: PerfumeEntry) {
+  const brand = brandNames[entry.perfume.brandId];
+
+  return [
+    entry.perfume.name,
+    entry.perfume.description,
+    entry.perfume.brandId,
+    brand?.name,
+    brand?.nameEn,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+function toRecommendPerfumeItem(entry: PerfumeEntry): RecommendPerfumeItem {
+  return {
+    brand: getBrandName(entry.perfume.brandId),
+    image: `${import.meta.env.BASE_URL}${entry.perfume.image.slice(1)}`,
+    name: entry.perfume.name,
+  };
+}
+
+const perfumeItems: RecommendPerfumeItem[] = [
   {
     brand: "Jo Malone London",
     name: "Blackberry & Bay Cologne",
@@ -24,41 +61,13 @@ const perfumeItems = [
   },
 ];
 
-const profiles = {
-  "story-one": {
-    name: "Juhoon",
-    badge: "LOVER",
-    mood: "Mood Shifter",
-    description:
-      "안녕하세요 코르티즈 주훈입니다.\n오늘 저의 사진은 밤산책하다가 마틴이 형이 찍어줬어요!\n저랑 어울리는 향수 추천해주세요!",
-    tags: ["#밤산책", "#향수추천"],
-    date: "2026.08.08 14:20",
-  },
-  "story-two": {
-    name: "Juhoon",
-    badge: "LOVER",
-    mood: "Mood Shifter",
-    description: "오늘 무드에 맞는 향을 찾고 있어요.\n잔잔하지만 오래 기억나는 향수로 추천해주세요!",
-    tags: ["#포근한향", "#머스크"],
-    date: "2026.08.08 14:20",
-  },
-  "story-three": {
-    name: "Juhoon",
-    badge: "LOVER",
-    mood: "Mood Shifter",
-    description: "가볍게 뿌리기 좋은 데일리 향을 찾고 있어요.\n저랑 어울릴 만한 향수를 골라주세요!",
-    tags: ["#데일리향수", "#시트러스"],
-    date: "2026.08.08 14:20",
-  },
-} as const;
-
 export default function UserProfilePage() {
   const navigate = useNavigate();
   const { profileId = "story-one" } = useParams();
   const [isFollowing, setIsFollowing] = useState(false);
   const [isRecommendSheetOpen, setIsRecommendSheetOpen] = useState(false);
   const [isCompleteOpen, setIsCompleteOpen] = useState(false);
-  const profile = profiles[profileId as keyof typeof profiles] ?? profiles["story-one"];
+  const profile = findRecommendUser(profileId);
 
   const handleRecommendComplete = () => {
     setIsRecommendSheetOpen(false);
@@ -71,7 +80,7 @@ export default function UserProfilePage() {
         <button
           aria-label="이벤트로 돌아가기"
           className="flex h-[54px] w-14 items-center justify-center"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/event/recommend-feed")}
           type="button"
         >
           <ChevronLeft aria-hidden="true" size={26} strokeWidth={1.4} />
@@ -80,8 +89,9 @@ export default function UserProfilePage() {
 
       <section className="wrap pt-[var(--app-header-height)]">
         <div className="relative h-[560px] overflow-hidden bg-off-black text-off-white">
-          <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.profileBase} />
-          <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.profileOverlay} />
+          {profile.profileImages.map((image) => (
+            <img alt="" className="absolute inset-0 h-full w-full object-cover" key={image} src={image} />
+          ))}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
           <div className="absolute inset-x-5 bottom-6">
             <div className="flex items-center gap-2 text-sm font-bold leading-none">
@@ -151,8 +161,19 @@ function RecommendBottomSheet({
   onComplete: () => void;
 }) {
   const dragStartY = useRef<number | null>(null);
+  const [activeSource, setActiveSource] = useState("내 위시리스트");
   const [searchQuery, setSearchQuery] = useState("");
   const [message, setMessage] = useState("");
+  const normalizedSearchQuery = searchQuery.trim().toLowerCase();
+  const visiblePerfumeItems =
+    activeSource === "전체"
+      ? normalizedSearchQuery
+        ? perfumeData
+            .filter((entry) => getPerfumeSearchText(entry).includes(normalizedSearchQuery))
+            .slice(0, 1)
+            .map(toRecommendPerfumeItem)
+        : []
+      : perfumeItems;
 
   if (!isOpen) {
     return null;
@@ -209,10 +230,16 @@ function RecommendBottomSheet({
           </label>
 
           <div className="mt-4 flex gap-2">
-            {["내 위시리스트", "내 보관함"].map((label) => (
+            {["전체", "내 위시리스트", "내 보관함"].map((label) => (
               <button
-                className="h-[30px] rounded-[16px] border border-light-grey bg-off-white px-3.5 text-xs font-medium tracking-[-0.02em]"
+                aria-pressed={activeSource === label}
+                className={`h-[30px] rounded-[16px] border px-3.5 text-xs font-medium tracking-[-0.02em] ${
+                  activeSource === label
+                    ? "border-off-black bg-off-black text-off-white"
+                    : "border-light-grey bg-off-white text-off-black"
+                }`}
                 key={label}
+                onClick={() => setActiveSource(label)}
                 type="button"
               >
                 {label}
@@ -221,7 +248,7 @@ function RecommendBottomSheet({
           </div>
 
           <div className="mt-2 flex flex-col gap-2">
-            {perfumeItems.map((item, index) => (
+            {visiblePerfumeItems.map((item, index) => (
               <button
                 className="flex h-[78px] w-full items-center rounded-[16px] border border-light-grey bg-off-white p-2 text-left"
                 key={`${item.name}-${index}`}
