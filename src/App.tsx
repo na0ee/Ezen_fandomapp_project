@@ -27,6 +27,7 @@ import Search from "./pages/Search";
 import UserProfilePage from "./pages/UserProfilePage";
 import { RecommendationFeedPage } from "./pages/RecommendationFeedPage";
 import { ChallengeListPage } from "./pages/ChallengeListPage";
+import { ChatbotPage } from "./pages/Chatbot";
 import { RaffleListPage } from "./pages/RaffleListPage";
 import { RaffleDetailPage } from "./pages/RaffleDetailPage";
 
@@ -49,40 +50,58 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/event" element={<EventPage />} />
-        <Route path="/event/challenges" element={<ChallengeListPage />} />
-        <Route path="/event/recommend-feed" element={<RecommendationFeedPage />} />
-        <Route path="/event/raffles" element={<RaffleListPage />} />
-        <Route path="/event/raffles/:raffleId" element={<RaffleDetailPage />} />
-        <Route path="/event/recommend-profile/:profileId" element={<UserProfilePage />} />
-        <Route path="/community" element={<CommunityPage />} />
-        <Route path="/community/question" element={<CommunityQuestion />} />
-        <Route path="/community/select" element={<CommunitySelect />} />
-        <Route path="/community/write" element={<CommunityWrite />} />
-        <Route path="/magazine" element={<MagazinePage />} />
-        <Route path="/magazine/byredo" element={<MagazineByredo />} />
-        <Route path="/magazine/diptyque" element={<MagazineDiptyque />} />
-        <Route path="/magazine/fragrance-collection" element={<MagazineFragranceCollection />} />
-        <Route path="/magazine/jo-malone" element={<MagazineJomalone />} />
-        <Route path="/magazine/more-view" element={<MagazineMoreView />} />
-        <Route path="/magazine/niche-trend" element={<MagazineNichTrend />} />
-        <Route path="/magazine/perfume-longevity" element={<MagazineLastingPower />} />
-        <Route path="/magazine/seasonal-guide" element={<MagazineSeasonal />} />
-        <Route path="/question" element={<QuestionPage />} />
-        <Route path="/result" element={<ResultPage />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/mypage/perfumes" element={<MyPerfumePage />} />
-        <Route path="/mypage/wishlist" element={<MyWishlistPage />} />
-        <Route path="/mypage/reviews" element={<MyReviewsPage />} />
-        <Route path="/search-results" element={<SearchResults />} />
-        <Route path="/category" element={<Category />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </>
+<>
+  <ScrollToTop />
+
+  <Routes>
+    <Route path="/" element={<HomePage />} />
+
+    <Route path="/event" element={<EventPage />} />
+    <Route path="/event/challenges" element={<ChallengeListPage />} />
+    <Route path="/event/recommend-feed" element={<RecommendationFeedPage />} />
+    <Route path="/event/raffles" element={<RaffleListPage />} />
+    <Route path="/event/raffles/:raffleId" element={<RaffleDetailPage />} />
+    <Route
+      path="/event/recommend-profile/:profileId"
+      element={<UserProfilePage />}
+    />
+
+    <Route path="/community" element={<CommunityPage />} />
+    <Route path="/community/question" element={<CommunityQuestion />} />
+    <Route path="/community/select" element={<CommunitySelect />} />
+    <Route path="/community/write" element={<CommunityWrite />} />
+
+    <Route path="/magazine" element={<MagazinePage />} />
+    <Route path="/magazine/byredo" element={<MagazineByredo />} />
+    <Route path="/magazine/diptyque" element={<MagazineDiptyque />} />
+    <Route
+      path="/magazine/fragrance-collection"
+      element={<MagazineFragranceCollection />}
+    />
+    <Route path="/magazine/jo-malone" element={<MagazineJomalone />} />
+    <Route path="/magazine/more-view" element={<MagazineMoreView />} />
+    <Route path="/magazine/niche-trend" element={<MagazineNichTrend />} />
+    <Route
+      path="/magazine/perfume-longevity"
+      element={<MagazineLastingPower />}
+    />
+    <Route path="/magazine/seasonal-guide" element={<MagazineSeasonal />} />
+
+    <Route path="/question" element={<QuestionPage />} />
+    <Route path="/chatbot" element={<ChatbotPage />} />
+    <Route path="/result" element={<ResultPage />} />
+
+    <Route path="/mypage" element={<MyPage />} />
+    <Route path="/mypage/perfumes" element={<MyPerfumePage />} />
+    <Route path="/mypage/wishlist" element={<MyWishlistPage />} />
+    <Route path="/mypage/reviews" element={<MyReviewsPage />} />
+
+    <Route path="/search-results" element={<SearchResults />} />
+    <Route path="/category" element={<Category />} />
+    <Route path="/search" element={<Search />} />
+
+    <Route path="*" element={<Navigate to="/" replace />} />
+  </Routes>
+</>
   );
 }

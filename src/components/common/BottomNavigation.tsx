@@ -49,8 +49,8 @@ export function BottomNavigation({ placement = "sticky" }: BottomNavigationProps
         </nav>
         <NavLink
           aria-label="AI 향수 진단"
-          className="flex h-[72px] min-w-0 flex-col items-start rounded-[200px] bg-off-black py-[15px] text-xs font-medium leading-none tracking-[-0.02em]"
-          to="/question"
+          className="flex h-[72px] min-w-0 flex-col items-start rounded-[200px] border-[0.6px] border-light2-grey bg-off-black py-[15px] text-xs font-medium leading-none tracking-[-0.02em]"
+          to="/chatbot"
         >
           <div className="flex w-full items-center justify-center px-[18px]">
             <div className="flex h-10 w-[38px] shrink-0 flex-col items-center justify-center gap-1">

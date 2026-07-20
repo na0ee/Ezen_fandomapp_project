@@ -349,7 +349,7 @@ export const perfumeData = [
     id: 26,
     perfume: {
       brandId: "le-labo",
-      name: "Santal 33",
+      name: "산탈 33",
       description: "샌들우드와 시더우드에 은은한 향신료가 더해진 건조하고 깊은 향",
       image: "/assets/perfume/le-labo/santal-33.jpg",
       familyIds: ["woody", "spicy"],
@@ -362,7 +362,7 @@ export const perfumeData = [
     id: 27,
     perfume: {
       brandId: "le-labo",
-      name: "Another 13",
+      name: "어나더 13",
       description: "부드러운 머스크가 피부에 포근하고 오묘하게 남는 깨끗한 향",
       image: "/assets/perfume/le-labo/another-13.jpg",
       familyIds: ["musk", "powdery"],
@@ -375,7 +375,7 @@ export const perfumeData = [
     id: 28,
     perfume: {
       brandId: "le-labo",
-      name: "Bergamote 22",
+      name: "베르가모트 22",
       description: "베르가못과 자몽의 쌉싸름한 생동감이 돋보이는 밝고 산뜻한 향",
       image: "/assets/perfume/le-labo/bergamote-22.jpg",
       familyIds: ["citrus", "green"],
@@ -388,7 +388,7 @@ export const perfumeData = [
     id: 29,
     perfume: {
       brandId: "le-labo",
-      name: "Lys 41",
+      name: "리스 41",
       description: "재스민과 튜베로즈, 백합에 바닐라가 더해진 풍성하고 따뜻한 꽃향",
       image: "/assets/perfume/le-labo/lys-41.jpg",
       familyIds: ["floral", "oriental"],
@@ -401,7 +401,7 @@ export const perfumeData = [
     id: 30,
     perfume: {
       brandId: "le-labo",
-      name: "Neroli 36",
+      name: "네롤리 36",
       description: "오렌지 블로섬과 만다린에 머스크가 어우러진 밝고 부드러운 향",
       image: "/assets/perfume/le-labo/neroli-36.jpg",
       familyIds: ["floral", "citrus"],
@@ -416,7 +416,7 @@ export const perfumeData = [
     id: 31,
     perfume: {
       brandId: "aesop",
-      name: "Tacit",
+      name: "타싯",
       description: "유자와 바질, 베티버가 어우러진 싱그럽고 산뜻한 향",
       image: "/assets/perfume/aesop/tacit.jpg",
       familyIds: ["citrus", "green"],
@@ -429,7 +429,7 @@ export const perfumeData = [
     id: 32,
     perfume: {
       brandId: "aesop",
-      name: "Karst",
+      name: "카르스트",
       description: "차가운 바닷바람에 주니퍼와 커민이 더해진 선명하고 독특한 향",
       image: "/assets/perfume/aesop/karst.jpg",
       familyIds: ["aquatic", "spicy"],
@@ -442,7 +442,7 @@ export const perfumeData = [
     id: 33,
     perfume: {
       brandId: "aesop",
-      name: "Gloam",
+      name: "글룸",
       description: "미모사와 아이리스에 은은한 향신료가 더해진 부드럽고 몽환적인 향",
       image: "/assets/perfume/aesop/gloam.jpg",
       familyIds: ["floral", "powdery"],
@@ -455,7 +455,7 @@ export const perfumeData = [
     id: 34,
     perfume: {
       brandId: "aesop",
-      name: "Marrakech Intense",
+      name: "마라케시 인텐스",
       description: "카다멈과 클로브, 샌들우드가 어우러진 따뜻하고 풍성한 향",
       image: "/assets/perfume/aesop/marrakech-intense.jpg",
       familyIds: ["oriental", "spicy"],
@@ -468,7 +468,7 @@ export const perfumeData = [
     id: 35,
     perfume: {
       brandId: "aesop",
-      name: "Hwyl",
+      name: "훨",
       description: "편백나무와 베티버, 인센스가 어우러진 고요하고 깊은 숲의 향",
       image: "/assets/perfume/aesop/hwyl.jpg",
       familyIds: ["woody", "green"],
@@ -483,7 +483,7 @@ export const perfumeData = [
     id: 36,
     perfume: {
       brandId: "diptyque",
-      name: "Eau des Sens",
+      name: "오 데 상스",
       description: "비터 오렌지와 오렌지 블로섬에 주니퍼와 파촐리가 어우러진 선명하고 싱그러운 향",
       image: "/assets/perfume/diptyque/eau-des-sens.jpg",
       familyIds: ["citrus", "green"],
@@ -496,7 +496,7 @@ export const perfumeData = [
     id: 37,
     perfume: {
       brandId: "diptyque",
-      name: "Fleur de Peau",
+      name: "플뢰르 드 포",
       description: "포근한 화이트 머스크와 아이리스가 피부처럼 부드럽게 감싸는 은은한 향",
       image: "/assets/perfume/diptyque/fleur-de-peau.jpg",
       familyIds: ["musk", "powdery"],
@@ -509,7 +509,7 @@ export const perfumeData = [
     id: 38,
     perfume: {
       brandId: "diptyque",
-      name: "Do Son",
+      name: "도손",
       description: "튜베로즈와 재스민의 풍성한 꽃향에 바닷바람의 청량함이 더해진 향",
       image: "/assets/perfume/diptyque/do-son.jpg",
       familyIds: ["floral", "aquatic"],
@@ -522,7 +522,7 @@ export const perfumeData = [
     id: 39,
     perfume: {
       brandId: "diptyque",
-      name: "Tam Dao",
+      name: "탐다오",
       description: "부드러운 샌들우드에 사이프러스와 은은한 향신료가 어우러진 차분한 향",
       image: "/assets/perfume/diptyque/tam-dao.jpg",
       familyIds: ["woody", "spicy"],
@@ -535,7 +535,7 @@ export const perfumeData = [
     id: 40,
     perfume: {
       brandId: "diptyque",
-      name: "L'Eau",
+      name: "로",
       description: "클로브와 시나몬에 꽃과 나무 향이 더해진 따뜻하고 고전적인 향",
       image: "/assets/perfume/diptyque/leau.jpg",
       familyIds: ["oriental", "spicy"],
@@ -550,7 +550,7 @@ export const perfumeData = [
     id: 41,
     perfume: {
       brandId: "chanel",
-      name: "CHANCE EAU TENDRE",
+      name: "샹스 오 탕드르",
       description: "재스민과 장미에 부드러운 화이트 머스크가 어우러진 맑고 사랑스러운 향",
       image: "/assets/perfume/chanel/chance-eau-tendre.jpg",
       familyIds: ["floral", "musk"],
@@ -563,7 +563,7 @@ export const perfumeData = [
     id: 42,
     perfume: {
       brandId: "chanel",
-      name: "BLEU DE CHANEL",
+      name: "블루 드 샤넬",
       description: "산뜻한 시트러스와 깊은 시더우드, 샌들우드가 어우러진 깔끔하고 세련된 향",
       image: "/assets/perfume/chanel/bleu-de-chanel.jpg",
       familyIds: ["woody", "citrus"],
@@ -576,7 +576,7 @@ export const perfumeData = [
     id: 43,
     perfume: {
       brandId: "chanel",
-      name: "COCO MADEMOISELLE",
+      name: "코코 마드모아젤",
       description: "생기 있는 오렌지와 장미, 재스민에 파촐리가 더해진 화사하고 관능적인 향",
       image: "/assets/perfume/chanel/coco-mademoiselle.jpg",
       familyIds: ["oriental", "citrus"],
@@ -589,7 +589,7 @@ export const perfumeData = [
     id: 44,
     perfume: {
       brandId: "chanel",
-      name: "N°5 L'EAU",
+      name: "N°5 로",
       description: "밝은 시트러스와 장미, 재스민에 화이트 머스크가 부드럽게 이어지는 깨끗한 향",
       image: "/assets/perfume/chanel/no5-leau.jpg",
       familyIds: ["floral", "powdery"],
@@ -602,7 +602,7 @@ export const perfumeData = [
     id: 45,
     perfume: {
       brandId: "chanel",
-      name: "CHANCE",
+      name: "샹스",
       description: "재스민과 핑크 페퍼, 파촐리가 어우러진 생기 있고 매혹적인 향",
       image: "/assets/perfume/chanel/chance.jpg",
       familyIds: ["floral", "spicy"],
@@ -617,7 +617,7 @@ export const perfumeData = [
     id: 46,
     perfume: {
       brandId: "santa-maria-novella",
-      name: "Acqua della Regina",
+      name: "아쿠아 델라 레지나",
       description: "이탈리아 시트러스와 네롤리에 로즈메리와 라벤더가 더해진 산뜻하고 우아한 향",
       image: "/assets/perfume/santa-maria-novella/acqua-della-regina.jpg",
       familyIds: ["citrus", "green"],
@@ -630,7 +630,7 @@ export const perfumeData = [
     id: 47,
     perfume: {
       brandId: "santa-maria-novella",
-      name: "Acqua",
+      name: "아쿠아",
       description: "맑은 물결을 떠올리게 하는 연꽃과 프리지아에 부드러운 머스크가 이어지는 투명한 향",
       image: "/assets/perfume/santa-maria-novella/acqua.jpg",
       familyIds: ["aquatic", "floral"],
@@ -643,7 +643,7 @@ export const perfumeData = [
     id: 48,
     perfume: {
       brandId: "santa-maria-novella",
-      name: "Rosa Novella",
+      name: "로사 노벨라",
       description: "풍성한 장미와 화이트 플라워에 은은한 향신료와 나무 향이 더해진 생기 있는 향",
       image: "/assets/perfume/santa-maria-novella/rosa-novella.jpg",
       familyIds: ["floral", "spicy"],
@@ -656,7 +656,7 @@ export const perfumeData = [
     id: 49,
     perfume: {
       brandId: "santa-maria-novella",
-      name: "L'Iris",
+      name: "리리스",
       description: "아이리스의 부드러운 파우더 향에 갈바넘과 네롤리가 더해진 맑고 세련된 향",
       image: "/assets/perfume/santa-maria-novella/liris.jpg",
       familyIds: ["powdery", "green"],
@@ -669,7 +669,7 @@ export const perfumeData = [
     id: 50,
     perfume: {
       brandId: "santa-maria-novella",
-      name: "Melograno",
+      name: "멜로그라노",
       description: "석류와 장미, 일랑일랑에 따뜻한 향신료와 머스크가 어우러진 깊고 고전적인 향",
       image: "/assets/perfume/santa-maria-novella/melograno.jpg",
       familyIds: ["oriental", "spicy"],

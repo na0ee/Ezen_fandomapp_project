@@ -242,7 +242,7 @@ function MainChallengeSection() {
       <div className="inner flex flex-col gap-[30px]">
         <SectionHead hideViewAll title="오늘의 메인 챌린지" />
         <div className="flex flex-col gap-[10px]">
-          <div className="relative h-[272px] overflow-hidden rounded-[16px]">
+          <Link className="relative block h-[272px] overflow-hidden rounded-[16px]" to="/chatbot?intent=gift">
             <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.mainHeroBase} />
             <img alt="" className="absolute left-0 top-[-46.26%] h-[170.3%] w-full max-w-none" src={assets.mainHeroLight} />
             <img alt="" className="absolute left-0 top-[-28.36%] h-[144.14%] w-[99.92%] max-w-none" src={assets.mainHeroBottle} />
@@ -258,7 +258,7 @@ function MainChallengeSection() {
                 <ChevronRight aria-hidden="true" size={20} strokeWidth={1.6} />
               </div>
             </div>
-          </div>
+          </Link>
           <p className="text-[13px] font-normal leading-[1.3] tracking-[-0.02em] text-grey">
             매주 새 챌린지가 업데이트돼요
           </p>
