@@ -33,6 +33,7 @@ import { RaffleDetailPage } from "./pages/RaffleDetailPage";
 import Onboarding2 from "./pages/Onboarding/Onboarding_2";
 import Onboarding3 from "./pages/Onboarding/Onboarding_3";
 import { hasCompletedOnboarding } from "./pages/Onboarding/onboardingStorage";
+import { NotificationPage } from "./pages/NotificationPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -92,6 +93,7 @@ export default function App() {
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/category" element={<Category />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/notifications" element={<NotificationPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

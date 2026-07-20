@@ -17,9 +17,9 @@ export function HeaderActions({ className = "", iconClassName = "", showSearch =
           <img alt="" aria-hidden="true" className="size-full" src={headerSearch} />
         </Link>
       )}
-      <button aria-label="알림" className={`size-7 ${iconClassName}`} type="button">
+      <Link aria-label="알림" className={`size-7 ${iconClassName}`} to="/notifications">
         <img alt="" aria-hidden="true" className="size-full" src={headerBell} />
-      </button>
+      </Link>
       <Link aria-label="향수 카테고리" className={`relative size-7 overflow-hidden ${iconClassName}`} to="/category">
         <img
           alt=""
