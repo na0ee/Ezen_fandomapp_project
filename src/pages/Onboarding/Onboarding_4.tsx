@@ -16,7 +16,7 @@ import streetImage from "../../assets/onboarding/q4-street.png";
 import streetBaseImage from "../../assets/onboarding/q4-street-base.png";
 import wifi from "../../assets/onboarding/wifi.svg";
 import { CtaButton } from "../../components/ui/CtaButton";
-import { completeOnboarding, getOnboardingSelections, saveOnboardingSelection } from "./onboardingStorage";
+import { completeOnboarding, saveOnboardingSelection } from "./onboardingStorage";
 
 type Mood = {
   id: string;
@@ -123,9 +123,13 @@ function StatusBar() {
 
 export default function Onboarding4() {
   const navigate = useNavigate();
-  const [selectedMood, setSelectedMood] = useState(() => getOnboardingSelections().mood ?? "feminine");
+  const [selectedMood, setSelectedMood] = useState<string | null>(null);
 
   const goToNextStep = () => {
+    if (selectedMood === null) {
+      return;
+    }
+
     saveOnboardingSelection("mood", selectedMood);
     navigate("/onboarding/5");
   };
@@ -158,7 +162,7 @@ export default function Onboarding4() {
                 <button
                   aria-label={`${mood.label}${selected ? " 선택됨" : ""}`}
                   aria-pressed={selected}
-                  className="flex w-[150px] flex-col items-center gap-2"
+                  className="relative flex w-[150px] flex-col items-center gap-2"
                   key={mood.id}
                   onClick={() => setSelectedMood(mood.id)}
                   type="button"
@@ -172,6 +176,14 @@ export default function Onboarding4() {
                       <img alt="" className={layer.className} key={layer.image} src={layer.image} />
                     ))}
                   </span>
+                  {selected && (
+                    <img
+                      alt=""
+                      aria-hidden="true"
+                      className="pointer-events-none absolute right-[-3px] top-[-8px] z-10 h-[26px] w-[26px] max-w-none"
+                      src={checkCircle}
+                    />
+                  )}
                   <span className="w-full text-center text-sm font-normal leading-[normal] tracking-[-0.02em] text-off-black">
                     {mood.label}
                   </span>
@@ -181,7 +193,12 @@ export default function Onboarding4() {
           </div>
 
           <div className="flex w-full flex-col items-center gap-5">
-            <CtaButton className="h-[51px] shrink-0" label="다음" onClick={goToNextStep} />
+            <CtaButton
+              className="h-[51px] shrink-0"
+              disabled={selectedMood === null}
+              label="다음"
+              onClick={goToNextStep}
+            />
             <button
               className="flex h-[18px] items-center gap-1 text-center font-sans text-xs font-medium leading-[1.5] tracking-[-0.011em] text-off-black"
               onClick={skipOnboarding}
@@ -191,13 +208,6 @@ export default function Onboarding4() {
               <img alt="" className="h-[18px] w-[18px]" src={arrowRight} />
             </button>
           </div>
-
-          <img
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute left-[189px] top-[398px] h-[26px] w-[26px] max-w-none"
-            src={checkCircle}
-          />
         </section>
       </div>
     </main>

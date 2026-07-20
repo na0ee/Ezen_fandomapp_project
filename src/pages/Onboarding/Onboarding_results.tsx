@@ -1,3 +1,4 @@
+import { useRef, type PointerEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import batteryEnd from "../../assets/onboarding/results-battery-end.svg";
 import batteryFill from "../../assets/onboarding/results-battery-fill.svg";
@@ -111,6 +112,56 @@ function PerfumeCard({ image, name, brand }: (typeof recommendedPerfumes)[number
 
 export default function OnboardingResults() {
   const navigate = useNavigate();
+  const recommendationsRef = useRef<HTMLDivElement>(null);
+  const recommendationsDrag = useRef({ active: false, startX: 0, scrollLeft: 0 });
+
+  const stopRecommendationsDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const scroller = recommendationsRef.current;
+
+    if (!recommendationsDrag.current.active || !scroller) {
+      return;
+    }
+
+    recommendationsDrag.current.active = false;
+    scroller.classList.remove("is-dragging");
+
+    if (scroller.hasPointerCapture(event.pointerId)) {
+      scroller.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  const startRecommendationsDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const scroller = recommendationsRef.current;
+
+    if (event.pointerType !== "mouse" || event.button !== 0 || !scroller) {
+      return;
+    }
+
+    recommendationsDrag.current = {
+      active: true,
+      startX: event.clientX,
+      scrollLeft: scroller.scrollLeft,
+    };
+    scroller.setPointerCapture(event.pointerId);
+    scroller.classList.add("is-dragging");
+  };
+
+  const moveRecommendationsDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const scroller = recommendationsRef.current;
+
+    if (!recommendationsDrag.current.active || !scroller) {
+      return;
+    }
+
+    if (event.buttons !== 1) {
+      stopRecommendationsDrag(event);
+      return;
+    }
+
+    event.preventDefault();
+    scroller.scrollLeft =
+      recommendationsDrag.current.scrollLeft - (event.clientX - recommendationsDrag.current.startX);
+  };
 
   const goToHome = () => {
     completeOnboarding();
@@ -191,10 +242,24 @@ export default function OnboardingResults() {
             </button>
           </div>
 
-          <div className="mt-5 flex h-[201px] w-[488px] items-center justify-between">
-            {recommendedPerfumes.map((perfume) => (
-              <PerfumeCard {...perfume} key={perfume.name} />
-            ))}
+          <div
+            className="horizontal-scroller scrollbar-hidden mt-5 w-full touch-pan-x overflow-x-auto overscroll-x-contain pr-5"
+            onDragStart={(event) => event.preventDefault()}
+            onLostPointerCapture={() => {
+              recommendationsDrag.current.active = false;
+              recommendationsRef.current?.classList.remove("is-dragging");
+            }}
+            onPointerCancel={stopRecommendationsDrag}
+            onPointerDown={startRecommendationsDrag}
+            onPointerMove={moveRecommendationsDrag}
+            onPointerUp={stopRecommendationsDrag}
+            ref={recommendationsRef}
+          >
+            <div className="flex h-[201px] w-[488px] items-center justify-between">
+              {recommendedPerfumes.map((perfume) => (
+                <PerfumeCard {...perfume} key={perfume.name} />
+              ))}
+            </div>
           </div>
         </section>
 

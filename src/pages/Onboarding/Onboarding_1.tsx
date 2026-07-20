@@ -55,7 +55,7 @@ function StatusBar() {
 
 export default function Onboarding1() {
   const navigate = useNavigate();
-  const [selectedCount, setSelectedCount] = useState<PerfumeCount>("3~5개");
+  const [selectedCount, setSelectedCount] = useState<PerfumeCount | null>(null);
 
   const skipOnboarding = () => {
     completeOnboarding();
@@ -105,7 +105,12 @@ export default function Onboarding1() {
           </div>
 
           <div className="flex w-full flex-col items-center gap-5">
-            <CtaButton className="h-[51px] shrink-0" label="다음" onClick={() => navigate("/onboarding/2")} />
+            <CtaButton
+              className="h-[51px] shrink-0"
+              disabled={selectedCount === null}
+              label="다음"
+              onClick={() => navigate("/onboarding/2")}
+            />
             <button
               className="flex h-[18px] items-center gap-1 text-center font-sans text-xs font-medium leading-[1.5] tracking-[-0.011em] text-off-black"
               onClick={skipOnboarding}
