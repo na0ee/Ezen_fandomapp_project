@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { HeartButton } from "../components/ui/HeartButton";
+import { brands } from "../data/brands";
+import { fragranceFamilies } from "../data/fragranceFamilies";
 import wishlistCardBuly from "../assets/mypage/wishlist-card-buly.png";
 import wishlistCardBvlgari from "../assets/mypage/wishlist-card-bvlgari.png";
 import wishlistCardReplicaOrange from "../assets/mypage/wishlist-card-replica-orange.png";
@@ -14,34 +16,42 @@ type FilterTab = (typeof filterTabs)[number];
 
 const categoryTabs = ["전체", ...filterTabs];
 
+const volumeOptions = ["30ml 미만", "30ml ~ 50ml 미만", "50ml ~ 100ml 미만", "100ml ~ 200ml 미만", "200ml ~ 300ml 미만", "300ml ~ 500ml 미만"];
+
 const filterOptions: Record<FilterTab, string[]> = {
-  브랜드: ["메종 마르지엘라", "불가리", "불리"],
-  "향 계열/향기": ["스위트/플로럴", "우디", "프레시/아로마", "웜/스파이시", "시트러스/프루티", "머스크/파우더"],
-  용량: ["30ml 미만", "30ml ~ 50ml 미만", "50ml ~ 100ml 미만", "100ml ~ 200ml 미만", "200ml ~ 300ml 미만", "300ml ~ 500ml 미만"],
+  브랜드: brands.map((brand) => brand.name).sort((a, b) => a.localeCompare(b, "ko")),
+  "향 계열/향기": fragranceFamilies.map((family) => family.name),
+  용량: volumeOptions,
 };
 
-const selectedFilters = ["메종 마르지엘라", "100ml ~ 200ml 미만", "스위트/플로럴"];
+const brandNames = brands.map((brand) => brand.name);
+
+const defaultSelectedFilters: string[] = [];
 
 const wishItems = [
   {
+    brandId: "maison-margiela",
     brand: "MAISON MARGIELA FRAGRANCES",
     name: "체이싱 선셋 EDT 30ML",
     image: wishlistCardReplicaOrange,
     keywords: ["#망고 어코드", "#튜베로즈", "#샌달우드"],
   },
   {
+    brandId: "bvlgari",
     brand: "BVLGARI PERFUME",
     name: "불가리 옴니아 아메시스트 오 드 뚜왈렛 100ml",
     image: wishlistCardBvlgari,
     keywords: ["#파우더리", "#아이리스", "#바닐라"],
   },
   {
+    brandId: "buly",
     brand: "BULY",
     name: "클래식 오 트리쁠 향수 75ml - 이리 드 말트",
     image: wishlistCardBuly,
     keywords: ["#레몬 그라스", "#아이리스", "#인센스"],
   },
   {
+    brandId: "maison-margiela",
     brand: "MAISON MARGIELA FRAGRANCES",
     name: "레이지 선데이 모닝 EDT 100ML",
     image: wishlistCardReplicaWhite,
@@ -98,12 +108,26 @@ function WishCard({ item }: { item: (typeof wishItems)[number] }) {
   );
 }
 
-function FilterSheet({ activeTab, onClose, onSelectTab }: { activeTab: FilterTab; onClose: () => void; onSelectTab: (tab: FilterTab) => void }) {
-  const brandSubtitles: Record<string, string> = {
-    "메종 마르지엘라": "MAISON MARGIELA FRAGRANCES",
-    "불가리": "BVLGARI PERFUME",
-    "불리": "BULY",
-  };
+function FilterSheet({
+  activeTab,
+  matchCount,
+  onClose,
+  onReset,
+  onSelectTab,
+  onToggleFilter,
+  selectedFilters,
+}: {
+  activeTab: FilterTab;
+  matchCount: number;
+  onClose: () => void;
+  onReset: () => void;
+  onSelectTab: (tab: FilterTab) => void;
+  onToggleFilter: (option: string) => void;
+  selectedFilters: string[];
+}) {
+  const brandSubtitles: Record<string, string> = Object.fromEntries(
+    brands.map((brand) => [brand.name, brand.nameEn.toUpperCase()]),
+  );
 
   return (
     <div className="fixed inset-0 z-[60] flex justify-center bg-black/40">
@@ -115,7 +139,7 @@ function FilterSheet({ activeTab, onClose, onSelectTab }: { activeTab: FilterTab
           <div className="flex gap-6">
             {filterTabs.map((tab) => (
               <button
-                className={`flex h-10 items-center border-b-2 text-[15px] font-medium leading-none tracking-[-0.02em] transition-colors ${activeTab === tab ? "border-point-orange text-off-black" : "border-transparent text-grey"
+                className={`flex h-10 cursor-pointer items-center border-b-2 text-[15px] font-medium leading-none tracking-[-0.02em] transition-colors ${activeTab === tab ? "border-point-orange text-off-black" : "border-transparent text-grey"
                   }`}
                 key={tab}
                 onClick={() => onSelectTab(tab)}
@@ -147,7 +171,12 @@ function FilterSheet({ activeTab, onClose, onSelectTab }: { activeTab: FilterTab
 
               if (activeTab === "브랜드") {
                 return (
-                  <button className="flex w-full items-center justify-between text-left" key={`${activeTab}-${option}`} type="button">
+                  <button
+                    className="flex w-full cursor-pointer items-center justify-between text-left"
+                    key={`${activeTab}-${option}`}
+                    onClick={() => onToggleFilter(option)}
+                    type="button"
+                  >
                     <div className="flex flex-col gap-1.5">
                       <span className="text-[15px] font-medium leading-none tracking-[-0.02em] text-off-black">{option}</span>
                       <span className="text-[11px] font-normal leading-none tracking-[-0.02em] text-grey uppercase">
@@ -165,7 +194,12 @@ function FilterSheet({ activeTab, onClose, onSelectTab }: { activeTab: FilterTab
               }
 
               return (
-                <button className="flex items-center gap-2.5 text-left" key={`${activeTab}-${option}`} type="button">
+                <button
+                  className="flex cursor-pointer items-center gap-2.5 text-left"
+                  key={`${activeTab}-${option}`}
+                  onClick={() => onToggleFilter(option)}
+                  type="button"
+                >
                   <span
                     className={`flex size-[22px] shrink-0 items-center justify-center rounded-full border-[1px] ${selected ? "border-point-orange bg-point-orange text-off-white" : "border-light-grey bg-off-white text-light-grey"
                       }`}
@@ -179,21 +213,34 @@ function FilterSheet({ activeTab, onClose, onSelectTab }: { activeTab: FilterTab
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 flex h-[159px] w-full flex-col border-t-[0.8px] border-light-grey bg-off-white px-side pb-6 pt-4">
+        <div className="absolute bottom-0 left-0 flex h-[165px] w-full flex-col border-t-[0.8px] border-light-grey bg-off-white px-side pb-[30px] pt-4">
           <div className="flex gap-2 overflow-x-auto pb-4 [&::-webkit-scrollbar]:hidden">
             {selectedFilters.map((filter) => (
-              <span className="flex shrink-0 items-center gap-1.5 rounded-full bg-light2-grey py-2 pl-3.5 pr-3 text-[13px] font-normal leading-none tracking-[-0.02em] text-off-black-70" key={filter}>
+              <button
+                className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-light2-grey py-2 pl-3.5 pr-3 text-[13px] font-normal leading-none tracking-[-0.02em] text-off-black-70"
+                key={filter}
+                onClick={() => onToggleFilter(filter)}
+                type="button"
+              >
                 {filter}
                 <X aria-hidden="true" size={12} strokeWidth={2} className="text-grey" />
-              </span>
+              </button>
             ))}
           </div>
           <div className="flex gap-3">
-            <button className="h-[52px] w-[110px] shrink-0 rounded-full border-[1px] border-light-grey bg-off-white text-[15px] font-semibold tracking-[-0.02em] text-off-black" type="button">
+            <button
+              className="h-[52px] w-[110px] shrink-0 cursor-pointer rounded-full border-[1px] border-light-grey bg-off-white text-[15px] font-semibold tracking-[-0.02em] text-off-black"
+              onClick={onReset}
+              type="button"
+            >
               초기화
             </button>
-            <button className="h-[52px] flex-1 rounded-full bg-off-black text-[15px] font-semibold tracking-[-0.02em] text-off-white" onClick={onClose} type="button">
-              1개의 상품 보기
+            <button
+              className="h-[52px] flex-1 cursor-pointer rounded-full bg-off-black text-[15px] font-semibold tracking-[-0.02em] text-off-white"
+              onClick={onClose}
+              type="button"
+            >
+              {matchCount}개의 상품 보기
             </button>
           </div>
         </div>
@@ -204,9 +251,22 @@ function FilterSheet({ activeTab, onClose, onSelectTab }: { activeTab: FilterTab
 
 export default function MyWishlistPage() {
   const [activeFilter, setActiveFilter] = useState<FilterTab | null>(null);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>(defaultSelectedFilters);
+
+  const toggleFilter = (option: string) => {
+    setSelectedFilters((current) =>
+      current.includes(option) ? current.filter((filter) => filter !== option) : [...current, option],
+    );
+  };
+
+  const selectedBrandFilters = selectedFilters.filter((filter) => brandNames.includes(filter));
+  const filteredWishItems =
+    selectedBrandFilters.length === 0
+      ? wishItems
+      : wishItems.filter((item) => selectedBrandFilters.includes(brands.find((brand) => brand.id === item.brandId)?.name ?? ""));
 
   return (
-    <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
+    <main className="mx-auto min-h-dvh w-full max-w-[430px] cursor-default select-none overflow-x-hidden bg-off-white text-off-black">
       <DetailHeader title="위시리스트" />
 
       <div className="wrap px-side pb-[112px] pt-[calc(var(--app-header-height)+24px)]">
@@ -216,13 +276,16 @@ export default function MyWishlistPage() {
 
         <div className="mt-[30px] flex items-center justify-between gap-2">
           <div className="flex gap-1.5 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-            {categoryTabs.map((tab, index) => {
+            {categoryTabs.map((tab) => {
               const filterTab = filterTabs.includes(tab as FilterTab) ? (tab as FilterTab) : null;
+              const isActive = filterTab
+                ? filterOptions[filterTab].some((option) => selectedFilters.includes(option))
+                : selectedFilters.length === 0;
 
               return (
                 <button
-                  aria-pressed={index === 0}
-                  className={`whitespace-nowrap shrink-0 rounded-full px-3.5 py-2 text-[13px] font-medium leading-none tracking-[-0.02em] ${index === 0 ? "bg-off-black text-off-white" : "border-[0.8px] border-light-grey bg-off-white text-grey"
+                  aria-pressed={isActive}
+                  className={`cursor-pointer whitespace-nowrap shrink-0 rounded-full px-3.5 py-2 text-[13px] font-medium leading-none tracking-[-0.02em] ${isActive ? "bg-off-black text-off-white" : "border-[0.8px] border-light-grey bg-off-white text-grey"
                     }`}
                   key={tab}
                   onClick={() => {
@@ -235,21 +298,31 @@ export default function MyWishlistPage() {
               );
             })}
           </div>
-          <button className="flex shrink-0 items-center gap-1 rounded-full border-[0.8px] border-light-grey bg-off-white px-3 py-1.5 text-[12px] font-medium leading-none tracking-[-0.02em] text-grey" type="button">
+          <button className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border-[0.8px] border-light-grey bg-off-white py-2 pl-3.5 pr-3 text-[13px] font-medium leading-none tracking-[-0.02em] text-grey" type="button">
             최신순
             <ChevronDown aria-hidden="true" size={14} strokeWidth={1.7} />
           </button>
         </div>
 
         <section className="mt-4 grid grid-cols-2 gap-2.5">
-          {wishItems.map((item) => (
+          {filteredWishItems.map((item) => (
             <WishCard item={item} key={item.name} />
           ))}
         </section>
       </div>
 
       <BottomNavigation />
-      {activeFilter && <FilterSheet activeTab={activeFilter} onClose={() => setActiveFilter(null)} onSelectTab={setActiveFilter} />}
+      {activeFilter && (
+        <FilterSheet
+          activeTab={activeFilter}
+          matchCount={filteredWishItems.length}
+          onClose={() => setActiveFilter(null)}
+          onReset={() => setSelectedFilters([])}
+          onSelectTab={setActiveFilter}
+          onToggleFilter={toggleFilter}
+          selectedFilters={selectedFilters}
+        />
+      )}
     </main>
   );
 }

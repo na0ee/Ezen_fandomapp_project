@@ -2,6 +2,7 @@ import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { PerfumeIcon } from "../components/icons/PerfumeIcon";
 import perfumeLoewe from "../assets/mypage/perfume-loewe.png";
 import perfumeSanta from "../assets/mypage/perfume-santa.png";
 import reviewProductThree from "../assets/mypage/review-product-3.png";
@@ -54,6 +55,21 @@ function DetailHeader({ title }: { title: string }) {
   );
 }
 
+function RegisterFab() {
+  return (
+    <div className="pointer-events-none fixed bottom-[108px] left-1/2 z-40 flex w-full max-w-[430px] -translate-x-1/2 justify-end px-side">
+      <button
+        aria-label="향수 등록하기"
+        className="pointer-events-auto flex size-16 flex-col items-center justify-center gap-1 rounded-full bg-off-black p-2.5 text-off-white"
+        type="button"
+      >
+        <PerfumeIcon className="invert" size="sm" />
+        <span className="text-[12px] font-normal leading-none tracking-[-0.02em]">등록</span>
+      </button>
+    </div>
+  );
+}
+
 function PerfumeRecordCard({ perfume }: { perfume: (typeof perfumes)[number] }) {
   return (
     <article className="flex items-start gap-2.5 rounded-card border-[0.8px] border-light-grey bg-off-white p-[14px]">
@@ -74,7 +90,7 @@ function PerfumeRecordCard({ perfume }: { perfume: (typeof perfumes)[number] }) 
 
 export default function MyPerfumePage() {
   return (
-    <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
+    <main className="mx-auto min-h-dvh w-full max-w-[430px] cursor-default select-none overflow-x-hidden bg-off-white text-off-black">
       <DetailHeader title="내 향수 관리하기" />
 
       <div className="wrap px-side pb-[112px] pt-[calc(var(--app-header-height)+24px)]">
@@ -106,7 +122,7 @@ export default function MyPerfumePage() {
                     <rect x="10" y="7" width="6" height="3" fill="currentColor" />
                     <path d="M0 13C0 11.3431 1.34315 10 3 10H23C24.6569 10 26 11.3431 26 13V35C26 36.6569 24.6569 38 23 38H3C1.34315 38 0 36.6569 0 35V13Z" fill="currentColor" />
                   </svg>
-                  <span className={`absolute top-[16px] text-[13px] font-bold tracking-[-0.02em] ${innerTextColor}`}>
+                  <span className={`absolute top-[16px] text-[13px] font-semibold tracking-[-0.02em] ${innerTextColor}`}>
                     {item.date}
                   </span>
                 </div>
@@ -120,7 +136,7 @@ export default function MyPerfumePage() {
             {["전체", "브랜드", "향 계열/향기", "용량"].map((label, index) => (
               <button
                 aria-pressed={index === 0}
-                className={`whitespace-nowrap rounded-full px-3.5 py-2 text-[13px] font-medium leading-none tracking-[-0.02em] ${index === 0 ? "bg-off-black text-off-white" : "border-[0.8px] border-light-grey bg-off-white text-grey"
+                className={`cursor-pointer whitespace-nowrap rounded-full px-3.5 py-2 text-[13px] font-medium leading-none tracking-[-0.02em] ${index === 0 ? "bg-off-black text-off-white" : "border-[0.8px] border-light-grey bg-off-white text-grey"
                   }`}
                 key={label}
                 type="button"
@@ -129,7 +145,7 @@ export default function MyPerfumePage() {
               </button>
             ))}
           </div>
-          <button className="flex shrink-0 items-center gap-1 rounded-full border-[0.8px] border-light-grey bg-off-white px-3 py-1.5 text-[12px] font-medium leading-none tracking-[-0.02em] text-grey" type="button">
+          <button className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border-[0.8px] border-light-grey bg-off-white py-2 pl-3.5 pr-3 text-[13px] font-medium leading-none tracking-[-0.02em] text-grey" type="button">
             최신순
             <ChevronDown size={14} strokeWidth={1.5} />
           </button>
@@ -142,6 +158,7 @@ export default function MyPerfumePage() {
         </section>
       </div>
 
+      <RegisterFab />
       <BottomNavigation />
     </main>
   );

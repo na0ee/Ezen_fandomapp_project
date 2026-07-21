@@ -102,9 +102,9 @@ function DetailHeader({ title }: { title: string }) {
 
 function RatingStars() {
   return (
-    <div className="flex gap-0.5 text-point-orange">
+    <div className="flex gap-0.5 text-[#FFBB00]">
       {Array.from({ length: 5 }).map((_, index) => (
-        <Star aria-hidden="true" className="fill-point-orange" key={index} size={14} strokeWidth={1.4} />
+        <Star aria-hidden="true" className="fill-[#FFBB00]" key={index} size={14} strokeWidth={1.4} />
       ))}
     </div>
   );
@@ -140,7 +140,7 @@ function PendingReviewCard({ review }: { review: (typeof pendingReviews)[number]
         />
         <MessageCircle aria-hidden="true" className="text-light-grey" size={14} strokeWidth={1.5} />
         <span className="flex items-center gap-1 text-xs font-medium tracking-[-0.02em]">
-          <Star aria-hidden="true" className="fill-point-orange text-point-orange" size={14} strokeWidth={1.4} />
+          <Star aria-hidden="true" className="fill-[#FFBB00] text-[#FFBB00]" size={14} strokeWidth={1.4} />
           {review.rating}
         </span>
       </div>
@@ -184,7 +184,7 @@ export default function MyReviewsPage() {
   const [activeTab, setActiveTab] = useState<"reviewable" | "written">("reviewable");
 
   return (
-    <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
+    <main className="mx-auto min-h-dvh w-full max-w-[430px] cursor-default select-none overflow-x-hidden bg-off-white text-off-black">
       <DetailHeader title="내 리뷰 관리하기" />
 
       <div className="wrap pb-[112px] pt-[calc(var(--app-header-height)+24px)]">

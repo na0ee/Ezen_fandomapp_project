@@ -111,8 +111,13 @@
     cursor: grab;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+    -webkit-user-select: none;
     user-select: none;
     will-change: scroll-position;
+  }
+
+  .horizontal-scroller * {
+    cursor: inherit;
   }
 
   .horizontal-scroller.is-dragging {
