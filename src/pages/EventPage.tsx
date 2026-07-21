@@ -8,6 +8,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { SectionTitle } from "../components/common/SectionTitle";
+import { recommendUsers } from "../data/recommendUsers";
+import type { RecommendUser } from "../data/recommendUsers";
 
 const figmaNode = {
   screen: "737:13784",
@@ -30,10 +32,6 @@ const assets = Object.fromEntries(
   challengeCommunity: "/assets/figma/65d50c3e-e53a-4435-a1e7-e1c102ed11d2.png",
   challengeDna: "/assets/figma/a2012ffa-cea9-489e-9b2a-4c857215a489.png",
   challengeRegister: "/assets/figma/100041c6-070d-47ec-b061-1750bc2b3337.png",
-  storyOneBase: "/assets/figma/e7f85eba-5c40-42f9-9816-f5f832b73194.png",
-  storyOne: "/assets/figma/f14bfcee-7044-4182-b366-ad50ccf0406d.png",
-  storyTwo: "/assets/figma/9247c529-923f-43e1-9805-4d330e0a63e2.png",
-  storyThree: "/assets/figma/d2bb8d2a-613a-4a65-8aa9-94f1d1caccde.png",
   raffleToday: "/assets/figma/1a1cf807-eb4f-4aa5-a14f-c60de2901496.png",
     raffleBottle: "/assets/figma/2a366440-329b-4758-b5e1-73f3ebe99526.png",
   }).map(([key, path]) => [key, `${import.meta.env.BASE_URL}${path.slice(1)}`]),
@@ -69,40 +67,14 @@ const challengeCards = [
   },
 ];
 
-type StoryCardItem = {
-  id: string;
-  title: string;
-  cta: string;
-  count?: string;
-  images: string[];
-};
-
-const storyCards: StoryCardItem[] = [
-  {
-    id: "story-one",
-    title: "Juhoon",
-    cta: "추천하러 가기",
-    images: [assets.storyOneBase, assets.storyOne],
-  },
-  {
-    id: "story-two",
-    title: "Juhoon",
-    cta: "추천하러 가기",
-    images: [assets.storyOneBase, assets.storyOne],
-  },
-  {
-    id: "story-three",
-    title: "Juhoon",
-    cta: "추천하러 가기",
-    images: [assets.storyOneBase, assets.storyOne],
-  },
-];
+const storyCards = recommendUsers.slice(0, 3);
 
 const raffleItems = [
   {
     id: "lazy-sunday-today",
     brand: "Maison Margiela Fragrances",
     name: "Lazy Sunday Morning",
+    nameKo: "레이지 선데이 모닝",
     image: assets.raffleToday,
     disabled: true,
     today: true,
@@ -111,12 +83,14 @@ const raffleItems = [
     id: "blackberry-bay",
     brand: "Jo Malone London",
     name: "Blackberry & Bay Cologne",
+    nameKo: "블랙베리 앤 베이 코롱",
     image: assets.raffleToday,
   },
   {
     id: "lazy-sunday-bottle",
     brand: "Maison Margiela Fragrances",
     name: "Lazy Sunday Morning",
+    nameKo: "레이지 선데이 모닝",
     image: assets.raffleBottle,
   },
 ];
@@ -245,7 +219,7 @@ function MainChallengeSection() {
       <div className="inner flex flex-col gap-[30px]">
         <SectionHead hideViewAll title="오늘의 메인 챌린지" />
         <div className="flex flex-col gap-[10px]">
-          <Link className="relative block h-[272px] overflow-hidden rounded-[16px]" to="/chatbot?intent=gift">
+          <Link className="relative block h-[272px] overflow-hidden rounded-[20px]" to="/chatbot?intent=gift">
             <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.mainHeroBase} />
             <img alt="" className="absolute left-0 top-[-46.26%] h-[170.3%] w-full max-w-none" src={assets.mainHeroLight} />
             <img alt="" className="absolute left-0 top-[-28.36%] h-[144.14%] w-[99.92%] max-w-none" src={assets.mainHeroBottle} />
@@ -362,12 +336,12 @@ function ChallengeSection() {
       <div className="inner">
         <SectionHead href="/event/challenges" title="챌린지" />
         <div
-          className={`mt-[30px] -mx-5 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${dragClassName}`}
+          className={`mt-[30px] -mr-5 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${dragClassName}`}
           onScroll={(event) => setScrollProgress(getHorizontalScrollProgress(event))}
           ref={scrollContainerRef}
           {...dragHandlers}
         >
-          <div className="flex w-max gap-[10px] px-5">
+          <div className="flex w-max gap-[10px]">
             {challengeCards.map((card) => (
               <ChallengeCard card={card} key={card.title} />
             ))}
@@ -384,30 +358,30 @@ function ChallengeSection() {
   );
 }
 
-function StoryCard({ story }: { story: StoryCardItem }) {
-  const hasCount = Boolean(story.count);
+function StoryCard({ story }: { story: RecommendUser }) {
+  const hasCount = false;
 
   return (
     <article className="relative h-[453px] w-[312px] shrink-0 overflow-hidden rounded-[10px]">
-      {story.images.map((image) => (
+      {story.feedImages.map((image) => (
         <img alt="" className="absolute inset-0 h-full w-full object-cover" key={image} src={image} />
       ))}
-      {story.count && (
+      {hasCount && (
         <span className="absolute right-5 top-4 rounded-full bg-[rgba(31,27,25,0.86)] px-3.5 py-2 font-geist text-base font-medium leading-none tracking-[-0.02em] text-off-white">
-          {story.count}
+          {story.community?.posts}
         </span>
       )}
       <p
-        className={`absolute w-[264px] truncate text-[30px] tracking-[-0.02em] text-off-white ${
+        className={`absolute w-[264px] text-[30px] tracking-[-0.02em] text-off-white ${
           hasCount
             ? "left-6 top-[299px] font-geist font-extrabold leading-[1.12]"
-            : "left-[14px] top-[369px] font-bold leading-none"
+            : "left-[14px] top-[369px] font-bold leading-[1.15]"
         }`}
       >
-        {story.title}
+        {story.name}
       </p>
       <Link
-        aria-label={`${story.title} 프로필에서 향수 추천하기`}
+        aria-label={`${story.name} 프로필에서 향수 추천하기`}
         className={`absolute left-[14px] flex items-center gap-2 rounded-card border border-off-white/25 bg-off-white/15 px-2.5 py-[7px] text-off-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] backdrop-blur-md ${
           hasCount ? "top-[405px]" : "top-[409px] h-[27px]"
         }`}
@@ -497,11 +471,11 @@ function RaffleCard({
         )}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-xs font-medium leading-none tracking-[-0.02em] text-grey">
+        <p className="truncate text-xs font-medium leading-tight tracking-[-0.02em] text-grey">
           {item.brand}
         </p>
-        <p className="mt-1 truncate text-base font-bold leading-none tracking-[-0.02em] text-off-black">
-          {item.name}
+        <p className="mt-1 truncate text-base font-bold leading-[1.15] tracking-[-0.02em] text-off-black">
+          {item.nameKo ?? item.name}
         </p>
         <div className="mt-4 flex items-center gap-2">
           <button
@@ -567,7 +541,7 @@ function RaffleSection() {
 export function EventPage() {
   return (
     <main className="min-h-dvh bg-off-white" data-node-id={figmaNode.screen}>
-      <div className="relative mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-off-white">
+      <div className="relative mx-auto flex min-h-dvh w-full max-w-[430px] flex-col overflow-x-hidden bg-off-white">
         <EventHeader />
         <div
           className="wrap flex flex-1 flex-col gap-[64px] pt-[94px] pb-[160px]"

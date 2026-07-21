@@ -6,6 +6,12 @@ import { HeaderActions } from "../components/common/HeaderActions";
 import { Chip } from "../components/ui/Chip";
 
 const CHALLENGE_REWARD_STORAGE_KEY = "layer:pendingChallengeReward";
+const COMPLETED_CHALLENGES_STORAGE_KEY = "layer:completedChallenges";
+
+type PendingChallengeReward = {
+  message: string;
+  title: string;
+};
 
 function extractPoints(description: string): number | null {
   const matches = [...description.matchAll(/(\d+)p/g)].map((match) => Number(match[1]));
@@ -23,6 +29,37 @@ function buildRewardMessage(title: string, description: string): string {
   return points
     ? `${title} 참여로 ${points}p가 적립되었습니다!`
     : `${title} 참여로 포인트가 적립되었습니다!`;
+}
+
+function buildRewardPayload(title: string, description: string): string {
+  return JSON.stringify({
+    message: buildRewardMessage(title, description),
+    title,
+  });
+}
+
+function getStoredCompletedChallengeTitles(): string[] {
+  const storedTitles = sessionStorage.getItem(COMPLETED_CHALLENGES_STORAGE_KEY);
+
+  if (!storedTitles) {
+    return [];
+  }
+
+  try {
+    const titles = JSON.parse(storedTitles);
+
+    return Array.isArray(titles) ? titles.filter((title) => typeof title === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+function isPageReload() {
+  const navigationEntry = performance.getEntriesByType("navigation")[0] as
+    | PerformanceNavigationTiming
+    | undefined;
+
+  return navigationEntry?.type === "reload";
 }
 
 const assets = Object.fromEntries(
@@ -67,7 +104,7 @@ const challengeItems = [
     title: "My Layer",
     description: "첫 진단 100p, 취향 공유하면 추가 포인트까지!",
     images: [{ src: assets.myLayer, className: "absolute inset-0 h-full w-full object-cover" }],
-    complete: true,
+    to: "/onboarding/1",
   },
 ];
 
@@ -94,7 +131,13 @@ function ChallengeHeader() {
   );
 }
 
-function ChallengeListCard({ item }: { item: (typeof challengeItems)[number] }) {
+function ChallengeListCard({
+  completed,
+  item,
+}: {
+  completed: boolean;
+  item: (typeof challengeItems)[number];
+}) {
   const cardClassName =
     "relative block h-[260px] w-full overflow-hidden rounded-[16px] shadow-[5px_4px_4px_rgba(0,0,0,0.06)]";
 
@@ -110,16 +153,25 @@ function ChallengeListCard({ item }: { item: (typeof challengeItems)[number] }) 
           <p className="mt-[7px] text-xs font-normal leading-none tracking-[-0.02em]">{item.description}</p>
         </div>
         {item.to ? (
-          <span className="shrink-0 rounded-chip bg-off-black px-3.5 py-[5px] text-xs font-normal leading-none tracking-[-0.02em] text-off-white">
+          <Link
+            className="shrink-0 rounded-chip bg-off-black px-3.5 py-[5px] text-xs font-normal leading-none tracking-[-0.02em] text-off-white"
+            onClick={() =>
+              sessionStorage.setItem(
+                CHALLENGE_REWARD_STORAGE_KEY,
+                buildRewardPayload(item.title, item.description),
+              )
+            }
+            to={item.to}
+          >
             참여하기
-          </span>
+          </Link>
         ) : (
           <Chip className="shrink-0 font-normal" label="참여하기" variant="filled" />
         )}
       </div>
-      {item.complete && (
+      {completed && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <div className="relative flex flex-col items-center text-point-orange">
+          <div className="relative flex flex-col items-center text-off-white">
             <PartyPopper aria-hidden="true" size={36} strokeWidth={1.8} />
             <p className="mt-2 text-2xl font-semibold leading-[1.08] tracking-[-0.02em]">
               챌린지 완료!
@@ -129,23 +181,6 @@ function ChallengeListCard({ item }: { item: (typeof challengeItems)[number] }) 
       )}
     </>
   );
-
-  if (item.to) {
-    return (
-      <Link
-        className={cardClassName}
-        onClick={() =>
-          sessionStorage.setItem(
-            CHALLENGE_REWARD_STORAGE_KEY,
-            buildRewardMessage(item.title, item.description),
-          )
-        }
-        to={item.to}
-      >
-        {content}
-      </Link>
-    );
-  }
 
   return <article className={cardClassName}>{content}</article>;
 }
@@ -180,14 +215,38 @@ function RewardDialog({ message, onClose }: { message: string | null; onClose: (
 }
 
 export function ChallengeListPage() {
+  const [completedChallengeTitles, setCompletedChallengeTitles] = useState<string[]>(() =>
+    isPageReload() ? [] : getStoredCompletedChallengeTitles(),
+  );
   const [rewardMessage, setRewardMessage] = useState<string | null>(null);
 
   useEffect(() => {
+    if (isPageReload()) {
+      sessionStorage.removeItem(CHALLENGE_REWARD_STORAGE_KEY);
+      sessionStorage.removeItem(COMPLETED_CHALLENGES_STORAGE_KEY);
+      setCompletedChallengeTitles([]);
+      return;
+    }
+
     const pendingReward = sessionStorage.getItem(CHALLENGE_REWARD_STORAGE_KEY);
 
     if (pendingReward) {
       sessionStorage.removeItem(CHALLENGE_REWARD_STORAGE_KEY);
-      setRewardMessage(pendingReward);
+
+      try {
+        const reward = JSON.parse(pendingReward) as PendingChallengeReward;
+
+        setRewardMessage(reward.message);
+        setCompletedChallengeTitles((titles) => {
+          const nextTitles = titles.includes(reward.title) ? titles : [...titles, reward.title];
+
+          sessionStorage.setItem(COMPLETED_CHALLENGES_STORAGE_KEY, JSON.stringify(nextTitles));
+
+          return nextTitles;
+        });
+      } catch {
+        setRewardMessage(pendingReward);
+      }
     }
   }, []);
 
@@ -198,7 +257,11 @@ export function ChallengeListPage() {
         <section className="wrap flex flex-col items-center px-5 pb-[132px] pt-[calc(var(--app-header-height)+24px)]">
           <div className="flex w-full flex-col gap-[10px]">
             {challengeItems.map((item) => (
-              <ChallengeListCard item={item} key={item.title} />
+              <ChallengeListCard
+                completed={completedChallengeTitles.includes(item.title)}
+                item={item}
+                key={item.title}
+              />
             ))}
           </div>
         </section>

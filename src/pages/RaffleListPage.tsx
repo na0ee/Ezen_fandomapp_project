@@ -21,36 +21,42 @@ const raffleItems = [
     id: "lazy-before-1",
     brand: "Maison Margiela Fragrances",
     name: "Lazy Sunday Morning",
+    nameKo: "레이지 선데이 모닝",
     state: "before",
   },
   {
     id: "lazy-before-2",
     brand: "Maison Margiela Fragrances",
     name: "Lazy Sunday Morning",
+    nameKo: "레이지 선데이 모닝",
     state: "before",
   },
   {
     id: "blackberry-1",
     brand: "Jo Malone London",
     name: "Blackberry & Bay Cologne",
+    nameKo: "블랙베리 앤 베이 코롱",
     state: "now",
   },
   {
     id: "blackberry-2",
     brand: "Jo Malone London",
     name: "Blackberry & Bay Cologne",
+    nameKo: "블랙베리 앤 베이 코롱",
     state: "now",
   },
   {
     id: "blackberry-3",
     brand: "Jo Malone London",
     name: "Blackberry & Bay Cologne",
+    nameKo: "블랙베리 앤 베이 코롱",
     state: "now",
   },
   {
     id: "blackberry-4",
     brand: "Jo Malone London",
     name: "Blackberry & Bay Cologne",
+    nameKo: "블랙베리 앤 베이 코롱",
     state: "now",
   },
 ] as const;
@@ -91,6 +97,7 @@ function RaffleCard({
 }) {
   const isBefore = item.state === "before";
   const isApplied = useRaffleApplied(item.id);
+  const displayName = item.nameKo;
 
   return (
     <article className="flex h-[108px] w-full max-w-[390px] items-center gap-4 overflow-hidden rounded-[16px] border border-light-grey bg-off-white p-2">
@@ -112,7 +119,7 @@ function RaffleCard({
             {item.brand}
           </p>
           <p className="mt-[2px] w-full truncate text-[15px] font-semibold leading-[1.25] tracking-[-0.02em] text-off-black">
-            {item.name}
+            {displayName}
           </p>
         </div>
         <div className="mt-[14px] flex items-center gap-2">
@@ -152,7 +159,9 @@ export function RaffleListPage() {
     }
 
     if (activeTab === "오픈 전") {
-      return raffleItems.filter((item) => item.state === "before");
+      return [...raffleItems.filter((item) => item.state === "before")].sort(
+        (a, b) => Number(Boolean(alarmStates[b.id])) - Number(Boolean(alarmStates[a.id])),
+      );
     }
 
     if (activeTab === "응모완료") {
@@ -160,7 +169,7 @@ export function RaffleListPage() {
     }
 
     return raffleItems;
-  }, [activeTab, appliedRaffleIds]);
+  }, [activeTab, alarmStates, appliedRaffleIds]);
 
   function handleAlarmToggle(id: string) {
     setAlarmStates((current) => ({
