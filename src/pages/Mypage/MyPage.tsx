@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import type { PointerEvent, ReactNode } from "react";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { BottomNavigation } from "../../components/common/BottomNavigation";
 import { HeaderActions } from "../../components/common/HeaderActions";
 import { HeartButton } from "../../components/ui/HeartButton";
@@ -15,7 +16,7 @@ import fireBadge from "../../assets/mypage/fire-badge.svg";
 import perfumeLoewe from "../../assets/mypage/perfume-loewe.png";
 import perfumeSanta from "../../assets/mypage/perfume-santa.png";
 import profileAvatar from "../../assets/mypage/avatar.png";
-import profileBackground from "../../assets/mypage/profile-bg.png";
+import profileBackground from "../../assets/mypage/profile-bg2.jpg";
 import reviewOne from "../../assets/mypage/review-1.png";
 import reviewTwo from "../../assets/mypage/review-2.png";
 import recentMagazine from "../../assets/mypage/saved-magazine.png";
@@ -61,7 +62,7 @@ const wishlist = [
 
 function CardScroller({ children, className = "" }: { children: ReactNode; className?: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const dragState = useRef({ active: false, startX: 0, scrollLeft: 0 });
+  const dragState = useRef({ active: false, startX: 0, scrollLeft: 0, pendingLeft: 0, rafId: 0 });
 
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
     if (event.pointerType !== "mouse" || event.button !== 0 || !scrollRef.current) return;
@@ -70,6 +71,8 @@ function CardScroller({ children, className = "" }: { children: ReactNode; class
       active: true,
       startX: event.clientX,
       scrollLeft: scrollRef.current.scrollLeft,
+      pendingLeft: scrollRef.current.scrollLeft,
+      rafId: 0,
     };
     scrollRef.current.setPointerCapture(event.pointerId);
     scrollRef.current.classList.add("is-dragging");
@@ -80,21 +83,30 @@ function CardScroller({ children, className = "" }: { children: ReactNode; class
     if (event.buttons !== 1) return stopDragging(event);
 
     event.preventDefault();
-    scrollRef.current.scrollLeft = dragState.current.scrollLeft - (event.clientX - dragState.current.startX);
+    dragState.current.pendingLeft = dragState.current.scrollLeft - (event.clientX - dragState.current.startX);
+
+    if (!dragState.current.rafId) {
+      dragState.current.rafId = requestAnimationFrame(() => {
+        dragState.current.rafId = 0;
+        if (scrollRef.current) scrollRef.current.scrollLeft = dragState.current.pendingLeft;
+      });
+    }
   };
 
   const stopDragging = (event: PointerEvent<HTMLDivElement>) => {
     const element = scrollRef.current;
     if (!dragState.current.active || !element) return;
 
+    if (dragState.current.rafId) cancelAnimationFrame(dragState.current.rafId);
     dragState.current.active = false;
+    dragState.current.rafId = 0;
     element.classList.remove("is-dragging");
     if (element.hasPointerCapture(event.pointerId)) element.releasePointerCapture(event.pointerId);
   };
 
   return (
     <div
-      className={`horizontal-scroller scrollbar-hidden snap-x snap-mandatory overflow-x-auto overscroll-x-contain touch-pan-x ${className}`}
+      className={`horizontal-scroller scrollbar-hidden overflow-x-auto overscroll-x-contain touch-pan-x ${className}`}
       onDragStart={(event) => event.preventDefault()}
       onLostPointerCapture={() => {
         dragState.current.active = false;
@@ -112,13 +124,15 @@ function CardScroller({ children, className = "" }: { children: ReactNode; class
 }
 
 function SectionTitle({ children, to }: { children: string; to?: string }) {
-  return <CommonSectionTitle moreHref={to} showMore title={children} variant="detail" />;
+  return <CommonSectionTitle moreHref={to} showMore={Boolean(to)} title={children} variant="detail" />;
 }
 
 function ProfileSection() {
+  const navigate = useNavigate();
+
   return (
     <section className="relative h-[500px] overflow-hidden bg-off-black">
-      <img alt="" className="absolute inset-0 size-full object-cover" src={profileBackground} />
+      <img alt="" className="absolute inset-0 size-full object-cover object-bottom" src={profileBackground} />
       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(26,26,26,0.62)] via-[rgba(26,26,26,0.18)] to-transparent" />
       <div className="absolute inset-x-0 bottom-0">
         <div className="mb-[9px] flex items-center gap-2 px-side text-off-white">
@@ -154,8 +168,12 @@ function ProfileSection() {
               <span className="text-base font-semibold text-off-black">1,200P</span> 더 쌓으면 다음 등급으로 올라갈 수 있어요!
             </p>
           </div>
-          <button className="mt-5 flex h-[43px] w-full items-center justify-between rounded-card bg-point-orange/80 px-3 text-sm font-medium tracking-[-0.02em] text-off-white" type="button">
-            <span className="flex-1 text-center">온보딩 테스트 다시하기</span>
+          <button
+            className="mt-5 flex h-[43px] w-full cursor-pointer items-center justify-between rounded-card bg-point-orange/80 px-3 text-sm font-medium tracking-[-0.02em] text-off-white"
+            onClick={() => navigate("/onboarding/1")}
+            type="button"
+          >
+            <span className="text-left">온보딩 테스트 다시하기</span>
             <ChevronRight aria-hidden="true" size={18} strokeWidth={1.8} />
           </button>
         </div>
@@ -170,7 +188,7 @@ function PerfumeSection() {
       <SectionTitle to="/mypage/perfumes">내 향수 관리하기</SectionTitle>
       <CardScroller className="-mr-side mt-title-gap flex gap-4 pb-px pr-side">
         {perfumes.map((perfume, index) => (
-          <article className="flex h-[337px] w-[241px] shrink-0 snap-start items-center justify-center overflow-hidden rounded-card border-[0.8px] border-light-grey bg-off-white px-3 py-[30px]" key={`${perfume.brand}-${index}`}>
+          <article className="flex h-[337px] w-[241px] shrink-0 items-center justify-center overflow-hidden rounded-card border-[0.8px] border-light-grey bg-off-white px-3 py-[30px]" key={`${perfume.brand}-${index}`}>
             <div className="flex w-[217px] flex-col items-center gap-[30px]">
               <div className="relative size-[150px] shrink-0 overflow-hidden rounded-card">
                 {perfume.brand === "LOEWE PERFUMES" ? (
@@ -184,9 +202,9 @@ function PerfumeSection() {
                 )}
               </div>
               <div className="flex w-full flex-col items-center gap-4 whitespace-nowrap text-center leading-none tracking-[-0.02em]">
-                <div className="flex w-full flex-col items-center gap-1.5 overflow-hidden">
-                  <h3 className="max-w-full truncate text-xl font-bold">{perfume.brand}</h3>
-                  <p className="w-full truncate text-base font-medium text-grey">{perfume.name}</p>
+                <div className="flex w-full flex-col items-center gap-1 overflow-hidden">
+                  <h3 className="max-w-full truncate text-base font-semibold">{perfume.brand}</h3>
+                  <p className="w-full truncate text-xs font-medium text-grey">{perfume.name}</p>
                 </div>
                 <div className="flex flex-col items-center gap-1 text-xs text-grey">
                   <p>개봉일&nbsp; 202X.XX.XX</p>
@@ -204,17 +222,17 @@ function PerfumeSection() {
 function MagazineSection() {
   return (
     <section className="px-side">
-      <SectionTitle to="/magazine">최근 본 매거진</SectionTitle>
+      <SectionTitle>최근 본 매거진</SectionTitle>
       <CardScroller className="-mr-side mt-title-gap flex gap-4 pr-side">
         {[0, 1, 2].map((item) => (
-          <article className="relative h-72 w-[262px] shrink-0 snap-start overflow-hidden rounded-card border-[0.8px] border-light-grey text-off-white" key={item}>
+          <article className="relative h-72 w-[262px] shrink-0 overflow-hidden rounded-card border-[0.8px] border-light-grey text-off-white" key={item}>
             <img alt="계절별 향수 선택 가이드" className="absolute inset-0 size-full object-cover" src={recentMagazine} />
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80" />
             <div className="absolute inset-0 flex flex-col p-5">
               <p className="font-cormorant text-xs font-medium leading-[normal]">Scent Match</p>
               <div className="mt-[124px]">
                 <h3 className="h-[19px] w-[167px] truncate text-base font-semibold leading-[19px] tracking-[-0.02em]">계절별 향수 선택 가이드</h3>
-                <p className="mt-[7px] h-[34px] w-[167px] text-xs font-medium leading-[1.4] tracking-[-0.02em]">봄, 여름, 가을 , 겨울<br />어떤 향이 어울릴까?</p>
+                <p className="mt-[7px] h-[34px] w-[167px] text-xs font-normal leading-[1.4] tracking-[-0.02em]">봄, 여름, 가을 , 겨울<br />어떤 향이 어울릴까?</p>
                 <div className="mt-5 flex h-4 w-[219px] items-center justify-between text-xs leading-[normal] tracking-[-0.02em]">
                   <span>2026.07.13</span>
                   <ArrowRight aria-hidden="true" size={16} strokeWidth={1.6} />
@@ -282,7 +300,7 @@ function ReviewSection() {
           <article className="flex h-14 items-center gap-3 rounded-[24px] border-[0.8px] border-light-grey p-3.5" key={review.text}>
             <img alt="" className="size-7 rounded-full object-cover" src={review.image} />
             <span className="flex items-center gap-0.5 text-xs font-medium tracking-[-0.02em]">
-              <Star className="fill-point-orange text-point-orange" size={14} strokeWidth={1.5} />{review.rating}
+              <Star className="fill-[#FFBB00] text-[#FFBB00]" size={14} strokeWidth={1.5} />{review.rating}
             </span>
             <p className="text-sm font-medium tracking-[-0.02em]">{review.text}</p>
           </article>
@@ -313,7 +331,7 @@ function AccountSection() {
 
 export default function MyPage() {
   return (
-    <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
+    <main className="mx-auto min-h-dvh w-full max-w-[430px] select-none overflow-x-hidden bg-off-white text-off-black">
       <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between overflow-hidden bg-off-white px-side pt-[var(--app-safe-top)]">
         <h1 className="text-2xl font-semibold leading-[1.3] tracking-[-0.02em]">마이페이지</h1>
         <HeaderActions />

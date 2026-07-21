@@ -6,11 +6,11 @@ type HeartButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   tone?: "dark" | "light";
 };
 
-export function HeartButton({ iconSize = 24, isSelected, tone = "dark", ...props }: HeartButtonProps) {
+export function HeartButton({ className = "", iconSize = 24, isSelected, tone = "dark", ...props }: HeartButtonProps) {
   const color = isSelected ? "#FF4800" : tone === "light" ? "#DDDDDD" : "#4D4D4D";
 
   return (
-    <button aria-label="찜하기" aria-pressed={isSelected} type="button" {...props}>
+    <button aria-label="찜하기" aria-pressed={isSelected} className={`cursor-pointer ${className}`} type="button" {...props}>
       <svg
         aria-hidden="true"
         className="block size-full"
