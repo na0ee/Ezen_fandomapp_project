@@ -2,6 +2,7 @@ import { ChevronRight, ChevronDown } from "lucide-react";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { BackHeader } from "../components/common/BackHeader";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { PERFUMES } from "../data/perfumes";
 import perfumeLoewe from "../assets/mypage/perfume-loewe.png";
 import perfumeSanta from "../assets/mypage/perfume-santa.png";
 import reviewProductThree from "../assets/mypage/review-product-3.png";
@@ -17,27 +18,9 @@ const weekDays = [
 ];
 
 const perfumes = [
-  {
-    brand: "Santa Maria Novella",
-    name: "엔젤 디 피렌체 오드코롱 100ml",
-    status: "2일 전 사용",
-    memo: "간단한 메모",
-    image: perfumeSanta,
-  },
-  {
-    brand: "LOEWE PERFUMES",
-    name: "로에베 아이레 수틸레사 오 드 뚜왈렛 50ml",
-    status: "3일 전 사용",
-    memo: "간단한 메모",
-    image: perfumeLoewe,
-  },
-  {
-    brand: "MATIERE PREMIERE",
-    name: "마티에 프리미에르 메탈 라벤더 오 드 퍼퓸 50ml",
-    status: "3일 전 사용",
-    memo: "간단한 메모",
-    image: reviewProductThree,
-  },
+  { ...PERFUMES.angelDiFirenze, status: "2일 전 사용", memo: "간단한 메모", image: perfumeSanta },
+  { ...PERFUMES.loeweAireSutilesa, status: "3일 전 사용", memo: "간단한 메모", image: perfumeLoewe },
+  { ...PERFUMES.matiereMetalLavender, status: "3일 전 사용", memo: "간단한 메모", image: reviewProductThree },
 ];
 
 function DetailHeader({ title }: { title: string }) {

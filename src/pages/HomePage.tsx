@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { PerfumeRankCard } from "../components/perfume/PerfumeRankCard";
 import type { PerfumeRankItem } from "../components/perfume/PerfumeRankCard";
+import { PERFUMES } from "../data/perfumes";
 
 const figmaNode = {
   screen: "726:6574",
@@ -114,8 +115,8 @@ const rankCards: PerfumeRankItem[] = [
   {
     id: "jo-malone-blackberry-bay",
     rank: "1위",
-    name: "블랙베리 앤 베이 30ml",
-    brand: "JO MALONE LONDON",
+    name: PERFUMES.blackberryBay30.name,
+    brand: PERFUMES.blackberryBay30.brand,
     category: "fruity",
     description: "블랙베리의 달콤함과 베이 리프의 그린함이 겹쳐지는 향",
     image: assets.rankOne,
@@ -126,8 +127,8 @@ const rankCards: PerfumeRankItem[] = [
   {
     id: "diptyque-fleur-de-peau",
     rank: "2위",
-    name: "플레르 드 뽀 50ml",
-    brand: "DIPTYQUE",
+    name: PERFUMES.diptyqueFleurDePeau.name,
+    brand: PERFUMES.diptyqueFleurDePeau.brand,
     category: "musk",
     description: "부드러운 머스크와 파우더리한 향이 오래 남는 향수",
     image: assets.rankTwo,
@@ -137,8 +138,8 @@ const rankCards: PerfumeRankItem[] = [
   {
     id: "chanel-no5",
     rank: "3위",
-    name: "넘버 파이브",
-    brand: "CHANEL",
+    name: PERFUMES.chanelNo5.name,
+    brand: PERFUMES.chanelNo5.brand,
     category: "floral",
     description: "알데하이드와 플로럴 부케가 중심이 되는 클래식 플로럴 향",
     image: assets.rankThree,

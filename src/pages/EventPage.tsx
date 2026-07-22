@@ -9,6 +9,7 @@ import { BottomNavigation } from "../components/common/BottomNavigation";
 import { Header } from "../components/common/Header";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { otherUsers, type UserProfile } from "../data/users";
+import { PERFUMES } from "../data/perfumes";
 import fireBadge from "../assets/mypage/fire-badge.svg";
 
 const figmaNode = {
@@ -70,26 +71,9 @@ const challengeCards = [
 ];
 
 const raffleItems = [
-  {
-    id: "lazy-sunday-today",
-    brand: "Maison Margiela Fragrances",
-    name: "Lazy Sunday Morning",
-    image: assets.raffleToday,
-    disabled: true,
-    today: true,
-  },
-  {
-    id: "blackberry-bay",
-    brand: "Jo Malone London",
-    name: "Blackberry & Bay Cologne",
-    image: assets.raffleToday,
-  },
-  {
-    id: "lazy-sunday-bottle",
-    brand: "Maison Margiela Fragrances",
-    name: "Lazy Sunday Morning",
-    image: assets.raffleBottle,
-  },
+  { id: "lazy-sunday-today", ...PERFUMES.lazySundayMorning, image: assets.raffleToday, disabled: true, today: true },
+  { id: "blackberry-bay", ...PERFUMES.blackberryBayCologne, image: assets.raffleToday },
+  { id: "lazy-sunday-bottle", ...PERFUMES.lazySundayMorning, image: assets.raffleBottle },
 ];
 
 function EventHeader() {

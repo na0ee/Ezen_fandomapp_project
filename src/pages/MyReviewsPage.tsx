@@ -3,6 +3,7 @@ import { useState } from "react";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { BackHeader } from "../components/common/BackHeader";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { PERFUMES } from "../data/perfumes";
 import reviewProductOne from "../assets/mypage/review-product-1.png";
 import reviewProductTwo from "../assets/mypage/review-product-2.png";
 import reviewProductThree from "../assets/mypage/review-product-3.png";
@@ -26,15 +27,13 @@ const pendingReviews = [
 
 const writtenReviews = [
   {
-    brand: "Santa Maria Novella",
-    name: "엔젤 디 피렌체 오드코롱 100ml",
+    ...PERFUMES.angelDiFirenze,
     image: reviewProductOne,
     date: "2026.xx.xx",
     text: "비싼값하는거같음",
   },
   {
-    brand: "MATIERE PREMIERE",
-    name: "마티에 프리미에르 메탈 라벤더 오 드 퍼퓸 50ml",
+    ...PERFUMES.matiereMetalLavender,
     image: reviewProductThree,
     date: "2026.xx.xx",
     text: "흔히 생각하는 방향제 같은 라벤더가 아니라 차가운 느낌의 라벤더 향수인듯 텁텁함 없이 투명한 향이라 계절 상관없이 미니멀하게 뿌리기 좋음",
@@ -43,8 +42,7 @@ const writtenReviews = [
 
 const reviewableItems = [
   {
-    brand: "LOEWE PERFUMES",
-    name: "로에베 아이레 수틸레사 오 드 뚜왈렛 50ml",
+    ...PERFUMES.loeweAireSutilesa,
     image: reviewProductTwo,
     date: "2026.xx.xx",
   }

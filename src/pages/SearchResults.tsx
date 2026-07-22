@@ -1,36 +1,17 @@
 import { Bookmark, ChevronLeft, Search } from "lucide-react";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { PERFUMES } from "../data/perfumes";
 import aesopImage from "../assets/search-results/aesop.png";
 import byredoImage from "../assets/search-results/byredo.png";
 import fredericMalleImage from "../assets/search-results/frederic-malle.png";
 import leLaboImage from "../assets/search-results/le-labo.png";
 
 const searchResults = [
-  {
-    brand: "Byredo",
-    name: "Gypsy Water",
-    notes: "우디 · 바닐라",
-    image: byredoImage,
-  },
-  {
-    brand: "Frederic Malle",
-    name: "Portrait of A Lady",
-    notes: "로즈 · 앰버",
-    image: fredericMalleImage,
-  },
-  {
-    brand: "Aesop",
-    name: "Tacit",
-    notes: "시트러스 · 허브",
-    image: aesopImage,
-  },
-  {
-    brand: "Le Labo",
-    name: "Another 13",
-    notes: "머스크 · 앰브록산",
-    image: leLaboImage,
-  },
+  { ...PERFUMES.gypsyWater, image: byredoImage },
+  { ...PERFUMES.portraitOfALady, image: fredericMalleImage },
+  { ...PERFUMES.tacit, image: aesopImage },
+  { ...PERFUMES.another13, image: leLaboImage },
 ];
 
 function ResultCard({ result }: { result: (typeof searchResults)[number] }) {

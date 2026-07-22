@@ -3,6 +3,7 @@ import { useState } from "react";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { BackHeader } from "../components/common/BackHeader";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { PERFUMES } from "../data/perfumes";
 import selectedHeart from "../assets/mypage/heart-selected.svg";
 import wishlistCardBuly from "../assets/mypage/wishlist-card-buly.png";
 import wishlistCardBvlgari from "../assets/mypage/wishlist-card-bvlgari.png";
@@ -23,30 +24,10 @@ const filterOptions: Record<FilterTab, string[]> = {
 const selectedFilters = ["메종 마르지엘라", "100ml ~ 200ml 미만", "스위트/플로럴"];
 
 const wishItems = [
-  {
-    brand: "MAISON MARGIELA FRAGRANCES",
-    name: "체이싱 선셋 EDT 30ML",
-    image: wishlistCardReplicaOrange,
-    keywords: ["#망고 어코드", "#튜베로즈", "#샌달우드"],
-  },
-  {
-    brand: "BVLGARI PERFUME",
-    name: "불가리 옴니아 아메시스트 오 드 뚜왈렛 100ml",
-    image: wishlistCardBvlgari,
-    keywords: ["#파우더리", "#아이리스", "#바닐라"],
-  },
-  {
-    brand: "BULY",
-    name: "클래식 오 트리쁠 향수 75ml - 이리 드 말트",
-    image: wishlistCardBuly,
-    keywords: ["#레몬 그라스", "#아이리스", "#인센스"],
-  },
-  {
-    brand: "MAISON MARGIELA FRAGRANCES",
-    name: "레이지 선데이 모닝 EDT 100ML",
-    image: wishlistCardReplicaWhite,
-    keywords: ["#은방울꽃", "#아이리스", "#화이트 머스크"],
-  },
+  { ...PERFUMES.chasingSunset, image: wishlistCardReplicaOrange, keywords: ["#망고 어코드", "#튜베로즈", "#샌달우드"] },
+  { ...PERFUMES.bvlgariOmniaAmethyst, image: wishlistCardBvlgari, keywords: ["#파우더리", "#아이리스", "#바닐라"] },
+  { ...PERFUMES.bulyTriple, image: wishlistCardBuly, keywords: ["#레몬 그라스", "#아이리스", "#인센스"] },
+  { ...PERFUMES.lazySundayMorningEdt, image: wishlistCardReplicaWhite, keywords: ["#은방울꽃", "#아이리스", "#화이트 머스크"] },
 ];
 
 function DetailHeader({ title }: { title: string }) {

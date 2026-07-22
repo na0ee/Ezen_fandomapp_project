@@ -11,6 +11,7 @@ import { BottomNavigation } from "../../components/common/BottomNavigation";
 import { Header } from "../../components/common/Header";
 import { HeaderActions } from "../../components/common/HeaderActions";
 import { myProfile } from "../../data/users";
+import { PERFUMES } from "../../data/perfumes";
 import fireBadge from "../../assets/mypage/fire-badge.svg";
 import perfumeLoewe from "../../assets/mypage/perfume-loewe.png";
 import perfumeSanta from "../../assets/mypage/perfume-santa.png";
@@ -26,39 +27,15 @@ import wishlistThree from "../../assets/mypage/wishlist-3.png";
 import selectedHeart from "../../assets/mypage/heart-selected.svg";
 
 const perfumes = [
-  {
-    brand: "Santa Maria Novella",
-    name: "엔젤 디 피렌체 오드코롱 100ml",
-    image: perfumeSanta,
-  },
-  {
-    brand: "LOEWE PERFUMES",
-    name: "로에베 아이레 수틸레사 오 드 뚜왈렛 50ML",
-    image: perfumeLoewe,
-  },
-  {
-    brand: "Santa Maria Novella",
-    name: "엔젤 디 피렌체 오드코롱 100ml",
-    image: perfumeSanta,
-  },
+  { ...PERFUMES.angelDiFirenze, image: perfumeSanta },
+  { ...PERFUMES.loeweAireSutilesa, image: perfumeLoewe },
+  { ...PERFUMES.angelDiFirenze, image: perfumeSanta },
 ];
 
 const wishlist = [
-  {
-    brand: "MAISON MARGIELA FRAGRANCES",
-    name: "체이싱 선셋 EDT 30ML",
-    image: wishlistOne,
-  },
-  {
-    brand: "BVLGARI PERFUME",
-    name: "불가리 옴니아 아메시스트",
-    image: wishlistTwo,
-  },
-  {
-    brand: "BULY",
-    name: "클래식 오 트리쁠 향수 75ml - 이리 드 말트",
-    image: wishlistThree,
-  },
+  { ...PERFUMES.chasingSunset, image: wishlistOne },
+  { ...PERFUMES.bvlgariOmniaAmethyst, image: wishlistTwo },
+  { ...PERFUMES.bulyTriple, image: wishlistThree },
 ];
 
 function CardScroller({ children, className = "" }: { children: ReactNode; className?: string }) {

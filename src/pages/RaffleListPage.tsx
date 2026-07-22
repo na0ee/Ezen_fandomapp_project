@@ -5,6 +5,7 @@ import { BottomNavigation } from "../components/common/BottomNavigation";
 import { BackHeader } from "../components/common/BackHeader";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { Chip } from "../components/ui/Chip";
+import { PERFUMES } from "../data/perfumes";
 
 const assets = Object.fromEntries(
   Object.entries({
@@ -16,42 +17,12 @@ const categoryTabs = ["전체", "진행중", "오픈 전", "종료"] as const;
 type CategoryTab = (typeof categoryTabs)[number];
 
 const raffleItems = [
-  {
-    id: "lazy-before-1",
-    brand: "Maison Margiela Fragrances",
-    name: "Lazy Sunday Morning",
-    state: "before",
-  },
-  {
-    id: "lazy-before-2",
-    brand: "Maison Margiela Fragrances",
-    name: "Lazy Sunday Morning",
-    state: "before",
-  },
-  {
-    id: "blackberry-1",
-    brand: "Jo Malone London",
-    name: "Blackberry & Bay Cologne",
-    state: "now",
-  },
-  {
-    id: "blackberry-2",
-    brand: "Jo Malone London",
-    name: "Blackberry & Bay Cologne",
-    state: "now",
-  },
-  {
-    id: "blackberry-3",
-    brand: "Jo Malone London",
-    name: "Blackberry & Bay Cologne",
-    state: "now",
-  },
-  {
-    id: "blackberry-4",
-    brand: "Jo Malone London",
-    name: "Blackberry & Bay Cologne",
-    state: "now",
-  },
+  { id: "lazy-before-1", ...PERFUMES.lazySundayMorning, state: "before" },
+  { id: "lazy-before-2", ...PERFUMES.lazySundayMorning, state: "before" },
+  { id: "blackberry-1", ...PERFUMES.blackberryBayCologne, state: "now" },
+  { id: "blackberry-2", ...PERFUMES.blackberryBayCologne, state: "now" },
+  { id: "blackberry-3", ...PERFUMES.blackberryBayCologne, state: "now" },
+  { id: "blackberry-4", ...PERFUMES.blackberryBayCologne, state: "now" },
 ] as const;
 
 function RaffleHeader() {

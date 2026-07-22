@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import fireBadge from "../assets/mypage/fire-badge.svg";
 import { otherUsers } from "../data/users";
+import { PERFUMES } from "../data/perfumes";
 
 const assets = Object.fromEntries(
   Object.entries({
@@ -11,16 +12,8 @@ const assets = Object.fromEntries(
 ) as Record<string, string>;
 
 const perfumeItems = [
-  {
-    brand: "Jo Malone London",
-    name: "Blackberry & Bay Cologne",
-    image: assets.perfume,
-  },
-  {
-    brand: "Jo Malone London",
-    name: "Blackberry & Bay Cologne",
-    image: assets.perfume,
-  },
+  { ...PERFUMES.blackberryBayCologne, image: assets.perfume },
+  { ...PERFUMES.blackberryBayCologne, image: assets.perfume },
 ];
 
 const PROFILE_DESCRIPTION = "오늘 무드에 어울리는 향을 찾고 있어요.\n저랑 어울리는 향수를 추천해주세요!";
