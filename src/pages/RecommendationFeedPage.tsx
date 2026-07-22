@@ -5,6 +5,7 @@ import fireBadge from "../assets/mypage/fire-badge.svg";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { BackHeader } from "../components/common/BackHeader";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { myProfile, otherUsers, type UserProfile } from "../data/users";
 
 const assets = Object.fromEntries(
   Object.entries({
@@ -21,14 +22,6 @@ const assets = Object.fromEntries(
   }).map(([key, path]) => [key, `${import.meta.env.BASE_URL}${path.slice(1)}`]),
 ) as Record<string, string>;
 
-const feedItems = [
-  { id: "story-one", images: [assets.perfumeBed], tags: "#비 오는 날 #꾸안꾸", user: "ch1g0tn" },
-  { id: "story-two", images: [assets.storyBase, assets.storyOverlay], tags: "#여행 #예쁘다", user: "Jennie" },
-  { id: "story-three", images: [assets.blond], tags: "#밤산책 #향수추천", user: "Juhoon" },
-  { id: "story-four", images: [assets.carouselTwo], tags: "#여름 #서울한강", user: "nanana" },
-  { id: "story-five", images: [assets.perfumeShelf], tags: "#여름스웩 #한산한날", user: "nanana." },
-  { id: "story-six", images: [assets.carouselThree], tags: "#겨울의향 #하얀눈", user: "lalalala" },
-];
 
 const receivedRecommendations = Array.from({ length: 4 }, (_, index) => ({
   id: `received-${index + 1}`,
@@ -71,20 +64,26 @@ function TopTabs({ activeTab, onChange }: { activeTab: MainTab; onChange: (tab: 
   );
 }
 
-function FeedCard({ item }: { item: (typeof feedItems)[number] }) {
+function FeedCard({ user }: { user: UserProfile }) {
   return (
     <Link
-      aria-label={`${item.user} 향 추천 피드 보기`}
-      className="relative block h-[243px] overflow-hidden rounded-[10px] bg-light2-grey"
-      to={`/event/recommend-profile/${item.id}`}
+      aria-label={`${user.name} 향 추천 피드 보기`}
+      className="relative flex h-[297px] flex-col items-start justify-between overflow-hidden rounded-[10px] bg-light2-grey p-[14px]"
+      to={`/event/recommend-profile/${user.id}`}
     >
-      {item.images.map((image) => (
-        <img alt="" className="absolute inset-0 h-full w-full object-cover" key={image} src={image} />
-      ))}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 px-3 pb-3 text-off-white">
-        <p className="truncate text-xs font-medium leading-none tracking-[-0.02em]">{item.tags}</p>
-        <p className="truncate text-xl font-bold leading-none tracking-[-0.02em]">{item.user}</p>
+      <img alt="" className="absolute inset-0 h-full w-full rounded-[10px] object-cover" src={user.image} />
+      <div className="pointer-events-none absolute inset-0 rounded-[10px] bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
+      <span className="relative flex w-[102px] items-center rounded-[24px] bg-[rgba(26,26,26,0.5)] px-2.5 py-1">
+        <span className="font-cormorant text-base font-bold leading-[normal] tracking-[-0.02em] text-[#ededed]">
+          {user.layerBadge}
+        </span>
+      </span>
+      <div className="relative flex w-full flex-col items-start gap-2 text-off-white">
+        <p className="max-w-full truncate text-xl font-bold leading-[normal] tracking-[-0.02em]">{user.name}</p>
+        <div className="flex items-center gap-1.5 text-light-grey">
+          <span className="text-sm font-medium leading-none tracking-[-0.02em]">추천하러 가기</span>
+          <ChevronRight aria-hidden="true" size={18} strokeWidth={1.6} />
+        </div>
       </div>
     </Link>
   );
@@ -93,8 +92,8 @@ function FeedCard({ item }: { item: (typeof feedItems)[number] }) {
 function RecommendFeedGrid() {
   return (
     <div className="grid grid-cols-2 gap-2">
-      {feedItems.map((item) => (
-        <FeedCard item={item} key={item.id} />
+      {otherUsers.map((user) => (
+        <FeedCard key={user.id} user={user} />
       ))}
     </div>
   );
@@ -113,13 +112,13 @@ function MyFeedHero() {
           <div className="flex items-center gap-1">
             <span className="inline-flex h-[24px] items-center gap-0.5 rounded-full bg-black/20 pr-1.5 text-sm font-bold leading-none">
               <img alt="" aria-hidden="true" className="size-[19px]" src={fireBadge} />
-              LOVER
+              {myProfile.grade}
             </span>
             <span className="rounded-full bg-black/50 px-2.5 py-1 font-cormorant text-base font-bold leading-none text-light2-grey">
-              Mood Shifter
+              {myProfile.layerBadge}
             </span>
           </div>
-          <h2 className="mt-1 text-[34px] font-bold leading-[1.3] tracking-[-0.02em]">chlgotn</h2>
+          <h2 className="mt-1 text-[34px] font-bold leading-[1.3] tracking-[-0.02em]">{myProfile.name}</h2>
         </div>
       </div>
     </section>

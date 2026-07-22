@@ -8,6 +8,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { Header } from "../components/common/Header";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { otherUsers, type UserProfile } from "../data/users";
+import fireBadge from "../assets/mypage/fire-badge.svg";
 
 const figmaNode = {
   screen: "737:13784",
@@ -64,35 +66,6 @@ const challengeCards = [
     label: "Challenge",
     images: [assets.challengeRegister],
     description: "내 보유향수 첫 등록 시 30p, 등록할 때 마다 5p씩",
-  },
-];
-
-type StoryCardItem = {
-  id: string;
-  title: string;
-  cta: string;
-  count?: string;
-  images: string[];
-};
-
-const storyCards: StoryCardItem[] = [
-  {
-    id: "story-one",
-    title: "Juhoon",
-    cta: "추천하러 가기",
-    images: [assets.storyOneBase, assets.storyOne],
-  },
-  {
-    id: "story-two",
-    title: "Juhoon",
-    cta: "추천하러 가기",
-    images: [assets.storyOneBase, assets.storyOne],
-  },
-  {
-    id: "story-three",
-    title: "Juhoon",
-    cta: "추천하러 가기",
-    images: [assets.storyOneBase, assets.storyOne],
   },
 ];
 
@@ -273,13 +246,10 @@ function MainChallengeSection() {
 
 function ChallengeCard({ card }: { card: (typeof challengeCards)[number] }) {
   return (
-    <article className="relative flex h-[340px] w-[190px] shrink-0 flex-col items-center justify-center gap-4 overflow-hidden rounded-card border-[0.5px] border-[#BEBEBE] bg-off-white px-3.5 py-6">
-      <div className="flex flex-col items-center gap-2">
-        <p className="max-w-[150px] truncate text-xs font-medium leading-none tracking-[-0.02em] text-off-black">
-          {card.title}
-        </p>
-        <span className="h-px w-5 bg-off-black" />
-      </div>
+    <article className="relative flex w-[230px] shrink-0 flex-col items-center gap-[26px] overflow-hidden rounded-card border-[0.5px] border-[#BEBEBE] bg-off-white px-4 py-[22px]">
+      <p className="max-w-full truncate text-xl font-medium leading-[normal] tracking-[-0.02em] text-off-black">
+        {card.title}
+      </p>
       <div className="relative h-[190px] w-full rounded-[9px]">
         {card.images.map((image) => (
           <img
@@ -289,17 +259,12 @@ function ChallengeCard({ card }: { card: (typeof challengeCards)[number] }) {
             src={image}
           />
         ))}
-        <span className="absolute left-1/2 top-[-7px] flex w-[50px] -translate-x-1/2 justify-center rounded-full bg-off-black px-1.5 py-0.5 font-cormorant text-[8px] font-bold leading-none text-off-white">
+        <span className="absolute left-1/2 top-[-8.5px] -translate-x-1/2 rounded-full bg-off-black px-3 py-1 font-cormorant text-sm font-bold leading-[normal] text-off-white">
           {card.label}
         </span>
       </div>
-      <div className="flex w-full flex-col gap-2 text-xs font-medium leading-none tracking-[-0.02em] text-off-black">
-        <div className="flex items-center justify-between px-0.5">
-          <span>07</span>
-          <span className="h-px w-[120px] bg-off-black" />
-          <span>11</span>
-        </div>
-        <p className="truncate text-left">
+      <div className="flex w-full flex-col gap-2.5">
+        <p className="min-w-full truncate text-base font-medium leading-[normal] tracking-[-0.02em] text-off-black">
           {card.record ? (
             <>
               이번 주 <span className="text-point-orange">2일</span> 기록했어요
@@ -308,26 +273,9 @@ function ChallengeCard({ card }: { card: (typeof challengeCards)[number] }) {
             card.description
           )}
         </p>
-        {card.record ? (
-          <div className="flex items-center justify-between px-0.5">
-            {Array.from({ length: 7 }).map((_, index) => (
-              <span
-                className={`size-2 rounded-full border ${
-                  index < 2
-                    ? "border-point-orange bg-point-orange"
-                    : index === 3
-                      ? "border-off-black bg-off-black"
-                      : "border-off-black bg-off-white"
-                }`}
-                key={index}
-              />
-            ))}
-          </div>
-        ) : (
-          <p className="text-center text-xs font-medium leading-none tracking-[-0.02em] text-point-orange underline">
-            참여하기
-          </p>
-        )}
+        <p className="text-xs font-medium leading-[normal] tracking-[-0.02em] text-point-orange underline">
+          참여하기
+        </p>
       </div>
     </article>
   );
@@ -377,48 +325,39 @@ function ChallengeSection() {
   );
 }
 
-function StoryCard({ story }: { story: StoryCardItem }) {
-  const hasCount = Boolean(story.count);
-
+function StoryCard({ user }: { user: UserProfile }) {
   return (
-    <article className="relative h-[453px] w-[312px] shrink-0 overflow-hidden rounded-[10px]">
-      {story.images.map((image) => (
-        <img alt="" className="absolute inset-0 h-full w-full object-cover" key={image} src={image} />
-      ))}
-      {story.count && (
-        <span className="absolute right-5 top-4 rounded-full bg-[rgba(31,27,25,0.86)] px-3.5 py-2 font-geist text-base font-medium leading-none tracking-[-0.02em] text-off-white">
-          {story.count}
-        </span>
-      )}
-      <p
-        className={`absolute w-[264px] truncate text-[30px] tracking-[-0.02em] text-off-white ${
-          hasCount
-            ? "left-6 top-[299px] font-geist font-extrabold leading-[1.12]"
-            : "left-[14px] top-[369px] font-bold leading-none"
-        }`}
-      >
-        {story.title}
-      </p>
-      <Link
-        aria-label={`${story.title} 프로필에서 향수 추천하기`}
-        className={`absolute left-[14px] flex items-center gap-2 rounded-card border border-white/25 bg-white/15 px-2.5 py-[7px] text-off-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] backdrop-blur-md ${
-          hasCount ? "top-[405px]" : "top-[409px] h-[27px]"
-        }`}
-        to={`/event/recommend-profile/${story.id}`}
-      >
-        <span
-          className={`font-geist font-bold leading-none tracking-[-0.02em] ${hasCount ? "text-xl" : "text-[15px]"}`}
+    <article className="relative flex h-[460px] w-[296px] shrink-0 flex-col items-start justify-end overflow-hidden rounded-[10px] p-[18px]">
+      <img alt="" className="absolute inset-0 h-full w-full rounded-[10px] object-cover" src={user.image} />
+      <div className="pointer-events-none absolute inset-0 rounded-[10px] bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
+      <div className="relative flex w-full flex-col items-start gap-3">
+        <div className="flex flex-col items-start gap-2">
+          <div className="flex items-center gap-1">
+            <span className="flex items-center gap-1">
+              <img alt="" aria-hidden="true" className="size-[19px] shrink-0 object-contain" src={fireBadge} />
+              <span className="font-geist text-sm font-bold leading-[1.4] tracking-[-0.02em] text-white">
+                {user.grade}
+              </span>
+            </span>
+            <span className="flex w-[102px] items-center rounded-[24px] bg-[rgba(26,26,26,0.5)] px-2.5 py-1">
+              <span className="font-cormorant text-base font-bold leading-[normal] tracking-[-0.02em] text-[#ededed]">
+                {user.layerBadge}
+              </span>
+            </span>
+          </div>
+          <p className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em] text-off-white">
+            {user.name}
+          </p>
+        </div>
+        <Link
+          aria-label={`${user.name} 프로필에서 향수 추천하기`}
+          className="flex items-center gap-1.5 text-light-grey"
+          to={`/event/recommend-profile/${user.id}`}
         >
-          ↳
-        </span>
-        <span
-          className={`font-geist leading-none tracking-[-0.02em] ${
-            hasCount ? "text-[15px] font-medium" : "text-xs font-normal"
-          }`}
-        >
-          {story.cta}
-        </span>
-      </Link>
+          <span className="text-sm font-medium leading-none tracking-[-0.02em]">추천하러 가기</span>
+          <ChevronRight aria-hidden="true" size={18} strokeWidth={1.6} />
+        </Link>
+      </div>
     </article>
   );
 }
@@ -441,18 +380,18 @@ function GallerySection() {
   }
 
   return (
-    <section className="h-[549px] shrink-0 overflow-visible px-5" data-node-id={figmaNode.gallery}>
+    <section className="h-[556px] shrink-0 overflow-visible px-5" data-node-id={figmaNode.gallery}>
       <div className="inner flex h-full flex-col items-center">
         <SectionHead href="/event/recommend-feed" title="향 추천하기" />
         <div
-          className={`mt-[30px] h-[453px] w-full shrink-0 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${dragClassName}`}
+          className={`mt-[30px] h-[460px] w-full shrink-0 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${dragClassName}`}
           onScroll={(event) => setScrollProgress(getHorizontalScrollProgress(event))}
           ref={scrollContainerRef}
           {...dragHandlers}
         >
           <div className="flex w-max gap-[14px]">
-            {storyCards.map((story) => (
-              <StoryCard key={story.id} story={story} />
+            {otherUsers.slice(0, 3).map((user) => (
+              <StoryCard key={user.id} user={user} />
             ))}
           </div>
         </div>

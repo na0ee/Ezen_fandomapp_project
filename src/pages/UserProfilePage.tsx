@@ -2,11 +2,10 @@ import { ChevronLeft, Search, Send, UserCheck, UserPlus } from "lucide-react";
 import { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import fireBadge from "../assets/mypage/fire-badge.svg";
+import { otherUsers } from "../data/users";
 
 const assets = Object.fromEntries(
   Object.entries({
-    profileBase: "/assets/figma/e7f85eba-5c40-42f9-9816-f5f832b73194.png",
-    profileOverlay: "/assets/figma/f14bfcee-7044-4182-b366-ad50ccf0406d.png",
     perfume: "/assets/figma/1a1cf807-eb4f-4aa5-a14f-c60de2901496.png",
   }).map(([key, path]) => [key, `${import.meta.env.BASE_URL}${path.slice(1)}`]),
 ) as Record<string, string>;
@@ -24,41 +23,16 @@ const perfumeItems = [
   },
 ];
 
-const profiles = {
-  "story-one": {
-    name: "Juhoon",
-    badge: "LOVER",
-    mood: "Mood Shifter",
-    description:
-      "안녕하세요 코르티즈 주훈입니다.\n오늘 저의 사진은 밤산책하다가 마틴이 형이 찍어줬어요!\n저랑 어울리는 향수 추천해주세요!",
-    tags: ["#밤산책", "#향수추천"],
-    date: "2026.08.08 14:20",
-  },
-  "story-two": {
-    name: "Juhoon",
-    badge: "LOVER",
-    mood: "Mood Shifter",
-    description: "오늘 무드에 맞는 향을 찾고 있어요.\n잔잔하지만 오래 기억나는 향수로 추천해주세요!",
-    tags: ["#포근한향", "#머스크"],
-    date: "2026.08.08 14:20",
-  },
-  "story-three": {
-    name: "Juhoon",
-    badge: "LOVER",
-    mood: "Mood Shifter",
-    description: "가볍게 뿌리기 좋은 데일리 향을 찾고 있어요.\n저랑 어울릴 만한 향수를 골라주세요!",
-    tags: ["#데일리향수", "#시트러스"],
-    date: "2026.08.08 14:20",
-  },
-} as const;
+const PROFILE_DESCRIPTION = "오늘 무드에 어울리는 향을 찾고 있어요.\n저랑 어울리는 향수를 추천해주세요!";
+const PROFILE_DATE = "2026.08.08 14:20";
 
 export default function UserProfilePage() {
   const navigate = useNavigate();
-  const { profileId = "story-one" } = useParams();
+  const { profileId } = useParams();
   const [isFollowing, setIsFollowing] = useState(false);
   const [isRecommendSheetOpen, setIsRecommendSheetOpen] = useState(false);
   const [isCompleteOpen, setIsCompleteOpen] = useState(false);
-  const profile = profiles[profileId as keyof typeof profiles] ?? profiles["story-one"];
+  const profile = otherUsers.find((user) => user.id === profileId) ?? otherUsers[0];
 
   const handleRecommendComplete = () => {
     setIsRecommendSheetOpen(false);
@@ -80,16 +54,15 @@ export default function UserProfilePage() {
 
       <section className="pt-[54px]">
         <div className="relative h-[560px] overflow-hidden bg-off-black text-off-white">
-          <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.profileBase} />
-          <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.profileOverlay} />
+          <img alt="" className="absolute inset-0 h-full w-full object-cover" src={profile.image} />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
           <div className="absolute inset-x-5 bottom-6">
             <div className="flex items-center gap-2 text-sm font-bold leading-none">
               <span className="inline-flex items-center gap-1 rounded-full bg-black/30 py-1 pl-1 pr-2">
                 <img alt="" aria-hidden="true" className="size-[19px] object-contain" src={fireBadge} />
-                {profile.badge}
+                {profile.grade}
               </span>
-              <span className="rounded-full bg-black/35 px-2 py-1 font-cormorant text-base">{profile.mood}</span>
+              <span className="rounded-full bg-black/35 px-2 py-1 font-cormorant text-base">{profile.layerBadge}</span>
             </div>
             <h1 className="mt-2 text-[34px] font-bold leading-none tracking-[-0.02em]">{profile.name}</h1>
           </div>
@@ -97,14 +70,14 @@ export default function UserProfilePage() {
 
         <div className="px-5 pb-10 pt-6">
           <p className="whitespace-pre-line text-sm font-medium leading-[1.32] tracking-[-0.02em]">
-            {profile.description}
+            {PROFILE_DESCRIPTION}
           </p>
           <div className="mt-4 flex flex-wrap gap-2 text-sm font-medium tracking-[-0.02em]">
-            {profile.tags.map((tag) => (
+            {profile.hashtags.map((tag) => (
               <span key={tag}>{tag}</span>
             ))}
           </div>
-          <p className="mt-4 text-xs font-medium tracking-[-0.02em] text-grey">{profile.date}</p>
+          <p className="mt-4 text-xs font-medium tracking-[-0.02em] text-grey">{PROFILE_DATE}</p>
 
           <div className="mx-auto mt-8 flex w-[325px] gap-2">
             <button
@@ -136,7 +109,7 @@ export default function UserProfilePage() {
         onClose={() => setIsRecommendSheetOpen(false)}
         onComplete={handleRecommendComplete}
       />
-      <RecommendCompleteDialog isOpen={isCompleteOpen} onClose={() => setIsCompleteOpen(false)} />
+      <RecommendCompleteDialog isOpen={isCompleteOpen} onClose={() => setIsCompleteOpen(false)} userName={profile.name} />
     </main>
   );
 }
@@ -268,7 +241,7 @@ function RecommendBottomSheet({
   );
 }
 
-function RecommendCompleteDialog({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+function RecommendCompleteDialog({ isOpen, onClose, userName }: { isOpen: boolean; onClose: () => void; userName: string }) {
   if (!isOpen) {
     return null;
   }
@@ -287,7 +260,7 @@ function RecommendCompleteDialog({ isOpen, onClose }: { isOpen: boolean; onClose
       >
         <h2 className="text-xl font-bold tracking-[-0.02em]">추천 완료</h2>
         <p className="mt-3 text-sm font-medium leading-[1.45] tracking-[-0.02em] text-grey">
-          Juhoon님에게 향수 추천을 보냈어요.
+          {userName}님에게 향수 추천을 보냈어요.
         </p>
         <button
           className="mt-6 h-12 w-full rounded-[32px] bg-off-black text-base font-bold tracking-[-0.02em] text-off-white"
