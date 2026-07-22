@@ -559,7 +559,7 @@ function RaffleSection() {
 
 export function EventPage() {
   return (
-    <main className="min-h-dvh bg-off-white" data-node-id={figmaNode.screen}>
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white" data-node-id={figmaNode.screen}>
       <div className="relative mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-off-white">
         <EventHeader />
         <div

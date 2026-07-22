@@ -522,7 +522,7 @@ function ExploreSection() {
 
 export default function MagazinePage() {
   return (
-    <main className="min-h-dvh bg-off-white">
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white">
       <div className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-off-white">
         <MagazineHeader />
         <div className="wrap flex flex-col gap-16 pt-[118px] pb-[112px]">
