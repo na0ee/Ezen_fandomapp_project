@@ -1,9 +1,8 @@
-import { Check, ChevronDown, ChevronLeft, Search, X } from "lucide-react";
+import { Check, ChevronDown, Search, X } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
-import { PerfumeIcon } from "../components/icons/PerfumeIcon";
-import headerBell from "../assets/community/figma/header-bell.svg";
+import { BackHeader } from "../components/common/BackHeader";
+import { HeaderActions } from "../components/common/HeaderActions";
 import selectedHeart from "../assets/mypage/heart-selected.svg";
 import wishlistCardBuly from "../assets/mypage/wishlist-card-buly.png";
 import wishlistCardBvlgari from "../assets/mypage/wishlist-card-bvlgari.png";
@@ -51,25 +50,7 @@ const wishItems = [
 ];
 
 function DetailHeader({ title }: { title: string }) {
-  return (
-    <header className="fixed left-1/2 top-0 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
-      <div className="flex min-w-0 items-center">
-        <Link aria-label="마이페이지로 돌아가기" className="-ml-1 flex size-7 items-center justify-center" to="/mypage">
-          <ChevronLeft aria-hidden="true" size={24} strokeWidth={1.6} />
-        </Link>
-        <h1 className="truncate text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">{title}</h1>
-      </div>
-      <div className="flex items-center gap-5">
-        <Link aria-label="검색" className="flex size-7 items-center justify-center" to="/search">
-          <Search aria-hidden="true" size={28} strokeWidth={1.6} />
-        </Link>
-        <img alt="알림" className="size-7" src={headerBell} />
-        <Link aria-label="향수 카테고리" className="flex size-7 items-center justify-center" to="/category">
-          <PerfumeIcon />
-        </Link>
-      </div>
-    </header>
-  );
+  return <BackHeader title={title} backTo="/mypage" action={<HeaderActions />} />;
 }
 
 function WishCard({ item }: { item: (typeof wishItems)[number] }) {

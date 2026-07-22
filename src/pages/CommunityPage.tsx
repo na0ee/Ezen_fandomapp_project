@@ -2,14 +2,12 @@ import { useState } from "react";
 import { Bookmark, ChevronRight, Heart, MessageCircle, MoreHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PageLayout } from "../components/common/PageLayout";
+import { HeaderActions } from "../components/common/HeaderActions";
 import avatarHaesu from "../assets/community/figma/avatar-haesu.png";
 import avatarYeeun from "../assets/community/figma/avatar-yeeun.png";
 import carouselFour from "../assets/community/figma/carousel-four.png";
 import carouselThree from "../assets/community/figma/carousel-three.png";
 import carouselTwo from "../assets/community/figma/carousel-two.png";
-import headerBell from "../assets/community/figma/header-bell.svg";
-import headerPerfume from "../assets/community/figma/header-perfume.svg";
-import headerSearch from "../assets/community/figma/header-search.svg";
 import joMalone from "../assets/community/figma/jo-malone.png";
 import plusImageOne from "../assets/community/figma/plus-image-one.svg";
 import plusImageTwo from "../assets/community/figma/plus-image-two.svg";
@@ -38,20 +36,6 @@ const tagImagesOne = [
 const tagImagesTwo = [
   { src: tagFour, className: "h-[69px] w-[52px]" },
 ];
-
-function HeaderActions() {
-  return (
-    <div className="flex items-start justify-end gap-5">
-      <Link aria-label="검색" className="h-7 w-7" to="/search">
-        <img className="size-full" src={headerSearch} alt="" />
-      </Link>
-      <img className="h-7 w-7" src={headerBell} alt="알림" />
-      <Link aria-label="향수 카테고리" className="relative size-7 overflow-hidden" to="/category">
-        <img className="absolute inset-[12.5%] h-3/4 w-3/4 max-w-none" src={headerPerfume} alt="향수" />
-      </Link>
-    </div>
-  );
-}
 
 function Tabs() {
   return <div className="flex h-[30px] items-center gap-[5px] px-5">

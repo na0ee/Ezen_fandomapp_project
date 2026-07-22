@@ -1,7 +1,6 @@
 import {
   ChevronRight,
   CircleHelp,
-  Search,
   Star,
   UserRoundCog,
 } from "lucide-react";
@@ -9,8 +8,8 @@ import type { PointerEvent, ReactNode } from "react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { BottomNavigation } from "../../components/common/BottomNavigation";
-import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
-import headerBell from "../../assets/community/figma/header-bell.svg";
+import { Header } from "../../components/common/Header";
+import { HeaderActions } from "../../components/common/HeaderActions";
 import fireBadge from "../../assets/mypage/fire-badge.svg";
 import perfumeLoewe from "../../assets/mypage/perfume-loewe.png";
 import perfumeSanta from "../../assets/mypage/perfume-santa.png";
@@ -317,18 +316,7 @@ function AccountSection() {
 export default function MyPage() {
   return (
     <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
-      <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
-        <h1 className="text-2xl font-semibold leading-[1.3] tracking-[-0.02em]">마이페이지</h1>
-        <div className="flex items-center gap-5">
-          <Link aria-label="검색" className="size-7" to="/search">
-            <Search aria-hidden="true" className="size-full" strokeWidth={1.5} />
-          </Link>
-          <img alt="알림" className="size-7" src={headerBell} />
-          <Link aria-label="향수 카테고리" to="/category">
-            <PerfumeIcon />
-          </Link>
-        </div>
-      </header>
+      <Header title="마이페이지" action={<HeaderActions />} />
 
       <div className="flex flex-col gap-section pt-[54px] pb-[112px]">
         <ProfileSection />

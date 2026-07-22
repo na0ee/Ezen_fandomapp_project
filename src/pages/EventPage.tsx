@@ -6,10 +6,11 @@ import {
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
+import { Header } from "../components/common/Header";
+import { HeaderActions } from "../components/common/HeaderActions";
 
 const figmaNode = {
   screen: "737:13784",
-  header: "764:15033",
   wrap: "737:13787",
   mainChallenge: "737:13788",
   challenge: "737:13799",
@@ -20,9 +21,6 @@ const figmaNode = {
 
 const assets = Object.fromEntries(
   Object.entries({
-  headerSearch: "/assets/figma/f94998b0-6ec1-4bb9-9061-0d7963d06473.svg",
-  headerBell: "/assets/figma/f9ee5857-96be-4f4a-8990-a11893c44f8c.svg",
-  headerPerfume: "/assets/figma/db67ca5c-7071-47f0-935e-5dbdd0fd409f.svg",
   mainHeroBase: "/assets/figma/f67b7258-6ae0-4f61-bed3-cd9775794c64.jpg",
   mainHeroLight: "/assets/figma/3b211a80-f9bf-4367-bdaa-13d870ef377e.png",
   mainHeroBottle: "/assets/figma/8d3c9982-c240-4b55-9042-391add55bbf2.png",
@@ -122,25 +120,7 @@ const raffleItems = [
 ];
 
 function EventHeader() {
-  return (
-    <header
-      className="header fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5"
-      data-node-id={figmaNode.header}
-    >
-      <h1 className="text-2xl font-semibold leading-none tracking-[-0.02em] text-off-black">
-        이벤트
-      </h1>
-      <div className="flex items-center gap-5 text-off-black">
-        <Link aria-label="검색" className="size-7" to="/search">
-          <img alt="" className="size-full" src={assets.headerSearch} />
-        </Link>
-        <img alt="" className="size-7" src={assets.headerBell} />
-        <Link aria-label="향수 카테고리" className="relative size-7 overflow-hidden" to="/category">
-          <img alt="" className="absolute inset-[12.5%] h-3/4 w-3/4 max-w-none" src={assets.headerPerfume} />
-        </Link>
-      </div>
-    </header>
-  );
+  return <Header title="이벤트" action={<HeaderActions />} />;
 }
 
 function SectionHead({ hideViewAll = false, href, title }: { hideViewAll?: boolean; href?: string; title: string }) {

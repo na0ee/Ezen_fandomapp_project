@@ -1,13 +1,13 @@
-import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import fireBadge from "../assets/mypage/fire-badge.svg";
 import { BottomNavigation } from "../components/common/BottomNavigation";
+import { BackHeader } from "../components/common/BackHeader";
+import { HeaderActions } from "../components/common/HeaderActions";
 
 const assets = Object.fromEntries(
   Object.entries({
-    headerBell: "/assets/figma/f9ee5857-96be-4f4a-8990-a11893c44f8c.svg",
-    headerPerfume: "/assets/figma/db67ca5c-7071-47f0-935e-5dbdd0fd409f.svg",
     storyBase: "/assets/figma/e7f85eba-5c40-42f9-9816-f5f832b73194.png",
     storyOverlay: "/assets/figma/f14bfcee-7044-4182-b366-ad50ccf0406d.png",
     blond: "/assets/figma/b8ae253f-9654-4c82-9435-8a5d7821a8f0.png",
@@ -41,43 +41,8 @@ const receivedRecommendations = Array.from({ length: 4 }, (_, index) => ({
 type MainTab = "mine" | "recommend";
 type RecommendationTab = "received" | "sent";
 
-function HeaderActions() {
-  return (
-    <div className="flex items-center gap-5 text-off-black">
-      <Link aria-label="검색" className="flex size-7 items-center justify-center" to="/search">
-        <Search aria-hidden="true" size={27} strokeWidth={1.5} />
-      </Link>
-      <button aria-label="알림" className="flex size-7 items-center justify-center" type="button">
-        <img alt="" aria-hidden="true" className="size-full" src={assets.headerBell} />
-      </button>
-      <Link aria-label="향수 카테고리" className="relative size-7 overflow-hidden" to="/category">
-        <img alt="" aria-hidden="true" className="absolute inset-[12.5%] h-3/4 w-3/4 max-w-none" src={assets.headerPerfume} />
-      </Link>
-    </div>
-  );
-}
-
 function RecommendationHeader() {
-  const navigate = useNavigate();
-
-  return (
-    <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5">
-      <div className="flex min-w-0 items-center">
-        <button
-          aria-label="이전 페이지로 돌아가기"
-          className="-ml-1 flex size-[21px] shrink-0 items-center justify-center text-off-black"
-          onClick={() => navigate(-1)}
-          type="button"
-        >
-          <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.7} />
-        </button>
-        <h1 className="ml-1 truncate text-2xl font-semibold leading-[1.08] tracking-[-0.03em] text-off-black">
-          향 추천하기
-        </h1>
-      </div>
-      <HeaderActions />
-    </header>
-  );
+  return <BackHeader title="향 추천하기" action={<HeaderActions />} />;
 }
 
 function TopTabs({ activeTab, onChange }: { activeTab: MainTab; onChange: (tab: MainTab) => void }) {

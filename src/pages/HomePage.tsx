@@ -311,7 +311,7 @@ function HomeHeader() {
         Layer
       </p>
       <div className="flex items-center gap-5 text-off-black">
-        <Link aria-label="검색" className="size-7" to="/search">
+        <Link aria-label="검색" className="size-7" to="/category">
           <img alt="" className="size-full" src={assets.headerSearch} />
         </Link>
         <img alt="" className="size-7" src={assets.headerBell} />

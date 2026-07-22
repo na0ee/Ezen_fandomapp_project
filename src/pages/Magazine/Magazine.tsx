@@ -2,14 +2,13 @@ import {
   ArrowRight,
   ChevronRight,
   Heart,
-  Search,
 } from "lucide-react";
 import type { PointerEvent, ReactNode, UIEvent } from "react";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { BottomNavigation } from "../../components/common/BottomNavigation";
-import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
-import headerBell from "../../assets/community/figma/header-bell.svg";
+import { Header } from "../../components/common/Header";
+import { HeaderActions } from "../../components/common/HeaderActions";
 import articleCardBase from "../../assets/magazine/article-card-base.png";
 import articleCardOverlay from "../../assets/magazine/article-card-overlay.png";
 import byredoStory from "../../assets/magazine/byredo-story.png";
@@ -266,26 +265,7 @@ function Indicator({ activeIndex, itemCount, onSelect }: IndicatorProps) {
 }
 
 function MagazineHeader() {
-  return (
-    <header className="header fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 flex-col items-center justify-center bg-off-white px-5">
-      <div className="flex w-full items-center justify-between">
-        <div className="flex shrink-0 items-center">
-          <h1 className="whitespace-nowrap text-center text-2xl font-semibold leading-[1.08] tracking-[-0.02em]">
-            매거진
-          </h1>
-        </div>
-        <div className="flex shrink-0 items-start justify-end gap-5" aria-label="매거진 메뉴">
-          <Link aria-label="검색" className="size-7 shrink-0" to="/search">
-            <Search aria-hidden="true" className="size-full" strokeWidth={1.8} />
-          </Link>
-          <img alt="" aria-hidden="true" className="size-7 shrink-0" src={headerBell} />
-          <Link aria-label="향수 카테고리" to="/category">
-            <PerfumeIcon />
-          </Link>
-        </div>
-      </div>
-    </header>
-  );
+  return <Header title="매거진" action={<HeaderActions />} />;
 }
 
 function TrendSection() {

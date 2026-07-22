@@ -1,8 +1,7 @@
-import { ChevronLeft, Search } from "lucide-react";
 import type { PointerEvent, ReactNode } from "react";
 import { useRef } from "react";
-import { Link } from "react-router-dom";
-import headerBell from "../../assets/community/figma/header-bell.svg";
+import { BackHeader } from "../../components/common/BackHeader";
+import { HeaderActions } from "../../components/common/HeaderActions";
 import longevityHero from "../../assets/magazine/longevity/hero.png";
 import tipImageOne from "../../assets/magazine/longevity/tip-1.png";
 import tipImageTwo from "../../assets/magazine/longevity/tip-2.png";
@@ -10,7 +9,6 @@ import tipImageThree from "../../assets/magazine/longevity/tip-3.png";
 import tipImageFour from "../../assets/magazine/longevity/tip-4.png";
 import tipImageFive from "../../assets/magazine/longevity/tip-5.png";
 import { BottomNavigation } from "../../components/common/BottomNavigation";
-import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
 
 const tips = [
   {
@@ -62,25 +60,7 @@ const tips = [
 ];
 
 function MagazineDetailHeader() {
-  return (
-    <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
-      <div className="flex items-center">
-        <Link aria-label="매거진으로 돌아가기" className="flex size-[21px] items-center justify-center" to="/magazine">
-          <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.4} />
-        </Link>
-        <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">매거진</h1>
-      </div>
-      <div aria-label="매거진 메뉴" className="flex items-center gap-5">
-        <Link aria-label="검색" className="size-7" to="/search">
-          <Search aria-hidden="true" className="size-full" strokeWidth={1.8} />
-        </Link>
-        <img alt="" aria-hidden="true" className="size-7" src={headerBell} />
-        <Link aria-label="향수 카테고리" to="/category">
-          <PerfumeIcon />
-        </Link>
-      </div>
-    </header>
-  );
+  return <BackHeader backTo="/magazine" title="매거진" action={<HeaderActions />} />;
 }
 
 function SmoothScroller({ children }: { children: ReactNode }) {

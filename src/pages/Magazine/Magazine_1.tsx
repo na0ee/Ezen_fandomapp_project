@@ -1,8 +1,9 @@
-import { ChevronRight, Search } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import type { PointerEvent, UIEvent } from "react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import headerBell from "../../assets/community/figma/header-bell.svg";
+import { BackHeader } from "../../components/common/BackHeader";
+import { HeaderActions } from "../../components/common/HeaderActions";
 import contentGrowthImage from "../../assets/magazine/detail/content-growth.jpg";
 import heroImage from "../../assets/magazine/detail/hero.jpg";
 import introLeftImage from "../../assets/magazine/detail/intro-left.jpg";
@@ -14,7 +15,6 @@ import moreCardArrow from "../../assets/magazine/detail/more-card-arrow.svg";
 import recommendationLeftImage from "../../assets/magazine/detail/recommendation-left.jpg";
 import recommendationRightImage from "../../assets/magazine/detail/recommendation-right.jpg";
 import { BottomNavigation } from "../../components/common/BottomNavigation";
-import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
 
 const moreArticles = [
   { title: "계절별 향수 선택 가이드", titleWidth: "w-[127px]" },
@@ -38,20 +38,7 @@ function ArticleText({ body, bodyClassName = "w-full", title }: ArticleTextProps
 }
 
 function MagazineDetailHeader() {
-  return (
-    <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side">
-      <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">매거진</h1>
-      <div aria-label="매거진 메뉴" className="flex items-center gap-5">
-        <Link aria-label="검색" className="size-7" to="/search">
-          <Search aria-hidden="true" className="size-full" strokeWidth={1.8} />
-        </Link>
-        <img alt="" aria-hidden="true" className="size-7" src={headerBell} />
-        <Link aria-label="향수 카테고리" to="/category">
-          <PerfumeIcon />
-        </Link>
-      </div>
-    </header>
-  );
+  return <BackHeader backTo="/magazine" title="매거진" action={<HeaderActions />} />;
 }
 
 function HeroSection() {
