@@ -1,6 +1,6 @@
-import { ChevronDown, ChevronUp, Plus, X } from "lucide-react";
-import type { ReactNode } from "react";
-import { useState } from "react";
+import { Camera, ChevronDown, ChevronUp, Plus, X } from "lucide-react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import tagOne from "../../assets/community/figma/tag-one.png";
 import tagThree from "../../assets/community/figma/tag-three.png";
@@ -55,34 +55,22 @@ const reasonRows = [
   ["기타"],
 ];
 
-function Chip({ label, active = false }: { label: string; active?: boolean }) {
+const defaultBody = `따뜻한 햇살엔 부드럽고 깨끗한 향이 잘 어울리는 것 같아요
+블랑쉬로 포근하게 시작해서 오 로즈로 기분 전환해주고 마지막엔 잉글리수 페어로 잔향을 남겨줘요
+하루 종일 기분이 좋아지는 조합이에요`;
+
+function Chip({ label, active = false, onClick }: { label: string; active?: boolean; onClick?: () => void }) {
   return (
-    <span
+    <button
+      aria-pressed={onClick ? active : undefined}
       className={`flex shrink-0 items-center justify-center rounded-full px-[14px] py-2 text-xs font-medium leading-none tracking-[-0.02em] ${
         active ? "bg-off-black text-off-white" : "border-[0.8px] border-light-grey text-grey"
       }`}
+      onClick={onClick}
+      type="button"
     >
       {label}
-    </span>
-  );
-}
-
-function ChipRows({ rows, activeCount = 1 }: { rows: string[][]; activeCount?: number }) {
-  let chipIndex = 0;
-
-  return (
-    <div className="flex flex-col gap-2">
-      {rows.map((row) => (
-        <div className="flex flex-wrap items-center gap-1.5" key={row.join("-")}>
-          {row.map((label) => {
-            const active = chipIndex < activeCount;
-            chipIndex += 1;
-
-            return <Chip active={active} key={`${label}-${chipIndex}`} label={label} />;
-          })}
-        </div>
-      ))}
-    </div>
+    </button>
   );
 }
 
@@ -153,6 +141,22 @@ function PerfumeReviewCard({
   open: boolean;
   onToggle: () => void;
 }) {
+  const [selectedScents, setSelectedScents] = useState<string[]>(["장미", "리치", "비누"]);
+  const [selectedLongevity, setSelectedLongevity] = useState("1시간 이하");
+  const [selectedPurchases, setSelectedPurchases] = useState<string[]>(["공식홈페이지"]);
+  const [selectedReasons, setSelectedReasons] = useState<string[]>(["포근한 무드"]);
+
+  const toggleSelection = (
+    label: string,
+    setter: Dispatch<SetStateAction<string[]>>,
+  ) => {
+    setter((selected) => (
+      selected.includes(label)
+        ? selected.filter((item) => item !== label)
+        : [...selected, label]
+    ));
+  };
+
   return (
     <article className={`w-full rounded-lg border-[0.8px] border-light-grey p-4 ${open ? "flex flex-col gap-4" : "flex items-center justify-between"}`}>
       <div className="flex w-full items-center justify-between">
@@ -176,26 +180,50 @@ function PerfumeReviewCard({
         <>
           <div className="flex w-full flex-col gap-4">
             <h3 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">가장 많이 느껴진 향</h3>
-            <ChipRows rows={scentRows} activeCount={3} />
+            <div className="flex flex-col gap-2">
+              {scentRows.map((row) => (
+                <div className="flex flex-wrap items-center gap-1.5" key={row.join("-")}>
+                  {row.map((label) => (
+                    <Chip active={selectedScents.includes(label)} key={label} label={label} onClick={() => toggleSelection(label, setSelectedScents)} />
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
           <div className="h-px w-full bg-light-grey" />
           <div className="flex w-full flex-col gap-4">
             <h3 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">지속력</h3>
             <div className="flex flex-wrap items-center gap-1.5">
-              {longevityOptions.map((label, index) => (
-                <Chip active={index === 0} key={label} label={label} />
+              {longevityOptions.map((label) => (
+                <Chip active={selectedLongevity === label} key={label} label={label} onClick={() => setSelectedLongevity(label)} />
               ))}
             </div>
           </div>
           <div className="h-px w-full bg-light-grey" />
           <div className="flex w-full flex-col gap-4">
             <h3 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">구입처</h3>
-            <ChipRows rows={purchaseRows} />
+            <div className="flex flex-col gap-2">
+              {purchaseRows.map((row) => (
+                <div className="flex flex-wrap items-center gap-1.5" key={row.join("-")}>
+                  {row.map((label, index) => (
+                    <Chip active={selectedPurchases.includes(label)} key={`${label}-${index}`} label={label} onClick={() => toggleSelection(label, setSelectedPurchases)} />
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
           <div className="h-px w-full bg-light-grey" />
           <div className="flex w-full flex-col gap-4">
             <h3 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">이 향수를 고른 이유</h3>
-            <ChipRows rows={reasonRows} />
+            <div className="flex flex-col gap-2">
+              {reasonRows.map((row) => (
+                <div className="flex flex-wrap items-center gap-1.5" key={row.join("-")}>
+                  {row.map((label) => (
+                    <Chip active={selectedReasons.includes(label)} key={label} label={label} onClick={() => toggleSelection(label, setSelectedReasons)} />
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         </>
       )}
@@ -235,9 +263,15 @@ function WriteCompleteDialog({ isOpen, onClose }: { isOpen: boolean; onClose: ()
 
 export default function CommunityWrite() {
   const navigate = useNavigate();
+  const imageInputRef = useRef<HTMLInputElement>(null);
   const [perfumes, setPerfumes] = useState(selectedPerfumes);
+  const [uploadedImages, setUploadedImages] = useState<{ id: string; name: string; src: string }[]>([]);
   const [openPerfume, setOpenPerfume] = useState<string | null>(null);
   const [isCompleteOpen, setIsCompleteOpen] = useState(false);
+  const [body, setBody] = useState(defaultBody);
+  const [selectedMoods, setSelectedMoods] = useState<string[]>(["깔끔한"]);
+  const [selectedSituations, setSelectedSituations] = useState<string[]>(["데일리"]);
+  const [selectedHashtags, setSelectedHashtags] = useState<string[]>([]);
 
   const removePerfume = (name: string) => {
     setPerfumes((currentPerfumes) => currentPerfumes.filter((perfume) => perfume.name !== name));
@@ -275,6 +309,60 @@ export default function CommunityWrite() {
             </div>
           </Section>
 
+          <Section title="사진">
+            <div className="flex flex-col gap-2.5">
+              <div className="no-scrollbar flex gap-3 overflow-x-auto py-1 pr-1">
+                {uploadedImages.length < 4 && (
+                  <button
+                    className="flex size-[92px] shrink-0 flex-col items-center justify-center gap-2 rounded-lg border-[0.8px] border-light-grey text-grey"
+                    onClick={() => imageInputRef.current?.click()}
+                    type="button"
+                  >
+                    <Camera className="size-5" strokeWidth={1.4} />
+                    <span className="text-xs font-medium tracking-[-0.02em]">{uploadedImages.length}/4</span>
+                  </button>
+                )}
+                {uploadedImages.map((image) => (
+                  <div className="relative size-[92px] shrink-0" key={image.id}>
+                    <img className="size-full rounded-lg object-cover" src={image.src} alt={image.name} />
+                    <button
+                      aria-label={`${image.name} 삭제`}
+                      className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-off-black text-white"
+                      onClick={() => setUploadedImages((images) => images.filter((item) => item.id !== image.id))}
+                      type="button"
+                    >
+                      <X className="size-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs tracking-[-0.02em] text-grey">최대 4장까지 등록할 수 있어요.</p>
+              <input
+                accept="image/*"
+                className="hidden"
+                multiple
+                onChange={(event) => {
+                  const files = Array.from(event.target.files ?? []).slice(0, 4 - uploadedImages.length);
+                  files.forEach((file) => {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                      if (typeof reader.result !== "string") return;
+                      const imageSrc = reader.result;
+                      setUploadedImages((images) => [
+                        ...images,
+                        { id: `${file.name}-${file.lastModified}-${crypto.randomUUID()}`, name: file.name, src: imageSrc },
+                      ].slice(0, 4));
+                    };
+                    reader.readAsDataURL(file);
+                  });
+                  event.target.value = "";
+                }}
+                ref={imageInputRef}
+                type="file"
+              />
+            </div>
+          </Section>
+
           <Section title="제목">
             <MessageField count="23/40">
               <p className="leading-none">햇살 좋은 날의 베이지 룩과 향수 조합 ☁</p>
@@ -282,19 +370,32 @@ export default function CommunityWrite() {
           </Section>
 
           <Section title="본문">
-            <MessageField count="103/40">
-              <p>따뜻한 햇살엔 부드럽고 깨끗한 향이 잘 어울리는 것 같아요</p>
-              <p>블랑쉬로 포근하게 시작해서 오 로즈로 기분 전환해주고 마지막엔 잉글리수 페어로 잔향을 남겨줘요</p>
-              <p>하루 종일 기분이 좋아지는 조합이에요</p>
-            </MessageField>
+            <div className="flex w-full flex-col items-end gap-1.5">
+              <textarea
+                className="min-h-[108px] w-full resize-none rounded-lg border-[0.8px] border-light-grey p-4 text-sm font-normal leading-[1.4] tracking-[-0.02em] text-[#4d4d4d] outline-none focus:border-off-black"
+                maxLength={400}
+                onChange={(event) => setBody(event.target.value)}
+                value={body}
+              />
+              <span className="w-full text-right text-[10px] font-normal leading-normal tracking-[-0.02em] text-grey">{body.length}/400</span>
+            </div>
           </Section>
 
           <Section title="오늘의 무드">
             <div className="flex flex-col gap-2">
-              {moodRows.map((row, rowIndex) => (
+              {moodRows.map((row) => (
                 <div className="flex flex-wrap items-center gap-1.5" key={row.join("-")}>
-                  {row.map((label, index) => (
-                    <Chip active={rowIndex === 0 && index === 0} key={label} label={label} />
+                  {row.map((label) => (
+                    <Chip
+                      active={selectedMoods.includes(label)}
+                      key={label}
+                      label={label}
+                      onClick={() => setSelectedMoods((selected) => (
+                        selected.includes(label)
+                          ? selected.filter((item) => item !== label)
+                          : [...selected, label]
+                      ))}
+                    />
                   ))}
                 </div>
               ))}
@@ -303,10 +404,19 @@ export default function CommunityWrite() {
 
           <Section title="사용 상황">
             <div className="flex flex-col gap-2">
-              {situationRows.map((row, rowIndex) => (
+              {situationRows.map((row) => (
                 <div className="flex flex-wrap items-center gap-1.5" key={row.join("-")}>
-                  {row.map((label, index) => (
-                    <Chip active={rowIndex === 0 && index === 0} key={label} label={label} />
+                  {row.map((label) => (
+                    <Chip
+                      active={selectedSituations.includes(label)}
+                      key={label}
+                      label={label}
+                      onClick={() => setSelectedSituations((selected) => (
+                        selected.includes(label)
+                          ? selected.filter((item) => item !== label)
+                          : [...selected, label]
+                      ))}
+                    />
                   ))}
                 </div>
               ))}
@@ -316,7 +426,19 @@ export default function CommunityWrite() {
           <Section title="해시태그">
             <div className="flex flex-wrap items-center gap-1.5">
               {hashtags.map((label, index) => (
-                <Chip key={`${label}-${index}`} label={label} />
+                <Chip
+                  active={selectedHashtags.includes(`${label}-${index}`)}
+                  key={`${label}-${index}`}
+                  label={label}
+                  onClick={() => {
+                    const hashtagId = `${label}-${index}`;
+                    setSelectedHashtags((selected) => (
+                      selected.includes(hashtagId)
+                        ? selected.filter((item) => item !== hashtagId)
+                        : [...selected, hashtagId]
+                    ));
+                  }}
+                />
               ))}
             </div>
           </Section>
