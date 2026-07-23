@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(git fetch origin 2>$null)",
+      "PowerShell(git stash pop)"
+    ]
+  }
+}

@@ -1,3 +1,4 @@
+import { Heart, MessageCircle, Send } from "lucide-react";
 import { useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BackHeader } from "../components/common/BackHeader";
@@ -6,8 +7,247 @@ import { HeartButton } from "../components/ui/HeartButton";
 import { brands } from "../data/brands";
 import { fragranceFamilies } from "../data/fragranceFamilies";
 import { perfumeData, type PerfumeEntry } from "../data/perfumeData";
+import {
+  buildComments,
+  buildReviews,
+  type Review,
+  type ReviewBadge,
+  type ReviewComment,
+} from "../data/perfumeReviews";
 
 type DetailTab = "detail" | "review";
+
+// 댓글 한 줄
+function CommentItem({ comment }: { comment: ReviewComment }) {
+  const [isLiked, setIsLiked] = useState(false);
+
+  return (
+    <div className="flex w-full items-start gap-2.5">
+      <img
+        alt={`${comment.name} 프로필`}
+        className="size-[34px] shrink-0 rounded-full object-cover"
+        src={comment.avatar}
+      />
+      <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+        <p className="text-sm font-medium leading-[normal] tracking-[-0.02em] text-grey">
+          {comment.name}
+        </p>
+        <p className="text-sm leading-[1.4] tracking-[-0.02em] text-off-black">
+          {comment.text}
+        </p>
+        <div className="mt-0.5 flex items-center gap-3">
+          <button
+            aria-pressed={isLiked}
+            className="flex items-center gap-1"
+            onClick={() => setIsLiked((selected) => !selected)}
+            type="button"
+          >
+            <Heart
+              aria-hidden="true"
+              className={isLiked ? "text-point-orange" : "text-grey"}
+              fill={isLiked ? "currentColor" : "none"}
+              size={13}
+              strokeWidth={1.6}
+            />
+            <span className="text-xs font-medium leading-[normal] tracking-[-0.02em] text-grey">
+              {comment.likes + (isLiked ? 1 : 0)}
+            </span>
+          </button>
+          <span className="flex items-center gap-1">
+            <MessageCircle aria-hidden="true" className="text-grey" size={13} strokeWidth={1.6} />
+            <span className="text-xs font-medium leading-[normal] tracking-[-0.02em] text-grey">
+              {comment.replies}
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 댓글 바텀시트 — 리뷰 카드의 댓글 버튼을 누르면 올라온다
+function CommentSheet({
+  review,
+  onClose,
+}: {
+  review: Review;
+  onClose: () => void;
+}) {
+  const [comments, setComments] = useState<ReviewComment[]>(() =>
+    buildComments(review.id),
+  );
+  const [message, setMessage] = useState("");
+
+  function submitComment() {
+    const text = message.trim();
+    if (!text) return;
+
+    setComments((current) => [
+      ...current,
+      {
+        id: `${review.id}-my-${current.length}`,
+        name: "나영",
+        avatar: "/assets/recommend/3an.png",
+        text,
+        likes: 0,
+        replies: 0,
+      },
+    ]);
+    setMessage("");
+  }
+
+  return (
+    <div className="fixed inset-0 z-[60] bg-off-black/30" onClick={onClose}>
+      <section
+        aria-label="댓글"
+        aria-modal="true"
+        className="absolute bottom-0 left-1/2 flex h-[70dvh] w-full max-w-[430px] -translate-x-1/2 animate-[sheetUp_240ms_ease-out] flex-col overflow-hidden rounded-t-[20px] bg-off-white pt-4 shadow-[0_-4px_16px_rgba(0,0,0,0.05)]"
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+      >
+        {/* 핸들 */}
+        <button
+          aria-label="댓글 닫기"
+          className="mx-auto flex h-4 w-16 items-start justify-center"
+          onClick={onClose}
+          type="button"
+        >
+          <span className="h-1 w-8 rounded-[24px] bg-light2-grey" />
+        </button>
+
+        <h2 className="border-b-[0.8px] border-light2-grey px-5 pb-4 pt-3 text-lg font-semibold leading-[normal] tracking-[-0.02em] text-off-black">
+          댓글
+        </h2>
+
+        {/* 댓글 목록 */}
+        <div className="scrollbar-hidden flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-5 py-5">
+          {comments.map((comment) => (
+            <CommentItem comment={comment} key={comment.id} />
+          ))}
+        </div>
+
+        {/* 입력 바 */}
+        <form
+          className="flex items-center gap-2.5 border-t-[0.8px] border-light2-grey px-5 pb-[max(20px,env(safe-area-inset-bottom))] pt-3"
+          onSubmit={(event) => {
+            event.preventDefault();
+            submitComment();
+          }}
+        >
+          <input
+            aria-label="댓글 입력"
+            className="h-[52px] min-w-0 flex-1 rounded-card border-[0.8px] border-light-grey bg-off-white px-4 text-sm font-medium leading-none tracking-[-0.02em] text-off-black outline-none placeholder:text-grey"
+            onChange={(event) => setMessage(event.target.value)}
+            placeholder="추가 메세지를 입력하세요"
+            value={message}
+          />
+          <button
+            aria-label="댓글 등록"
+            className="flex size-[48px] shrink-0 items-center justify-center rounded-full bg-off-black text-off-white"
+            type="submit"
+          >
+            <Send aria-hidden="true" size={20} strokeWidth={1.6} />
+          </button>
+        </form>
+      </section>
+    </div>
+  );
+}
+
+// 리뷰 카드 한 장
+function ReviewCard({
+  review,
+  onOpenComments,
+}: {
+  review: Review;
+  onOpenComments: (review: Review) => void;
+}) {
+  const [isLiked, setIsLiked] = useState(false);
+
+  return (
+    <article className="flex w-full flex-col items-end gap-4 rounded-card border-[0.8px] border-light-grey bg-off-white p-4">
+      <div className="flex w-full flex-col gap-6">
+        {/* 프로필 + 배지 */}
+        <div className="flex w-full items-start justify-between">
+          <div className="flex items-center gap-2.5">
+            <img
+              alt={`${review.name} 프로필`}
+              className="size-[42px] shrink-0 rounded-full object-cover"
+              src={review.avatar}
+            />
+            <div className="flex flex-col justify-center gap-[3px]">
+              <p className="text-base font-medium leading-[normal] tracking-[-0.02em] text-off-black">
+                {review.name}
+              </p>
+              <p className="text-xs font-medium leading-[normal] tracking-[-0.02em] text-grey">
+                {review.time}
+              </p>
+            </div>
+          </div>
+          <ReviewBadgeChip badge={review.badge} />
+        </div>
+
+        {/* 리뷰 본문 */}
+        <p className="whitespace-pre-line text-base leading-[1.4] tracking-[-0.02em] text-off-black">
+          {review.text}
+        </p>
+      </div>
+
+      {/* 좋아요 · 댓글 */}
+      <div className="flex items-center gap-4">
+        <button
+          aria-pressed={isLiked}
+          className="flex items-center gap-1"
+          onClick={() => setIsLiked((selected) => !selected)}
+          type="button"
+        >
+          <Heart
+            aria-hidden="true"
+            className={isLiked ? "text-point-orange" : "text-off-black"}
+            fill={isLiked ? "currentColor" : "none"}
+            size={14}
+            strokeWidth={1.6}
+          />
+          <span className="text-xs font-medium leading-[normal] tracking-[-0.02em] text-off-black">
+            {review.likes + (isLiked ? 1 : 0)}
+          </span>
+        </button>
+        <button
+          aria-haspopup="dialog"
+          aria-label="댓글 보기"
+          className="flex items-center gap-1"
+          onClick={() => onOpenComments(review)}
+          type="button"
+        >
+          <MessageCircle
+            aria-hidden="true"
+            className="text-off-black"
+            size={14}
+            strokeWidth={1.6}
+          />
+          <span className="text-xs font-medium leading-[normal] tracking-[-0.02em] text-off-black">
+            {review.comments}
+          </span>
+        </button>
+      </div>
+    </article>
+  );
+}
+
+// 추천해요/별로예요 배지
+function ReviewBadgeChip({ badge }: { badge: ReviewBadge }) {
+  return (
+    <span
+      className={`flex h-5 w-[50px] shrink-0 items-center justify-center rounded-badge text-[10px] font-semibold leading-[normal] tracking-[-0.04em] ${
+        badge === "추천해요"
+          ? "bg-[#ffede6] text-point-orange"
+          : "bg-light-grey text-subtext"
+      }`}
+    >
+      {badge}
+    </span>
+  );
+}
 
 // familyId → 한글 계열 이름
 function familyName(familyId: string) {
@@ -162,6 +402,7 @@ export default function PerfumeDetailPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<DetailTab>("detail");
   const [isLiked, setIsLiked] = useState(false);
+  const [commentReview, setCommentReview] = useState<Review | null>(null);
 
   const entry = perfumeData.find((item) => String(item.id) === id);
 
@@ -327,18 +568,41 @@ export default function PerfumeDetailPage() {
               )}
             </div>
           ) : (
-            /* 리뷰 탭 — AI 리뷰 요약 표시 */
-            <div className="flex w-full flex-col gap-2 px-side pt-[30px]">
-              <h2 className="text-xl font-semibold leading-[normal] tracking-[-0.02em]">
-                AI 리뷰 요약
-              </h2>
-              <p className="text-sm leading-[1.4] tracking-[-0.02em]">
-                {perfume.aiReview}
-              </p>
+            /* 리뷰 탭 */
+            <div className="flex w-full flex-col gap-5 px-side pt-[30px]">
+              {/* AI리뷰 요약 카드 */}
+              <section className="flex w-full flex-col gap-6 rounded-card border-[0.8px] border-light-grey bg-off-white p-4">
+                <div className="flex w-full items-start justify-between">
+                  <h2 className="text-base font-semibold leading-[normal] tracking-[-0.02em] text-off-black">
+                    AI리뷰 요약
+                  </h2>
+                  <ReviewBadgeChip badge="추천해요" />
+                </div>
+                <p className="text-sm leading-[1.4] tracking-[-0.02em] text-subtext">
+                  {perfume.aiReview}
+                </p>
+              </section>
+
+              {/* 리뷰 목록 */}
+              {buildReviews(entry.id).map((review) => (
+                <ReviewCard
+                  key={review.id}
+                  onOpenComments={setCommentReview}
+                  review={review}
+                />
+              ))}
             </div>
           )}
         </div>
       </div>
+
+      {/* 댓글 바텀시트 */}
+      {commentReview && (
+        <CommentSheet
+          onClose={() => setCommentReview(null)}
+          review={commentReview}
+        />
+      )}
 
       {/* 구매하기 CTA */}
       <div className="fixed bottom-5 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 px-[18px]">
