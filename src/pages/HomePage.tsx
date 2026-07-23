@@ -64,10 +64,10 @@ const heroSlides = [
     label: (
       <>
         <span className="font-pretendard text-base font-medium tracking-[-0.02em]">
-          나의 향수
+          MY
         </span>
         <span className="px-1 font-cormorant text-lg font-bold tracking-[-0.02em]">
-          MBTI
+          LAYER
         </span>
         <span className="font-pretendard text-base font-medium tracking-[-0.02em]">
           진단하기
@@ -75,6 +75,7 @@ const heroSlides = [
       </>
     ),
     ctaClassName: "text-off-white",
+    to: "/onboarding/1",
   },
   {
     nodeId: "726:6596",
@@ -505,7 +506,6 @@ function RecordSection() {
             </div>
           ))}
         </div>
-        <div className="h-px w-full bg-light-grey" data-node-id="1575:20817" />
       </div>
     </section>
   );

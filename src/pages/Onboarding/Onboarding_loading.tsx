@@ -174,15 +174,15 @@ function SelectionCircle({
 function DefaultFigmaCircles() {
   return (
     <div aria-hidden="true" className="absolute inset-0">
-      <div className="absolute left-[238.28px] top-[346px] h-[61px] w-[61px]">
+      <div className="onboarding-loading-orb onboarding-loading-orb-3 absolute left-[238.28px] top-[346px] h-[61px] w-[61px]">
         <img alt="" className="h-full w-full max-w-none" src={loadingDefaultMood} />
       </div>
-      <div className="absolute left-[131px] top-[346px] flex h-[61px] w-[55.741px] items-center justify-center">
+      <div className="onboarding-loading-orb onboarding-loading-orb-1 absolute left-[131px] top-[346px] flex h-[61px] w-[55.741px] items-center justify-center">
         <div className="h-[61px] w-[55.741px] -scale-y-100 rotate-180">
           <img alt="" className="h-full w-full max-w-none" src={loadingDefaultMoment} />
         </div>
       </div>
-      <div className="absolute left-[184.64px] top-[346px] flex h-[61px] w-[55.741px] items-center justify-center">
+      <div className="onboarding-loading-orb onboarding-loading-orb-2 absolute left-[184.64px] top-[346px] flex h-[61px] w-[55.741px] items-center justify-center">
         <div className="h-[61px] w-[55.741px] -scale-y-100 rotate-180">
           <img alt="" className="h-full w-full max-w-none" src={loadingDefaultScent} />
         </div>
@@ -212,17 +212,28 @@ export default function OnboardingLoading() {
       <div className="relative mx-auto min-h-[932px] w-full max-w-[430px] overflow-hidden bg-off-white">
         {hasSavedSelections ? (
           <div aria-label="선택한 취향 이미지" className="absolute left-[131px] top-[346px] flex h-[61px]">
-            <SelectionCircle layers={momentLayers} />
-            <SelectionCircle className="z-10 -ml-[7.36px] ring-2 ring-white" layers={scentLayers} />
-            <SelectionCircle className="z-20 -ml-[7.36px] ring-2 ring-white" layers={moodLayers} mood />
+            <SelectionCircle className="onboarding-loading-orb onboarding-loading-orb-1" layers={momentLayers} />
+            <SelectionCircle className="onboarding-loading-orb onboarding-loading-orb-2 z-10 -ml-[7.36px] ring-2 ring-white" layers={scentLayers} />
+            <SelectionCircle className="onboarding-loading-orb onboarding-loading-orb-3 z-20 -ml-[7.36px] ring-2 ring-white" layers={moodLayers} mood />
           </div>
         ) : (
           <DefaultFigmaCircles />
         )}
 
-        <p className="absolute left-[137px] top-[447px] whitespace-nowrap text-2xl font-semibold leading-[1.08] tracking-[-0.03em] text-black">
-          취향이 멋지군요!
-        </p>
+        <div
+          aria-live="polite"
+          className="absolute inset-x-0 top-[447px] flex flex-col items-center text-center"
+          role="status"
+        >
+          <p className="whitespace-nowrap text-2xl font-semibold leading-[1.08] tracking-[-0.03em] text-black">
+            취향이 멋지군요!
+          </p>
+          <p className="mt-3 text-sm font-medium tracking-[-0.02em] text-grey">
+            취향을 분석하고 있어요
+            <span aria-hidden="true" className="onboarding-loading-dots">...</span>
+          </p>
+          <span className="sr-only">결과를 불러오는 중입니다.</span>
+        </div>
       </div>
     </main>
   );

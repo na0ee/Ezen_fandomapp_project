@@ -10,11 +10,10 @@ import mobileSignal from "../../assets/onboarding/results-mobile-signal.svg";
 import perfumeOne from "../../assets/onboarding/results-perfume-1.png";
 import perfumeTwo from "../../assets/onboarding/results-perfume-2.png";
 import perfumeThree from "../../assets/onboarding/results-perfume-3.png";
-import boldScale from "../../assets/onboarding/results-scale-bold.svg";
-import exploreScale from "../../assets/onboarding/results-scale-explore.svg";
 import uploadIcon from "../../assets/onboarding/results-upload.svg";
 import wifi from "../../assets/onboarding/results-wifi.svg";
-import { completeOnboarding } from "./onboardingStorage";
+import { calculateDiagnosis } from "./diagnosis";
+import { completeOnboarding, getOnboardingDiagnosis } from "./onboardingStorage";
 
 const recommendedPerfumes = [
   {
@@ -73,11 +72,11 @@ function StatusBar() {
 function PreferenceScale({
   leftLabel,
   rightLabel,
-  image,
+  position,
 }: {
   leftLabel: string;
   rightLabel: string;
-  image: string;
+  position: number;
 }) {
   return (
     <div className="flex w-[394px] flex-col items-start gap-0.5">
@@ -86,7 +85,12 @@ function PreferenceScale({
         <span className="text-right">{rightLabel}</span>
       </div>
       <div className="relative h-[15px] w-full">
-        <img alt="" className="absolute left-[-2px] top-0 h-[15px] w-[398px] max-w-none" src={image} />
+        <div className="absolute inset-x-0 top-[6px] h-[3px] rounded-full bg-gradient-to-r from-[#d9d9d9] via-[#888] to-black" />
+        <span
+          aria-hidden="true"
+          className="absolute top-0 h-[15px] w-[15px] -translate-x-1/2 rounded-full border-2 border-white bg-point-orange shadow"
+          style={{ left: `${position}%` }}
+        />
       </div>
     </div>
   );
@@ -112,6 +116,8 @@ function PerfumeCard({ image, name, brand }: (typeof recommendedPerfumes)[number
 
 export default function OnboardingResults() {
   const navigate = useNavigate();
+  const diagnosis = calculateDiagnosis(getOnboardingDiagnosis());
+  const { result } = diagnosis;
   const recommendationsRef = useRef<HTMLDivElement>(null);
   const recommendationsDrag = useRef({ active: false, startX: 0, scrollLeft: 0 });
 
@@ -171,7 +177,7 @@ export default function OnboardingResults() {
   const shareResults = async () => {
     const shareData = {
       title: "LAYER 향수 취향 결과",
-      text: "나의 향수 취향은 Bold Signature예요.",
+      text: `나의 향수 취향은 ${result.nameEn}예요.`,
       url: window.location.href,
     };
 
@@ -206,14 +212,14 @@ export default function OnboardingResults() {
 
         <section className="absolute left-[18px] top-[612px] w-[394px]">
           <p className="text-base font-medium leading-[normal] tracking-[-0.02em] text-off-black-70">
-            강렬한 시그니처형
+            {result.nameKo}
           </p>
           <p className="mt-[5px] w-[275px] whitespace-nowrap text-center font-cormorant text-[54px] font-semibold italic leading-[normal] tracking-[-0.02em] text-black">
-            Bold Signature
+            {result.nameEn}
           </p>
 
           <div className="mt-[5px] flex w-[263px] justify-center gap-[5px]">
-            {["# 존재감", "# 자신감", "# 시그니처"].map((tag) => (
+            {result.hashtags.map((tag) => (
               <span
                 className="rounded-[30px] bg-black px-2.5 py-[3px] font-geist text-[10px] font-normal leading-[normal] tracking-[-0.02em] text-white"
                 key={tag}
@@ -224,12 +230,20 @@ export default function OnboardingResults() {
           </div>
 
           <p className="mt-2.5 text-sm font-medium leading-[normal] tracking-[-0.02em] text-off-black-70">
-            존재감 있는 향을 하나 자신 있게 밀고 가요
+            {result.description}
           </p>
 
           <div className="mt-[34px] flex flex-col gap-[33px]">
-            <PreferenceScale image={boldScale} leftLabel="은은함" rightLabel="확실함" />
-            <PreferenceScale image={exploreScale} leftLabel="한결같음" rightLabel="탐험적" />
+            <PreferenceScale
+              leftLabel="은은함"
+              position={Math.max(4, Math.min(96, 50 + diagnosis.axisAScore * 10))}
+              rightLabel="확실함"
+            />
+            <PreferenceScale
+              leftLabel="한결같음"
+              position={Math.max(4, Math.min(96, 50 + diagnosis.axisBScore * 8))}
+              rightLabel="탐험적"
+            />
           </div>
         </section>
 

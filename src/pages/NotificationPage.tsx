@@ -29,7 +29,7 @@ const notificationGroups: Array<{ label: string; items: NotificationItem[] }> = 
         time: "방금 전",
         title: "찜한 향수가 다시 입고됐어요",
         description: "Le Labo · 상탈 33이 재입고되었어요. 품절되기 전에 확인해 보세요.",
-        perfumeImage: asset("/assets/perfume/le-labo/santal-33.jpg"),
+        perfumeImage: asset("/assets/perfume/background-removed-test/santal-33.png"),
         accentCategory: true,
         action: { label: "향수 보기", to: "/search-results" },
       },
@@ -39,7 +39,7 @@ const notificationGroups: Array<{ label: string; items: NotificationItem[] }> = 
         time: "2시간 전",
         title: "이번 주 신상 향수가 도착했어요",
         description: "Maison Margiela · 레이지 선데이 모닝 외 3종이 새롭게 입고되었어요.",
-        perfumeImage: asset("/assets/perfume/maison-margiela/lazy-sunday-morning.png"),
+        perfumeImage: asset("/assets/perfume/background-removed-test/lazy-sunday-morning.png"),
       },
     ],
   },
@@ -52,7 +52,7 @@ const notificationGroups: Array<{ label: string; items: NotificationItem[] }> = 
         time: "3일 전",
         title: "여름 시그니처 향수 최대 25% 할인",
         description: "시원한 시트러스 & 아쿠아 계열 향수를 특별가로 만나보세요. 7/20까지.",
-        perfumeImage: asset("/assets/perfume/jo-malone/english-pear-freesia.jpg"),
+        perfumeImage: asset("/assets/perfume/background-removed-test/english-pear-freesia.png"),
         action: { label: "기획전 보기", to: "/event" },
       },
       {
@@ -61,7 +61,7 @@ const notificationGroups: Array<{ label: string; items: NotificationItem[] }> = 
         time: "4일 전",
         title: "내 리뷰에 답글이 달렸어요",
         description: '"딥디크 오 데 썽" 리뷰에 브랜드가 답글을 남겼어요.',
-        perfumeImage: asset("/assets/perfume/diptyque/eau-des-sens.jpg"),
+        perfumeImage: asset("/assets/perfume/background-removed-test/eau-des-sens.png"),
         accentCategory: true,
       },
       {
@@ -70,7 +70,7 @@ const notificationGroups: Array<{ label: string; items: NotificationItem[] }> = 
         time: "5일 전",
         title: "나영님을 위한 오늘의 향수 추천",
         description: "최근 본 향수를 바탕으로 취향에 맞는 향수 5가지를 골라봤어요.",
-        perfumeImage: asset("/assets/perfume/byredo/mojave-ghost.jpg"),
+        perfumeImage: asset("/assets/perfume/background-removed-test/mojave-ghost.png"),
       },
     ],
   },
@@ -120,7 +120,7 @@ function NotificationCard({
       <div className="relative flex size-[92px] shrink-0 items-center justify-center overflow-visible rounded-[8px] bg-light2-grey">
         <img
           alt={`${item.title} 향수`}
-          className="size-full rounded-[8px] object-contain"
+          className="h-auto max-h-[76px] w-auto max-w-[76px] object-contain"
           src={item.perfumeImage}
         />
         {isUnread && <img alt="" aria-hidden="true" className="absolute -right-0.5 -top-1 size-[11px]" src={unreadDotIcon} />}

@@ -5,7 +5,7 @@ import fireBadge from "../assets/mypage/fire-badge.svg";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { BackHeader } from "../components/common/BackHeader";
-import { myProfile } from "../data/myProfile";
+import { getMyProfileMood, myProfile } from "../data/myProfile";
 import { perfumeData } from "../data/perfumeData";
 import { shuffledRecommendUsers } from "../data/recommendUsers";
 import type { RecommendUser } from "../data/recommendUsers";
@@ -163,7 +163,7 @@ function MyFeedHero() {
               {myProfile.badge}
             </span>
             <span className="rounded-full bg-black/50 px-2.5 py-1 font-cormorant text-base font-bold leading-none text-light2-grey">
-              {myProfile.mood}
+              {getMyProfileMood()}
             </span>
           </div>
           <div className="mt-1 flex items-end gap-2 text-off-white">
