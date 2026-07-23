@@ -1,5 +1,5 @@
 import { Check, ChevronRight, ChevronDown, Search, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BottomNavigation } from "../components/common/BottomNavigation";
@@ -79,14 +79,20 @@ function DetailHeader({ title }: { title: string }) {
 
 function PerfumeRecordCard({ perfume }: { perfume: (typeof perfumes)[number] }) {
   const [savedMemo, setSavedMemo] = useState(perfume.savedMemo);
-  const [memo, setMemo] = useState(perfume.savedMemo);
+  const [memo, setMemo] = useState("");
   const [isEditing, setIsEditing] = useState(savedMemo === "");
   const canSave = memo.trim() !== "";
+  const displayMemo = savedMemo === "간단한 메모" ? "" : savedMemo;
+  const hasContent = savedMemo && savedMemo !== "간단한 메모";
 
   return (
     <article className="flex items-start gap-2.5 rounded-card border-[0.8px] border-light-grey bg-off-white p-[12px]">
       <div className="flex size-[100px] shrink-0 items-center justify-center overflow-hidden rounded-lg bg-light2-grey">
-        <img alt={perfume.name} className="size-full object-contain mix-blend-multiply" src={perfume.image} />
+        {perfume.image ? (
+          <img alt={perfume.name} className="size-full object-contain mix-blend-multiply" src={perfume.image} />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-light2-grey" />
+        )}
       </div>
       <div className="flex min-w-0 flex-1 flex-col">
         <p className="truncate text-[12px] font-normal leading-none tracking-[-0.02em] text-grey uppercase" /* caption/regular-12px */>{perfume.brand}</p>
@@ -117,14 +123,21 @@ function PerfumeRecordCard({ perfume }: { perfume: (typeof perfumes)[number] }) 
             </>
           ) : (
             <>
-              <p className="w-full min-w-0 truncate text-[12px] font-normal tracking-[-0.02em] text-subtext">{savedMemo}</p>
-              <button
-                className="shrink-0 rounded-full border-[0.8px] border-light-grey bg-off-white px-2.5 py-1 text-[11px] font-medium tracking-[-0.02em] text-subtext"
-                onClick={() => setIsEditing(true)}
-                type="button"
-              >
-                수정
-              </button>
+              <p className={`w-full min-w-0 truncate text-[12px] font-normal tracking-[-0.02em] ${hasContent ? "text-subtext" : "text-grey"}`}>
+                {displayMemo || "간단한 메모"}
+              </p>
+              {hasContent && (
+                <button
+                  className="shrink-0 rounded-full border-[0.8px] border-light-grey bg-off-white px-2.5 py-1 text-[11px] font-medium tracking-[-0.02em] text-subtext"
+                  onClick={() => {
+                    setMemo(savedMemo);
+                    setIsEditing(true);
+                  }}
+                  type="button"
+                >
+                  수정
+                </button>
+              )}
             </>
           )}
         </div>
@@ -280,6 +293,15 @@ export default function MyPerfumePage() {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState<FilterTab | null>(null);
   const [selectedFilters, setSelectedFilters] = useState<string[]>(defaultSelectedFilters);
+  const [allPerfumes, setAllPerfumes] = useState(() => {
+    const userPerfumes = JSON.parse(sessionStorage.getItem("userPerfumes") || "[]");
+    return [...userPerfumes, ...perfumes];
+  });
+
+  useEffect(() => {
+    const userPerfumes = JSON.parse(sessionStorage.getItem("userPerfumes") || "[]");
+    setAllPerfumes([...userPerfumes, ...perfumes]);
+  }, []);
 
   const toggleFilter = (option: string) => {
     setSelectedFilters((current) =>
@@ -290,8 +312,8 @@ export default function MyPerfumePage() {
   const selectedBrandFilters = selectedFilters.filter((filter) => brandNames.includes(filter));
   const filteredPerfumes =
     selectedBrandFilters.length === 0
-      ? perfumes
-      : perfumes.filter((perfume) => selectedBrandFilters.includes(brands.find((brand) => brand.id === perfume.brandId)?.name ?? ""));
+      ? allPerfumes
+      : allPerfumes.filter((perfume) => selectedBrandFilters.includes(brands.find((brand) => brand.id === perfume.brandId)?.name ?? ""));
 
   return (
     <main className="mx-auto min-h-dvh w-full max-w-[430px] cursor-default select-none overflow-x-hidden bg-off-white text-off-black">
@@ -311,7 +333,11 @@ export default function MyPerfumePage() {
           <p className="text-sm font-normal leading-none tracking-[-0.02em] text-grey">
             이번 주 <span className="text-off-black">5일</span> 기록했어요
           </p>
-          <button className="flex items-center gap-1 text-xs font-medium leading-none tracking-[-0.02em] text-grey" type="button">
+          <button
+            className="flex cursor-pointer items-center gap-1 text-xs font-medium leading-none tracking-[-0.02em] text-grey"
+            onClick={() => navigate("/mypage/perfumes/record")}
+            type="button"
+          >
             기록하기
             <ChevronRight aria-hidden="true" size={14} strokeWidth={1.5} />
           </button>
