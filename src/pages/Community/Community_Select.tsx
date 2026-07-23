@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Bell, Briefcase, Check, ChevronDown, ChevronLeft, Search } from "lucide-react";
+import { Bell, Briefcase, Check, ChevronDown, Search } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import tagOne from "../../assets/community/figma/tag-one.png";
 import tagThree from "../../assets/community/figma/tag-three.png";
 import tagTwo from "../../assets/community/figma/tag-two.png";
+import { BackHeader } from "../../components/common/BackHeader";
 
 const perfumeItems = [
   {
@@ -111,27 +112,9 @@ export default function CommunitySelect() {
     : perfumeItems;
 
   return (
-    <main className="min-h-dvh bg-off-white">
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white">
       <div className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-off-white">
-        <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5">
-          <div className="flex items-center justify-center">
-            <button className="flex size-[21px] items-center justify-center" type="button" onClick={() => navigate(-1)} aria-label="뒤로가기">
-              <ChevronLeft className="size-[21px]" strokeWidth={1.4} />
-            </button>
-            <h1 className="text-[24px] font-semibold leading-[1.08] tracking-[-0.03em] text-off-black">향수 선택</h1>
-          </div>
-          <div className="flex items-start justify-end gap-5">
-            <Link aria-label="검색" className="flex size-7 items-center justify-center" to="/search">
-              <Search className="size-7" strokeWidth={1.6} />
-            </Link>
-            <button aria-label="알림" className="flex size-7 items-center justify-center" type="button">
-              <Bell className="size-7" strokeWidth={1.6} />
-            </button>
-            <Link aria-label="향수 카테고리" className="flex size-7 items-center justify-center" to="/category">
-              <Briefcase className="size-7" strokeWidth={1.6} />
-            </Link>
-          </div>
-        </header>
+        <BackHeader title="향수 선택" />
 
         <div className="flex flex-1 flex-col gap-[30px] px-5 pt-[calc(var(--app-header-height)+24px)] pb-[132px]">
           <label className="flex w-full items-center rounded-full border-[0.6px] border-light-grey bg-off-white px-[14px] py-3">

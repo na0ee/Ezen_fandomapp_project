@@ -19,18 +19,18 @@ import { completeOnboarding } from "./onboardingStorage";
 const recommendedPerfumes = [
   {
     image: perfumeOne,
-    name: "Blackberry & Bay Cologne",
-    brand: "Jo Malone",
+    name: "블랙베리 앤 베이 코롱",
+    brand: "JO MALONE",
   },
   {
     image: perfumeTwo,
-    name: "Orpheon",
-    brand: "Diptyque",
+    name: "오르페옹",
+    brand: "DIPTYQUE",
   },
   {
     image: perfumeThree,
-    name: "Myslf",
-    brand: "Yves Saint Laurent",
+    name: "마이셀프",
+    brand: "YVES SAINT LAURENT",
   },
 ];
 

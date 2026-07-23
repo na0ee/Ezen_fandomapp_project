@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
-import { BellRing, ChevronLeft } from "lucide-react";
+import { BellRing } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { BackHeader } from "../components/common/BackHeader";
 import { Chip } from "../components/ui/Chip";
 import { Tab } from "../components/ui/Tab";
 import { useAppliedRaffleIds, useRaffleApplied } from "../store/raffleStore";
@@ -19,42 +20,42 @@ type CategoryTab = (typeof categoryTabs)[number];
 const raffleItems = [
   {
     id: "lazy-before-1",
-    brand: "Maison Margiela Fragrances",
+    brand: "MAISON MARGIELA FRAGRANCES",
     name: "Lazy Sunday Morning",
     nameKo: "레이지 선데이 모닝",
     state: "before",
   },
   {
     id: "lazy-before-2",
-    brand: "Maison Margiela Fragrances",
+    brand: "MAISON MARGIELA FRAGRANCES",
     name: "Lazy Sunday Morning",
     nameKo: "레이지 선데이 모닝",
     state: "before",
   },
   {
     id: "blackberry-1",
-    brand: "Jo Malone London",
+    brand: "JO MALONE LONDON",
     name: "Blackberry & Bay Cologne",
     nameKo: "블랙베리 앤 베이 코롱",
     state: "now",
   },
   {
     id: "blackberry-2",
-    brand: "Jo Malone London",
+    brand: "JO MALONE LONDON",
     name: "Blackberry & Bay Cologne",
     nameKo: "블랙베리 앤 베이 코롱",
     state: "now",
   },
   {
     id: "blackberry-3",
-    brand: "Jo Malone London",
+    brand: "JO MALONE LONDON",
     name: "Blackberry & Bay Cologne",
     nameKo: "블랙베리 앤 베이 코롱",
     state: "now",
   },
   {
     id: "blackberry-4",
-    brand: "Jo Malone London",
+    brand: "JO MALONE LONDON",
     name: "Blackberry & Bay Cologne",
     nameKo: "블랙베리 앤 베이 코롱",
     state: "now",
@@ -62,26 +63,7 @@ const raffleItems = [
 ] as const;
 
 function RaffleHeader() {
-  const navigate = useNavigate();
-
-  return (
-    <header className="header fixed top-0 left-1/2 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[var(--app-safe-top)]">
-      <div className="flex min-w-0 items-center">
-        <button
-          aria-label="이전 페이지로 돌아가기"
-          className="-ml-1 flex size-[21px] shrink-0 items-center justify-center text-off-black"
-          onClick={() => navigate(-1)}
-          type="button"
-        >
-          <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.7} />
-        </button>
-        <h1 className="ml-1 truncate text-2xl font-semibold leading-[1.08] tracking-[-0.02em] text-off-black">
-          래플
-        </h1>
-      </div>
-      <HeaderActions />
-    </header>
-  );
+  return <BackHeader title="래플" action={<HeaderActions />} />;
 }
 
 function RaffleCard({

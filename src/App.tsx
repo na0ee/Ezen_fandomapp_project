@@ -23,7 +23,6 @@ import MyReviewsPage from "./pages/MyReviewsPage";
 import MyWishlistPage from "./pages/MyWishlistPage";
 import SearchResults from "./pages/SearchResults";
 import Category from "./pages/Category";
-import Search from "./pages/Search";
 import UserProfilePage from "./pages/UserProfilePage";
 import { RecommendationFeedPage } from "./pages/RecommendationFeedPage";
 import { ChallengeListPage } from "./pages/ChallengeListPage";
@@ -104,7 +103,6 @@ export default function App() {
         <Route path="/mypage/reviews" element={<MyReviewsPage />} />
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/category" element={<Category />} />
-        <Route path="/search" element={<Search />} />
         <Route path="/notifications" element={<NotificationPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -8,9 +8,7 @@ import avatarYeeun from "../../assets/community/figma/avatar-yeeun.png";
 import carouselFour from "../../assets/community/figma/carousel-four.png";
 import carouselThree from "../../assets/community/figma/carousel-three.png";
 import carouselTwo from "../../assets/community/figma/carousel-two.png";
-import headerBell from "../../assets/community/figma/header-bell.svg";
-import headerPerfume from "../../assets/community/figma/header-perfume.svg";
-import headerSearch from "../../assets/community/figma/header-search.svg";
+
 import joMalone from "../../assets/community/figma/jo-malone.png";
 import plusImageOne from "../../assets/community/figma/plus-image-one.svg";
 import plusImageTwo from "../../assets/community/figma/plus-image-two.svg";
@@ -24,6 +22,7 @@ import tagFour from "../../assets/community/figma/tag-four.png";
 import tagOne from "../../assets/community/figma/tag-one.png";
 import tagThree from "../../assets/community/figma/tag-three.png";
 import tagTwo from "../../assets/community/figma/tag-two.png";
+import { HeaderActions } from "../../components/common/HeaderActions";
 
 const carouselImages = [
   { src: postImageOne, fit: "object-bottom" },
@@ -39,20 +38,6 @@ const tagImagesOne = [
 const tagImagesTwo = [
   { src: tagFour, className: "h-[69px] w-[52px]" },
 ];
-
-function HeaderActions() {
-  return (
-    <div className="flex items-start justify-end gap-5">
-      <Link aria-label="검색" className="h-7 w-7" to="/search">
-        <img className="size-full" src={headerSearch} alt="" />
-      </Link>
-      <img className="h-7 w-7" src={headerBell} alt="알림" />
-      <Link aria-label="향수 카테고리" className="relative size-7 overflow-hidden" to="/category">
-        <img className="absolute inset-[12.5%] h-3/4 w-3/4 max-w-none" src={headerPerfume} alt="향수" />
-      </Link>
-    </div>
-  );
-}
 
 function Tabs() {
   return (

@@ -662,7 +662,7 @@ function GiftSection() {
 
 export function HomePage() {
   return (
-    <main className="min-h-dvh bg-off-white" data-node-id={figmaNode.screen}>
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white" data-node-id={figmaNode.screen}>
       <div className="relative mx-auto flex min-h-dvh w-full max-w-[430px] flex-col overflow-x-hidden bg-off-white">
         <HomeHeader />
         <div className="wrap flex flex-1 flex-col gap-10 pb-[160px]" data-node-id={figmaNode.wrap}>

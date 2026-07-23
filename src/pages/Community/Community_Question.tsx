@@ -3,9 +3,8 @@ import { MessageCircle, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PageLayout } from "../../components/common/PageLayout";
 import { HeartButton } from "../../components/ui/HeartButton";
-import headerBell from "../../assets/community/figma/header-bell.svg";
-import headerPerfume from "../../assets/community/figma/header-perfume.svg";
-import headerSearch from "../../assets/community/figma/header-search.svg";
+
+import { HeaderActions } from "../../components/common/HeaderActions";
 
 const questionCards = [
   {
@@ -23,20 +22,6 @@ const questionCards = [
     replies: 12,
   },
 ];
-
-function HeaderActions() {
-  return (
-    <div className="flex items-start justify-end gap-5">
-      <Link aria-label="검색" className="h-7 w-7" to="/search">
-        <img className="size-full" src={headerSearch} alt="" />
-      </Link>
-      <img className="h-7 w-7" src={headerBell} alt="알림" />
-      <Link aria-label="향수 카테고리" className="relative size-7 overflow-hidden" to="/category">
-        <img className="absolute inset-[12.5%] h-3/4 w-3/4 max-w-none" src={headerPerfume} alt="향수" />
-      </Link>
-    </div>
-  );
-}
 
 function CommunityTabs() {
   return (

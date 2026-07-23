@@ -1,8 +1,9 @@
-import { ChevronLeft, PartyPopper } from "lucide-react";
+import { PartyPopper } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { BackHeader } from "../components/common/BackHeader";
 import { Chip } from "../components/ui/Chip";
 
 const CHALLENGE_REWARD_STORAGE_KEY = "layer:pendingChallengeReward";
@@ -109,26 +110,7 @@ const challengeItems = [
 ];
 
 function ChallengeHeader() {
-  const navigate = useNavigate();
-
-  return (
-    <header className="header fixed top-0 left-1/2 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[var(--app-safe-top)]">
-      <div className="flex items-center">
-        <button
-          aria-label="이전 페이지로 돌아가기"
-          className="-ml-1 flex size-[21px] items-center justify-center"
-          onClick={() => navigate(-1)}
-          type="button"
-        >
-          <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.7} />
-        </button>
-        <h1 className="ml-1 text-2xl font-semibold leading-[1.08] tracking-[-0.02em] text-off-black">
-          챌린지
-        </h1>
-      </div>
-      <HeaderActions />
-    </header>
-  );
+  return <BackHeader title="챌린지" action={<HeaderActions />} />;
 }
 
 function ChallengeListCard({
