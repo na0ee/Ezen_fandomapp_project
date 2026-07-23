@@ -31,7 +31,7 @@ const notificationGroups: Array<{ label: string; items: NotificationItem[] }> = 
         description: "Le Labo · 상탈 33이 재입고되었어요. 품절되기 전에 확인해 보세요.",
         perfumeImage: asset("/assets/perfume/background-removed-test/santal-33.png"),
         accentCategory: true,
-        action: { label: "향수 보기", to: "/search-results" },
+        action: { label: "향수 보기", to: "/category" },
       },
       {
         id: "new-product",

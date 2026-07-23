@@ -21,8 +21,9 @@ import MyPage from "./pages/Mypage/MyPage";
 import MyPerfumePage from "./pages/MyPerfumePage";
 import MyReviewsPage from "./pages/MyReviewsPage";
 import MyWishlistPage from "./pages/MyWishlistPage";
-import SearchResults from "./pages/SearchResults";
 import Category from "./pages/Category";
+import SearchResults from "./pages/SearchResults";
+import PerfumeDetailPage from "./pages/PerfumeDetailPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import { RecommendationFeedPage } from "./pages/RecommendationFeedPage";
 import { ChallengeListPage } from "./pages/ChallengeListPage";
@@ -111,8 +112,9 @@ export default function App() {
         <Route path="/mypage/perfumes" element={<MyPerfumePage />} />
         <Route path="/mypage/wishlist" element={<MyWishlistPage />} />
         <Route path="/mypage/reviews" element={<MyReviewsPage />} />
-        <Route path="/search-results" element={<SearchResults />} />
         <Route path="/category" element={<Category />} />
+        <Route path="/search-results" element={<SearchResults />} />
+        <Route path="/perfume/:id" element={<PerfumeDetailPage />} />
         <Route path="/notifications" element={<NotificationPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

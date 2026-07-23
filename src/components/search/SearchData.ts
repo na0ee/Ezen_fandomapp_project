@@ -1,6 +1,6 @@
 import lazySundayMorningImage from "../../assets/search/figma/lazy-sunday-morning.png";
 
-export const searchTabs = ["전체", "브랜드", "향 계열", "무드"] as const;
+export const searchTabs = ["전체", "향 계열", "브랜드"] as const;
 
 export type SearchTab = (typeof searchTabs)[number];
 
