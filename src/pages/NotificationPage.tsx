@@ -38,7 +38,7 @@ const notificationGroups: Array<{ label: string; items: NotificationItem[] }> = 
         badgeClassName: "bg-point-orange/10",
         iconSizeClassName: "size-6",
         accentCategory: true,
-        action: { label: "향수 보기", to: "/search-results" },
+        action: { label: "향수 보기", to: "/category" },
       },
       {
         id: "new-product",

@@ -60,7 +60,7 @@ export default function Category() {
                 className="flex min-w-0 flex-1 items-center gap-[11px] rounded-[24px] bg-[#EDEDED] px-5 py-[7px] text-left"
                 onSubmit={(event) => {
                   event.preventDefault();
-                  navigate(`/search-results?q=${encodeURIComponent(query.trim())}`);
+                  // TODO: 카테고리 상세 페이지에서 검색 결과 처리 예정
                 }}
               >
                 <button aria-label="검색" className="size-[25px] shrink-0" type="submit">
