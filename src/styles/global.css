@@ -130,6 +130,24 @@
     display: none;
   }
 
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-light-grey) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--color-light-grey);
+    border-radius: 999px;
+  }
+
   .horizontal-scroller {
     cursor: grab;
     scroll-behavior: smooth;
