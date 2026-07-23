@@ -14,7 +14,7 @@ export default function SearchResults() {
   const [activeTab, setActiveTab] = useState<SearchTab>("전체");
 
   return (
-    <main className="min-h-dvh bg-off-white text-off-black">
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white text-off-black">
       <div className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col overflow-x-hidden bg-off-white pb-6">
         <header className="w-full px-side pb-3 pt-[var(--app-safe-top)]">
           <SearchBar

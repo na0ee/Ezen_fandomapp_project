@@ -1,27 +1,24 @@
-import { Activity, ChevronRight, Heart } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import fireBadge from "../assets/mypage/fire-badge.svg";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { BackHeader } from "../components/common/BackHeader";
+import { myProfile } from "../data/myProfile";
+import { perfumeData } from "../data/perfumeData";
 import { recommendUsers } from "../data/recommendUsers";
 import type { RecommendUser } from "../data/recommendUsers";
 
-const assets = Object.fromEntries(
-  Object.entries({
-    jazzClub: "/assets/figma/1a1cf807-eb4f-4aa5-a14f-c60de2901496.png",
-    myHeroBase: "/assets/figma/recommend-my-hero-base.png",
-    myHeroPhoto: "/assets/figma/recommend-my-hero-overlay.png",
-  }).map(([key, path]) => [key, `${import.meta.env.BASE_URL}${path.slice(1)}`]),
-) as Record<string, string>;
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 
-const receivedRecommendations = Array.from({ length: 4 }, (_, index) => ({
+// 추천받은 향수 — 공용 향수 데이터(perfumeData)의 한글 이름·이미지를 사용
+const receivedRecommendations = perfumeData.slice(0, 4).map((entry, index) => ({
   id: `received-${index + 1}`,
-  perfume: "Jazz Club",
+  perfume: entry.perfume.name,
   nickname: "chlgotn",
   message: "프로필을 보니 미러리해서 이 향수가 잘...",
-  image: assets.jazzClub,
+  image: asset(entry.perfume.image),
 }));
 
 type MainTab = "mine" | "recommend";
@@ -98,22 +95,22 @@ function MyFeedHero() {
   return (
     <section className="-mx-5">
       <div className="relative h-[560px] w-full overflow-hidden bg-off-black text-off-white">
-        <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.myHeroBase} />
+        <img alt="" className="absolute inset-0 h-full w-full object-cover" src={myProfile.feedImages[0]} />
         <div className="absolute left-0 top-[-85px] h-[645px] w-full">
-          <img alt="" className="h-full w-full object-cover" src={assets.myHeroPhoto} />
+          <img alt="" className="h-full w-full object-cover" src={myProfile.feedImages[1]} />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
         <div className="absolute inset-x-5 bottom-5">
           <div className="flex items-center gap-1">
             <span className="inline-flex h-[24px] items-center gap-0.5 rounded-full bg-black/20 pr-1.5 text-sm font-bold leading-none">
               <img alt="" aria-hidden="true" className="size-[19px]" src={fireBadge} />
-              LOVER
+              {myProfile.badge}
             </span>
             <span className="rounded-full bg-black/50 px-2.5 py-1 font-cormorant text-base font-bold leading-none text-light2-grey">
-              Mood Shifter
+              {myProfile.mood}
             </span>
           </div>
-          <h2 className="mt-1 text-[34px] font-bold leading-[1.3] tracking-[-0.02em]">chlgotn</h2>
+          <h2 className="mt-1 text-[34px] font-bold leading-[1.3] tracking-[-0.02em]">{myProfile.name}</h2>
         </div>
       </div>
     </section>
@@ -146,8 +143,13 @@ function RecommendationFilterTabs({
             onClick={() => onChange(tab.id)}
             type="button"
           >
-            <span aria-hidden="true" className={`inline-flex size-3.5 shrink-0 items-center justify-center rounded-full ${isActive ? "bg-off-white" : "bg-off-black"}`}>
-              {tab.id === "received" ? <HeartIcon active={isActive} /> : <ActivityIcon active={isActive} />}
+            <span
+              aria-hidden="true"
+              className={`inline-flex size-3.5 shrink-0 items-center justify-center overflow-hidden rounded-full ${
+                isActive ? "bg-off-white text-off-black" : "bg-off-black text-off-white"
+              }`}
+            >
+              {tab.id === "received" ? <RecommendationHeartIcon /> : <RecommendationActivityIcon />}
             </span>
             {tab.label}
           </button>
@@ -157,12 +159,31 @@ function RecommendationFilterTabs({
   );
 }
 
-function HeartIcon({ active }: { active: boolean }) {
-  return <Heart aria-hidden="true" className={active ? "text-off-black" : "text-off-white"} size={11} strokeWidth={1.5} />;
+function RecommendationHeartIcon() {
+  return (
+    <svg aria-hidden="true" className="size-3.5" fill="none" viewBox="0 0 14 14">
+      <path
+        d="M10.1515 4.80599C9.96944 4.62381 9.75324 4.47929 9.51528 4.38069C9.27731 4.28209 9.02226 4.23134 8.76468 4.23134C8.5071 4.23134 8.25204 4.28209 8.01408 4.38069C7.77611 4.47929 7.55991 4.62381 7.37782 4.80599L6.99991 5.1839L6.62199 4.80599C6.25418 4.43817 5.75531 4.23154 5.23513 4.23154C4.71496 4.23154 4.21609 4.43817 3.84827 4.80599C3.48045 5.17381 3.27382 5.67268 3.27382 6.19285C3.27382 6.71303 3.48045 7.21189 3.84827 7.57971L4.22618 7.95762L6.99991 10.7313L9.77363 7.95762L10.1515 7.57971C10.3337 7.39762 10.4782 7.18141 10.5768 6.94345C10.6754 6.70549 10.7262 6.45043 10.7262 6.19285C10.7262 5.93527 10.6754 5.68021 10.5768 5.44225C10.4782 5.20429 10.3337 4.98809 10.1515 4.80599Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
 }
 
-function ActivityIcon({ active }: { active: boolean }) {
-  return <Activity aria-hidden="true" className={active ? "text-off-black" : "text-off-white"} size={11} strokeWidth={1.5} />;
+function RecommendationActivityIcon() {
+  return (
+    <svg aria-hidden="true" className="size-3.5" fill="none" viewBox="0 0 14 14">
+      <path
+        d="M11.1667 7H9.5L8.25 10.75L5.75 3.25L4.5 7H2.83333"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.16667"
+      />
+    </svg>
+  );
 }
 
 function RecommendationCard({
@@ -238,7 +259,7 @@ export function RecommendationFeedPage() {
   const [activeTab, setActiveTab] = useState<MainTab>("recommend");
 
   return (
-    <main className="min-h-dvh bg-off-white text-off-black">
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white text-off-black">
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <RecommendationHeader />
 

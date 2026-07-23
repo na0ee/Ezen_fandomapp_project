@@ -144,7 +144,7 @@ export function RaffleDetailPage() {
       : raffleDetails["lazy-before-1"];
 
   return (
-    <main className="min-h-dvh bg-off-white text-off-black" data-node-id="1034:13631">
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white text-off-black" data-node-id="1034:13631">
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <RaffleDetailHeader />
         <div className="wrap flex flex-col items-center px-5 pb-[124px] pt-[calc(var(--app-header-height)+65px)]">

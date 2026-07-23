@@ -176,7 +176,7 @@ function TipCard({ tip }: { tip: (typeof tips)[number] }) {
 
 export default function MagazineLastingPower() {
   return (
-    <main className="min-h-dvh overflow-x-hidden bg-off-white text-off-black">
+    <main className="min-h-dvh overflow-x-hidden bg-black max-[430px]:bg-off-white text-off-black">
       <div className="mx-auto min-h-dvh w-full max-w-[430px] bg-off-white">
         <MagazineDetailHeader />
 
