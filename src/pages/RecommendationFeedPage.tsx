@@ -1,4 +1,4 @@
-import { Activity, ChevronRight, Heart } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import fireBadge from "../assets/mypage/fire-badge.svg";
@@ -143,8 +143,13 @@ function RecommendationFilterTabs({
             onClick={() => onChange(tab.id)}
             type="button"
           >
-            <span aria-hidden="true" className={`inline-flex size-3.5 shrink-0 items-center justify-center rounded-full ${isActive ? "bg-off-white" : "bg-off-black"}`}>
-              {tab.id === "received" ? <HeartIcon active={isActive} /> : <ActivityIcon active={isActive} />}
+            <span
+              aria-hidden="true"
+              className={`inline-flex size-3.5 shrink-0 items-center justify-center overflow-hidden rounded-full ${
+                isActive ? "bg-off-white text-off-black" : "bg-off-black text-off-white"
+              }`}
+            >
+              {tab.id === "received" ? <RecommendationHeartIcon /> : <RecommendationActivityIcon />}
             </span>
             {tab.label}
           </button>
@@ -154,12 +159,31 @@ function RecommendationFilterTabs({
   );
 }
 
-function HeartIcon({ active }: { active: boolean }) {
-  return <Heart aria-hidden="true" className={active ? "text-off-black" : "text-off-white"} size={11} strokeWidth={1.5} />;
+function RecommendationHeartIcon() {
+  return (
+    <svg aria-hidden="true" className="size-3.5" fill="none" viewBox="0 0 14 14">
+      <path
+        d="M10.1515 4.80599C9.96944 4.62381 9.75324 4.47929 9.51528 4.38069C9.27731 4.28209 9.02226 4.23134 8.76468 4.23134C8.5071 4.23134 8.25204 4.28209 8.01408 4.38069C7.77611 4.47929 7.55991 4.62381 7.37782 4.80599L6.99991 5.1839L6.62199 4.80599C6.25418 4.43817 5.75531 4.23154 5.23513 4.23154C4.71496 4.23154 4.21609 4.43817 3.84827 4.80599C3.48045 5.17381 3.27382 5.67268 3.27382 6.19285C3.27382 6.71303 3.48045 7.21189 3.84827 7.57971L4.22618 7.95762L6.99991 10.7313L9.77363 7.95762L10.1515 7.57971C10.3337 7.39762 10.4782 7.18141 10.5768 6.94345C10.6754 6.70549 10.7262 6.45043 10.7262 6.19285C10.7262 5.93527 10.6754 5.68021 10.5768 5.44225C10.4782 5.20429 10.3337 4.98809 10.1515 4.80599Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
 }
 
-function ActivityIcon({ active }: { active: boolean }) {
-  return <Activity aria-hidden="true" className={active ? "text-off-black" : "text-off-white"} size={11} strokeWidth={1.5} />;
+function RecommendationActivityIcon() {
+  return (
+    <svg aria-hidden="true" className="size-3.5" fill="none" viewBox="0 0 14 14">
+      <path
+        d="M11.1667 7H9.5L8.25 10.75L5.75 3.25L4.5 7H2.83333"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.16667"
+      />
+    </svg>
+  );
 }
 
 function RecommendationCard({
