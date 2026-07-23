@@ -2,7 +2,6 @@ import {
   ArrowRight,
   ChevronRight,
   CircleHelp,
-  Star,
   UserRoundCog,
 } from "lucide-react";
 import type { PointerEvent, ReactNode } from "react";
@@ -16,6 +15,7 @@ import { SectionTitle as CommonSectionTitle } from "../../components/common/Sect
 import { myProfile } from "../../data/myProfile";
 import fireBadge from "../../assets/mypage/fire-badge.svg";
 import perfumeLoewe from "../../assets/mypage/perfume-loewe.png";
+import perfumeMatiere from "../../assets/mypage/perfume-MATIERE.png";
 import perfumeSanta from "../../assets/mypage/perfume-santa.png";
 import reviewOne from "../../assets/mypage/review-1.png";
 import reviewTwo from "../../assets/mypage/review-2.png";
@@ -38,7 +38,7 @@ const perfumes = [
   {
     brand: "SANTA MARIA NOVELLA",
     name: "엔젤 디 피렌체 오드코롱 100ml",
-    image: perfumeSanta,
+    image: perfumeMatiere,
   },
 ];
 
@@ -136,7 +136,7 @@ function ProfileSection() {
       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(26,26,26,0.62)] via-[rgba(26,26,26,0.18)] to-transparent" />
       <div className="absolute inset-x-0 bottom-0">
         <div className="mb-[9px] flex items-center gap-2 px-side text-off-white">
-          <div className="size-10 shrink-0 overflow-hidden rounded-[200px]">
+          <div className="size-9 shrink-0 overflow-hidden rounded-[200px]">
             <img alt={`${myProfile.name} 프로필`} className="size-full object-cover" src={myProfile.avatar} />
           </div>
           <div className="flex shrink-0 items-center gap-3">
@@ -149,12 +149,12 @@ function ProfileSection() {
 
         <div className="rounded-t-[24px] bg-off-white px-side pb-5 pt-3.5">
           <div className="mx-auto mb-5 h-1 w-8 rounded-[24px] bg-light-grey" />
-          <div className="rounded-card border-[0.8px] border-light-grey px-[18px] py-3.5">
+          <div className="rounded-card border-[0.8px] border-light-grey px-[16px] py-3.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <img alt="" className="h-[59px] w-[60px] object-contain" src={fireBadge} />
                 <div>
-                  <p className="text-xl font-bold leading-[1.3] tracking-[-0.02em]">{myProfile.badge}</p>
+                  <p className="text-xl font-semibold leading-[1.3] tracking-[-0.02em]">{myProfile.badge}</p>
                   <p className="mt-1 text-sm leading-[1.4] tracking-[-0.02em] text-grey">
                     포인트 <span className="font-medium text-point-orange">{myProfile.points}</span>
                   </p>
@@ -169,7 +169,7 @@ function ProfileSection() {
             </p>
           </div>
           <button
-            className="mt-5 flex h-[43px] w-full cursor-pointer items-center justify-between rounded-card bg-point-orange/80 px-3 text-sm font-medium tracking-[-0.02em] text-off-white"
+            className="mt-5 flex h-[43px] w-full cursor-pointer items-center justify-between rounded-card bg-point-orange px-3 text-sm font-medium tracking-[-0.02em] text-off-white"
             onClick={() => navigate("/onboarding/1")}
             type="button"
           >
@@ -191,15 +191,7 @@ function PerfumeSection() {
           <article className="flex h-[337px] w-[241px] shrink-0 items-center justify-center overflow-hidden rounded-card border-[0.8px] border-light-grey bg-off-white px-3 py-[30px]" key={`${perfume.brand}-${index}`}>
             <div className="flex w-[217px] flex-col items-center gap-[30px]">
               <div className="relative size-[150px] shrink-0 overflow-hidden rounded-card">
-                {perfume.brand === "LOEWE PERFUMES" ? (
-                  <div className="absolute left-1/2 top-1/2 h-[100px] w-[32.291px] -translate-x-1/2 -translate-y-1/2 overflow-hidden">
-                    <img alt={perfume.name} className="absolute left-[-151.51%] top-[-133.5%] h-[352.89%] w-[728.55%] max-w-none" src={perfume.image} />
-                  </div>
-                ) : (
-                  <div className="absolute left-[38.9px] top-1/2 h-[100.813px] w-[72.009px] -translate-y-1/2 overflow-hidden">
-                    <img alt={perfume.name} className="absolute left-[-54.03%] top-[-85.2%] h-[221.7%] w-[207.29%] max-w-none" src={perfume.image} />
-                  </div>
-                )}
+                <img alt={perfume.name} className="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 object-contain" src={perfume.image} />
               </div>
               <div className="flex w-full flex-col items-center gap-4 whitespace-nowrap text-center leading-none tracking-[-0.02em]">
                 <div className="flex w-full flex-col items-center gap-1 overflow-hidden">
@@ -230,9 +222,9 @@ function MagazineSection() {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80" />
             <div className="absolute inset-0 flex flex-col p-5">
               <p className="font-cormorant text-xs font-medium leading-[normal]">Scent Match</p>
-              <div className="mt-[124px]">
+              <div className="mt-auto">
                 <h3 className="h-[19px] w-[167px] truncate text-base font-semibold leading-[19px] tracking-[-0.02em]">계절별 향수 선택 가이드</h3>
-                <p className="mt-[7px] h-[34px] w-[167px] text-xs font-normal leading-[1.4] tracking-[-0.02em]">봄, 여름, 가을 , 겨울<br />어떤 향이 어울릴까?</p>
+                <p className="mt-1 w-full text-xs font-light leading-[1.4] tracking-[-0.02em]">봄, 여름, 가을 , 겨울 어떤 향이 어울릴까?</p>
                 <div className="mt-5 flex h-4 w-[219px] items-center justify-between text-xs leading-[normal] tracking-[-0.02em]">
                   <span>2026.07.13</span>
                   <ArrowRight aria-hidden="true" size={16} strokeWidth={1.6} />
@@ -252,15 +244,15 @@ function WishlistSection() {
   return (
     <section className="px-side">
       <SectionTitle to="/mypage/wishlist">위시리스트</SectionTitle>
-      <div className="mt-title-gap flex w-full flex-col items-start gap-[10px]">
+      <div className="mt-title-gap flex w-full flex-col items-start gap-[16px]">
         {wishlist.map((item, index) => (
           <article className="relative flex h-[124px] w-full shrink-0 items-end justify-end gap-5 overflow-hidden rounded-card border-[0.8px] border-light-grey bg-off-white p-3" key={item.name}>
             <div className="flex min-w-0 flex-1 items-start gap-5 self-start">
               <div className="relative size-[100px] shrink-0 overflow-hidden rounded-card bg-light2-grey">
                 {item.brand === "BVLGARI PERFUME" ? (
-                  <img alt={item.name} className="absolute left-[-43.47%] top-[-28.37%] h-[134.96%] w-[145.37%] max-w-none" src={item.image} />
+                  <img alt={item.name} className="absolute left-1/2 top-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2" src={item.image} />
                 ) : item.brand === "BULY" ? (
-                  <img alt={item.name} className="absolute left-[-29.96%] top-0 size-[160.32%] max-w-none" src={item.image} />
+                  <img alt={item.name} className="absolute left-1/2 top-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2" src={item.image} />
                 ) : (
                   <img alt={item.name} className="size-full object-cover" src={item.image} />
                 )}
@@ -289,20 +281,24 @@ function WishlistSection() {
 
 function ReviewSection() {
   const reviews = [
-    { image: reviewOne, rating: 5, text: "향이좋네염" },
-    { image: reviewTwo, rating: 2, text: "제 취향은 아니에요" },
+    { image: reviewOne, label: "추천해요", text: "햇살 좋은 날의 베이지 룩" },
+    { image: reviewTwo, label: "추천해요", text: "깔끔한 라벤더 향" },
   ];
   return (
     <section className="px-side">
       <SectionTitle to="/mypage/reviews">내 리뷰 관리하기</SectionTitle>
-      <div className="mt-title-gap flex flex-col gap-[10px]">
+      <div className="mt-title-gap flex flex-col gap-[12px]">
         {reviews.map((review) => (
-          <article className="flex h-14 items-center gap-3 rounded-[24px] border-[0.8px] border-light-grey p-3.5" key={review.text}>
-            <img alt="" className="size-7 rounded-full object-cover" src={review.image} />
-            <span className="flex items-center gap-0.5 text-xs font-medium tracking-[-0.02em]">
-              <Star className="fill-[#FFBB00] text-[#FFBB00]" size={14} strokeWidth={1.5} />{review.rating}
-            </span>
-            <p className="text-sm font-medium tracking-[-0.02em]">{review.text}</p>
+          <article className="flex items-start gap-3 rounded-card border-[0.8px] border-light-grey bg-off-white p-3" key={review.text}>
+            <div className="flex size-[50px] shrink-0 items-center justify-center rounded-[8px] bg-[#EDEDED]">
+              <img alt="" className="h-[30px] object-contain" src={review.image} />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <span className="w-fit rounded-badge bg-[#FFEDE6] px-2 py-[5px] text-[10px] font-semibold leading-none tracking-[-0.02em] text-point-orange">
+                {review.label}
+              </span>
+              <p className="text-sm font-medium tracking-[-0.02em]">{review.text}</p>
+            </div>
           </article>
         ))}
       </div>
@@ -316,9 +312,9 @@ function AccountSection() {
     { label: "계정정보", Icon: UserRoundCog },
   ];
   return (
-    <section className="flex flex-col gap-[10px] px-side">
+    <section className="flex flex-col gap-[12px] px-side">
       {items.map(({ label, Icon }) => (
-        <button className="flex h-14 items-center gap-3 rounded-[24px] border-[0.8px] border-light-grey p-3.5 text-sm font-medium tracking-[-0.02em]" key={label} type="button">
+        <button className="flex h-14 items-center gap-3 rounded-[8px] border-[0.8px] border-light-grey p-3 text-sm font-medium tracking-[-0.02em]" key={label} type="button">
           <span className="flex size-7 items-center justify-center rounded-full bg-off-black text-off-white">
             <Icon aria-hidden="true" size={16} strokeWidth={1.7} />
           </span>
@@ -334,7 +330,7 @@ export default function MyPage() {
     <main className="mx-auto min-h-dvh w-full max-w-[430px] select-none overflow-x-hidden bg-off-white text-off-black">
       <Header title="마이페이지" action={<HeaderActions />} />
 
-      <div className="wrap flex flex-col gap-section bg-off-white pb-[112px] pt-[calc(var(--app-header-height)+8px)]">
+      <div className="wrap flex flex-col gap-section bg-off-white pb-[112px] pt-[var(--app-header-height)]">
         <ProfileSection />
         <PerfumeSection />
         <MagazineSection />

@@ -58,6 +58,34 @@ const wishItems = [
     image: wishlistCardReplicaWhite,
     keywords: ["#은방울꽃", "#아이리스", "#화이트 머스크"],
   },
+  {
+    brandId: "jo-malone",
+    brand: "JO MALONE",
+    name: "우드 세이지 앤 씨 솔트 코롱 100ML",
+    image: "/assets/perfume/jo-malone/wood-sage-sea-salt.webp",
+    keywords: ["#암브레트 씨드", "#씨 솔트", "#드리프트우드"],
+  },
+  {
+    brandId: "byredo",
+    brand: "BYREDO",
+    name: "블랑쉬 오 드 퍼퓸 100ML",
+    image: "/assets/perfume/byredo/blanche.jpg",
+    keywords: ["#알데하이드", "#장미", "#화이트 머스크"],
+  },
+  {
+    brandId: "le-labo",
+    brand: "LE LABO",
+    name: "산탈 33 오 드 퍼퓸 100ML",
+    image: "/assets/perfume/le-labo/santal-33.jpg",
+    keywords: ["#샌들우드", "#시더우드", "#레더"],
+  },
+  {
+    brandId: "diptyque",
+    brand: "DIPTYQUE",
+    name: "오 데 상스 오 드 뚜왈렛 100ML",
+    image: "/assets/perfume/diptyque/eau-des-sens.jpg",
+    keywords: ["#비터 오렌지", "#오렌지 블로섬", "#파촐리"],
+  },
 ];
 
 function DetailHeader({ title }: { title: string }) {
@@ -142,7 +170,7 @@ function FilterSheet({
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto pb-[159px]">
+        <div className="scrollbar-thin flex-1 overflow-y-auto pb-[159px]">
           {activeTab === "브랜드" && (
             <div className="px-side pt-6">
               <div className="flex h-[42px] items-center gap-2.5 rounded-full border-[1px] border-light-grey bg-off-white px-4">
@@ -157,8 +185,8 @@ function FilterSheet({
           )}
 
           <div className={`px-side pt-7 pb-10 ${activeTab === "브랜드" ? "flex flex-col gap-7" : "grid grid-cols-2 gap-x-5 gap-y-6"}`}>
-            {filterOptions[activeTab].map((option, index) => {
-              const selected = selectedFilters.includes(option) || (activeTab === "향 계열/향기" && index === 0);
+            {filterOptions[activeTab].map((option) => {
+              const selected = selectedFilters.includes(option);
 
               if (activeTab === "브랜드") {
                 return (
@@ -204,20 +232,22 @@ function FilterSheet({
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 flex h-[165px] w-full flex-col border-t-[0.8px] border-light-grey bg-off-white px-side pb-[30px] pt-4">
-          <div className="flex gap-2 overflow-x-auto pb-4 [&::-webkit-scrollbar]:hidden">
-            {selectedFilters.map((filter) => (
-              <button
-                className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-light2-grey py-2 pl-3.5 pr-3 text-[13px] font-normal leading-none tracking-[-0.02em] text-off-black-70"
-                key={filter}
-                onClick={() => onToggleFilter(filter)}
-                type="button"
-              >
-                {filter}
-                <X aria-hidden="true" size={12} strokeWidth={2} className="text-grey" />
-              </button>
-            ))}
-          </div>
+        <div className="absolute bottom-0 left-0 flex w-full flex-col border-t-[0.8px] border-light-grey bg-off-white px-side pb-[30px] pt-4">
+          {selectedFilters.length > 0 && (
+            <div className="flex gap-2 overflow-x-auto pb-4 [&::-webkit-scrollbar]:hidden">
+              {selectedFilters.map((filter) => (
+                <button
+                  className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-light2-grey py-2 pl-3.5 pr-3 text-[13px] font-normal leading-none tracking-[-0.02em] text-off-black-70"
+                  key={filter}
+                  onClick={() => onToggleFilter(filter)}
+                  type="button"
+                >
+                  {filter}
+                  <X aria-hidden="true" size={12} strokeWidth={2} className="text-grey" />
+                </button>
+              ))}
+            </div>
+          )}
           <div className="flex gap-3">
             <button
               className="h-[52px] w-[110px] shrink-0 cursor-pointer rounded-full border-[1px] border-light-grey bg-off-white text-[15px] font-semibold tracking-[-0.02em] text-off-black"
@@ -262,7 +292,7 @@ export default function MyWishlistPage() {
 
       <div className="wrap px-side pb-[112px] pt-[calc(var(--app-header-height)+24px)]">
         <p className="text-sm font-normal leading-none tracking-[-0.02em] text-grey">
-          담아둔 향수 <span className="text-off-black">4</span>개 · 플로럴 계열에 관심이 많아요
+          담아둔 향수 <span className="text-off-black">{wishItems.length}</span>개 · 플로럴 계열에 관심이 많아요
         </p>
 
         <div className="mt-[30px] flex items-center justify-between gap-2">
@@ -295,7 +325,7 @@ export default function MyWishlistPage() {
           </button>
         </div>
 
-        <section className="mt-4 grid grid-cols-2 gap-2.5">
+        <section className="mt-4 grid grid-cols-2 gap-x-2.5 gap-y-[30px]">
           {filteredWishItems.map((item) => (
             <WishCard item={item} key={item.name} />
           ))}

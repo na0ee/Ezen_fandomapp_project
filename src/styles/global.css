@@ -9,6 +9,7 @@
   --color-grey: #8a8a8a;
   --color-light-grey: #dddddd;
   --color-light2-grey: #ebebeb;
+  --color-subtext: #4d4d4d;
   --color-point-orange: #ff4800;
   --color-point-orange-40: rgba(255, 72, 0, 0.4);
   --color-off-black-70: rgba(26, 26, 26, 0.7);
@@ -113,6 +114,24 @@
 
   .scrollbar-hidden::-webkit-scrollbar {
     display: none;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-light-grey) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--color-light-grey);
+    border-radius: 999px;
   }
 
   .horizontal-scroller {
