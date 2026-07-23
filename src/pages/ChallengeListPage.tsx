@@ -233,7 +233,7 @@ export function ChallengeListPage() {
   }, []);
 
   return (
-    <main className="min-h-dvh bg-off-white text-off-black">
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white text-off-black">
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <ChallengeHeader />
         <section className="wrap flex flex-col items-center px-5 pb-[132px] pt-[calc(var(--app-header-height)+24px)]">

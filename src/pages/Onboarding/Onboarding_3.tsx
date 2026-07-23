@@ -175,6 +175,7 @@ export default function Onboarding3() {
     }
 
     saveOnboardingSelection("scent", primaryScent);
+    saveOnboardingSelection("scents", [...selectedScents]);
     navigate("/onboarding/4");
   };
 

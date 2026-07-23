@@ -73,7 +73,7 @@ export default function SearchResults() {
   );
 
   return (
-    <main className="min-h-dvh text-off-black">
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white text-off-black">
       <div className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col overflow-x-hidden bg-off-white pb-6">
         <header className="sticky top-0 z-50 w-full bg-off-white px-side pb-[13px] pt-[calc(var(--app-safe-top)+13px)]">
           <SearchBar

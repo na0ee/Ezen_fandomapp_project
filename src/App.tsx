@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import CommunityQuestion from "./pages/Community/Community_Question";
 import CommunitySelect from "./pages/Community/Community_Select";
@@ -38,8 +38,10 @@ import Onboarding4 from "./pages/Onboarding/Onboarding_4";
 import Onboarding5 from "./pages/Onboarding/Onboarding_5";
 import OnboardingLoading from "./pages/Onboarding/Onboarding_loading";
 import OnboardingResults from "./pages/Onboarding/Onboarding_results";
-import { hasCompletedOnboarding } from "./pages/Onboarding/onboardingStorage";
+import { completeOnboarding, hasCompletedOnboarding } from "./pages/Onboarding/onboardingStorage";
 import { NotificationPage } from "./pages/NotificationPage";
+
+const isInitialHomeVisit = window.location.pathname === "/";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -59,7 +61,15 @@ function ScrollToTop() {
 }
 
 function HomeEntry() {
-  return hasCompletedOnboarding() ? <HomePage /> : <Navigate to="/onboarding/1" replace />;
+  const shouldOpenHome = hasCompletedOnboarding() || !isInitialHomeVisit;
+
+  useEffect(() => {
+    if (!isInitialHomeVisit) {
+      completeOnboarding();
+    }
+  }, []);
+
+  return shouldOpenHome ? <HomePage /> : <Navigate to="/onboarding/1" replace />;
 }
 
 export default function App() {

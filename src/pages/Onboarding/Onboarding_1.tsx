@@ -8,7 +8,7 @@ import checkCircle from "../../assets/onboarding/q1-check-circle.svg";
 import mobileSignal from "../../assets/onboarding/q1-mobile-signal.svg";
 import wifi from "../../assets/onboarding/q1-wifi.svg";
 import { CtaButton } from "../../components/ui/CtaButton";
-import { completeOnboarding } from "./onboardingStorage";
+import { completeOnboarding, saveOnboardingSelection } from "./onboardingStorage";
 
 const perfumeCounts = ["아직 없어요", "1~2개", "3~5개", "6~10개", "10개 이상"] as const;
 
@@ -109,7 +109,12 @@ export default function Onboarding1() {
               className="h-[51px] shrink-0"
               disabled={selectedCount === null}
               label="다음"
-              onClick={() => navigate("/onboarding/2")}
+              onClick={() => {
+                if (selectedCount) {
+                  saveOnboardingSelection("perfumeCount", selectedCount);
+                  navigate("/onboarding/2");
+                }
+              }}
             />
             <button
               className="flex h-[18px] items-center gap-1 text-center font-sans text-xs font-medium leading-[1.5] tracking-[-0.011em] text-off-black"

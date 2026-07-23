@@ -495,7 +495,7 @@ function ExploreSection() {
 
 export default function MagazinePage() {
   return (
-    <main className="min-h-dvh bg-off-white text-off-black">
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white text-off-black">
       <div className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <MagazineHeader />
         <div className="pt-[calc(var(--app-header-height)+64px)] pb-[160px]">

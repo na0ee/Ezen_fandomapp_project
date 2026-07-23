@@ -13,11 +13,10 @@ import { HeaderActions } from "../../components/common/HeaderActions";
 import { Header } from "../../components/common/Header";
 import { HeartButton } from "../../components/ui/HeartButton";
 import { SectionTitle as CommonSectionTitle } from "../../components/common/SectionTitle";
+import { getMyProfileMood, myProfile } from "../../data/myProfile";
 import fireBadge from "../../assets/mypage/fire-badge.svg";
 import perfumeLoewe from "../../assets/mypage/perfume-loewe.png";
 import perfumeSanta from "../../assets/mypage/perfume-santa.png";
-import profileAvatar from "../../assets/mypage/avatar.png";
-import profileBackground from "../../assets/mypage/profile-bg2.jpg";
 import reviewOne from "../../assets/mypage/review-1.png";
 import reviewTwo from "../../assets/mypage/review-2.png";
 import recentMagazine from "../../assets/mypage/saved-magazine.png";
@@ -133,17 +132,17 @@ function ProfileSection() {
 
   return (
     <section className="relative h-[500px] overflow-hidden bg-off-black">
-      <img alt="" className="absolute inset-0 size-full object-cover object-bottom" src={profileBackground} />
+      <img alt="" className="absolute inset-0 size-full object-cover object-bottom" src={myProfile.background} />
       <div className="absolute inset-0 bg-gradient-to-t from-[rgba(26,26,26,0.62)] via-[rgba(26,26,26,0.18)] to-transparent" />
       <div className="absolute inset-x-0 bottom-0">
         <div className="mb-[9px] flex items-center gap-2 px-side text-off-white">
           <div className="size-10 shrink-0 overflow-hidden rounded-[200px]">
-            <img alt="북극곰 프로필" className="size-full object-cover" src={profileAvatar} />
+            <img alt={`${myProfile.name} 프로필`} className="size-full object-cover" src={myProfile.avatar} />
           </div>
           <div className="flex shrink-0 items-center gap-3">
-            <span className="whitespace-nowrap text-2xl font-semibold leading-[1.08] tracking-[-0.02em]">북극곰</span>
+            <span className="whitespace-nowrap text-2xl font-semibold leading-[1.08] tracking-[-0.02em]">{myProfile.name}</span>
             <span className="whitespace-nowrap rounded-[24px] bg-off-black/50 px-2.5 py-1 font-cormorant text-base font-bold leading-normal tracking-[-0.02em] text-off-white-70">
-              Mood Shifter
+              {getMyProfileMood()}
             </span>
           </div>
         </div>
@@ -155,9 +154,9 @@ function ProfileSection() {
               <div className="flex items-center gap-3">
                 <img alt="" className="h-[59px] w-[60px] object-contain" src={fireBadge} />
                 <div>
-                  <p className="text-xl font-bold leading-[1.3] tracking-[-0.02em]">LOVER</p>
+                  <p className="text-xl font-bold leading-[1.3] tracking-[-0.02em]">{myProfile.badge}</p>
                   <p className="mt-1 text-sm leading-[1.4] tracking-[-0.02em] text-grey">
-                    포인트 <span className="font-medium text-point-orange">99,999</span>
+                    포인트 <span className="font-medium text-point-orange">{myProfile.points}</span>
                   </p>
                 </div>
               </div>
