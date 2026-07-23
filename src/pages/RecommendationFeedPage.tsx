@@ -315,21 +315,21 @@ function RecommendationDetailSheet({
   }
 
   return (
-    <div className="fixed inset-0 z-40" onClick={onClose}>
+    <div className="fixed inset-0 z-[80]" onClick={onClose}>
       <section
         aria-label={`${item.perfume} 추천 상세`}
         aria-modal="true"
-        className="animate-[sheetUp_240ms_ease-out] absolute bottom-0 left-1/2 flex h-[423px] w-full max-w-[430px] -translate-x-1/2 flex-col items-center overflow-hidden rounded-t-[20px] bg-off-white pb-10 pt-4 shadow-[0_-4px_16px_rgba(0,0,0,0.05)]"
+        className="animate-[sheetUp_240ms_ease-out] absolute bottom-0 left-1/2 flex h-[560px] max-h-[85dvh] w-full max-w-[430px] -translate-x-1/2 flex-col items-center overflow-hidden rounded-t-2xl bg-off-white shadow-[0_-3px_9.9px_rgba(0,0,0,0.1)]"
         onClick={(event) => event.stopPropagation()}
         role="dialog"
       >
         <button
           aria-label="추천 상세 닫기"
-          className="flex h-4 w-16 items-start justify-center"
+          className="mt-3.5 flex h-4 w-16 items-start justify-center"
           onClick={onClose}
           type="button"
         >
-          <span className="h-1 w-8 rounded-[24px] bg-light2-grey" />
+          <span className="h-1 w-8 rounded-[24px] bg-light-grey" />
         </button>
 
         <div className="mt-4 flex w-full items-center justify-between px-5">
