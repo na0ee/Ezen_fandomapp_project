@@ -1,8 +1,10 @@
 import { useEffect, useLayoutEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import CommunityQuestion from "./pages/Community/Community_Question";
+import CommunityHotReviews from "./pages/Community/Community_HotReviews";
 import CommunitySelect from "./pages/Community/Community_Select";
 import CommunityWrite from "./pages/Community/Community_Write";
+import CommunityQuestionWrite from "./pages/Community/Community_Question_Write";
 import { CommunityPage } from "./pages/Community/CommunityPage";
 import { EventPage } from "./pages/EventPage";
 import { HomePage } from "./pages/HomePage";
@@ -84,10 +86,12 @@ export default function App() {
         <Route path="/event/raffles" element={<RaffleListPage />} />
         <Route path="/event/raffles/:raffleId" element={<RaffleDetailPage />} />
         <Route path="/event/recommend-profile/:profileId" element={<UserProfilePage />} />
-        <Route path="/community" element={<CommunityPage />} />
+      <Route path="/community" element={<CommunityPage />} />
+      <Route path="/community/hot-reviews" element={<CommunityHotReviews />} />
         <Route path="/community/question" element={<CommunityQuestion />} />
         <Route path="/community/select" element={<CommunitySelect />} />
         <Route path="/community/write" element={<CommunityWrite />} />
+        <Route path="/community/question/write" element={<CommunityQuestionWrite />} />
         <Route path="/magazine" element={<MagazinePage />} />
         <Route path="/magazine/byredo" element={<MagazineByredo />} />
         <Route path="/magazine/diptyque" element={<MagazineDiptyque />} />

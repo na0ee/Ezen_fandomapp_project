@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bookmark, ChevronRight, Heart, MessageCircle, MoreHorizontal, Plus, Send } from "lucide-react";
+import { Bookmark, ChevronRight, Heart, MessageCircle, MoreHorizontal, Send } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PageLayout } from "../../components/common/PageLayout";
 import { HeartButton } from "../../components/ui/HeartButton";
@@ -59,15 +59,32 @@ function Tabs() {
 }
 
 function HotReviews() {
+  const hotReviews = [
+    {
+      image: joMalone,
+      brand: "JO MALONE LONDON",
+      name: "블랙베리 앤 베이 30ml",
+      description: "파우더리한 플로럴 향",
+      tags: "#포근함 #플로럴",
+    },
+    {
+      image: reviewImage,
+      brand: "CHANEL",
+      name: "N°5 오 드 빠르펭",
+      description: "우아하고 깊은 알데하이드 향",
+      tags: "#클래식 #우아함",
+    },
+  ];
+
   return <section className="overflow-hidden" data-node-id="891:4456">
     <h2 className="px-5 text-[24px] font-semibold leading-[1.08] tracking-[-0.03em]">오늘의 HOT리뷰</h2>
     <div className="no-scrollbar mt-[30px] flex w-full snap-x snap-mandatory gap-2.5 overflow-x-auto overflow-y-hidden pl-[20px] pr-[20px]" style={{ scrollPaddingInline: "20px" }}>
-      {[joMalone, reviewImage].map((image) => <article className="relative h-[300px] w-[245px] shrink-0 snap-start overflow-hidden rounded-[16px]" key={image}>
-        <img className="absolute inset-0 h-full w-full object-cover" src={image} alt="조 말론 향수" />
+      {hotReviews.map((review) => <article className="relative h-[300px] w-[245px] shrink-0 snap-start overflow-hidden rounded-[16px]" key={review.name}>
+        <img className="absolute inset-0 h-full w-full object-cover" src={review.image} alt={`${review.brand} ${review.name}`} />
         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(26,26,26,.5)] to-transparent" />
         <div className="relative flex h-full flex-col justify-between p-5 text-white">
-          <div><p className="text-xs font-medium tracking-[-0.02em]">JO MALONE LONDON</p><p className="mt-[5px] text-xl font-bold tracking-[-0.02em]">블랙베리 앤 베이 30ml</p></div>
-          <div><p className="text-sm opacity-85">파우더리한 플로럴 향</p><p className="text-sm opacity-85">#포근함 #플로럴</p><div className="mt-3 flex items-center gap-1.5 text-sm font-medium">전체보기 <ChevronRight size={18} /></div></div>
+          <div><p className="text-xs font-medium tracking-[-0.02em]">{review.brand}</p><p className="mt-[5px] text-xl font-bold tracking-[-0.02em]">{review.name}</p></div>
+          <div><p className="text-sm opacity-85">{review.description}</p><p className="text-sm opacity-85">{review.tags}</p><Link className="mt-3 flex items-center gap-1.5 text-sm font-medium" to="/community/hot-reviews">전체보기 <ChevronRight size={18} /></Link></div>
         </div>
       </article>)}
     </div>
@@ -233,11 +250,12 @@ export function CommentSheet({ onClose, threadId }: { onClose: () => void; threa
   );
 }
 
-function Post({ index }: { index: number }) {
+export function Post({ index }: { index: number }) {
   const post = posts[index];
   const [activeSlide, setActiveSlide] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(42);
+  const [isSaved, setIsSaved] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const overlayPositions = [
     [{ x: 51, y: 33 }, { x: 206, y: 95 }, { x: 146, y: 184 }],
@@ -262,7 +280,15 @@ function Post({ index }: { index: number }) {
         </span>
         <button aria-label={`${post.title} 댓글 보기`} className="flex items-center gap-[5px]" onClick={() => setIsCommentsOpen(true)} type="button"><MessageCircle size={24} />8</button>
       </div>
-      <Bookmark size={24} />
+      <button
+        aria-label={`${post.title} ${isSaved ? "저장 취소" : "저장"}`}
+        aria-pressed={isSaved}
+        className={`flex size-6 items-center justify-center ${isSaved ? "text-point-orange" : "text-off-black"}`}
+        onClick={() => setIsSaved((saved) => !saved)}
+        type="button"
+      >
+        <Bookmark fill={isSaved ? "currentColor" : "none"} size={24} />
+      </button>
     </div>
   );
   return <article className="px-5" data-node-id={`community-post-${index + 1}`}>
@@ -313,18 +339,6 @@ function Post({ index }: { index: number }) {
   </article>;
 }
 
-function WriteButton() {
-  return (
-    <Link
-      className="fixed bottom-[104px] left-[calc(50%+117px)] z-40 flex items-center justify-center gap-1 rounded-full bg-off-black py-2 pl-2.5 pr-3.5 text-sm font-medium tracking-[-0.02em] text-off-white"
-      to="/community/write"
-    >
-      <Plus className="size-3.5" strokeWidth={2} />
-      글쓰기
-    </Link>
-  );
-}
-
 export function CommunityPage() {
-  return <PageLayout title="커뮤니티" headerAction={<HeaderActions />} contentClassName="gap-0"><Tabs /><div className="mt-10 flex flex-col gap-16 pb-8"><HotReviews />{posts.map((post, index) => <Post index={index} key={`${post.author}-${post.title}`} />)}</div><WriteButton /></PageLayout>;
+  return <PageLayout title="커뮤니티" headerAction={<HeaderActions showSearch={false} showWrite />} headerTitleClassName="!text-2xl !font-semibold !leading-[1.08] !tracking-[-0.03em]" contentClassName="gap-0"><Tabs /><div className="mt-10 flex flex-col gap-16 pb-8"><HotReviews />{posts.map((post, index) => <Post index={index} key={`${post.author}-${post.title}`} />)}</div></PageLayout>;
 }
