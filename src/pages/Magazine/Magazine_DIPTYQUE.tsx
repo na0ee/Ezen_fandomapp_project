@@ -75,7 +75,7 @@ function ArticleBody() {
 
 export default function MagazineDiptyque() {
   return (
-    <main className="min-h-dvh overflow-x-hidden bg-off-white text-off-black">
+    <main className="min-h-dvh overflow-x-hidden bg-black max-[430px]:bg-off-white text-off-black">
       <div className="mx-auto min-h-dvh w-full max-w-[430px] bg-off-white">
         <MagazineDetailHeader />
         <div className="flex flex-col gap-16 pt-[var(--app-header-height)] pb-[178px]">

@@ -161,7 +161,7 @@ export function RaffleListPage() {
   }
 
   return (
-    <main className="min-h-dvh bg-off-white text-off-black" data-node-id="1034:13606">
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white text-off-black" data-node-id="1034:13606">
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <RaffleHeader />
         <section className="wrap flex justify-center px-5 pb-[132px] pt-[calc(var(--app-header-height)+24px)]">

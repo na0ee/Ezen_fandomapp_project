@@ -5,23 +5,20 @@ import fireBadge from "../assets/mypage/fire-badge.svg";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { BackHeader } from "../components/common/BackHeader";
+import { myProfile } from "../data/myProfile";
+import { perfumeData } from "../data/perfumeData";
 import { recommendUsers } from "../data/recommendUsers";
 import type { RecommendUser } from "../data/recommendUsers";
 
-const assets = Object.fromEntries(
-  Object.entries({
-    jazzClub: "/assets/figma/1a1cf807-eb4f-4aa5-a14f-c60de2901496.png",
-    myHeroBase: "/assets/figma/recommend-my-hero-base.png",
-    myHeroPhoto: "/assets/figma/recommend-my-hero-overlay.png",
-  }).map(([key, path]) => [key, `${import.meta.env.BASE_URL}${path.slice(1)}`]),
-) as Record<string, string>;
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 
-const receivedRecommendations = Array.from({ length: 4 }, (_, index) => ({
+// 추천받은 향수 — 공용 향수 데이터(perfumeData)의 한글 이름·이미지를 사용
+const receivedRecommendations = perfumeData.slice(0, 4).map((entry, index) => ({
   id: `received-${index + 1}`,
-  perfume: "Jazz Club",
+  perfume: entry.perfume.name,
   nickname: "chlgotn",
   message: "프로필을 보니 미러리해서 이 향수가 잘...",
-  image: assets.jazzClub,
+  image: asset(entry.perfume.image),
 }));
 
 type MainTab = "mine" | "recommend";
@@ -98,22 +95,22 @@ function MyFeedHero() {
   return (
     <section className="-mx-5">
       <div className="relative h-[560px] w-full overflow-hidden bg-off-black text-off-white">
-        <img alt="" className="absolute inset-0 h-full w-full object-cover" src={assets.myHeroBase} />
+        <img alt="" className="absolute inset-0 h-full w-full object-cover" src={myProfile.feedImages[0]} />
         <div className="absolute left-0 top-[-85px] h-[645px] w-full">
-          <img alt="" className="h-full w-full object-cover" src={assets.myHeroPhoto} />
+          <img alt="" className="h-full w-full object-cover" src={myProfile.feedImages[1]} />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
         <div className="absolute inset-x-5 bottom-5">
           <div className="flex items-center gap-1">
             <span className="inline-flex h-[24px] items-center gap-0.5 rounded-full bg-black/20 pr-1.5 text-sm font-bold leading-none">
               <img alt="" aria-hidden="true" className="size-[19px]" src={fireBadge} />
-              LOVER
+              {myProfile.badge}
             </span>
             <span className="rounded-full bg-black/50 px-2.5 py-1 font-cormorant text-base font-bold leading-none text-light2-grey">
-              Mood Shifter
+              {myProfile.mood}
             </span>
           </div>
-          <h2 className="mt-1 text-[34px] font-bold leading-[1.3] tracking-[-0.02em]">chlgotn</h2>
+          <h2 className="mt-1 text-[34px] font-bold leading-[1.3] tracking-[-0.02em]">{myProfile.name}</h2>
         </div>
       </div>
     </section>
@@ -238,7 +235,7 @@ export function RecommendationFeedPage() {
   const [activeTab, setActiveTab] = useState<MainTab>("recommend");
 
   return (
-    <main className="min-h-dvh bg-off-white text-off-black">
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white text-off-black">
       <div className="relative mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white">
         <RecommendationHeader />
 

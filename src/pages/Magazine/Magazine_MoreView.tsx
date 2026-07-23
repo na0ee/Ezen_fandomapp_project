@@ -135,7 +135,7 @@ export default function MagazineMoreView() {
   };
 
   return (
-    <main className="min-h-dvh overflow-x-hidden bg-off-white text-off-black">
+    <main className="min-h-dvh overflow-x-hidden bg-black max-[430px]:bg-off-white text-off-black">
       <div className="mx-auto min-h-dvh w-full max-w-[430px] bg-off-white">
         <MagazineHeader />
         <section className="flex w-full flex-col items-center gap-[30px] pt-[calc(var(--app-header-height)+15px)] pb-[170px]">
