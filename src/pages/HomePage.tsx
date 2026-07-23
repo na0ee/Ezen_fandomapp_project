@@ -88,7 +88,8 @@ const challengeCards = [
     eyebrow: "Record",
     image: assets.challengeRecord,
     body: "이번 주 2일 기록했어요",
-    isRecord: true,
+    record: true,
+    to: "/mypage/perfumes",
   },
   {
     title: "커뮤니티 이용하기",
@@ -98,17 +99,18 @@ const challengeCards = [
     to: "/community",
   },
   {
-    title: "Scent DNA",
+    title: "MY LAYER",
     eyebrow: "Challenge",
     image: assets.challengeDna,
     body: "첫 진단시 100p, 취향 공유하면 추가로 30p!",
-    isComplete: true,
+    to: "/onboarding/1",
   },
   {
     title: "내 향수 등록하기",
     eyebrow: "Challenge",
     image: assets.challengeRegister,
     body: "내 보유향수 첫 등록 시 30p, 등록할 때 마다 5p씩",
+    to: "/mypage/perfumes",
   },
 ];
 
@@ -399,27 +401,19 @@ function ChallengeCard({
   card: (typeof challengeCards)[number];
 }) {
   return (
-    <article className="relative flex h-[340px] w-[190px] shrink-0 flex-col items-center justify-center gap-4 overflow-hidden rounded-card border-[0.5px] border-light-grey bg-off-white px-3.5 py-6">
-      <div className="flex flex-col items-center gap-2">
-        <p className="max-w-[150px] truncate text-xs font-medium leading-none tracking-[-0.02em] text-off-black">
-          {card.title}
-        </p>
-        <span className="h-px w-5 bg-off-black" />
-      </div>
+    <article className="relative flex w-[230px] shrink-0 flex-col items-center gap-[26px] overflow-hidden rounded-card border-[0.5px] border-light-grey bg-off-white px-4 py-[22px]">
+      <p className="max-w-full truncate text-xl font-medium leading-[normal] tracking-[-0.02em] text-off-black">
+        {card.title}
+      </p>
       <div className="relative h-[190px] w-full rounded-[9px]">
-        <img alt="" className="h-full w-full rounded-[9px] object-cover" src={card.image} />
-        <span className="absolute left-1/2 top-[-7px] flex w-[50px] -translate-x-1/2 justify-center rounded-full bg-black px-1.5 py-0.5 font-cormorant text-[8px] font-bold leading-none text-off-white">
+        <img alt="" className="absolute inset-0 h-full w-full rounded-[9px] object-cover" src={card.image} />
+        <span className="absolute left-1/2 top-[-8.5px] -translate-x-1/2 rounded-full bg-off-black px-3 py-1 font-cormorant text-sm font-bold leading-[normal] text-off-white">
           {card.eyebrow}
         </span>
       </div>
-      <div className="flex w-full flex-col gap-2 text-xs font-medium leading-none tracking-[-0.02em] text-off-black">
-        <div className="flex items-center justify-between px-0.5">
-          <span>07</span>
-          <span className="h-px w-[120px] bg-off-black" />
-          <span>11</span>
-        </div>
-        <p className="truncate">
-          {card.isRecord ? (
+      <div className="flex w-full flex-col gap-2.5">
+        <p className="min-w-full truncate text-base font-medium leading-[normal] tracking-[-0.02em] text-off-black">
+          {card.record ? (
             <>
               이번 주 <span className="text-point-orange">2일</span> 기록했어요
             </>
@@ -427,26 +421,15 @@ function ChallengeCard({
             card.body
           )}
         </p>
-        {card.isRecord ? (
-          <div className="flex items-center justify-between px-0.5">
-            {Array.from({ length: 7 }).map((_, index) => (
-              <span
-                className={`size-2 rounded-full border border-off-black ${
-                  index < 2 ? "bg-point-orange border-point-orange" : index === 3 ? "bg-off-black" : "bg-off-white"
-                }`}
-                key={index}
-              />
-            ))}
-          </div>
-        ) : card.to ? (
+        {card.to ? (
           <Link
-            className="text-center text-xs font-medium leading-none tracking-[-0.02em] text-point-orange underline"
+            className="text-xs font-medium leading-[normal] tracking-[-0.02em] text-point-orange underline"
             to={card.to}
           >
             참여하기
           </Link>
         ) : (
-          <p className="text-center text-xs font-medium leading-none tracking-[-0.02em] text-point-orange underline">
+          <p className="text-xs font-medium leading-[normal] tracking-[-0.02em] text-point-orange underline">
             참여하기
           </p>
         )}
@@ -678,4 +661,3 @@ export function HomePage() {
     </main>
   );
 }
-
