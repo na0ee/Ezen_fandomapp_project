@@ -245,7 +245,7 @@ export default function CommunityWrite() {
   };
 
   return (
-    <main className="min-h-dvh bg-off-white">
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white">
       <div className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-off-white">
         <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5">
           <button aria-label="닫기" className="flex size-6 items-center justify-center" type="button" onClick={() => navigate(-1)}>

@@ -1,7 +1,8 @@
-import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ChevronRight, ChevronDown } from "lucide-react";
+
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { BackHeader } from "../components/common/BackHeader";
 import { PerfumeIcon } from "../components/icons/PerfumeIcon";
 import perfumeLoewe from "../assets/mypage/perfume-loewe.png";
 import perfumeSanta from "../assets/mypage/perfume-santa.png";
@@ -19,7 +20,7 @@ const weekDays = [
 
 const perfumes = [
   {
-    brand: "Santa Maria Novella",
+    brand: "SANTA MARIA NOVELLA",
     name: "엔젤 디 피렌체 오드코롱 100ml",
     status: "2일 전 사용",
     memo: "간단한 메모",
@@ -42,17 +43,7 @@ const perfumes = [
 ];
 
 function DetailHeader({ title }: { title: string }) {
-  return (
-    <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side pt-[var(--app-safe-top)]">
-      <div className="flex min-w-0 items-center">
-        <Link aria-label="마이페이지로 돌아가기" className="-ml-1 flex size-7 items-center justify-center" to="/mypage">
-          <ChevronLeft aria-hidden="true" size={24} strokeWidth={1.6} />
-        </Link>
-        <h1 className="truncate text-2xl font-semibold leading-[1.08] tracking-[-0.02em]">{title}</h1>
-      </div>
-      <HeaderActions />
-    </header>
-  );
+  return <BackHeader title={title} backTo="/mypage" action={<HeaderActions />} />;
 }
 
 function RegisterFab() {

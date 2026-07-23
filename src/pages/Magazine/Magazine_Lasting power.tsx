@@ -1,15 +1,17 @@
-import { ChevronLeft, Search } from "lucide-react";
+
 import type { PointerEvent, ReactNode } from "react";
 import { useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import headerBell from "../../assets/community/figma/header-bell.svg";
+import { useNavigate } from "react-router-dom";
+
 import longevityHero from "../../assets/magazine/longevity/hero.png";
 import tipImageOne from "../../assets/magazine/longevity/tip-1.png";
 import tipImageTwo from "../../assets/magazine/longevity/tip-2.png";
 import tipImageThree from "../../assets/magazine/longevity/tip-3.png";
 import tipImageFour from "../../assets/magazine/longevity/tip-4.png";
 import tipImageFive from "../../assets/magazine/longevity/tip-5.png";
-import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
+
+import { BackHeader } from "../../components/common/BackHeader";
+import { HeaderActions } from "../../components/common/HeaderActions";
 
 const tips = [
   {
@@ -64,28 +66,7 @@ function MagazineDetailHeader() {
   const navigate = useNavigate();
 
   return (
-    <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side pt-[var(--app-safe-top)]">
-      <div className="flex items-center">
-        <button
-          aria-label="뒤로 가기"
-          className="flex size-[21px] items-center justify-center"
-          onClick={() => navigate(-1)}
-          type="button"
-        >
-          <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.4} />
-        </button>
-        <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">매거진</h1>
-      </div>
-      <div aria-label="매거진 메뉴" className="flex items-center gap-5">
-        <Link aria-label="검색" className="size-7" to="/search">
-          <Search aria-hidden="true" className="size-full" strokeWidth={1.8} />
-        </Link>
-        <img alt="" aria-hidden="true" className="size-7" src={headerBell} />
-        <Link aria-label="향수 카테고리" to="/category">
-          <PerfumeIcon />
-        </Link>
-      </div>
-    </header>
+    <BackHeader title="매거진" backTo="/magazine" action={<HeaderActions />} />
   );
 }
 

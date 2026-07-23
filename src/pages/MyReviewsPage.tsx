@@ -1,8 +1,9 @@
-import { ChevronLeft, MessageCircle, Star } from "lucide-react";
+import { MessageCircle, Star } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { BackHeader } from "../components/common/BackHeader";
 import { HeartButton } from "../components/ui/HeartButton";
 import reviewProductOne from "../assets/mypage/review-product-1.png";
 import reviewProductTwo from "../assets/mypage/review-product-2.png";
@@ -27,7 +28,7 @@ const pendingReviews = [
 
 const writtenReviews = [
   {
-    brand: "Santa Maria Novella",
+    brand: "SANTA MARIA NOVELLA",
     name: "엔젤 디 피렌체 오드코롱 100ml",
     image: reviewProductOne,
     date: "2026.xx.xx",
@@ -87,17 +88,7 @@ function ReviewableCard({ item }: { item: typeof reviewableItems[number] }) {
 }
 
 function DetailHeader({ title }: { title: string }) {
-  return (
-    <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side pt-[var(--app-safe-top)]">
-      <div className="flex min-w-0 items-center">
-        <Link aria-label="마이페이지로 돌아가기" className="-ml-1 flex size-7 items-center justify-center" to="/mypage">
-          <ChevronLeft aria-hidden="true" size={24} strokeWidth={1.6} />
-        </Link>
-        <h1 className="truncate text-2xl font-semibold leading-[1.08] tracking-[-0.02em]">{title}</h1>
-      </div>
-      <HeaderActions />
-    </header>
-  );
+  return <BackHeader title={title} backTo="/mypage" action={<HeaderActions />} />;
 }
 
 function RatingStars() {

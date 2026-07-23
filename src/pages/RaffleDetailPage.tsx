@@ -1,7 +1,8 @@
-import { ChevronLeft } from "lucide-react";
+
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { BackHeader } from "../components/common/BackHeader";
 import { CtaButton } from "../components/ui/CtaButton";
 import { applyRaffle, useRaffleApplied } from "../store/raffleStore";
 
@@ -22,32 +23,32 @@ const detailRows = [
 
 const raffleDetails = {
   "lazy-before-1": {
-    brand: "Maison Margiela Fragrances",
+    brand: "MAISON MARGIELA FRAGRANCES",
     name: "Lazy Sunday Morning",
     nameKo: "레이지 선데이 모닝",
   },
   "lazy-before-2": {
-    brand: "Maison Margiela Fragrances",
+    brand: "MAISON MARGIELA FRAGRANCES",
     name: "Lazy Sunday Morning",
     nameKo: "레이지 선데이 모닝",
   },
   "blackberry-1": {
-    brand: "Jo Malone London",
+    brand: "JO MALONE LONDON",
     name: "Blackberry & Bay Cologne",
     nameKo: "블랙베리 앤 베이 코롱",
   },
   "blackberry-2": {
-    brand: "Jo Malone London",
+    brand: "JO MALONE LONDON",
     name: "Blackberry & Bay Cologne",
     nameKo: "블랙베리 앤 베이 코롱",
   },
   "blackberry-3": {
-    brand: "Jo Malone London",
+    brand: "JO MALONE LONDON",
     name: "Blackberry & Bay Cologne",
     nameKo: "블랙베리 앤 베이 코롱",
   },
   "blackberry-4": {
-    brand: "Jo Malone London",
+    brand: "JO MALONE LONDON",
     name: "Blackberry & Bay Cologne",
     nameKo: "블랙베리 앤 베이 코롱",
   },
@@ -56,21 +57,7 @@ const raffleDetails = {
 type RaffleDetailId = keyof typeof raffleDetails;
 
 function RaffleDetailHeader() {
-  const navigate = useNavigate();
-
-  return (
-    <header className="header fixed top-0 left-1/2 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[var(--app-safe-top)]">
-      <button
-        aria-label="이전 페이지로 돌아가기"
-        className="-ml-1 flex size-[21px] shrink-0 items-center justify-center text-off-black"
-        onClick={() => navigate(-1)}
-        type="button"
-      >
-        <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.7} />
-      </button>
-      <HeaderActions />
-    </header>
-  );
+  return <BackHeader action={<HeaderActions />} />;
 }
 
 function RaffleApplyConfirmDialog({

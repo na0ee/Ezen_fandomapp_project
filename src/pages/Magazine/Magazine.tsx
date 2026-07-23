@@ -1,8 +1,8 @@
-import { ChevronRight, Search } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import type { MouseEvent, PointerEvent, ReactNode, UIEvent } from "react";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import headerBell from "../../assets/community/figma/header-bell.svg";
+
 import brandByredoImage from "../../assets/magazine/byredo/hero.png";
 import brandDiptyqueImage from "../../assets/magazine/detail/more-card-diptyque.jpg";
 import brandJoMaloneImage from "../../assets/magazine/main/brand-jo-malone.jpg";
@@ -12,8 +12,10 @@ import moreCardArrow from "../../assets/magazine/detail/more-card-arrow.svg";
 import moreCardSeasonalImage from "../../assets/magazine/detail/more-card.png";
 import longevityImage from "../../assets/magazine/longevity/hero.png";
 import { BottomNavigation } from "../../components/common/BottomNavigation";
-import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
+
 import { HeartButton } from "../../components/ui/HeartButton";
+import { Header } from "../../components/common/Header";
+import { HeaderActions } from "../../components/common/HeaderActions";
 
 const categories = ["전체", "향수 상식", "추천", "트렌드", "선물", "브랜드"];
 
@@ -292,18 +294,7 @@ function WideIndicator({ activeIndex, itemCount, onSelect }: IndicatorProps) {
 
 function MagazineHeader() {
   return (
-    <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side pt-[var(--app-safe-top)]">
-      <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">매거진</h1>
-      <div aria-label="매거진 메뉴" className="flex items-start justify-end gap-5">
-        <Link aria-label="검색" className="size-7" to="/search">
-          <Search aria-hidden="true" className="size-full" strokeWidth={1.8} />
-        </Link>
-        <img alt="" aria-hidden="true" className="size-7" src={headerBell} />
-        <Link aria-label="향수 카테고리" to="/category">
-          <PerfumeIcon />
-        </Link>
-      </div>
-    </header>
+    <Header title="매거진" action={<HeaderActions />} />
   );
 }
 

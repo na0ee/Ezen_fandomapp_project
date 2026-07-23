@@ -14,7 +14,7 @@ export type PerfumeSummary = {
 
 export const lazySundayMorning: PerfumeSummary = {
   id: "maison-margiela-lazy-sunday-morning",
-  brand: "Maison Margiela Fragrances",
+  brand: "MAISON MARGIELA FRAGRANCES",
   name: "레이지 선데이 모닝",
   image: lazySundayMorningImage,
   keywords: ["#아이리스", "#화이트머스크", "#은방울꽃"],

@@ -1,6 +1,5 @@
-import { ChevronLeft, Search } from "lucide-react";
-import { Link } from "react-router-dom";
-import headerBell from "../../assets/community/figma/header-bell.svg";
+
+
 import contentGrowthImage from "../../assets/magazine/detail/content-growth.jpg";
 import heroImage from "../../assets/magazine/detail/hero.jpg";
 import introLeftImage from "../../assets/magazine/detail/intro-left.jpg";
@@ -9,7 +8,9 @@ import layeringLeftImage from "../../assets/magazine/detail/layering-left.jpg";
 import layeringRightImage from "../../assets/magazine/detail/layering-right.jpg";
 import recommendationLeftImage from "../../assets/magazine/detail/recommendation-left.jpg";
 import recommendationRightImage from "../../assets/magazine/detail/recommendation-right.jpg";
-import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
+
+import { BackHeader } from "../../components/common/BackHeader";
+import { HeaderActions } from "../../components/common/HeaderActions";
 
 type ArticleTextProps = {
   body: string;
@@ -28,23 +29,7 @@ function ArticleText({ body, bodyClassName = "w-full", title }: ArticleTextProps
 
 function MagazineDetailHeader() {
   return (
-    <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side pt-[var(--app-safe-top)]">
-      <div className="flex items-center">
-        <Link aria-label="매거진으로 돌아가기" className="flex size-[21px] items-center justify-center" to="/magazine">
-          <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.4} />
-        </Link>
-        <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">매거진</h1>
-      </div>
-      <div aria-label="매거진 메뉴" className="flex items-center gap-5">
-        <Link aria-label="검색" className="size-7" to="/search">
-          <Search aria-hidden="true" className="size-full" strokeWidth={1.8} />
-        </Link>
-        <img alt="" aria-hidden="true" className="size-7" src={headerBell} />
-        <Link aria-label="향수 카테고리" to="/category">
-          <PerfumeIcon />
-        </Link>
-      </div>
-    </header>
+    <BackHeader title="매거진" backTo="/magazine" action={<HeaderActions />} />
   );
 }
 

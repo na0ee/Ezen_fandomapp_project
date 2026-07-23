@@ -1,9 +1,10 @@
-import { Activity, ChevronLeft, ChevronRight, Heart } from "lucide-react";
+import { Activity, ChevronRight, Heart } from "lucide-react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import fireBadge from "../assets/mypage/fire-badge.svg";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
+import { BackHeader } from "../components/common/BackHeader";
 import { recommendUsers } from "../data/recommendUsers";
 import type { RecommendUser } from "../data/recommendUsers";
 
@@ -27,26 +28,7 @@ type MainTab = "mine" | "recommend";
 type RecommendationTab = "received" | "sent";
 
 function RecommendationHeader() {
-  const navigate = useNavigate();
-
-  return (
-    <header className="header fixed top-0 left-1/2 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 pt-[var(--app-safe-top)]">
-      <div className="flex min-w-0 items-center">
-        <button
-          aria-label="이전 페이지로 돌아가기"
-          className="-ml-1 flex size-[21px] shrink-0 items-center justify-center text-off-black"
-          onClick={() => navigate(-1)}
-          type="button"
-        >
-          <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.7} />
-        </button>
-        <h1 className="ml-1 truncate text-2xl font-semibold leading-[1.08] tracking-[-0.02em] text-off-black">
-          향 추천하기
-        </h1>
-      </div>
-      <HeaderActions />
-    </header>
-  );
+  return <BackHeader title="향 추천하기" action={<HeaderActions />} />;
 }
 
 function TopTabs({ activeTab, onChange }: { activeTab: MainTab; onChange: (tab: MainTab) => void }) {
@@ -76,21 +58,27 @@ function TopTabs({ activeTab, onChange }: { activeTab: MainTab; onChange: (tab: 
 }
 
 function FeedCard({ item }: { item: RecommendUser }) {
-  const tags = item.tags.join(" ");
-
   return (
     <Link
       aria-label={`${item.name} 향 추천 피드 보기`}
-      className="relative block h-[243px] overflow-hidden rounded-[10px] bg-light2-grey"
+      className="relative flex h-[297px] flex-col items-start justify-between overflow-hidden rounded-[10px] bg-light2-grey p-[14px]"
       to={`/event/recommend-profile/${item.id}`}
     >
       {item.feedImages.map((image) => (
-        <img alt="" className="absolute inset-0 h-full w-full object-cover" key={image} src={image} />
+        <img alt="" className="absolute inset-0 h-full w-full rounded-[10px] object-cover" key={image} src={image} />
       ))}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 px-3 pb-3 text-off-white">
-        <p className="truncate text-xs font-medium leading-none tracking-[-0.02em]">{tags}</p>
-        <p className="truncate text-xl font-bold leading-none tracking-[-0.02em]">{item.name}</p>
+      <div className="pointer-events-none absolute inset-0 rounded-[10px] bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
+      <span className="relative flex min-w-[102px] items-center justify-center rounded-[24px] bg-[rgba(26,26,26,0.5)] px-2.5 py-1">
+        <span className="font-cormorant text-base font-bold leading-[normal] tracking-[-0.02em] text-[#ededed]">
+          {item.mood}
+        </span>
+      </span>
+      <div className="relative flex w-full flex-col items-start gap-2 text-off-white">
+        <p className="max-w-full truncate text-xl font-bold leading-[normal] tracking-[-0.02em]">{item.name}</p>
+        <div className="flex items-center gap-1.5 text-light-grey">
+          <span className="text-sm font-medium leading-none tracking-[-0.02em]">{item.cta}</span>
+          <ChevronRight aria-hidden="true" size={18} strokeWidth={1.6} />
+        </div>
       </div>
     </Link>
   );

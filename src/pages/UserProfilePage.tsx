@@ -1,7 +1,8 @@
-import { ChevronLeft, Search, Send, UserCheck, UserPlus } from "lucide-react";
+import { Search, Send, UserCheck, UserPlus } from "lucide-react";
 import { useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import fireBadge from "../assets/mypage/fire-badge.svg";
+import { BackHeader } from "../components/common/BackHeader";
 import { brands } from "../data/brands";
 import { perfumeData } from "../data/perfumeData";
 import type { PerfumeEntry } from "../data/perfumeData";
@@ -50,19 +51,18 @@ function toRecommendPerfumeItem(entry: PerfumeEntry): RecommendPerfumeItem {
 
 const perfumeItems: RecommendPerfumeItem[] = [
   {
-    brand: "Jo Malone London",
-    name: "Blackberry & Bay Cologne",
+    brand: "JO MALONE LONDON",
+    name: "블랙베리 앤 베이 코롱",
     image: assets.perfume,
   },
   {
-    brand: "Jo Malone London",
-    name: "Blackberry & Bay Cologne",
+    brand: "JO MALONE LONDON",
+    name: "블랙베리 앤 베이 코롱",
     image: assets.perfume,
   },
 ];
 
 export default function UserProfilePage() {
-  const navigate = useNavigate();
   const { profileId = "story-one" } = useParams();
   const [isFollowing, setIsFollowing] = useState(false);
   const [isRecommendSheetOpen, setIsRecommendSheetOpen] = useState(false);
@@ -76,16 +76,7 @@ export default function UserProfilePage() {
 
   return (
     <main className="mx-auto min-h-dvh w-full max-w-[430px] overflow-x-hidden bg-off-white text-off-black">
-      <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 flex-col bg-off-white pt-[var(--app-safe-top)]">
-        <button
-          aria-label="이벤트로 돌아가기"
-          className="flex h-[54px] w-14 items-center justify-center"
-          onClick={() => navigate("/event/recommend-feed")}
-          type="button"
-        >
-          <ChevronLeft aria-hidden="true" size={26} strokeWidth={1.4} />
-        </button>
-      </header>
+      <BackHeader backTo="/event/recommend-feed" />
 
       <section className="wrap pt-[var(--app-header-height)]">
         <div className="relative h-[560px] overflow-hidden bg-off-black text-off-white">

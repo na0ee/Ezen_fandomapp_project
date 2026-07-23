@@ -1,65 +1,50 @@
-import { ChevronLeft, Search } from "lucide-react";
+
 import type { PointerEvent, ReactNode } from "react";
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import headerBell from "../../assets/community/figma/header-bell.svg";
+
 import byredoImage from "../../assets/magazine/fragrance-collection/byredo.png";
 import diorImage from "../../assets/magazine/fragrance-collection/dior.png";
 import fragranceHeroImage from "../../assets/magazine/fragrance-collection/hero.png";
 import maisonMargielaImage from "../../assets/magazine/fragrance-collection/maison-margiela.png";
 import milkyGourmandImage from "../../assets/magazine/fragrance-collection/milky-gourmand.png";
-import { PerfumeIcon } from "../../components/icons/PerfumeIcon";
+
+import { BackHeader } from "../../components/common/BackHeader";
+import { HeaderActions } from "../../components/common/HeaderActions";
 
 const fragranceCollections = [
   {
-    brand: "Dior",
+    brand: "DIOR",
     description:
       "프랑스 리비에라의 휴양지의 분위기를 담았습니다. 만다린의 상큼함과 아몬드, 통카빈의 부드러운 달콤함이 어우러져 여름 휴가를 떠올리게 하는 향으로 주목받고 있습니다.",
     image: diorImage,
-    name: "Paradise",
+    name: "파라다이스",
   },
   {
-    brand: "Maison Margiela",
+    brand: "MAISON MARGIELA",
     description:
       "노을이 지는 해변의 순간을 표현한 향수로, 망고와 플로럴 노트, 샌달우드가 조화를 이룹니다. 과일의 생동감과 따뜻한 여름 저녁의 분위기를 동시에 느낄 수 있는 것이 특징입니다.",
     image: maisonMargielaImage,
-    name: "Replica Chasing Sunsets",
+    name: "레플리카 체이싱 선셋",
   },
   {
-    brand: "Byredo",
+    brand: "BYREDO",
     description:
       "코코넛과 앰버를 중심으로 한 부드럽고 따뜻한 향으로, 올해 주목받고 있는 스킨센트 트렌드를 반영한 컬렉션입니다. 피부에 자연스럽게 스며드는 듯한 은은한 분위기가 특징입니다.",
     image: byredoImage,
-    name: "Alto Astral",
+    name: "알토 아스트랄",
   },
   {
-    brand: "Trend",
+    brand: "TREND",
     description:
       "2026년에는 바닐라, 라이스, 밀크 노트를 활용한 밀키 구르망 향수가 큰 인기를 얻고 있습니다. 달콤하면서도 포근한 분위기를 연출해 사계절 데일리 향수로 주목받고 있습니다.",
     image: milkyGourmandImage,
-    name: "Milky Gourmand",
+    name: "밀키 구르망",
   },
 ];
 
 function MagazineDetailHeader() {
   return (
-    <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-side pt-[var(--app-safe-top)]">
-      <div className="flex items-center">
-        <Link aria-label="매거진으로 돌아가기" className="flex size-[21px] items-center justify-center" to="/magazine">
-          <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.4} />
-        </Link>
-        <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">매거진</h1>
-      </div>
-      <div aria-label="매거진 메뉴" className="flex items-center gap-5">
-        <Link aria-label="검색" className="size-7" to="/search">
-          <Search aria-hidden="true" className="size-full" strokeWidth={1.8} />
-        </Link>
-        <img alt="" aria-hidden="true" className="size-7" src={headerBell} />
-        <Link aria-label="향수 카테고리" to="/category">
-          <PerfumeIcon />
-        </Link>
-      </div>
-    </header>
+    <BackHeader title="매거진" backTo="/magazine" action={<HeaderActions />} />
   );
 }
 

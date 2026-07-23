@@ -86,7 +86,7 @@ export default function Onboarding5() {
   };
 
   return (
-    <main className="min-h-dvh bg-off-white">
+    <main className="min-h-dvh bg-black max-[430px]:bg-off-white">
       <div className="relative mx-auto min-h-[932px] w-full max-w-[430px] overflow-hidden bg-off-white">
         <StatusBar />
 

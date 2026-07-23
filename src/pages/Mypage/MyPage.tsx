@@ -10,6 +10,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BottomNavigation } from "../../components/common/BottomNavigation";
 import { HeaderActions } from "../../components/common/HeaderActions";
+import { Header } from "../../components/common/Header";
 import { HeartButton } from "../../components/ui/HeartButton";
 import { SectionTitle as CommonSectionTitle } from "../../components/common/SectionTitle";
 import fireBadge from "../../assets/mypage/fire-badge.svg";
@@ -26,7 +27,7 @@ import wishlistThree from "../../assets/mypage/wishlist-3.png";
 
 const perfumes = [
   {
-    brand: "Santa Maria Novella",
+    brand: "SANTA MARIA NOVELLA",
     name: "엔젤 디 피렌체 오드코롱 100ml",
     image: perfumeSanta,
   },
@@ -36,7 +37,7 @@ const perfumes = [
     image: perfumeLoewe,
   },
   {
-    brand: "Santa Maria Novella",
+    brand: "SANTA MARIA NOVELLA",
     name: "엔젤 디 피렌체 오드코롱 100ml",
     image: perfumeSanta,
   },
@@ -332,10 +333,7 @@ function AccountSection() {
 export default function MyPage() {
   return (
     <main className="mx-auto min-h-dvh w-full max-w-[430px] select-none overflow-x-hidden bg-off-white text-off-black">
-      <header className="fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between overflow-hidden bg-off-white px-side pt-[var(--app-safe-top)]">
-        <h1 className="text-2xl font-semibold leading-[1.3] tracking-[-0.02em]">마이페이지</h1>
-        <HeaderActions />
-      </header>
+      <Header title="마이페이지" action={<HeaderActions />} />
 
       <div className="wrap flex flex-col gap-section bg-off-white pb-[112px] pt-[calc(var(--app-header-height)+8px)]">
         <ProfileSection />
