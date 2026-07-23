@@ -13,7 +13,7 @@ import { HeaderActions } from "../../components/common/HeaderActions";
 import { Header } from "../../components/common/Header";
 import { HeartButton } from "../../components/ui/HeartButton";
 import { SectionTitle as CommonSectionTitle } from "../../components/common/SectionTitle";
-import { myProfile } from "../../data/myProfile";
+import { getMyProfileMood, myProfile } from "../../data/myProfile";
 import fireBadge from "../../assets/mypage/fire-badge.svg";
 import perfumeLoewe from "../../assets/mypage/perfume-loewe.png";
 import perfumeSanta from "../../assets/mypage/perfume-santa.png";
@@ -142,7 +142,7 @@ function ProfileSection() {
           <div className="flex shrink-0 items-center gap-3">
             <span className="whitespace-nowrap text-2xl font-semibold leading-[1.08] tracking-[-0.02em]">{myProfile.name}</span>
             <span className="whitespace-nowrap rounded-[24px] bg-off-black/50 px-2.5 py-1 font-cormorant text-base font-bold leading-normal tracking-[-0.02em] text-off-white-70">
-              {myProfile.mood}
+              {getMyProfileMood()}
             </span>
           </div>
         </div>
