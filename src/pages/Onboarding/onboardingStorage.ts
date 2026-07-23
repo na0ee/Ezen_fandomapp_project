@@ -1,6 +1,5 @@
 const ONBOARDING_COMPLETED_KEY = "layer-onboarding-completed";
 const ONBOARDING_SELECTIONS_KEY = "layer-onboarding-selections";
-let completedDuringCurrentRun = false;
 
 export type OnboardingSelections = {
   moment?: string;
@@ -9,12 +8,14 @@ export type OnboardingSelections = {
 };
 
 export function hasCompletedOnboarding() {
-  return completedDuringCurrentRun;
+  return (
+    window.localStorage.getItem(ONBOARDING_COMPLETED_KEY) === "true" ||
+    window.localStorage.getItem(ONBOARDING_SELECTIONS_KEY) !== null
+  );
 }
 
 export function completeOnboarding() {
-  completedDuringCurrentRun = true;
-  window.localStorage.removeItem(ONBOARDING_COMPLETED_KEY);
+  window.localStorage.setItem(ONBOARDING_COMPLETED_KEY, "true");
 }
 
 export function getOnboardingSelections(): OnboardingSelections {

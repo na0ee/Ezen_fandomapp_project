@@ -159,20 +159,6 @@ export const recommendUsers: RecommendUser[] = [
     community: { posts: 30, reviews: 22, followers: 1040 },
   },
   {
-    id: "story-ten",
-    name: "citrusday",
-    badge: "LOVER",
-    mood: "Fresh Spark",
-    description:
-      "기분 전환용 시트러스 향을 찾고 있어요.\n첫 향은 상큼하고 잔향은 부드럽게 남았으면 좋겠습니다.",
-    tags: ["#시트러스", "#기분전환"],
-    date: "2026.08.12 17:55",
-    feedImages: [unsplash("photo-1504198453319-5ce911bafcde")],
-    profileImages: [unsplash("photo-1504198453319-5ce911bafcde")],
-    cta: "추천하러 가기",
-    community: { posts: 11, reviews: 6, followers: 220 },
-  },
-  {
     id: "katarina",
     name: "katarina",
     badge: "LOVER",
@@ -243,6 +229,17 @@ export const recommendUsers: RecommendUser[] = [
     community: { posts: 8, reviews: 4, followers: 140 },
   },
 ];
+
+export const shuffledRecommendUsers = (() => {
+  const items = [...recommendUsers];
+
+  for (let index = items.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [items[index], items[randomIndex]] = [items[randomIndex], items[index]];
+  }
+
+  return items;
+})();
 
 export function findRecommendUser(id: string | undefined) {
   return recommendUsers.find((user) => user.id === id) ?? recommendUsers[0];

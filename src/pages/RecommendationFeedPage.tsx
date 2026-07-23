@@ -7,19 +7,75 @@ import { HeaderActions } from "../components/common/HeaderActions";
 import { BackHeader } from "../components/common/BackHeader";
 import { myProfile } from "../data/myProfile";
 import { perfumeData } from "../data/perfumeData";
-import { recommendUsers } from "../data/recommendUsers";
+import { shuffledRecommendUsers } from "../data/recommendUsers";
 import type { RecommendUser } from "../data/recommendUsers";
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+
+const receivedRecommendationProfiles = [
+  {
+    nickname: "chlgotn",
+    message: "깨끗하고 포근한 분위기와 잘 어울릴 것 같아요.",
+    detailMessage:
+      "프로필을 보니 맑고 편안한 분위기가 이 향수와 잘 어울릴 것 같아요. 갓 세탁한 침구처럼 포근하게 남는 향이라 데일리로 추천드립니다. 가벼운 외출이나 쉬는 날에 뿌리면 특히 좋을 것 같아요. 위시에도 한번 담아보세요!",
+    avatar: asset("/assets/figma/recommend-sheet-avatar.png"),
+  },
+  {
+    nickname: "scent.zip",
+    message: "따뜻한 우디 무드를 좋아하실 것 같아 골라봤어요.",
+    detailMessage:
+      "사진에서 느껴지는 차분하고 따뜻한 무드가 이 향수와 닮았어요. 장작과 바닐라가 포근하게 이어져서 쌀쌀한 날 니트에 뿌리기 좋답니다. 너무 달지 않게 잔향이 남아서 저녁 약속에도 잘 어울릴 것 같아요.",
+    avatar: asset("/assets/recommend/katarina.png"),
+  },
+  {
+    nickname: "muskday",
+    message: "분위기 있는 밤에 잘 어울리는 향으로 추천해요.",
+    detailMessage:
+      "프로필의 시크하고 여유로운 분위기를 보고 바로 이 향수가 떠올랐어요. 럼과 타바코의 깊은 향 뒤에 바닐라가 부드럽게 남아서 밤 산책이나 늦은 약속에 특히 잘 어울려요. 우디 향과 레이어링해도 멋질 것 같아요!",
+    avatar: asset("/assets/recommend/3an.png"),
+  },
+  {
+    nickname: "summer.note",
+    message: "싱그럽고 가벼운 인상에 잘 맞는 향수예요.",
+    detailMessage:
+      "밝고 산뜻한 분위기와 레몬 잎의 싱그러움이 정말 잘 어울릴 것 같아요. 첫 향은 상큼하지만 잔향은 부드럽고 깨끗해서 더운 날에도 부담 없이 사용할 수 있어요. 흰 셔츠나 가벼운 여름 코디에 꼭 한번 매치해보세요.",
+    avatar: asset("/assets/recommend/yujin.png"),
+  },
+];
 
 // 추천받은 향수 — 공용 향수 데이터(perfumeData)의 한글 이름·이미지를 사용
 const receivedRecommendations = perfumeData.slice(0, 4).map((entry, index) => ({
   id: `received-${index + 1}`,
   perfume: entry.perfume.name,
-  nickname: "chlgotn",
-  message: "프로필을 보니 미러리해서 이 향수가 잘...",
+  brand: "Maison Margiela Fragrances",
+  nickname: receivedRecommendationProfiles[index].nickname,
+  message: receivedRecommendationProfiles[index].message,
+  detailMessage: receivedRecommendationProfiles[index].detailMessage,
+  avatar: receivedRecommendationProfiles[index].avatar,
   image: asset(entry.perfume.image),
+  detailImage:
+    index === 2 ? asset("/assets/figma/recommend-detail-perfume.png") : asset(entry.perfume.image),
+  scentDescription: entry.perfume.description,
 }));
+
+const sentRecommendationProfiles = [
+  {
+    nickname: "Jennie",
+    message: "차분하면서 포근한 무드와 잘 어울릴 것 같아 추천했어요.",
+  },
+  {
+    nickname: "3an",
+    message: "따뜻한 우디 향을 좋아한다고 해서 이 향수를 골랐어요.",
+  },
+  {
+    nickname: "yujin",
+    message: "밤 산책에 어울리는 깊고 분위기 있는 향으로 추천했어요.",
+  },
+  {
+    nickname: "nanana",
+    message: "상큼하고 가벼운 여름 향을 찾는다고 해서 추천했어요.",
+  },
+] as const;
 
 type MainTab = "mine" | "recommend";
 type RecommendationTab = "received" | "sent";
@@ -84,7 +140,7 @@ function FeedCard({ item }: { item: RecommendUser }) {
 function RecommendFeedGrid() {
   return (
     <div className="grid grid-cols-2 gap-2">
-      {recommendUsers.map((item) => (
+      {shuffledRecommendUsers.map((item) => (
         <FeedCard item={item} key={item.id} />
       ))}
     </div>
@@ -110,7 +166,15 @@ function MyFeedHero() {
               {myProfile.mood}
             </span>
           </div>
-          <h2 className="mt-1 text-[34px] font-bold leading-[1.3] tracking-[-0.02em]">{myProfile.name}</h2>
+          <div className="mt-1 flex items-end gap-2 text-off-white">
+            <h2 className="shrink-0 text-[30px] font-bold leading-[normal] tracking-[-0.02em]">
+              {myProfile.name}
+            </h2>
+            <div className="flex items-center gap-3 pb-1 text-xs font-medium leading-[normal] tracking-[-0.02em]">
+              <span>팔로우 {myProfile.followers}</span>
+              <span>팔로잉 {myProfile.following}</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -189,9 +253,11 @@ function RecommendationActivityIcon() {
 function RecommendationCard({
   item,
   variant = "received",
+  onOpen,
 }: {
   item: (typeof receivedRecommendations)[number];
   variant?: RecommendationTab;
+  onOpen: () => void;
 }) {
   const primaryText = variant === "sent" ? item.nickname : item.perfume;
   const secondaryText = variant === "sent" ? item.perfume : item.nickname;
@@ -216,41 +282,190 @@ function RecommendationCard({
         <p className="mt-2 truncate text-sm font-normal leading-none tracking-[-0.02em] text-grey">
           {item.message}
         </p>
-        <button
-          className="mt-[17px] flex items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey"
-          type="button"
-        >
-          자세히 보기
-          <ChevronRight aria-hidden="true" size={18} strokeWidth={1.6} />
-        </button>
+        {variant === "received" && (
+          <button
+            aria-haspopup="dialog"
+            aria-label={`${item.perfume} 추천 상세 보기`}
+            className="mt-[17px] flex items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey"
+            onClick={onOpen}
+            type="button"
+          >
+            자세히 보기
+            <ChevronRight aria-hidden="true" size={18} strokeWidth={1.6} />
+          </button>
+        )}
       </div>
     </article>
   );
 }
 
+function RecommendationDetailSheet({
+  isSaved,
+  item,
+  onClose,
+  onSaveToggle,
+}: {
+  isSaved: boolean;
+  item: (typeof receivedRecommendations)[number] | null;
+  onClose: () => void;
+  onSaveToggle: () => void;
+}) {
+  if (!item) {
+    return null;
+  }
+
+  return (
+    <div className="fixed inset-0 z-40" onClick={onClose}>
+      <section
+        aria-label={`${item.perfume} 추천 상세`}
+        aria-modal="true"
+        className="animate-[sheetUp_240ms_ease-out] absolute bottom-0 left-1/2 flex h-[423px] w-full max-w-[430px] -translate-x-1/2 flex-col items-center overflow-hidden rounded-t-[20px] bg-off-white pb-10 pt-4 shadow-[0_-4px_16px_rgba(0,0,0,0.05)]"
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+      >
+        <button
+          aria-label="추천 상세 닫기"
+          className="flex h-4 w-16 items-start justify-center"
+          onClick={onClose}
+          type="button"
+        >
+          <span className="h-1 w-8 rounded-[24px] bg-light2-grey" />
+        </button>
+
+        <div className="mt-4 flex w-full items-center justify-between px-5">
+          <div className="flex items-center gap-2.5">
+            <img
+              alt=""
+              aria-hidden="true"
+              className="size-[42px] rounded-full object-cover"
+              src={item.avatar}
+            />
+            <div className="flex flex-col gap-[3px] leading-none">
+              <p className="text-base font-medium tracking-[-0.02em] text-off-black">{item.nickname}</p>
+              <p className="text-xs font-medium tracking-[-0.02em] text-grey">5분 전</p>
+            </div>
+          </div>
+          <button aria-label="추천 메뉴" className="size-6" type="button">
+            <img
+              alt=""
+              aria-hidden="true"
+              className="size-full"
+              src={asset("/assets/figma/recommend-sheet-more.svg")}
+            />
+          </button>
+        </div>
+
+        <p className="mt-4 w-full px-5 text-sm font-normal leading-[normal] tracking-[-0.02em] text-off-black">
+          {item.detailMessage}
+        </p>
+
+        <article className="mt-4 flex h-[108px] w-[calc(100%_-_40px)] items-center gap-3 overflow-hidden rounded-[8px] border-[0.5px] border-light2-grey bg-off-white p-2">
+          <div className="size-[92px] shrink-0 overflow-hidden rounded-[8px] bg-light2-grey">
+            <img
+              alt={`${item.perfume} 향수`}
+              className={`size-full ${item.id === "received-3" ? "object-cover" : "object-contain p-2"}`}
+              src={item.detailImage}
+            />
+          </div>
+          <div className="relative flex h-[71px] min-w-0 flex-1 flex-col justify-between">
+            <div>
+              <p className="truncate pr-5 text-xs font-medium leading-[normal] tracking-[-0.02em] text-grey">
+                {item.brand}
+              </p>
+              <p className="truncate pr-5 text-base font-semibold leading-[normal] tracking-[-0.02em] text-[#171717]">
+                {item.perfume}
+              </p>
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <p className="min-w-0 flex-1 truncate text-sm font-medium leading-[normal] tracking-[-0.02em] text-[#4d4d4d]">
+                {item.scentDescription}
+              </p>
+              <button
+                className="shrink-0 rounded-[16px] bg-off-black px-3.5 py-[5px] text-xs font-normal leading-none tracking-[-0.02em] text-off-white"
+                type="button"
+              >
+                향수 보기
+              </button>
+            </div>
+            <button
+              aria-label={isSaved ? "향수 좋아요 취소" : "향수 좋아요"}
+              aria-pressed={isSaved}
+              className="absolute -right-1 -top-1.5 flex size-8 items-center justify-center"
+              onClick={onSaveToggle}
+              type="button"
+            >
+              <img
+                alt=""
+                aria-hidden="true"
+                className="h-[19px] w-[22px]"
+                src={asset(
+                  isSaved
+                    ? "/assets/figma/recommend-detail-heart.svg"
+                    : "/assets/figma/recommend-detail-heart-outline.svg",
+                )}
+              />
+            </button>
+          </div>
+        </article>
+      </section>
+    </div>
+  );
+}
+
 function MyFeedContent() {
   const [activeRecommendationTab, setActiveRecommendationTab] = useState<RecommendationTab>("received");
+  const [selectedRecommendation, setSelectedRecommendation] = useState<
+    (typeof receivedRecommendations)[number] | null
+  >(null);
+  const [savedRecommendationIds, setSavedRecommendationIds] = useState<Set<string>>(() => new Set());
   const list =
     activeRecommendationTab === "received"
       ? receivedRecommendations
       : receivedRecommendations.map((item, index) => ({
           ...item,
           id: `sent-${index + 1}`,
-          nickname: "Juhoon",
-          message: "상대의 무드에 맞춰 이 향수를 추천했어요.",
+          nickname: sentRecommendationProfiles[index].nickname,
+          message: sentRecommendationProfiles[index].message,
         }));
 
   return (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col gap-5">
       <MyFeedHero />
-      <section className="flex flex-col gap-[30px]">
+      <section className="flex flex-col gap-4">
         <RecommendationFilterTabs activeTab={activeRecommendationTab} onChange={setActiveRecommendationTab} />
         <div className="flex flex-col gap-[10px]">
           {list.map((item) => (
-            <RecommendationCard item={item} key={item.id} variant={activeRecommendationTab} />
+            <RecommendationCard
+              item={item}
+              key={item.id}
+              onOpen={() => setSelectedRecommendation(item)}
+              variant={activeRecommendationTab}
+            />
           ))}
         </div>
       </section>
+      <RecommendationDetailSheet
+        isSaved={selectedRecommendation ? savedRecommendationIds.has(selectedRecommendation.id) : false}
+        item={selectedRecommendation}
+        onClose={() => setSelectedRecommendation(null)}
+        onSaveToggle={() => {
+          if (!selectedRecommendation) {
+            return;
+          }
+
+          setSavedRecommendationIds((currentIds) => {
+            const nextIds = new Set(currentIds);
+
+            if (nextIds.has(selectedRecommendation.id)) {
+              nextIds.delete(selectedRecommendation.id);
+            } else {
+              nextIds.add(selectedRecommendation.id);
+            }
+
+            return nextIds;
+          });
+        }}
+      />
     </div>
   );
 }

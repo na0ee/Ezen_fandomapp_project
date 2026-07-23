@@ -27,30 +27,30 @@ const raffleDetails = {
     name: "Lazy Sunday Morning",
     nameKo: "레이지 선데이 모닝",
   },
-  "lazy-before-2": {
+  "fireplace-before": {
     brand: "MAISON MARGIELA FRAGRANCES",
-    name: "Lazy Sunday Morning",
-    nameKo: "레이지 선데이 모닝",
+    name: "By the Fireplace",
+    nameKo: "바이 더 파이어플레이스",
   },
-  "blackberry-1": {
+  "english-pear-freesia": {
     brand: "JO MALONE LONDON",
-    name: "Blackberry & Bay Cologne",
-    nameKo: "블랙베리 앤 베이 코롱",
+    name: "English Pear & Freesia",
+    nameKo: "잉글리쉬 페어 앤 프리지아",
   },
-  "blackberry-2": {
-    brand: "JO MALONE LONDON",
-    name: "Blackberry & Bay Cologne",
-    nameKo: "블랙베리 앤 베이 코롱",
+  "diptyque-do-son": {
+    brand: "DIPTYQUE",
+    name: "Do Son",
+    nameKo: "도 손",
   },
-  "blackberry-3": {
-    brand: "JO MALONE LONDON",
-    name: "Blackberry & Bay Cologne",
-    nameKo: "블랙베리 앤 베이 코롱",
+  "byredo-mojave-ghost": {
+    brand: "BYREDO",
+    name: "Mojave Ghost",
+    nameKo: "모하비 고스트",
   },
-  "blackberry-4": {
-    brand: "JO MALONE LONDON",
-    name: "Blackberry & Bay Cologne",
-    nameKo: "블랙베리 앤 베이 코롱",
+  "chanel-chance-tendre": {
+    brand: "CHANEL",
+    name: "Chance Eau Tendre",
+    nameKo: "샹스 오 땅드르",
   },
 } as const;
 

@@ -10,6 +10,8 @@ export type MyProfile = {
   badge: string; // 등급
   mood: string; // layer 뱃지
   points: string;
+  followers: number;
+  following: number;
   avatar: string; // 마이페이지 원형 프로필
   background: string; // 마이페이지 상단 배경
   feedImages: string[]; // 추천피드 '내 피드' 히어로 (base, overlay)
@@ -21,6 +23,8 @@ export const myProfile: MyProfile = {
   badge: "LOVER",
   mood: "Mood Shifter",
   points: "99,999",
+  followers: 12,
+  following: 2,
   avatar: profileAvatar,
   background: profileBackground,
   feedImages: [

@@ -155,6 +155,7 @@ function RecommendBottomSheet({
   const [activeSource, setActiveSource] = useState("내 위시리스트");
   const [searchQuery, setSearchQuery] = useState("");
   const [message, setMessage] = useState("");
+  const [selectedPerfumeKey, setSelectedPerfumeKey] = useState<string | null>(null);
   const normalizedSearchQuery = searchQuery.trim().toLowerCase();
   const visiblePerfumeItems =
     activeSource === "전체"
@@ -181,6 +182,11 @@ function RecommendBottomSheet({
     if (startY !== null && event.clientY - startY > 36) {
       onClose();
     }
+  };
+
+  const handleSubmit = () => {
+    setSelectedPerfumeKey(null);
+    onComplete();
   };
 
   return (
@@ -239,25 +245,34 @@ function RecommendBottomSheet({
           </div>
 
           <div className="mt-2 flex flex-col gap-2">
-            {visiblePerfumeItems.map((item, index) => (
-              <button
-                className="flex h-[78px] w-full items-center rounded-[16px] border border-light-grey bg-off-white p-2 text-left"
-                key={`${item.name}-${index}`}
-                type="button"
-              >
-                <span className="flex size-[62px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-light2-grey">
-                  <img alt="" className="h-full w-full object-cover" src={item.image} />
-                </span>
-                <span className="ml-4 min-w-0">
-                  <span className="block truncate text-xs font-medium leading-none tracking-[-0.02em] text-grey">
-                    {item.brand}
+            {visiblePerfumeItems.map((item, index) => {
+              const perfumeKey = `${activeSource}-${item.name}-${index}`;
+              const isSelected = selectedPerfumeKey === perfumeKey;
+
+              return (
+                <button
+                  aria-pressed={isSelected}
+                  className={`flex h-[78px] w-full items-center rounded-[16px] border border-light-grey p-2 text-left ${
+                    isSelected ? "bg-light2-grey" : "bg-off-white"
+                  }`}
+                  key={perfumeKey}
+                  onClick={() => setSelectedPerfumeKey(perfumeKey)}
+                  type="button"
+                >
+                  <span className="flex size-[62px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-light2-grey">
+                    <img alt="" className="h-full w-full object-cover" src={item.image} />
                   </span>
-                  <span className="mt-1 block truncate font-geist text-[15px] font-semibold leading-none tracking-[-0.02em]">
-                    {item.name}
+                  <span className="ml-4 min-w-0">
+                    <span className="block truncate text-xs font-medium leading-none tracking-[-0.02em] text-grey">
+                      {item.brand}
+                    </span>
+                    <span className="mt-1 block truncate font-geist text-[15px] font-semibold leading-none tracking-[-0.02em]">
+                      {item.name}
+                    </span>
                   </span>
-                </span>
-              </button>
-            ))}
+                </button>
+              );
+            })}
           </div>
 
           <div className="mt-6 flex h-[50px] items-start gap-2.5">
@@ -274,7 +289,7 @@ function RecommendBottomSheet({
             <button
               aria-label="추천 보내기"
               className="flex size-[50px] shrink-0 items-center justify-center rounded-full bg-off-black text-off-white"
-              onClick={onComplete}
+              onClick={handleSubmit}
               type="button"
             >
               <Send aria-hidden="true" size={18} strokeWidth={1.8} />
