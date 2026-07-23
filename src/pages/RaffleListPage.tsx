@@ -8,11 +8,7 @@ import { Chip } from "../components/ui/Chip";
 import { Tab } from "../components/ui/Tab";
 import { useAppliedRaffleIds, useRaffleApplied } from "../store/raffleStore";
 
-const assets = Object.fromEntries(
-  Object.entries({
-    product: "/assets/figma/raffle-product.png",
-  }).map(([key, path]) => [key, `${import.meta.env.BASE_URL}${path.slice(1)}`]),
-) as Record<string, string>;
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 
 const categoryTabs = ["전체", "진행중", "오픈 전", "응모완료"] as const;
 type CategoryTab = (typeof categoryTabs)[number];
@@ -23,41 +19,47 @@ const raffleItems = [
     brand: "MAISON MARGIELA FRAGRANCES",
     name: "Lazy Sunday Morning",
     nameKo: "레이지 선데이 모닝",
+    image: asset("/assets/perfume/maison-margiela/lazy-sunday-morning.png"),
     state: "before",
   },
   {
-    id: "lazy-before-2",
+    id: "fireplace-before",
     brand: "MAISON MARGIELA FRAGRANCES",
-    name: "Lazy Sunday Morning",
-    nameKo: "레이지 선데이 모닝",
+    name: "By the Fireplace",
+    nameKo: "바이 더 파이어플레이스",
+    image: asset("/assets/perfume/maison-margiela/by-the-fireplace.png"),
     state: "before",
   },
   {
-    id: "blackberry-1",
+    id: "english-pear-freesia",
     brand: "JO MALONE LONDON",
-    name: "Blackberry & Bay Cologne",
-    nameKo: "블랙베리 앤 베이 코롱",
+    name: "English Pear & Freesia",
+    nameKo: "잉글리쉬 페어 앤 프리지아",
+    image: asset("/assets/perfume/jo-malone/english-pear-freesia.jpg"),
     state: "now",
   },
   {
-    id: "blackberry-2",
-    brand: "JO MALONE LONDON",
-    name: "Blackberry & Bay Cologne",
-    nameKo: "블랙베리 앤 베이 코롱",
+    id: "diptyque-do-son",
+    brand: "DIPTYQUE",
+    name: "Do Son",
+    nameKo: "도 손",
+    image: asset("/assets/perfume/diptyque/do-son.jpg"),
     state: "now",
   },
   {
-    id: "blackberry-3",
-    brand: "JO MALONE LONDON",
-    name: "Blackberry & Bay Cologne",
-    nameKo: "블랙베리 앤 베이 코롱",
+    id: "byredo-mojave-ghost",
+    brand: "BYREDO",
+    name: "Mojave Ghost",
+    nameKo: "모하비 고스트",
+    image: asset("/assets/perfume/byredo/mojave-ghost.jpg"),
     state: "now",
   },
   {
-    id: "blackberry-4",
-    brand: "JO MALONE LONDON",
-    name: "Blackberry & Bay Cologne",
-    nameKo: "블랙베리 앤 베이 코롱",
+    id: "chanel-chance-tendre",
+    brand: "CHANEL",
+    name: "Chance Eau Tendre",
+    nameKo: "샹스 오 땅드르",
+    image: asset("/assets/perfume/chanel/chance-eau-tendre.jpg"),
     state: "now",
   },
 ] as const;
@@ -85,7 +87,7 @@ function RaffleCard({
     <article className="flex h-[108px] w-full max-w-[390px] items-center gap-4 overflow-hidden rounded-[16px] border border-light-grey bg-off-white p-2">
       <div className="relative size-[92px] shrink-0 overflow-hidden rounded-[12px] bg-light2-grey">
         <div className="absolute left-1/2 top-1/2 h-[92px] w-[85.206px] -translate-x-1/2 -translate-y-1/2">
-          <img alt="" className="h-full w-full object-cover" src={assets.product} />
+          <img alt="" className="h-full w-full object-cover" src={item.image} />
         </div>
         {isBefore && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/45 text-center text-off-white">

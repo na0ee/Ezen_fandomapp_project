@@ -10,7 +10,7 @@ import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { Header } from "../components/common/Header";
 import { SectionTitle } from "../components/common/SectionTitle";
-import { recommendUsers } from "../data/recommendUsers";
+import { shuffledRecommendUsers } from "../data/recommendUsers";
 import type { RecommendUser } from "../data/recommendUsers";
 
 const figmaNode = {
@@ -46,6 +46,7 @@ const challengeCards = [
     images: [assets.challengeRecord],
     description: "이번 주 2일 기록했어요",
     record: true,
+    to: "/mypage/perfumes",
   },
   {
     title: "커뮤니티 이용하기",
@@ -55,21 +56,22 @@ const challengeCards = [
     to: "/community",
   },
   {
-    title: "Scent DNA",
+    title: "MY LAYER",
     label: "Challenge",
     images: [assets.challengeDna],
     description: "첫 진단시 100p, 취향 공유하면 추가로 30p!",
-    complete: true,
+    to: "/onboarding/1",
   },
   {
     title: "내 향수 등록하기",
     label: "Challenge",
     images: [assets.challengeRegister],
     description: "내 보유향수 첫 등록 시 30p, 등록할 때 마다 5p씩",
+    to: "/mypage/perfumes",
   },
 ];
 
-const storyCards = recommendUsers.slice(0, 3);
+const storyCards = shuffledRecommendUsers.slice(0, 3);
 
 const raffleItems = [
   {

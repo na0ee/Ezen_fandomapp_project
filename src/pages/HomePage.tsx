@@ -1,9 +1,6 @@
 ﻿import { useEffect, useRef, useState } from "react";
 import type { DragEvent, MouseEvent, UIEvent } from "react";
-import {
-  ChevronRight,
-  SlidersHorizontal,
-} from "lucide-react";
+import { ChevronRight, SlidersHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
@@ -12,59 +9,78 @@ import { PerfumeRankCard } from "../components/perfume/PerfumeRankCard";
 import type { PerfumeRankItem } from "../components/perfume/PerfumeRankCard";
 
 const figmaNode = {
-  screen: "726:6574",
-  wrap: "726:6578",
-  hero: "726:6579",
-  todaysScent: "726:6629",
-  challenge: "726:6648",
-  rank: "726:6659",
-  magazine: "726:6696",
-  gift: "726:6713",
-  header: "726:6718",
-  bottomNavigation: "737:14605",
+  screen: "1513:15648",
+  wrap: "1513:15649",
+  hero: "1513:15650",
+  record: "1575:20745",
+  challenge: "1513:15673",
+  hotReview: "1575:20707",
+  rank: "1513:15684",
+  magazine: "1513:15721",
+  gift: "1513:15738",
+  header: "1513:15749",
 };
 
 const assets = Object.fromEntries(
   Object.entries({
-  heroFirst: "/assets/figma/home-hero-first.png",
-  heroSecond: "/assets/figma/home-hero-second.png",
-  heroThird: "/assets/figma/home-hero-third.png",
-  heroDiptyque: "/assets/figma/3bb914a7-b4df-4526-8d2f-259d0b60c660.png",
-  heroJomalone: "/assets/figma/4b9a3ff2-070c-4905-ba08-e6a4776fa09d.png",
-  scentForest: "/assets/figma/ac764b67-8c19-45c1-9335-2c516ec3fbd1.png",
-  challengeRecord: "/assets/figma/544911c3-f91f-4825-9e2d-ab79304a8b35.png",
-  challengeCommunity: "/assets/figma/6904c812-042a-47db-92bf-3bf9a017791d.png",
-  challengeDna: "/assets/figma/f76dfbf7-5de8-4b35-a8c8-90b5bf837b40.png",
-  challengeRegister: "/assets/figma/cef0dad5-920f-406d-9f4e-bac218428f99.png",
-  rankOne: "/assets/figma/b8ae253f-9654-4c82-9435-8a5d7821a8f0.png",
-  rankTwo: "/assets/figma/347dc7c9-ab3e-46a4-8fef-cb759308244d.png",
-  rankThree: "/assets/figma/d89aa68f-ffec-492c-a293-1b46bb118478.png",
-  magazineOne: "/assets/figma/604cad28-ee28-4352-a88f-57b5c6cdb1ae.png",
-  magazineTwo: "/assets/figma/cae4a0ad-1f49-46d9-81c0-f893afb376e1.png",
+    heroFirst: "/assets/figma/home-hero-first.png",
+    heroV2Base: "/assets/figma/home-v2-hero-base.png",
+    heroV2: "/assets/figma/home-v2-hero-overlay.png",
+    heroSecond: "/assets/figma/home-hero-second.png",
+    heroThird: "/assets/figma/home-hero-third.png",
+    heroDiptyque: "/assets/figma/3bb914a7-b4df-4526-8d2f-259d0b60c660.png",
+    heroJomalone: "/assets/figma/4b9a3ff2-070c-4905-ba08-e6a4776fa09d.png",
+    scentForest: "/assets/figma/ac764b67-8c19-45c1-9335-2c516ec3fbd1.png",
+    challengeRecord: "/assets/figma/544911c3-f91f-4825-9e2d-ab79304a8b35.png",
+    challengeCommunity:
+      "/assets/figma/6904c812-042a-47db-92bf-3bf9a017791d.png",
+    challengeDna: "/assets/figma/f76dfbf7-5de8-4b35-a8c8-90b5bf837b40.png",
+    challengeRegister: "/assets/figma/cef0dad5-920f-406d-9f4e-bac218428f99.png",
+    rankOne: "/assets/figma/b8ae253f-9654-4c82-9435-8a5d7821a8f0.png",
+    rankTwo: "/assets/figma/347dc7c9-ab3e-46a4-8fef-cb759308244d.png",
+    rankThree: "/assets/figma/d89aa68f-ffec-492c-a293-1b46bb118478.png",
+    magazineOne: "/assets/figma/604cad28-ee28-4352-a88f-57b5c6cdb1ae.png",
+    magazineTwo: "/assets/figma/cae4a0ad-1f49-46d9-81c0-f893afb376e1.png",
     gift: "/assets/figma/21ec3215-67f3-40e5-a91d-630537632bb9.png",
+    hotReviewOne: "/assets/figma/home-v2-hot-review-1.png",
+    hotReviewTwo: "/assets/figma/home-v2-hot-review-2.png",
+    giftV2: "/assets/figma/home-v2-gift.png",
+    recordTomFord: "/assets/figma/record-tomford.svg",
+    recordByredo: "/assets/figma/record-byredo.png",
+    recordDiptyque: "/assets/figma/record-diptyque-mask.png",
+    recordFriday: "/assets/figma/record-friday.svg",
+    recordMissDior: "/assets/figma/record-miss-dior.png",
+    recordSunday: "/assets/figma/record-sunday.svg",
   }).map(([key, path]) => [key, `${import.meta.env.BASE_URL}${path.slice(1)}`]),
 ) as Record<string, string>;
 
 const heroSlides = [
   {
-    nodeId: "726:6580",
-    image: assets.heroFirst,
+    nodeId: "1513:15651",
+    image: assets.heroV2,
     imageClassName: "inset-0 h-full w-full",
     overlayClassName: "bg-black/10",
     logoClassName: "text-off-white",
     label: (
       <>
-        <span className="font-pretendard text-base font-medium tracking-[-0.02em]">나의 향수</span>
-        <span className="px-1 font-cormorant text-lg font-bold tracking-[-0.02em]">MBTI</span>
-        <span className="font-pretendard text-base font-medium tracking-[-0.02em]">진단하기</span>
+        <span className="font-pretendard text-base font-medium tracking-[-0.02em]">
+          MY
+        </span>
+        <span className="px-1 font-cormorant text-lg font-bold tracking-[-0.02em]">
+          LAYER
+        </span>
+        <span className="font-pretendard text-base font-medium tracking-[-0.02em]">
+          진단하기
+        </span>
       </>
     ),
     ctaClassName: "text-off-white",
+    to: "/onboarding/1",
   },
   {
     nodeId: "726:6596",
-    image: assets.heroThird,
-    imageClassName: "inset-0 h-full w-full translate-x-[6px] scale-[1.03]",
+    image: assets.heroV2Base,
+    imageClassName: "inset-0 h-full w-full",
     overlayClassName: "bg-black/10",
     logoClassName: "text-off-white",
     label: "래플 응모하기",
@@ -88,7 +104,8 @@ const challengeCards = [
     eyebrow: "Record",
     image: assets.challengeRecord,
     body: "이번 주 2일 기록했어요",
-    isRecord: true,
+    record: true,
+    to: "/mypage/perfumes",
   },
   {
     title: "커뮤니티 이용하기",
@@ -98,17 +115,18 @@ const challengeCards = [
     to: "/community",
   },
   {
-    title: "Scent DNA",
+    title: "MY LAYER",
     eyebrow: "Challenge",
     image: assets.challengeDna,
     body: "첫 진단시 100p, 취향 공유하면 추가로 30p!",
-    isComplete: true,
+    to: "/onboarding/1",
   },
   {
     title: "내 향수 등록하기",
     eyebrow: "Challenge",
     image: assets.challengeRegister,
     body: "내 보유향수 첫 등록 시 30p, 등록할 때 마다 5p씩",
+    to: "/mypage/perfumes",
   },
 ];
 
@@ -152,12 +170,21 @@ const rankCards: PerfumeRankItem[] = [
 
 const tabs = ["전체", "선물", "여성", "20대", "30대", "남성"];
 
-function SlideIndicator({ progress = 33, className = "" }: { progress?: number; className?: string }) {
+function SlideIndicator({
+  progress = 33,
+  className = "",
+}: {
+  progress?: number;
+  className?: string;
+}) {
   const progressStyle = { width: `${progress}%` };
 
   return (
     <div className={`h-0.5 bg-grey ${className}`}>
-      <div className="h-full bg-off-black transition-[width] duration-500 ease-out" style={progressStyle} />
+      <div
+        className="h-full bg-off-black transition-[width] duration-500 ease-out"
+        style={progressStyle}
+      />
     </div>
   );
 }
@@ -175,7 +202,8 @@ function ScrollIndicator({
 }) {
   const safePosition = Math.min(100, Math.max(0, position));
   const safeThumbWidth = Math.min(100, Math.max(0, thumbWidth));
-  const fillWidth = safeThumbWidth + (safePosition / 100) * (100 - safeThumbWidth);
+  const fillWidth =
+    safeThumbWidth + (safePosition / 100) * (100 - safeThumbWidth);
   const indicatorStyle = {
     width: `${fillWidth}%`,
   };
@@ -194,7 +222,10 @@ function ScrollIndicator({
         onProgressSelect(Math.min(100, Math.max(0, clickProgress)));
       }}
     >
-      <div className="h-full bg-off-black transition-[width] duration-150 ease-out" style={indicatorStyle} />
+      <div
+        className="h-full bg-off-black transition-[width] duration-150 ease-out"
+        style={indicatorStyle}
+      />
     </div>
   );
 }
@@ -220,7 +251,9 @@ function getElementScrollProgress(element: HTMLDivElement) {
   return (element.scrollLeft / maxScrollLeft) * 100;
 }
 
-function useHorizontalDragScroll(onProgressChange?: (progress: number) => void) {
+function useHorizontalDragScroll(
+  onProgressChange?: (progress: number) => void,
+) {
   const startX = useRef(0);
   const startScrollLeft = useRef(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -242,7 +275,8 @@ function useHorizontalDragScroll(onProgressChange?: (progress: number) => void) 
     event.preventDefault();
 
     const target = event.currentTarget;
-    target.scrollLeft = startScrollLeft.current - (event.clientX - startX.current);
+    target.scrollLeft =
+      startScrollLeft.current - (event.clientX - startX.current);
     onProgressChange?.(getElementScrollProgress(target));
   }
 
@@ -291,7 +325,13 @@ function HomeHeader() {
       >
         Layer
       </p>
-      <HeaderActions iconClassName={hasSolidBackground ? "text-off-black" : "text-off-white [&_img]:invert"} />
+      <HeaderActions
+        iconClassName={
+          hasSolidBackground
+            ? "text-off-black"
+            : "text-off-white [&_img]:invert"
+        }
+      />
     </header>
   );
 }
@@ -304,14 +344,19 @@ function HeroSection() {
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setActiveHeroIndex((currentIndex) => (currentIndex + 1) % heroSlides.length);
+      setActiveHeroIndex(
+        (currentIndex) => (currentIndex + 1) % heroSlides.length,
+      );
     }, 4200);
 
     return () => window.clearInterval(timer);
   }, []);
 
   return (
-    <section className="relative h-[536px] w-full shrink-0 overflow-hidden" data-node-id={figmaNode.hero}>
+    <section
+      className="relative h-[536px] w-full shrink-0 overflow-hidden"
+      data-node-id={figmaNode.hero}
+    >
       <div
         className="flex h-full w-full transition-transform duration-500 ease-out"
         style={trackStyle}
@@ -337,6 +382,11 @@ function HeroSection() {
         LAYER
       </p>
       <div className="absolute inset-x-0 bottom-[42px] z-10 flex flex-col items-center px-4">
+        {activeHeroIndex === 0 && (
+          <p className="mb-3 text-sm font-normal tracking-[-0.02em] text-white">
+            몇 가지 질문으로 당신만의 향 취향을 찾아드릴게요
+          </p>
+        )}
         {activeSlide.to ? (
           <Link
             className={`flex h-[42px] w-full max-w-[263px] items-center justify-center rounded-cta border-[0.5px] border-off-white/60 bg-off-white/15 px-10 text-center text-base font-medium leading-none tracking-[-0.02em] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-[10px] backdrop-saturate-150 ${activeSlide.ctaClassName}`}
@@ -372,54 +422,168 @@ function HeroSection() {
   );
 }
 
-function TodaysScentSection() {
+const recordDays = [
+  { day: "Mon", date: "6", image: assets.recordTomFord, type: "image" },
+  { day: "Tue", date: "7", image: assets.recordByredo, type: "mask" },
+  { day: "Wed", date: "8", image: assets.recordByredo, type: "mask" },
+  { day: "Thu", date: "9", image: assets.recordDiptyque, type: "mask" },
+  {
+    day: "Fri",
+    date: "10",
+    image: assets.recordFriday,
+    type: "image",
+    muted: true,
+  },
+  { day: "Sat", date: "11", image: assets.recordMissDior, type: "mask" },
+  {
+    day: "Sun",
+    date: "12",
+    image: assets.recordSunday,
+    type: "image",
+    accent: true,
+  },
+];
+
+function RecordSection() {
   return (
-    <section className="px-5" data-node-id={figmaNode.todaysScent}>
-      <SectionTitle moreHref="/chatbot?intent=recommend" moreLabel="찾아보기" title="TODAY'S Scent" />
-      <div className="mt-[30px] flex min-h-[258px] items-start justify-between gap-4">
-        <div className="shrink-0 pt-1">
-          <p className="text-xl font-bold leading-none tracking-[-0.02em] text-off-black">비 온 뒤의 숲</p>
-          <p className="mt-1.5 text-base font-medium leading-none tracking-[-0.02em] text-off-black">
-            오늘의 무드를 담은 향
-          </p>
+    <section className="px-5" data-node-id={figmaNode.record}>
+      <SectionTitle
+        moreHref="/mypage/perfumes"
+        title="Record"
+        subtitle={
+          <>
+            이번주 <span className="text-point-orange">5일</span> 기록했어요
+          </>
+        }
+      />
+      <div className="mt-4 flex flex-col gap-[14px]" data-node-id="1575:20750">
+        <div
+          className="flex items-center justify-between"
+          data-node-id="1575:20751"
+        >
+          {recordDays.map((item) => (
+            <div className="flex flex-col items-center gap-1.5" key={item.day}>
+              <span
+                className={`text-xs font-semibold ${item.accent ? "text-point-orange" : "text-grey"}`}
+              >
+                {item.day}
+              </span>
+              <div className="relative flex size-10 items-end justify-center pb-1.5">
+                {item.type === "mask" ? (
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-off-black"
+                    style={{
+                      WebkitMaskImage: `url("${item.image}")`,
+                      WebkitMaskPosition: "center",
+                      WebkitMaskRepeat: "no-repeat",
+                      WebkitMaskSize: "contain",
+                      maskImage: `url("${item.image}")`,
+                      maskPosition: "center",
+                      maskRepeat: "no-repeat",
+                      maskSize: "contain",
+                    }}
+                  />
+                ) : (
+                  <img
+                    alt=""
+                    className="absolute inset-0 size-10"
+                    src={item.image}
+                  />
+                )}
+                <span
+                  className={`relative text-xs font-semibold ${
+                    item.accent
+                      ? "text-point-orange"
+                      : item.muted
+                        ? "text-grey"
+                        : "text-white"
+                  }`}
+                >
+                  {item.date}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
-        <img
-          alt=""
-          className="aspect-[215/258] w-[55%] max-w-[215px] rounded-card object-cover"
-          src={assets.scentForest}
-        />
       </div>
     </section>
   );
 }
 
-function ChallengeCard({
-  card,
-}: {
-  card: (typeof challengeCards)[number];
-}) {
+function HotReviewSection() {
+  const reviews = [
+    {
+      image: assets.hotReviewOne,
+      brand: "JO MALONE LONDON",
+      name: "블랙베리 앤 베이 30ml",
+    },
+    { image: assets.hotReviewTwo, brand: "CHANEL", name: "N°5 오 드 빠르펭" },
+  ];
+
   return (
-    <article className="relative flex h-[340px] w-[190px] shrink-0 flex-col items-center justify-center gap-4 overflow-hidden rounded-card border-[0.5px] border-light-grey bg-off-white px-3.5 py-6">
-      <div className="flex flex-col items-center gap-2">
-        <p className="max-w-[150px] truncate text-xs font-medium leading-none tracking-[-0.02em] text-off-black">
-          {card.title}
-        </p>
-        <span className="h-px w-5 bg-off-black" />
+    <section className="px-5" data-node-id={figmaNode.hotReview}>
+      <div data-node-id="1810:18374">
+        <SectionTitle
+          moreHref="/mypage/reviews"
+          subtitle="오늘의 핫리뷰"
+          title="Review"
+        />
       </div>
+      <div className="-mr-5 mt-[30px] overflow-x-auto no-scrollbar">
+        <div className="flex w-max gap-2.5 pr-5">
+          {reviews.map((review) => (
+            <article
+              className="relative flex h-[300px] w-[245px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl p-5 text-white"
+              key={review.name}
+            >
+              <img
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover"
+                src={review.image}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-off-black/55 via-transparent to-off-black/5" />
+              <div className="relative">
+                <p className="text-xs font-medium">{review.brand}</p>
+                <p className="mt-1 text-xl font-bold">{review.name}</p>
+              </div>
+              <div className="relative">
+                <p className="text-sm opacity-85">파우더리한 플로럴 향</p>
+                <p className="text-sm opacity-85">#포근함 #플로럴</p>
+                <Link
+                  className="mt-3 flex items-center gap-1 text-sm font-medium"
+                  to="/magazine"
+                >
+                  전체보기 <ChevronRight size={18} />
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ChallengeCard({ card }: { card: (typeof challengeCards)[number] }) {
+  return (
+    <article className="relative flex w-[230px] shrink-0 flex-col items-center gap-[26px] overflow-hidden rounded-card border-[0.5px] border-light-grey bg-off-white px-4 py-[22px]">
+      <p className="max-w-full truncate text-xl font-medium leading-[normal] tracking-[-0.02em] text-off-black">
+        {card.title}
+      </p>
       <div className="relative h-[190px] w-full rounded-[9px]">
-        <img alt="" className="h-full w-full rounded-[9px] object-cover" src={card.image} />
-        <span className="absolute left-1/2 top-[-7px] flex w-[50px] -translate-x-1/2 justify-center rounded-full bg-black px-1.5 py-0.5 font-cormorant text-[8px] font-bold leading-none text-off-white">
+        <img
+          alt=""
+          className="absolute inset-0 h-full w-full rounded-[9px] object-cover"
+          src={card.image}
+        />
+        <span className="absolute left-1/2 top-[-8.5px] -translate-x-1/2 rounded-full bg-off-black px-3 py-1 font-cormorant text-sm font-bold leading-[normal] text-off-white">
           {card.eyebrow}
         </span>
       </div>
-      <div className="flex w-full flex-col gap-2 text-xs font-medium leading-none tracking-[-0.02em] text-off-black">
-        <div className="flex items-center justify-between px-0.5">
-          <span>07</span>
-          <span className="h-px w-[120px] bg-off-black" />
-          <span>11</span>
-        </div>
-        <p className="truncate">
-          {card.isRecord ? (
+      <div className="flex w-full flex-col gap-2.5">
+        <p className="min-w-full truncate text-base font-medium leading-[normal] tracking-[-0.02em] text-off-black">
+          {card.record ? (
             <>
               이번 주 <span className="text-point-orange">2일</span> 기록했어요
             </>
@@ -427,26 +591,15 @@ function ChallengeCard({
             card.body
           )}
         </p>
-        {card.isRecord ? (
-          <div className="flex items-center justify-between px-0.5">
-            {Array.from({ length: 7 }).map((_, index) => (
-              <span
-                className={`size-2 rounded-full border border-off-black ${
-                  index < 2 ? "bg-point-orange border-point-orange" : index === 3 ? "bg-off-black" : "bg-off-white"
-                }`}
-                key={index}
-              />
-            ))}
-          </div>
-        ) : card.to ? (
+        {card.to ? (
           <Link
-            className="text-center text-xs font-medium leading-none tracking-[-0.02em] text-point-orange underline"
+            className="text-xs font-medium leading-[normal] tracking-[-0.02em] text-point-orange underline"
             to={card.to}
           >
             참여하기
           </Link>
         ) : (
-          <p className="text-center text-xs font-medium leading-none tracking-[-0.02em] text-point-orange underline">
+          <p className="text-xs font-medium leading-[normal] tracking-[-0.02em] text-point-orange underline">
             참여하기
           </p>
         )}
@@ -458,7 +611,8 @@ function ChallengeCard({
 function ChallengeSection() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { dragClassName, dragHandlers } = useHorizontalDragScroll(setScrollProgress);
+  const { dragClassName, dragHandlers } =
+    useHorizontalDragScroll(setScrollProgress);
 
   function handleIndicatorClick(progress: number) {
     const target = scrollContainerRef.current;
@@ -468,16 +622,25 @@ function ChallengeSection() {
     }
 
     const maxScrollLeft = target.scrollWidth - target.clientWidth;
-    target.scrollTo({ behavior: "smooth", left: (progress / 100) * maxScrollLeft });
+    target.scrollTo({
+      behavior: "smooth",
+      left: (progress / 100) * maxScrollLeft,
+    });
     setScrollProgress(progress);
   }
 
   return (
     <section className="px-5" data-node-id={figmaNode.challenge}>
-      <SectionTitle moreHref="/event/challenges" title="Challenge" subtitle="함께하는 챌린지로 꾸준함을 만들어요" />
+      <SectionTitle
+        moreHref="/event/challenges"
+        title="Challenge"
+        subtitle="함께하는 챌린지로 꾸준함을 만들어요"
+      />
       <div
         className={`mt-[30px] -mx-5 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${dragClassName}`}
-        onScroll={(event) => setScrollProgress(getHorizontalScrollProgress(event))}
+        onScroll={(event) =>
+          setScrollProgress(getHorizontalScrollProgress(event))
+        }
         ref={scrollContainerRef}
         {...dragHandlers}
       >
@@ -499,17 +662,25 @@ function ChallengeSection() {
 
 function RankSection() {
   const { dragClassName, dragHandlers } = useHorizontalDragScroll();
-  const [selectedRanks, setSelectedRanks] = useState(() => rankCards.map((item) => Boolean(item.selected)));
+  const [selectedRanks, setSelectedRanks] = useState(() =>
+    rankCards.map((item) => Boolean(item.selected)),
+  );
 
   function handleRankHeartToggle(index: number) {
     setSelectedRanks((currentRanks) =>
-      currentRanks.map((isSelected, currentIndex) => (currentIndex === index ? !isSelected : isSelected)),
+      currentRanks.map((isSelected, currentIndex) =>
+        currentIndex === index ? !isSelected : isSelected,
+      ),
     );
   }
 
   return (
     <section className="px-5" data-node-id={figmaNode.rank}>
-      <SectionTitle showMore title="TODAY'S Rank" subtitle="지금 가장 많은 사랑을 받는 향을 보여드려요" />
+      <SectionTitle
+        showMore
+        title="TODAY'S Rank"
+        subtitle="지금 가장 많은 사랑을 받는 향을 보여드려요"
+      />
       <div className="mt-[30px] flex items-center justify-between gap-5">
         <div className="flex flex-nowrap gap-1.5">
           {tabs.map((tab, index) => (
@@ -552,7 +723,8 @@ function RankSection() {
 function MagazineSection() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { dragClassName, dragHandlers } = useHorizontalDragScroll(setScrollProgress);
+  const { dragClassName, dragHandlers } =
+    useHorizontalDragScroll(setScrollProgress);
 
   function handleIndicatorClick(progress: number) {
     const target = scrollContainerRef.current;
@@ -562,16 +734,25 @@ function MagazineSection() {
     }
 
     const maxScrollLeft = target.scrollWidth - target.clientWidth;
-    target.scrollTo({ behavior: "smooth", left: (progress / 100) * maxScrollLeft });
+    target.scrollTo({
+      behavior: "smooth",
+      left: (progress / 100) * maxScrollLeft,
+    });
     setScrollProgress(progress);
   }
 
   return (
     <section className="px-5" data-node-id={figmaNode.magazine}>
-      <SectionTitle moreHref="/magazine" title="Magazine" subtitle="당신의 향을 이야기해요" />
+      <SectionTitle
+        moreHref="/magazine"
+        title="Magazine"
+        subtitle="당신의 향을 이야기해요"
+      />
       <div
         className={`mt-[30px] -mr-5 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${dragClassName}`}
-        onScroll={(event) => setScrollProgress(getHorizontalScrollProgress(event))}
+        onScroll={(event) =>
+          setScrollProgress(getHorizontalScrollProgress(event))
+        }
         ref={scrollContainerRef}
         {...dragHandlers}
       >
@@ -594,7 +775,11 @@ function MagazineSection() {
               className="relative h-[520px] w-[368px] shrink-0 overflow-hidden rounded-magazine"
               key={item.title}
             >
-              <img alt="" className="absolute inset-0 h-full w-full rounded-magazine object-cover" src={item.image} />
+              <img
+                alt=""
+                className="absolute inset-0 h-full w-full rounded-magazine object-cover"
+                src={item.image}
+              />
               <div className="absolute bottom-[142px] right-2.5 flex h-[94px] w-5 items-center justify-center">
                 <p
                   className={`rotate-90 whitespace-nowrap text-right font-cormorant text-base italic leading-none ${
@@ -606,12 +791,18 @@ function MagazineSection() {
               </div>
               <div
                 className={`absolute inset-x-2.5 bottom-2.5 flex flex-col gap-[30px] rounded-[20px] p-4 ${
-                  item.dark ? "bg-off-black-70 text-off-white" : "bg-off-white-70 text-off-black"
+                  item.dark
+                    ? "bg-off-black-70 text-off-white"
+                    : "bg-off-white-70 text-off-black"
                 }`}
               >
                 <div>
-                  <p className="truncate text-xl font-semibold leading-none tracking-[-0.02em]">{item.title}</p>
-                  <p className="mt-1.5 text-xs font-medium leading-none tracking-[-0.02em]">{item.body}</p>
+                  <p className="truncate text-xl font-semibold leading-none tracking-[-0.02em]">
+                    {item.title}
+                  </p>
+                  <p className="mt-1.5 text-xs font-medium leading-none tracking-[-0.02em]">
+                    {item.body}
+                  </p>
                 </div>
                 {item.to ? (
                   <Link
@@ -619,12 +810,20 @@ function MagazineSection() {
                     to={item.to}
                   >
                     전체보기
-                    <ChevronRight aria-hidden="true" size={20} strokeWidth={1.6} />
+                    <ChevronRight
+                      aria-hidden="true"
+                      size={20}
+                      strokeWidth={1.6}
+                    />
                   </Link>
                 ) : (
                   <div className="flex items-center gap-1 text-base font-medium leading-none tracking-[-0.02em]">
                     전체보기
-                    <ChevronRight aria-hidden="true" size={20} strokeWidth={1.6} />
+                    <ChevronRight
+                      aria-hidden="true"
+                      size={20}
+                      strokeWidth={1.6}
+                    />
                   </div>
                 )}
               </div>
@@ -643,18 +842,62 @@ function MagazineSection() {
 }
 
 function GiftSection() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { dragClassName, dragHandlers } =
+    useHorizontalDragScroll(setScrollProgress);
+  const giftSlides = [
+    {
+      image: assets.giftV2,
+      moreHref: "/chatbot?intent=gift",
+      moreLabel: "찾아보기",
+      subtitle: "AI챗봇과 함께 그 사람에게 꼭 맞는 향수를 찾아요",
+      title: "Gift",
+    },
+    {
+      image: assets.scentForest,
+      moreHref: "/chatbot?intent=recommend",
+      moreLabel: "추천받기",
+      subtitle: "AI 챗봇과 함께 오늘의 향수를 추천받아요",
+      title: "Recommendation",
+    },
+  ];
+
   return (
-    <section className="px-5" data-node-id={figmaNode.gift}>
-      <SectionTitle
-        subtitle="AI챗봇과 함께 그 사람에게 꼭 맞는 향수를 찾아요"
-        title="Gift"
-        moreHref="/chatbot?intent=gift"
-        moreLabel="찾아보기"
-      />
-      <img
-        alt=""
-        className="mt-[30px] h-[469px] w-full rounded-magazine object-cover"
-        src={assets.gift}
+    <section data-node-id={figmaNode.gift}>
+      <div
+        className={`overflow-x-auto overflow-y-hidden snap-x snap-mandatory no-scrollbar ${dragClassName}`}
+        onScroll={(event) =>
+          setScrollProgress(getHorizontalScrollProgress(event))
+        }
+        ref={scrollContainerRef}
+        {...dragHandlers}
+      >
+        <div className="flex w-max">
+          {giftSlides.map((slide) => (
+            <article
+              className="w-[min(430px,100vw)] shrink-0 snap-start px-5"
+              key={slide.title}
+            >
+              <SectionTitle
+                moreHref={slide.moreHref}
+                moreLabel={slide.moreLabel}
+                subtitle={slide.subtitle}
+                title={slide.title}
+              />
+              <img
+                alt=""
+                className="mt-[30px] h-[469px] w-full rounded-magazine object-cover"
+                src={slide.image}
+              />
+            </article>
+          ))}
+        </div>
+      </div>
+      <ScrollIndicator
+        className="mx-auto mt-3 w-[120px]"
+        position={scrollProgress}
+        thumbWidth={50}
       />
     </section>
   );
@@ -662,13 +905,20 @@ function GiftSection() {
 
 export function HomePage() {
   return (
-    <main className="min-h-dvh bg-black max-[430px]:bg-off-white" data-node-id={figmaNode.screen}>
+    <main
+      className="min-h-dvh bg-black max-[430px]:bg-off-white"
+      data-node-id={figmaNode.screen}
+    >
       <div className="relative mx-auto flex min-h-dvh w-full max-w-[430px] flex-col overflow-x-hidden bg-off-white">
         <HomeHeader />
-        <div className="wrap flex flex-1 flex-col gap-10 pb-[160px]" data-node-id={figmaNode.wrap}>
+        <div
+          className="wrap flex flex-1 flex-col gap-16 pb-[190px]"
+          data-node-id={figmaNode.wrap}
+        >
           <HeroSection />
-          <TodaysScentSection />
+          <RecordSection />
           <ChallengeSection />
+          <HotReviewSection />
           <RankSection />
           <MagazineSection />
           <GiftSection />
@@ -678,4 +928,3 @@ export function HomePage() {
     </main>
   );
 }
-

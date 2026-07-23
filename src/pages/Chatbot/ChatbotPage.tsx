@@ -1,6 +1,6 @@
 import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { brands } from "../../data/brands";
 import { fragranceFamilies } from "../../data/fragranceFamilies";
 import { perfumeData } from "../../data/perfumeData";
@@ -101,7 +101,6 @@ const INTENT_LABELS: Record<string, string> = {
 };
 
 export function ChatbotPage() {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const initialIntentHandled = useRef(false);
   const [turns, setTurns] = useState<Turn[]>([]);
@@ -516,7 +515,7 @@ export function ChatbotPage() {
   return (
     <main className="h-dvh bg-off-white text-off-black">
       <div className="mx-auto flex h-dvh w-full max-w-[430px] flex-col bg-off-white">
-        <ChatbotHeader onBack={() => navigate(-1)} />
+        <ChatbotHeader />
         <div className="flex flex-1 flex-col gap-10 overflow-y-auto px-5 pt-6 pb-6" ref={scrollRef}>
           <ChatbotIntro onChipClick={handleUserInput} />
 

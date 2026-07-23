@@ -1,9 +1,10 @@
 import { ChevronRight } from "lucide-react";
+import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 type SectionTitleProps = {
   title: string;
-  subtitle?: string;
+  subtitle?: ReactNode;
   moreHref?: string;
   moreLabel?: string;
   showMore?: boolean;

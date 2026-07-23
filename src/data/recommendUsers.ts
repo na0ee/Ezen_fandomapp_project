@@ -30,7 +30,7 @@ export const recommendUsers: RecommendUser[] = [
     id: "story-one",
     name: "ch1g0tn",
     badge: "LOVER",
-    mood: "Rain Walker",
+    mood: "Quiet Signature",
     description:
       "비 오는 날에 어울리는 차분한 향을 찾고 있어요.\n꾸민 듯 안 꾸민 듯 자연스럽게 남는 향이면 좋겠어요.",
     tags: ["#비오는날", "#꾸안꾸"],
@@ -44,7 +44,7 @@ export const recommendUsers: RecommendUser[] = [
     id: "story-two",
     name: "Jennie",
     badge: "LOVER",
-    mood: "Mood Shifter",
+    mood: "Soft Explorer",
     description:
       "여행지에서 오래 기억나는 향을 찾고 있어요.\n사진처럼 밤 공기와 잘 어울리는 향을 추천해주세요.",
     tags: ["#여행", "#예쁘다"],
@@ -64,7 +64,7 @@ export const recommendUsers: RecommendUser[] = [
     id: "story-three",
     name: "Juhoon",
     badge: "LOVER",
-    mood: "Mood Shifter",
+    mood: "Layer Maximalist",
     description:
       "안녕하세요 코르티즈 주훈입니다.\n오늘 저의 사진은 밤산책하다가 마틴이 형이 찍어줬어요!\n저랑 어울리는 향수 추천해주세요!",
     tags: ["#밤산책", "#향수추천"],
@@ -78,7 +78,7 @@ export const recommendUsers: RecommendUser[] = [
     id: "story-four",
     name: "nanana",
     badge: "EXPLORER",
-    mood: "Summer Chill",
+    mood: "Soft Explorer",
     description:
       "여름 저녁 한강 산책에 뿌릴 향을 찾고 있어요.\n가볍지만 너무 흔하지 않은 향이면 좋겠어요.",
     tags: ["#여름", "#서울한강"],
@@ -92,7 +92,7 @@ export const recommendUsers: RecommendUser[] = [
     id: "story-five",
     name: "nanana.",
     badge: "LOVER",
-    mood: "Easy Breezy",
+    mood: "Daily Basic",
     description:
       "햇빛 좋은 날 편하게 입는 룩에 맞는 향이 궁금해요.\n산뜻하고 오래 남는 향을 좋아합니다.",
     tags: ["#여름스웩", "#한산한날"],
@@ -106,7 +106,7 @@ export const recommendUsers: RecommendUser[] = [
     id: "story-six",
     name: "lalalala",
     badge: "COLLECTOR",
-    mood: "Soft Snow",
+    mood: "Quiet Signature",
     description:
       "겨울에 니트랑 같이 쓰기 좋은 포근한 향을 찾고 있어요.\n달콤함은 적고 깨끗한 느낌이면 좋겠어요.",
     tags: ["#겨울의향", "#하얀눈"],
@@ -120,7 +120,7 @@ export const recommendUsers: RecommendUser[] = [
     id: "story-seven",
     name: "scent.zip",
     badge: "LOVER",
-    mood: "Clean Note",
+    mood: "Daily Basic",
     description:
       "출근할 때 부담 없이 쓰는 향수를 찾고 있어요.\n비누 향보다는 맑고 정돈된 느낌이면 좋겠습니다.",
     tags: ["#출근향", "#클린"],
@@ -134,7 +134,7 @@ export const recommendUsers: RecommendUser[] = [
     id: "story-eight",
     name: "muskday",
     badge: "EXPLORER",
-    mood: "Warm Skin",
+    mood: "Quiet Signature",
     description:
       "머스크 계열을 좋아하는데 너무 파우더리하지 않았으면 해요.\n살냄새처럼 은은한 향을 추천해주세요.",
     tags: ["#머스크", "#살냄새"],
@@ -148,7 +148,7 @@ export const recommendUsers: RecommendUser[] = [
     id: "story-nine",
     name: "woody_00",
     badge: "COLLECTOR",
-    mood: "Deep Wood",
+    mood: "Bold Signature",
     description:
       "우디 향을 좋아하지만 묵직하기만 한 건 싫어요.\n차분하고 세련된 데일리 우디 향을 찾고 있습니다.",
     tags: ["#우디", "#데일리"],
@@ -159,24 +159,10 @@ export const recommendUsers: RecommendUser[] = [
     community: { posts: 30, reviews: 22, followers: 1040 },
   },
   {
-    id: "story-ten",
-    name: "citrusday",
-    badge: "LOVER",
-    mood: "Fresh Spark",
-    description:
-      "기분 전환용 시트러스 향을 찾고 있어요.\n첫 향은 상큼하고 잔향은 부드럽게 남았으면 좋겠습니다.",
-    tags: ["#시트러스", "#기분전환"],
-    date: "2026.08.12 17:55",
-    feedImages: [unsplash("photo-1504198453319-5ce911bafcde")],
-    profileImages: [unsplash("photo-1504198453319-5ce911bafcde")],
-    cta: "추천하러 가기",
-    community: { posts: 11, reviews: 6, followers: 220 },
-  },
-  {
     id: "katarina",
     name: "katarina",
     badge: "LOVER",
-    mood: "Soft Bloom",
+    mood: "Soft Explorer",
     description:
       "가볍고 화사한 플로럴 향을 찾고 있어요.\n너무 달지 않고 은은하게 남는 향이면 좋겠어요.",
     tags: ["#데일리향수", "#플로럴"],
@@ -190,7 +176,7 @@ export const recommendUsers: RecommendUser[] = [
     id: "3an",
     name: "3an",
     badge: "COLLECTOR",
-    mood: "Velvet Night",
+    mood: "Layer Maximalist",
     description:
       "저녁 약속에 어울리는 분위기 있는 향을 찾고 있어요.\n따뜻하고 살짝 스파이시한 느낌이면 좋겠습니다.",
     tags: ["#우디", "#시크"],
@@ -204,7 +190,7 @@ export const recommendUsers: RecommendUser[] = [
     id: "yujin",
     name: "yujin",
     badge: "EXPLORER",
-    mood: "City Breeze",
+    mood: "Mood Shifter",
     description:
       "낮에 돌아다닐 때 부담 없는 향을 찾고 있어요.\n상큼하면서 깔끔하게 정돈된 향이면 좋겠어요.",
     tags: ["#시트러스", "#여름"],
@@ -218,7 +204,7 @@ export const recommendUsers: RecommendUser[] = [
     id: "by_sana",
     name: "by_sana",
     badge: "LOVER",
-    mood: "Night Glow",
+    mood: "Bold Signature",
     description:
       "밤에 어울리는 무드 있는 향을 찾고 있어요.\n머스크 베이스에 잔향이 오래 남는 향을 좋아합니다.",
     tags: ["#머스크", "#무드"],
@@ -232,7 +218,7 @@ export const recommendUsers: RecommendUser[] = [
     id: "yawn",
     name: "yawn",
     badge: "EXPLORER",
-    mood: "Cozy Trip",
+    mood: "Mood Shifter",
     description:
       "여행 갈 때 챙기기 좋은 포근한 향을 찾고 있어요.\n편안하면서 오래 기억에 남는 향이면 좋겠습니다.",
     tags: ["#포근한향", "#데일리"],
@@ -243,6 +229,17 @@ export const recommendUsers: RecommendUser[] = [
     community: { posts: 8, reviews: 4, followers: 140 },
   },
 ];
+
+export const shuffledRecommendUsers = (() => {
+  const items = [...recommendUsers];
+
+  for (let index = items.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [items[index], items[randomIndex]] = [items[randomIndex], items[index]];
+  }
+
+  return items;
+})();
 
 export function findRecommendUser(id: string | undefined) {
   return recommendUsers.find((user) => user.id === id) ?? recommendUsers[0];

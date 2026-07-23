@@ -1,8 +1,10 @@
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import CommunityQuestion from "./pages/Community/Community_Question";
+import CommunityHotReviews from "./pages/Community/Community_HotReviews";
 import CommunitySelect from "./pages/Community/Community_Select";
 import CommunityWrite from "./pages/Community/Community_Write";
+import CommunityQuestionWrite from "./pages/Community/Community_Question_Write";
 import { CommunityPage } from "./pages/Community/CommunityPage";
 import { EventPage } from "./pages/EventPage";
 import { HomePage } from "./pages/HomePage";
@@ -21,8 +23,9 @@ import MyPage from "./pages/Mypage/MyPage";
 import MyPerfumePage from "./pages/MyPerfumePage";
 import MyReviewsPage from "./pages/MyReviewsPage";
 import MyWishlistPage from "./pages/MyWishlistPage";
-import SearchResults from "./pages/SearchResults";
 import Category from "./pages/Category";
+import SearchResults from "./pages/SearchResults";
+import PerfumeDetailPage from "./pages/PerfumeDetailPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import { RecommendationFeedPage } from "./pages/RecommendationFeedPage";
 import { ChallengeListPage } from "./pages/ChallengeListPage";
@@ -37,8 +40,10 @@ import Onboarding4 from "./pages/Onboarding/Onboarding_4";
 import Onboarding5 from "./pages/Onboarding/Onboarding_5";
 import OnboardingLoading from "./pages/Onboarding/Onboarding_loading";
 import OnboardingResults from "./pages/Onboarding/Onboarding_results";
-import { hasCompletedOnboarding } from "./pages/Onboarding/onboardingStorage";
+import { completeOnboarding, hasCompletedOnboarding } from "./pages/Onboarding/onboardingStorage";
 import { NotificationPage } from "./pages/NotificationPage";
+
+const isInitialHomeVisit = window.location.pathname === "/";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -58,7 +63,15 @@ function ScrollToTop() {
 }
 
 function HomeEntry() {
-  return hasCompletedOnboarding() ? <HomePage /> : <Navigate to="/onboarding/1" replace />;
+  const shouldOpenHome = hasCompletedOnboarding() || !isInitialHomeVisit;
+
+  useEffect(() => {
+    if (!isInitialHomeVisit) {
+      completeOnboarding();
+    }
+  }, []);
+
+  return shouldOpenHome ? <HomePage /> : <Navigate to="/onboarding/1" replace />;
 }
 
 export default function App() {
@@ -74,10 +87,12 @@ export default function App() {
         <Route path="/event/raffles" element={<RaffleListPage />} />
         <Route path="/event/raffles/:raffleId" element={<RaffleDetailPage />} />
         <Route path="/event/recommend-profile/:profileId" element={<UserProfilePage />} />
-        <Route path="/community" element={<CommunityPage />} />
+      <Route path="/community" element={<CommunityPage />} />
+      <Route path="/community/hot-reviews" element={<CommunityHotReviews />} />
         <Route path="/community/question" element={<CommunityQuestion />} />
         <Route path="/community/select" element={<CommunitySelect />} />
         <Route path="/community/write" element={<CommunityWrite />} />
+        <Route path="/community/question/write" element={<CommunityQuestionWrite />} />
         <Route path="/magazine" element={<MagazinePage />} />
         <Route path="/magazine/byredo" element={<MagazineByredo />} />
         <Route path="/magazine/diptyque" element={<MagazineDiptyque />} />
@@ -101,8 +116,9 @@ export default function App() {
         <Route path="/mypage/perfumes" element={<MyPerfumePage />} />
         <Route path="/mypage/wishlist" element={<MyWishlistPage />} />
         <Route path="/mypage/reviews" element={<MyReviewsPage />} />
-        <Route path="/search-results" element={<SearchResults />} />
         <Route path="/category" element={<Category />} />
+        <Route path="/search-results" element={<SearchResults />} />
+        <Route path="/perfume/:id" element={<PerfumeDetailPage />} />
         <Route path="/notifications" element={<NotificationPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

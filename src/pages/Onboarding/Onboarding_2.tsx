@@ -123,6 +123,7 @@ export default function Onboarding2() {
     }
 
     saveOnboardingSelection("moment", primaryMoment);
+    saveOnboardingSelection("moments", [...selectedMoments]);
     navigate("/onboarding/3");
   };
 

@@ -8,7 +8,7 @@ import checkCircle from "../../assets/onboarding/q5-check-circle.svg";
 import mobileSignal from "../../assets/onboarding/q5-mobile-signal.svg";
 import wifi from "../../assets/onboarding/q5-wifi.svg";
 import { CtaButton } from "../../components/ui/CtaButton";
-import { completeOnboarding } from "./onboardingStorage";
+import { completeOnboarding, saveOnboardingSelection } from "./onboardingStorage";
 
 type ApplicationMethod = "signature" | "layering";
 
@@ -82,6 +82,7 @@ export default function Onboarding5() {
       return;
     }
 
+    saveOnboardingSelection("method", selectedMethod);
     navigate("/onboarding/loading");
   };
 
