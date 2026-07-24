@@ -8,7 +8,7 @@ type QuickCategoryProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const variantStyles: Record<QuickCategoryVariant, string> = {
-  default: "border border-light-grey bg-off-white text-[#4d4d4d]",
+  default: "border border-light-grey bg-off-white text-subtext",
   selected: "border border-off-black bg-off-black text-off-white",
   under: "border border-light-grey bg-light2-grey text-grey",
 };

@@ -102,7 +102,7 @@ export default function Category() {
                 </button>
                 <input
                   aria-label="향수 검색어"
-                  className="min-w-0 flex-1 bg-transparent text-sm font-medium leading-none tracking-[-0.02em] text-off-black outline-none placeholder:text-subtext"
+                  className="min-w-0 flex-1 bg-transparent text-sm font-medium leading-none tracking-[-0.02em] text-subtext outline-none placeholder:text-subtext"
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="향수, 브랜드, 노트로 검색"
                   type="search"

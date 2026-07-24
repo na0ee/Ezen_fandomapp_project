@@ -142,7 +142,7 @@ function NotificationCard({
         </div>
 
         <div className="flex min-w-0 items-center">
-          <p className="min-w-0 flex-1 truncate text-sm font-medium leading-[normal] tracking-[-0.02em] text-[#4d4d4d]">
+          <p className="min-w-0 flex-1 truncate text-sm font-medium leading-[normal] tracking-[-0.02em] text-subtext">
             {item.description}
           </p>
         </div>

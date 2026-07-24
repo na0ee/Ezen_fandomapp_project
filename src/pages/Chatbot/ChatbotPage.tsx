@@ -22,7 +22,13 @@ type Chip = { label: string; variant?: "default" | "selected" };
 
 type Turn =
   | { id: string; kind: "user"; text: string }
-  | { id: string; kind: "bot"; lines: string[]; chips?: Chip[]; content?: ReactNode }
+  | {
+      id: string;
+      kind: "bot";
+      lines: string[];
+      chips?: Chip[];
+      content?: ReactNode;
+    }
   | { id: string; kind: "loading" };
 
 type BotTurnInput = Omit<Extract<Turn, { kind: "bot" }>, "id">;
@@ -33,7 +39,13 @@ type QuizStage = "family" | "season" | "intensity" | null;
 
 const TYPING_DELAY_MS = 800;
 
-const FALLBACK_LABELS = ["오늘의 향수 추천받기", "피드백하기", "가까운 매장 찾기", "향수 레이어링 추천", "딱 맞는 향수 선물 고르기"];
+const FALLBACK_LABELS = [
+  "오늘의 향수 추천받기",
+  "피드백하기",
+  "가까운 매장 찾기",
+  "향수 레이어링 추천",
+  "딱 맞는 향수 선물 고르기",
+];
 
 const MOOD_OPTIONS = [
   { label: "차분하게", familyId: "woody" },
@@ -65,18 +77,30 @@ function textMatches(input: string, trigger: string) {
   return a.includes(b) || b.includes(a);
 }
 
-function pickRandomPerfume(familyIds?: string[], season?: string): PerfumeEntry {
+function pickRandomPerfume(
+  familyIds?: string[],
+  season?: string,
+): PerfumeEntry {
   let pool = perfumeData;
   if (familyIds && familyIds.length > 0) {
     const seasonFamilyIds = season
-      ? fragranceFamilies.filter((family) => family.seasons.includes(season)).map((family) => family.id)
+      ? fragranceFamilies
+          .filter((family) => family.seasons.includes(season))
+          .map((family) => family.id)
       : null;
     const narrowed = perfumeData.filter((entry) =>
       entry.perfume.familyIds.some(
-        (id) => familyIds.includes(id) && (!seasonFamilyIds || seasonFamilyIds.includes(id)),
+        (id) =>
+          familyIds.includes(id) &&
+          (!seasonFamilyIds || seasonFamilyIds.includes(id)),
       ),
     );
-    pool = narrowed.length > 0 ? narrowed : perfumeData.filter((entry) => entry.perfume.familyIds.some((id) => familyIds.includes(id)));
+    pool =
+      narrowed.length > 0
+        ? narrowed
+        : perfumeData.filter((entry) =>
+            entry.perfume.familyIds.some((id) => familyIds.includes(id)),
+          );
     if (pool.length === 0) pool = perfumeData;
   }
   return pool[Math.floor(Math.random() * pool.length)];
@@ -89,7 +113,9 @@ function perfumeCardProps(entry: PerfumeEntry) {
     .filter((keyword): keyword is string => Boolean(keyword));
   return {
     brand: brand?.nameEn ?? brand?.name ?? "",
-    imageSrc: entry.perfume.image ? `${import.meta.env.BASE_URL}${entry.perfume.image.slice(1)}` : undefined,
+    imageSrc: entry.perfume.image
+      ? `${import.meta.env.BASE_URL}${entry.perfume.image.slice(1)}`
+      : undefined,
     keywords,
     name: entry.perfume.name,
   };
@@ -113,7 +139,12 @@ export function ChatbotPage() {
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const quickBarRef = useRef<HTMLDivElement>(null);
-  const quickBarDrag = useRef({ down: false, dragging: false, startX: 0, scrollLeft: 0 });
+  const quickBarDrag = useRef({
+    down: false,
+    dragging: false,
+    startX: 0,
+    scrollLeft: 0,
+  });
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -135,15 +166,30 @@ export function ChatbotPage() {
     state.down = false;
     state.dragging = false;
     element.classList.remove("is-dragging");
-    if (element.hasPointerCapture(event.pointerId)) element.releasePointerCapture(event.pointerId);
+    if (element.hasPointerCapture(event.pointerId))
+      element.releasePointerCapture(event.pointerId);
   };
 
-  const handleQuickBarPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (event.pointerType !== "mouse" || event.button !== 0 || !quickBarRef.current) return;
-    quickBarDrag.current = { down: true, dragging: false, startX: event.clientX, scrollLeft: quickBarRef.current.scrollLeft };
+  const handleQuickBarPointerDown = (
+    event: ReactPointerEvent<HTMLDivElement>,
+  ) => {
+    if (
+      event.pointerType !== "mouse" ||
+      event.button !== 0 ||
+      !quickBarRef.current
+    )
+      return;
+    quickBarDrag.current = {
+      down: true,
+      dragging: false,
+      startX: event.clientX,
+      scrollLeft: quickBarRef.current.scrollLeft,
+    };
   };
 
-  const handleQuickBarPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+  const handleQuickBarPointerMove = (
+    event: ReactPointerEvent<HTMLDivElement>,
+  ) => {
     const state = quickBarDrag.current;
     if (!state.down || !quickBarRef.current) return;
     if (event.buttons !== 1) {
@@ -163,7 +209,10 @@ export function ChatbotPage() {
   };
 
   function appendUserTurn(text: string) {
-    setTurns((prev) => [...prev, { id: crypto.randomUUID(), kind: "user", text }]);
+    setTurns((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), kind: "user", text },
+    ]);
   }
 
   function appendBotTurns(items: BotTurnInput[]): Promise<void> {
@@ -174,7 +223,10 @@ export function ChatbotPage() {
         setTurns((prev) => {
           const index = prev.findIndex((t) => t.id === loadingId);
           if (index === -1) return prev;
-          const resolved: Turn[] = items.map((item) => ({ id: crypto.randomUUID(), ...item }));
+          const resolved: Turn[] = items.map((item) => ({
+            id: crypto.randomUUID(),
+            ...item,
+          }));
           const next = [...prev];
           next.splice(index, 1, ...resolved);
           return next;
@@ -191,7 +243,10 @@ export function ChatbotPage() {
   async function respondToRecommend() {
     await appendBotTurn({
       kind: "bot",
-      lines: ["오늘의 향수를 고민하고 계시군요! ", "제가 가지고 있는 정보인 날씨 기반으로 추천해드릴까요?"],
+      lines: [
+        "오늘의 향수를 고민하고 계시군요! ",
+        "제가 가지고 있는 정보인 날씨 기반으로 추천해드릴까요?",
+      ],
       chips: [
         { label: "코디 등록하기" },
         { label: "날씨 기반 추천받기", variant: "selected" },
@@ -212,14 +267,20 @@ export function ChatbotPage() {
     await appendBotTurn({
       kind: "bot",
       lines: [`${weather.label} 날씨에 어울리는 향수로 골라봤어요.`],
-      content: <ChatPerfumeCard {...perfumeCardProps(pickRandomPerfume([weather.familyId]))} />,
+      content: (
+        <ChatPerfumeCard
+          {...perfumeCardProps(pickRandomPerfume([weather.familyId]))}
+        />
+      ),
     });
   }
 
   async function respondToStoreSearch() {
     await appendBotTurn({
       kind: "bot",
-      lines: ["방문하고 싶은 브랜드나 방문 목적을 알려주시면 가장 적합한 매장을 추천해드릴게요."],
+      lines: [
+        "방문하고 싶은 브랜드나 방문 목적을 알려주시면 가장 적합한 매장을 추천해드릴게요.",
+      ],
     });
   }
 
@@ -227,7 +288,10 @@ export function ChatbotPage() {
     const store = storeLocations[brand.id];
     await appendBotTurn({
       kind: "bot",
-      lines: [`${brand.name} 매장을 방문하고 싶으시군요!`, "현재 위치에서는 이 매장이 가장 가까워요."],
+      lines: [
+        `${brand.name} 매장을 방문하고 싶으시군요!`,
+        "현재 위치에서는 이 매장이 가장 가까워요.",
+      ],
       content: store ? <LocCard {...store} /> : undefined,
     });
   }
@@ -236,7 +300,10 @@ export function ChatbotPage() {
     setAwaiting("feedback");
     await appendBotTurn({
       kind: "bot",
-      lines: ["앱을 사용하면서 느낀 점을 들려주세요.", "불편했던 점이나 개선 아이디어를 자유롭게 남겨주세요."],
+      lines: [
+        "앱을 사용하면서 느낀 점을 들려주세요.",
+        "불편했던 점이나 개선 아이디어를 자유롭게 남겨주세요.",
+      ],
     });
     inputRef.current?.focus();
   }
@@ -244,7 +311,10 @@ export function ChatbotPage() {
   async function respondToFeedbackThanks() {
     await appendBotTurn({
       kind: "bot",
-      lines: ["소중한 의견 감사합니다!", "남겨주신 내용은 더 나은 서비스를 만드는 데 꼼꼼히 참고할게요."],
+      lines: [
+        "소중한 의견 감사합니다!",
+        "남겨주신 내용은 더 나은 서비스를 만드는 데 꼼꼼히 참고할게요.",
+      ],
     });
   }
 
@@ -252,7 +322,10 @@ export function ChatbotPage() {
     setAwaiting("layering");
     await appendBotTurn({
       kind: "bot",
-      lines: ["함께 사용하고 싶은 향수가 있나요?", "향수 이름을 알려주시면 잘 어울리는 조합을 찾아드릴게요."],
+      lines: [
+        "함께 사용하고 싶은 향수가 있나요?",
+        "향수 이름을 알려주시면 잘 어울리는 조합을 찾아드릴게요.",
+      ],
     });
     inputRef.current?.focus();
   }
@@ -280,7 +353,10 @@ export function ChatbotPage() {
     setAwaiting("gift");
     await appendBotTurn({
       kind: "bot",
-      lines: ["선물할 사람의 분위기와 취향을 알려주세요!", "상대에게 어울릴 만한 향수를 레이가 대신 골라드릴게요."],
+      lines: [
+        "선물할 사람의 분위기와 취향을 알려주세요!",
+        "상대에게 어울릴 만한 향수를 레이가 대신 골라드릴게요.",
+      ],
     });
     inputRef.current?.focus();
   }
@@ -307,7 +383,10 @@ export function ChatbotPage() {
   async function respondToOutfitAsk() {
     await appendBotTurn({
       kind: "bot",
-      lines: ["같은 코디라도 원하는 분위기에 따라 향수가 달라질 수 있어요.", "오늘 연출하고 싶은 분위기를 선택해 주세요."],
+      lines: [
+        "같은 코디라도 원하는 분위기에 따라 향수가 달라질 수 있어요.",
+        "오늘 연출하고 싶은 분위기를 선택해 주세요.",
+      ],
       chips: MOOD_OPTIONS.map((mood) => ({ label: mood.label })),
     });
   }
@@ -316,7 +395,11 @@ export function ChatbotPage() {
     await appendBotTurn({
       kind: "bot",
       lines: [`${mood.label} 어울리는 향수로 골라봤어요.`],
-      content: <ChatPerfumeCard {...perfumeCardProps(pickRandomPerfume([mood.familyId]))} />,
+      content: (
+        <ChatPerfumeCard
+          {...perfumeCardProps(pickRandomPerfume([mood.familyId]))}
+        />
+      ),
     });
   }
 
@@ -326,7 +409,10 @@ export function ChatbotPage() {
     setQuizSeason(null);
     await appendBotTurn({
       kind: "bot",
-      lines: ["조금 더 정확한 추천을 위해 몇 가지 질문을 시작할게요.", "평소 취향에 가까운 답을 선택해 주세요."],
+      lines: [
+        "조금 더 정확한 추천을 위해 몇 가지 질문을 시작할게요.",
+        "평소 취향에 가까운 답을 선택해 주세요.",
+      ],
       chips: fragranceFamilies.map((family) => ({ label: family.keyword })),
     });
   }
@@ -334,7 +420,10 @@ export function ChatbotPage() {
   async function respondToQuizSeasonAsk() {
     await appendBotTurn({
       kind: "bot",
-      lines: ["좋아요! 취향을 조금씩 알아가고 있어요.", "다음 질문도 가장 마음에 가까운 답을 선택해 주세요."],
+      lines: [
+        "좋아요! 취향을 조금씩 알아가고 있어요.",
+        "다음 질문도 가장 마음에 가까운 답을 선택해 주세요.",
+      ],
       chips: SEASON_OPTIONS.map((season) => ({ label: season })),
     });
   }
@@ -342,7 +431,10 @@ export function ChatbotPage() {
   async function respondToQuizIntensityAsk() {
     await appendBotTurn({
       kind: "bot",
-      lines: ["좋아요, 이제 취향의 윤곽이 보이기 시작했어요.", "조금만 더 알아볼게요!"],
+      lines: [
+        "좋아요, 이제 취향의 윤곽이 보이기 시작했어요.",
+        "조금만 더 알아볼게요!",
+      ],
       chips: INTENSITY_OPTIONS.map((intensity) => ({ label: intensity })),
     });
   }
@@ -351,16 +443,33 @@ export function ChatbotPage() {
     await appendBotTurns([
       {
         kind: "bot",
-        lines: ["모든 답변이 완료됐어요!", "지금까지의 선택을 바탕으로 잘 어울리는 향수를 찾아볼게요."],
+        lines: [
+          "모든 답변이 완료됐어요!",
+          "지금까지의 선택을 바탕으로 잘 어울리는 향수를 찾아볼게요.",
+        ],
       },
       {
         kind: "bot",
-        lines: ["답변에서 나타난 취향과 선호하는 분위기를 바탕으로 가장 잘 맞는 향수를 골라봤어요."],
-        content: <ChatPerfumeCard {...perfumeCardProps(pickRandomPerfume(quizFamilyId ? [quizFamilyId] : undefined, quizSeason ?? undefined))} />,
+        lines: [
+          "답변에서 나타난 취향과 선호하는 분위기를 바탕으로 가장 잘 맞는 향수를 골라봤어요.",
+        ],
+        content: (
+          <ChatPerfumeCard
+            {...perfumeCardProps(
+              pickRandomPerfume(
+                quizFamilyId ? [quizFamilyId] : undefined,
+                quizSeason ?? undefined,
+              ),
+            )}
+          />
+        ),
       },
       {
         kind: "bot",
-        lines: ["추천 결과가 마음에 드셨나요?", "다른 분위기의 향수를 찾고 싶다면 문답을 다시 진행할 수 있어요."],
+        lines: [
+          "추천 결과가 마음에 드셨나요?",
+          "다른 분위기의 향수를 찾고 싶다면 문답을 다시 진행할 수 있어요.",
+        ],
         chips: [{ label: "문답 다시 진행하기" }],
       },
     ]);
@@ -369,7 +478,10 @@ export function ChatbotPage() {
   async function respondFallback() {
     await appendBotTurn({
       kind: "bot",
-      lines: ["죄송해요, 그건 제가 모르는 질문이에요. ", "대신 이런 건 답변해드릴 수 있어요."],
+      lines: [
+        "죄송해요, 그건 제가 모르는 질문이에요. ",
+        "대신 이런 건 답변해드릴 수 있어요.",
+      ],
       chips: FALLBACK_LABELS.map((label) => ({ label })),
     });
   }
@@ -390,7 +502,9 @@ export function ChatbotPage() {
     // active — clicking an old chip shouldn't get swallowed as an answer to
     // an unrelated question that's currently pending.
     if (quizStage === "family") {
-      const family = fragranceFamilies.find((f) => textMatches(text, f.keyword));
+      const family = fragranceFamilies.find((f) =>
+        textMatches(text, f.keyword),
+      );
       if (family) {
         setQuizFamilyId(family.id);
         setQuizStage("season");
@@ -451,7 +565,10 @@ export function ChatbotPage() {
       respondToOutfitAsk();
       return;
     }
-    if (textMatches(text, "더 정확한 추천을 위한 문답 진행하기") || textMatches(text, "문답 다시 진행하기")) {
+    if (
+      textMatches(text, "더 정확한 추천을 위한 문답 진행하기") ||
+      textMatches(text, "문답 다시 진행하기")
+    ) {
       resetConversationState();
       respondToQuizStart();
       return;
@@ -484,7 +601,9 @@ export function ChatbotPage() {
       return;
     }
 
-    const brand = brands.find((b) => textMatches(text, b.name) || textMatches(text, b.nameEn));
+    const brand = brands.find(
+      (b) => textMatches(text, b.name) || textMatches(text, b.nameEn),
+    );
     if (brand) {
       resetConversationState();
       respondToBrand(brand);
@@ -516,13 +635,19 @@ export function ChatbotPage() {
     <main className="h-dvh bg-off-white text-off-black">
       <div className="mx-auto flex h-dvh w-full max-w-[430px] flex-col bg-off-white">
         <ChatbotHeader />
-        <div className="flex flex-1 flex-col gap-10 overflow-y-auto px-5 pt-6 pb-6" ref={scrollRef}>
+        <div
+          className="flex flex-1 flex-col gap-10 overflow-y-auto px-5 pt-6 pb-6"
+          ref={scrollRef}
+        >
           <ChatbotIntro onChipClick={handleUserInput} />
 
           {turns.map((turn) => {
             if (turn.kind === "loading") {
               return (
-                <div className="flex w-full items-start gap-[13px]" key={turn.id}>
+                <div
+                  className="flex w-full items-start gap-[12 px]"
+                  key={turn.id}
+                >
                   <CharacterLay />
                   <ChatBubble variant="loading" />
                 </div>
@@ -533,7 +658,12 @@ export function ChatbotPage() {
                 {turn.text}
               </ChatBubble>
             ) : (
-              <BotTurn chips={turn.chips} key={turn.id} lines={turn.lines} onChipClick={handleUserInput}>
+              <BotTurn
+                chips={turn.chips}
+                key={turn.id}
+                lines={turn.lines}
+                onChipClick={handleUserInput}
+              >
                 {turn.content}
               </BotTurn>
             );
@@ -571,7 +701,9 @@ export function ChatbotPage() {
             inputRef={inputRef}
             onChange={(event) => setInputValue(event.target.value)}
             onSend={() => handleUserInput(inputValue)}
-            placeholder={awaiting ? "답변을 입력해 주세요" : "무엇이든지 물어보세요!"}
+            placeholder={
+              awaiting ? "답변을 입력해 주세요" : "무엇이든지 물어보세요!"
+            }
             value={inputValue}
           />
         </div>

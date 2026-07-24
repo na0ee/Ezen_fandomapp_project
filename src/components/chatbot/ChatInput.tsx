@@ -37,11 +37,11 @@ export function ChatInput({
 
   return (
     <div
-      className={`flex h-[50px] w-full items-center gap-[15px] rounded-[32px] pl-4 pr-[9px] ${variantStyles[resolvedVariant]} ${className}`}
+      className={`flex h-[50px] w-full items-center gap-[16px] rounded-[32px] pl-4 pr-[9px] ${variantStyles[resolvedVariant]} ${className}`}
       data-chatbot-component="ChatInput"
     >
       <input
-        className="h-[23px] min-w-0 flex-1 bg-transparent font-pretendard text-[18px] font-normal leading-[23px] tracking-[-0.02em] text-off-black outline-none placeholder:text-[#4d4d4d]"
+        className="h-[23px] min-w-0 flex-1 bg-transparent font-pretendard text-[18px] font-normal leading-[23px] tracking-[-0.02em] text-subtext outline-none placeholder:text-subtext"
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         ref={inputRef}
@@ -49,7 +49,7 @@ export function ChatInput({
       />
       <button
         aria-label="메시지 보내기"
-        className="flex size-8 shrink-0 items-center justify-center text-off-black disabled:text-grey"
+        className="flex size-8 shrink-0 items-center justify-center text-subtext disabled:text-subtext"
         disabled={props.disabled}
         onClick={onSend}
         type="button"

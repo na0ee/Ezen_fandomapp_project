@@ -47,7 +47,10 @@ function CommunityTabs() {
   return (
     <div className="border-b-[0.8px] border-light-grey bg-off-white px-5">
       <nav className="flex items-start gap-6 pt-4" aria-label="커뮤니티 메뉴">
-        <Link className="flex h-[30px] items-start justify-center" to="/community">
+        <Link
+          className="flex h-[30px] items-start justify-center"
+          to="/community"
+        >
           <span className="whitespace-nowrap text-base font-medium leading-normal tracking-[-0.02em] text-grey">
             후기 · 리뷰
           </span>
@@ -65,7 +68,13 @@ function CommunityTabs() {
   );
 }
 
-function FilterTabs({ activeFilter, onChange }: { activeFilter: BoardFilter; onChange: (filter: BoardFilter) => void }) {
+function FilterTabs({
+  activeFilter,
+  onChange,
+}: {
+  activeFilter: BoardFilter;
+  onChange: (filter: BoardFilter) => void;
+}) {
   const filters: { id: BoardFilter; label: string }[] = [
     { id: "all", label: "모아보기" },
     { id: "qna", label: "Q&A" },
@@ -80,7 +89,9 @@ function FilterTabs({ activeFilter, onChange }: { activeFilter: BoardFilter; onC
           <button
             aria-pressed={isActive}
             className={`rounded-full px-[14px] py-2 text-xs font-medium tracking-[-0.02em] ${
-              isActive ? "bg-off-black text-off-white" : "border-[0.8px] border-light-grey text-grey"
+              isActive
+                ? "bg-off-black text-off-white"
+                : "border-[0.8px] border-light-grey text-grey"
             }`}
             key={filter.id}
             onClick={() => onChange(filter.id)}
@@ -117,18 +128,28 @@ function QuestionCard({
     <article className="flex w-full flex-col items-end justify-center gap-5 rounded-[16px] border-[0.5px] border-light-grey bg-off-white p-4">
       {profile && (
         <div className="flex w-full items-center gap-2.5">
-          <img className="size-[42px] rounded-full object-cover" src={profile.avatar} alt="" />
-          <div className="flex flex-col gap-[3px]">
+          <img
+            className="size-[42px] rounded-full object-cover"
+            src={profile.avatar}
+            alt=""
+          />
+          <div className="flex flex-col">
             <span className="text-base font-medium leading-normal tracking-[-0.02em] text-off-black">
               {profile.name}
             </span>
-            <span className="text-xs leading-normal tracking-[-0.02em] text-grey">{profile.time}</span>
+            <span className="text-xs leading-normal tracking-[-0.02em] text-grey">
+              {profile.time}
+            </span>
           </div>
         </div>
       )}
       <div className="flex w-full flex-col gap-1.5">
-        <h2 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">{title}</h2>
-        <p className="text-sm leading-[1.4] tracking-[-0.02em] text-[#4d4d4d]">{description}</p>
+        <h2 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">
+          {title}
+        </h2>
+        <p className="text-sm leading-[1.4] tracking-[-0.02em] text-subtext">
+          {description}
+        </p>
       </div>
       <div className="flex items-center gap-4">
         <span className="flex items-center gap-1 text-xs font-medium tracking-[-0.02em] text-off-black">
@@ -154,7 +175,12 @@ function QuestionCard({
           {replies}
         </button>
       </div>
-      {isCommentsOpen && <CommentSheet onClose={() => setIsCommentsOpen(false)} threadId={threadId} />}
+      {isCommentsOpen && (
+        <CommentSheet
+          onClose={() => setIsCommentsOpen(false)}
+          threadId={threadId}
+        />
+      )}
     </article>
   );
 }
@@ -205,7 +231,13 @@ function PollOption({
   );
 }
 
-function PollChoice({ label, onSelect }: { label: string; onSelect: () => void }) {
+function PollChoice({
+  label,
+  onSelect,
+}: {
+  label: string;
+  onSelect: () => void;
+}) {
   return (
     <button
       className="flex h-[52px] w-full items-center rounded-lg border-[0.8px] border-light-grey p-4 text-left text-sm font-medium leading-[1.4] tracking-[-0.02em] text-off-black"
@@ -256,14 +288,24 @@ function PollCard({
         </span>
         {showProfile ? (
           <div className="flex items-center gap-2.5">
-            <img className="size-[42px] rounded-full object-cover" src={avatarYeeun} alt="" />
-            <div className="flex flex-col gap-[3px]">
-              <span className="text-base font-medium leading-normal tracking-[-0.02em] text-off-black">예은티비</span>
-              <span className="text-xs leading-normal tracking-[-0.02em] text-grey">5분 전</span>
+            <img
+              className="size-[42px] rounded-full object-cover"
+              src={avatarYeeun}
+              alt=""
+            />
+            <div className="flex flex-col">
+              <span className="text-base font-medium leading-normal tracking-[-0.02em] text-off-black">
+                예은티비
+              </span>
+              <span className="text-xs leading-normal tracking-[-0.02em] text-grey">
+                5분 전
+              </span>
             </div>
           </div>
         ) : (
-          <p className="text-sm leading-[1.4] tracking-[-0.02em] text-[#4d4d4d]">익명의 향덕</p>
+          <p className="text-sm leading-[1.4] tracking-[-0.02em] text-subtext">
+            익명의 향덕
+          </p>
         )}
         <h2 className="text-lg font-semibold leading-normal tracking-[-0.02em] text-off-black">
           {title}
@@ -289,8 +331,14 @@ function PollCard({
           </>
         ) : (
           <>
-            <PollChoice label={options[0]} onSelect={() => setSelectedPoll(options[0])} />
-            <PollChoice label={options[1]} onSelect={() => setSelectedPoll(options[1])} />
+            <PollChoice
+              label={options[0]}
+              onSelect={() => setSelectedPoll(options[0])}
+            />
+            <PollChoice
+              label={options[1]}
+              onSelect={() => setSelectedPoll(options[1])}
+            />
           </>
         )}
       </div>
@@ -300,21 +348,35 @@ function PollCard({
 
 export default function CommunityQuestion() {
   const [activeFilter, setActiveFilter] = useState<BoardFilter>("all");
-  const visibleCards = activeFilter === "all"
-    ? questionCards
-    : questionCards.filter((card) => card.category === activeFilter);
+  const visibleCards =
+    activeFilter === "all"
+      ? questionCards
+      : questionCards.filter((card) => card.category === activeFilter);
 
   return (
-    <PageLayout title="커뮤니티" headerAction={<HeaderActions showSearch={false} showWrite writeTo="/community/question/write" />} headerTitleClassName="!text-2xl !font-semibold !leading-[1.08] !tracking-[-0.03em]" contentClassName="gap-0">
+    <PageLayout
+      title="커뮤니티"
+      headerAction={
+        <HeaderActions
+          showSearch={false}
+          showWrite
+          writeTo="/community/question/write"
+        />
+      }
+      headerTitleClassName="!text-2xl !font-semibold !leading-[1.08] !tracking-[-0.03em]"
+      contentClassName="gap-0"
+    >
       <CommunityTabs />
       <div className="px-5 pt-6 pb-8">
         <section className="flex flex-col gap-4">
           <FilterTabs activeFilter={activeFilter} onChange={setActiveFilter} />
-          {visibleCards.length > 0 && <div className="flex flex-col gap-3">
-            {visibleCards.map((card) => (
-              <QuestionCard key={card.title} {...card} />
-            ))}
-          </div>}
+          {visibleCards.length > 0 && (
+            <div className="flex flex-col gap-3">
+              {visibleCards.map((card) => (
+                <QuestionCard key={card.title} {...card} />
+              ))}
+            </div>
+          )}
         </section>
         {activeFilter !== "free" && (
           <div className={activeFilter === "qna" ? "mt-4" : "mt-16"}>
@@ -322,7 +384,10 @@ export default function CommunityQuestion() {
               <PollCard
                 showProfile
                 title="출근할 때 뿌릴 향수, 어떤 게 더 좋을까요?"
-                options={["메종 마르지엘라 레이지 선데이 모닝", "바이레도 블랑쉬"]}
+                options={[
+                  "메종 마르지엘라 레이지 선데이 모닝",
+                  "바이레도 블랑쉬",
+                ]}
               />
               <PollCard
                 title="여름용 데일리 향수, 어떤 게 더 좋을까요?"

@@ -119,7 +119,7 @@ export default function Onboarding5() {
                   <span className="w-full text-center text-lg font-normal leading-none tracking-[-0.02em] text-off-black">
                     {method.title}
                   </span>
-                  <span className="whitespace-nowrap text-xs font-normal leading-[normal] tracking-[-0.02em] text-[#4d4d4d]">
+                  <span className="whitespace-nowrap text-xs font-normal leading-[normal] tracking-[-0.02em] text-subtext">
                     {method.description}
                   </span>
 

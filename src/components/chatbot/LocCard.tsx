@@ -29,7 +29,7 @@ export function LocCard({ name, address, hours, phone, url, className = "", ...p
           <Phone className="text-grey" size={16} strokeWidth={1.8} />
           <Globe className="text-grey" size={16} strokeWidth={1.8} />
         </div>
-        <div className="flex min-w-0 flex-1 flex-col gap-2 font-pretendard text-sm font-medium tracking-[-0.02em] text-[#4d4d4d]">
+        <div className="flex min-w-0 flex-1 flex-col gap-2 font-pretendard text-sm font-medium tracking-[-0.02em] text-subtext">
           <p>{address}</p>
           <p>{hours}</p>
           <p>{phone}</p>
