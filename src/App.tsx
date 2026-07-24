@@ -21,6 +21,8 @@ import { QuestionPage } from "./pages/QuestionPage";
 import { ResultPage } from "./pages/ResultPage";
 import MyPage from "./pages/Mypage/MyPage";
 import MyPerfumePage from "./pages/MyPerfumePage";
+import MyPerfumeAddPage from "./pages/MyPerfumeAddPage";
+import MyPerfumeRecordPage from "./pages/MyPerfumeRecordPage";
 import MyReviewsPage from "./pages/MyReviewsPage";
 import MyWishlistPage from "./pages/MyWishlistPage";
 import Category from "./pages/Category";
@@ -114,6 +116,8 @@ export default function App() {
         <Route path="/result" element={<ResultPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/perfumes" element={<MyPerfumePage />} />
+        <Route path="/mypage/perfumes/new" element={<MyPerfumeAddPage />} />
+        <Route path="/mypage/perfumes/record" element={<MyPerfumeRecordPage />} />
         <Route path="/mypage/wishlist" element={<MyWishlistPage />} />
         <Route path="/mypage/reviews" element={<MyReviewsPage />} />
         <Route path="/category" element={<Category />} />
