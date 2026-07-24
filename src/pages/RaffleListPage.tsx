@@ -35,7 +35,7 @@ const raffleItems = [
     brand: "JO MALONE LONDON",
     name: "English Pear & Freesia",
     nameKo: "잉글리쉬 페어 앤 프리지아",
-    image: asset("/assets/perfume/jo-malone/english-pear-freesia.jpg"),
+    image: asset("/assets/perfume/jo-malone/english-pear-freesia.png"),
     state: "now",
   },
   {
@@ -43,7 +43,7 @@ const raffleItems = [
     brand: "DIPTYQUE",
     name: "Do Son",
     nameKo: "도 손",
-    image: asset("/assets/perfume/diptyque/do-son.jpg"),
+    image: asset("/assets/perfume/diptyque/do-son.png"),
     state: "now",
   },
   {
@@ -51,7 +51,7 @@ const raffleItems = [
     brand: "BYREDO",
     name: "Mojave Ghost",
     nameKo: "모하비 고스트",
-    image: asset("/assets/perfume/byredo/mojave-ghost.jpg"),
+    image: asset("/assets/perfume/byredo/mojave-ghost.png"),
     state: "now",
   },
   {
@@ -59,7 +59,7 @@ const raffleItems = [
     brand: "CHANEL",
     name: "Chance Eau Tendre",
     nameKo: "샹스 오 땅드르",
-    image: asset("/assets/perfume/chanel/chance-eau-tendre.jpg"),
+    image: asset("/assets/perfume/chanel/chance-eau-tendre.png"),
     state: "now",
   },
 ] as const;
@@ -85,10 +85,8 @@ function RaffleCard({
 
   return (
     <article className="flex h-[108px] w-full max-w-[390px] items-center gap-4 overflow-hidden rounded-[16px] border border-light-grey bg-off-white p-2">
-      <div className="relative size-[92px] shrink-0 overflow-hidden rounded-[12px] bg-light2-grey">
-        <div className="absolute left-1/2 top-1/2 h-[92px] w-[85.206px] -translate-x-1/2 -translate-y-1/2">
-          <img alt="" className="h-full w-full object-cover" src={item.image} />
-        </div>
+      <div className="relative flex size-[92px] shrink-0 items-center justify-center overflow-hidden rounded-[12px] bg-light2-grey">
+        <img alt="" className="max-h-[84px] max-w-[84px] object-contain" src={item.image} />
         {isBefore && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/45 text-center text-off-white">
             <span className="text-xs font-bold leading-none tracking-[-0.02em]">오늘</span>
