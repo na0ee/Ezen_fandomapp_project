@@ -35,6 +35,10 @@ import { ChatbotPage } from "./pages/Chatbot";
 import { RaffleListPage } from "./pages/RaffleListPage";
 import { RaffleDetailPage } from "./pages/RaffleDetailPage";
 import { OnboardingProgress } from "./components/onboarding/OnboardingProgress";
+import { ChallengeRewardCTA } from "./components/common/ChallengeRewardCTA";
+import OnboardingLogin from "./pages/Onboarding/Onboarding_login";
+import OnboardingProfile from "./pages/Onboarding/Onboarding_profile";
+import OnboardingSkip from "./pages/Onboarding/Onboarding_skip";
 import Onboarding1 from "./pages/Onboarding/Onboarding_1";
 import Onboarding2 from "./pages/Onboarding/Onboarding_2";
 import Onboarding3 from "./pages/Onboarding/Onboarding_3";
@@ -73,7 +77,7 @@ function HomeEntry() {
     }
   }, []);
 
-  return shouldOpenHome ? <HomePage /> : <Navigate to="/onboarding/1" replace />;
+  return shouldOpenHome ? <HomePage /> : <Navigate to="/onboarding/login" replace />;
 }
 
 export default function App() {
@@ -105,6 +109,9 @@ export default function App() {
         <Route path="/magazine/perfume-longevity" element={<MagazineLastingPower />} />
         <Route path="/magazine/seasonal-guide" element={<MagazineSeasonal />} />
         <Route path="/question" element={<QuestionPage />} />
+        <Route path="/onboarding/login" element={<OnboardingLogin />} />
+        <Route path="/onboarding/profile" element={<OnboardingProfile />} />
+        <Route path="/onboarding/skip" element={<OnboardingSkip />} />
         <Route path="/onboarding/1" element={<Onboarding1 />} />
         <Route path="/onboarding/2" element={<Onboarding2 />} />
         <Route path="/onboarding/3" element={<Onboarding3 />} />
@@ -126,6 +133,7 @@ export default function App() {
         <Route path="/notifications" element={<NotificationPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <ChallengeRewardCTA />
     </>
   );
 }

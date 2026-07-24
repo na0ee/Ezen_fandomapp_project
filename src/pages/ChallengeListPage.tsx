@@ -5,39 +5,13 @@ import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { BackHeader } from "../components/common/BackHeader";
 import { Chip } from "../components/ui/Chip";
+import {
+  CHALLENGE_REWARD_STORAGE_KEY,
+  setPendingChallengeReward,
+} from "../store/challengeReward";
+import type { PendingChallengeReward } from "../store/challengeReward";
 
-const CHALLENGE_REWARD_STORAGE_KEY = "layer:pendingChallengeReward";
 const COMPLETED_CHALLENGES_STORAGE_KEY = "layer:completedChallenges";
-
-type PendingChallengeReward = {
-  message: string;
-  title: string;
-};
-
-function extractPoints(description: string): number | null {
-  const matches = [...description.matchAll(/(\d+)p/g)].map((match) => Number(match[1]));
-
-  if (matches.length === 0) {
-    return null;
-  }
-
-  return Math.max(...matches);
-}
-
-function buildRewardMessage(title: string, description: string): string {
-  const points = extractPoints(description);
-
-  return points
-    ? `${title} 참여로 ${points}p가 적립되었습니다!`
-    : `${title} 참여로 포인트가 적립되었습니다!`;
-}
-
-function buildRewardPayload(title: string, description: string): string {
-  return JSON.stringify({
-    message: buildRewardMessage(title, description),
-    title,
-  });
-}
 
 function getStoredCompletedChallengeTitles(): string[] {
   const storedTitles = sessionStorage.getItem(COMPLETED_CHALLENGES_STORAGE_KEY);
@@ -85,6 +59,7 @@ const challengeItems = [
     title: "내 향수 등록하기",
     description: "내 보유향수 첫 등록 시 30p, 등록할 때 마다 5p씩",
     images: [{ src: assets.register, className: "absolute inset-0 h-full w-full object-cover" }],
+    to: "/mypage/perfumes",
   },
   {
     title: "향수 추천하기",
@@ -138,10 +113,7 @@ function ChallengeListCard({
           <Link
             className="shrink-0 rounded-chip bg-off-black px-3.5 py-[5px] text-xs font-normal leading-none tracking-[-0.02em] text-off-white"
             onClick={() =>
-              sessionStorage.setItem(
-                CHALLENGE_REWARD_STORAGE_KEY,
-                buildRewardPayload(item.title, item.description),
-              )
+              setPendingChallengeReward(item.title, item.description)
             }
             to={item.to}
           >

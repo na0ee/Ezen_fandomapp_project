@@ -263,7 +263,7 @@ export default function OnboardingResults() {
             {result.nameEn}
           </p>
 
-          <div className="mt-[6px] flex w-[263px] justify-center gap-[6px]">
+          <div className="mt-[6px] flex w-[263px] justify-start gap-[6px]">
             {result.hashtags.map((tag) => (
               <span
                 className="rounded-[30px] bg-black px-2.5 py-[4px] font-geist text-[10px] font-normal leading-[normal] tracking-[-0.02em] text-white"
