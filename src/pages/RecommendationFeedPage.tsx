@@ -395,7 +395,7 @@ function RecommendationDetailSheet({
               className="size-[42px] rounded-full object-cover"
               src={item.avatar}
             />
-            <div className="flex flex-col gap-[3px] leading-none">
+            <div className="flex flex-col leading-none">
               <p className="text-base font-medium tracking-[-0.02em] text-off-black">
                 {item.nickname}
               </p>
