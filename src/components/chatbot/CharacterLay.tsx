@@ -1,14 +1,14 @@
 import type { HTMLAttributes } from "react";
 import { useState } from "react";
 import characterLayImage from "../../assets/chatbot/character-lay.png";
-import characterLayVideo from "../../assets/chatbot/character_ani_transparent.webm";
+import characterLayAnimation from "../../assets/chatbot/character_ani_transparent.webp";
 
 type CharacterLayProps = HTMLAttributes<HTMLDivElement> & {
   animated?: boolean;
 };
 
 export function CharacterLay({ animated = false, className = "", ...props }: CharacterLayProps) {
-  const [videoFailed, setVideoFailed] = useState(false);
+  const [animationFailed, setAnimationFailed] = useState(false);
 
   return (
     <div
@@ -18,19 +18,14 @@ export function CharacterLay({ animated = false, className = "", ...props }: Cha
       aria-label="챗봇 레이 캐릭터"
       {...props}
     >
-      {animated && !videoFailed ? (
+      {animated && !animationFailed ? (
         <>
-          <video
+          <img
+            alt=""
             aria-hidden="true"
-            autoPlay
             className="h-full w-full object-contain motion-reduce:hidden"
-            loop
-            muted
-            onError={() => setVideoFailed(true)}
-            playsInline
-            poster={characterLayImage}
-            preload="metadata"
-            src={characterLayVideo}
+            onError={() => setAnimationFailed(true)}
+            src={characterLayAnimation}
           />
           <img
             alt=""
