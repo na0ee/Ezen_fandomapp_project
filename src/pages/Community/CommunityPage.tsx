@@ -504,7 +504,7 @@ export function Post({ index }: { index: number }) {
               <div className="flex items-center gap-2 rounded-lg border-[0.8px] border-light-grey bg-white p-2">
                 <span className="flex size-8 items-center justify-center overflow-hidden rounded-[6px] bg-[#ededed]">
                   <img
-                    className="h-[39px] w-[36px] object-cover"
+                    className="max-h-[30px] max-w-[30px] object-contain"
                     src={productOverlayThumbnail}
                     alt=""
                   />

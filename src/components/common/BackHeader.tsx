@@ -35,7 +35,9 @@ export function BackHeader({ title, backTo, action, icon = "back" }: BackHeaderP
           </button>
         )}
         {title && (
-          <h1 className="ml-1 truncate text-xl font-medium leading-[normal] tracking-[-0.02em]">{title}</h1>
+          <h1 className="ml-1 truncate text-xl font-medium leading-[normal] tracking-[-0.02em]">
+            {title}
+          </h1>
         )}
       </div>
       {action}

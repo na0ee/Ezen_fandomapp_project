@@ -1,5 +1,5 @@
 ﻿import { useEffect, useRef, useState } from "react";
-import type { DragEvent, MouseEvent, UIEvent } from "react";
+import type { DragEvent, MouseEvent, PointerEvent, UIEvent } from "react";
 import { ChevronRight, SlidersHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
 import { BottomNavigation } from "../components/common/BottomNavigation";
@@ -338,11 +338,59 @@ function HomeHeader() {
 
 function HeroSection() {
   const [activeHeroIndex, setActiveHeroIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const dragStartX = useRef<number | null>(null);
   const activeSlide = heroSlides[activeHeroIndex];
   const activeProgress = ((activeHeroIndex + 1) / heroSlides.length) * 100;
-  const trackStyle = { transform: `translateX(-${activeHeroIndex * 100}%)` };
+  const trackStyle = {
+    transform: `translateX(calc(-${activeHeroIndex * 100}% + ${dragOffset}px))`,
+  };
+
+  function goToIndex(index: number) {
+    const count = heroSlides.length;
+    setActiveHeroIndex(((index % count) + count) % count);
+  }
+
+  function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
+    dragStartX.current = event.clientX;
+    setIsDragging(true);
+    setDragOffset(0);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
+    if (dragStartX.current === null) {
+      return;
+    }
+    setDragOffset(event.clientX - dragStartX.current);
+  }
+
+  function handlePointerUp(event: PointerEvent<HTMLDivElement>) {
+    if (dragStartX.current === null) {
+      return;
+    }
+
+    const delta = event.clientX - dragStartX.current;
+    const threshold = (event.currentTarget.offsetWidth || 1) * 0.2;
+
+    if (delta <= -threshold) {
+      goToIndex(activeHeroIndex + 1);
+    } else if (delta >= threshold) {
+      goToIndex(activeHeroIndex - 1);
+    }
+
+    dragStartX.current = null;
+    setIsDragging(false);
+    setDragOffset(0);
+    event.currentTarget.releasePointerCapture(event.pointerId);
+  }
 
   useEffect(() => {
+    if (isDragging) {
+      return;
+    }
+
     const timer = window.setInterval(() => {
       setActiveHeroIndex(
         (currentIndex) => (currentIndex + 1) % heroSlides.length,
@@ -350,7 +398,7 @@ function HeroSection() {
     }, 4200);
 
     return () => window.clearInterval(timer);
-  }, []);
+  }, [isDragging]);
 
   return (
     <section
@@ -358,7 +406,13 @@ function HeroSection() {
       data-node-id={figmaNode.hero}
     >
       <div
-        className="flex h-full w-full transition-transform duration-500 ease-out"
+        className={`flex h-full w-full touch-pan-y ${
+          isDragging ? "cursor-grabbing" : "cursor-grab transition-transform duration-500 ease-out"
+        }`}
+        onPointerCancel={handlePointerUp}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
         style={trackStyle}
       >
         {heroSlides.map((slide) => (
@@ -370,6 +424,7 @@ function HeroSection() {
             <img
               alt=""
               className={`absolute max-w-none object-cover ${slide.imageClassName}`}
+              draggable={false}
               src={slide.image}
             />
             <div className={`absolute inset-0 ${slide.overlayClassName}`} />
@@ -457,7 +512,7 @@ function RecordSection() {
           </>
         }
       />
-      <div className="mt-4 flex flex-col gap-[14px]" data-node-id="1575:20750">
+      <div className="mt-[30px] flex flex-col gap-[14px]" data-node-id="1575:20750">
         <div
           className="flex items-center justify-between"
           data-node-id="1575:20751"

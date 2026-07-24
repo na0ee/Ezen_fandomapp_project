@@ -8,7 +8,10 @@ import checkCircle from "../../assets/onboarding/q5-check-circle.svg";
 import mobileSignal from "../../assets/onboarding/q5-mobile-signal.svg";
 import wifi from "../../assets/onboarding/q5-wifi.svg";
 import { CtaButton } from "../../components/ui/CtaButton";
-import { completeOnboarding, saveOnboardingSelection } from "./onboardingStorage";
+import {
+  completeOnboarding,
+  saveOnboardingSelection,
+} from "./onboardingStorage";
 
 type ApplicationMethod = "signature" | "layering";
 
@@ -50,7 +53,11 @@ function StatusBar() {
           <img alt="" className="h-[13.13px] w-[19.695px]" src={mobileSignal} />
           <img alt="" className="h-[12.948px] w-[18.601px]" src={wifi} />
           <div className="relative h-[14.224px] w-[29.981px]">
-            <img alt="" className="absolute inset-y-0 left-0 h-full w-[27.351px]" src={batteryOutline} />
+            <img
+              alt=""
+              className="absolute inset-y-0 left-0 h-full w-[27.351px]"
+              src={batteryOutline}
+            />
             <img
               alt=""
               className="absolute right-0 top-[calc(50%+0.67px)] h-[4.618px] w-[1.533px] -translate-y-1/2"
@@ -70,7 +77,8 @@ function StatusBar() {
 
 export default function Onboarding5() {
   const navigate = useNavigate();
-  const [selectedMethod, setSelectedMethod] = useState<ApplicationMethod | null>(null);
+  const [selectedMethod, setSelectedMethod] =
+    useState<ApplicationMethod | null>(null);
 
   const finishOnboarding = () => {
     completeOnboarding();
@@ -109,7 +117,7 @@ export default function Onboarding5() {
                 <button
                   aria-label={`${method.title}${selected ? " 선택됨" : ""}`}
                   aria-pressed={selected}
-                  className={`relative flex h-[114px] w-full shrink-0 flex-col items-center justify-center gap-[19px] rounded-[15px] border bg-off-white ${
+                  className={`relative flex h-[114px] w-full shrink-0 flex-col items-center justify-center gap-[20px] rounded-[16px] border bg-off-white ${
                     selected ? "border-point-orange" : "border-off-black"
                   }`}
                   key={method.id}

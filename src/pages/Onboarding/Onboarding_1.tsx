@@ -68,11 +68,13 @@ export default function Onboarding1() {
         <StatusBar />
 
         <section className="absolute inset-x-0 top-[77px] flex h-[855px] flex-col items-center justify-between px-5 pb-[50px] pt-20">
-          <header className="flex flex-col items-center gap-2.5 whitespace-nowrap text-center text-off-black">
-            <p className="font-cormorant text-[26px] font-bold leading-[1.5] tracking-[-0.011em]">Q1.</p>
-            <h1 className="text-2xl font-medium leading-[1.08] tracking-[-0.03em]">
+          <header className="flex flex-col items-center gap-2.5 text-center">
+            <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em] text-off-black">
               현재 보유한 향수는 몇 병인가요?
             </h1>
+            <p className="whitespace-nowrap text-sm font-medium leading-[normal] tracking-[-0.02em] text-grey">
+              현재 가지고 있는 향수의 개수를 알려주세요
+            </p>
           </header>
 
           <div className="flex w-full flex-col items-start gap-2.5">

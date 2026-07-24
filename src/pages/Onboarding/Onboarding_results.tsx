@@ -13,7 +13,10 @@ import perfumeThree from "../../assets/onboarding/results-perfume-3.png";
 import uploadIcon from "../../assets/onboarding/results-upload.svg";
 import wifi from "../../assets/onboarding/results-wifi.svg";
 import { calculateDiagnosis } from "./diagnosis";
-import { completeOnboarding, getOnboardingDiagnosis } from "./onboardingStorage";
+import {
+  completeOnboarding,
+  getOnboardingDiagnosis,
+} from "./onboardingStorage";
 
 const recommendedPerfumes = [
   {
@@ -35,7 +38,10 @@ const recommendedPerfumes = [
 
 function StatusBar() {
   return (
-    <div aria-hidden="true" className="absolute inset-x-0 top-0 flex h-[65px] items-start justify-center bg-off-white">
+    <div
+      aria-hidden="true"
+      className="absolute inset-x-0 top-0 flex h-[65px] items-start justify-center bg-off-white"
+    >
       <div className="flex h-full min-w-0 flex-1 flex-col items-center justify-center pb-[3.282px] pl-[10.941px]">
         <span className="flex h-[22.977px] w-[59.084px] items-center justify-center pt-px font-sans text-[19.15px] font-semibold leading-[25.14px] tracking-[-0.3501px] text-off-black">
           9:41
@@ -51,7 +57,11 @@ function StatusBar() {
           <img alt="" className="h-[13.13px] w-[19.695px]" src={mobileSignal} />
           <img alt="" className="h-[12.948px] w-[18.601px]" src={wifi} />
           <div className="relative h-[14.224px] w-[29.981px]">
-            <img alt="" className="absolute inset-y-0 left-0 h-full w-[27.351px]" src={batteryOutline} />
+            <img
+              alt=""
+              className="absolute inset-y-0 left-0 h-full w-[27.351px]"
+              src={batteryOutline}
+            />
             <img
               alt=""
               className="absolute right-0 top-[calc(50%+0.67px)] h-[4.618px] w-[1.533px] -translate-y-1/2"
@@ -96,11 +106,19 @@ function PreferenceScale({
   );
 }
 
-function PerfumeCard({ image, name, brand }: (typeof recommendedPerfumes)[number]) {
+function PerfumeCard({
+  image,
+  name,
+  brand,
+}: (typeof recommendedPerfumes)[number]) {
   return (
     <article className="flex w-[156px] shrink-0 flex-col items-center justify-center gap-2.5">
       <div className="relative h-[156px] w-[156px] overflow-hidden rounded-lg bg-[#ededed]">
-        <img alt="" className="absolute inset-0 h-full w-full max-w-none object-cover" src={image} />
+        <img
+          alt=""
+          className="absolute inset-0 h-full w-full max-w-none object-cover"
+          src={image}
+        />
       </div>
       <div className="flex w-full flex-col items-center justify-center gap-1">
         <p className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-center text-sm font-normal leading-[normal] tracking-[-0.02em] text-off-black">
@@ -119,7 +137,11 @@ export default function OnboardingResults() {
   const diagnosis = calculateDiagnosis(getOnboardingDiagnosis());
   const { result } = diagnosis;
   const recommendationsRef = useRef<HTMLDivElement>(null);
-  const recommendationsDrag = useRef({ active: false, startX: 0, scrollLeft: 0 });
+  const recommendationsDrag = useRef({
+    active: false,
+    startX: 0,
+    scrollLeft: 0,
+  });
 
   const stopRecommendationsDrag = (event: PointerEvent<HTMLDivElement>) => {
     const scroller = recommendationsRef.current;
@@ -166,7 +188,8 @@ export default function OnboardingResults() {
 
     event.preventDefault();
     scroller.scrollLeft =
-      recommendationsDrag.current.scrollLeft - (event.clientX - recommendationsDrag.current.startX);
+      recommendationsDrag.current.scrollLeft -
+      (event.clientX - recommendationsDrag.current.startX);
   };
 
   const goToHome = () => {
@@ -195,33 +218,55 @@ export default function OnboardingResults() {
         <StatusBar />
 
         <header className="absolute left-0 top-[81px] flex w-[430px] items-end justify-between px-5 py-px">
-          <button aria-label="이전 화면" className="relative h-6 w-6 shrink-0" onClick={() => navigate("/onboarding/5")} type="button">
-            <img alt="" className="absolute inset-0 h-full w-full max-w-none" src={chevronLeft} />
+          <button
+            aria-label="이전 화면"
+            className="relative h-6 w-6 shrink-0"
+            onClick={() => navigate("/onboarding/5")}
+            type="button"
+          >
+            <img
+              alt=""
+              className="absolute inset-0 h-full w-full max-w-none"
+              src={chevronLeft}
+            />
           </button>
           <h1 className="absolute left-1/2 top-[-1px] w-[86px] -translate-x-1/2 text-center text-2xl font-semibold leading-[1.08] tracking-[-0.03em] text-off-black">
             유형 결과
           </h1>
-          <button aria-label="결과 공유하기" className="relative h-6 w-6 shrink-0" onClick={shareResults} type="button">
-            <img alt="" className="absolute inset-0 h-full w-full max-w-none" src={uploadIcon} />
+          <button
+            aria-label="결과 공유하기"
+            className="relative h-6 w-6 shrink-0"
+            onClick={shareResults}
+            type="button"
+          >
+            <img
+              alt=""
+              className="absolute inset-0 h-full w-full max-w-none"
+              src={uploadIcon}
+            />
           </button>
         </header>
 
         <div className="absolute left-[18px] top-[121px] h-[443px] w-[394px] overflow-hidden rounded-[15px]">
-          <img alt="" className="h-full w-full max-w-none rounded-[15px] object-cover" src={heroImage} />
+          <img
+            alt=""
+            className="h-full w-full max-w-none rounded-[15px] object-cover"
+            src={heroImage}
+          />
         </div>
 
         <section className="absolute left-[18px] top-[612px] w-[394px]">
           <p className="text-base font-medium leading-[normal] tracking-[-0.02em] text-off-black-70">
             {result.nameKo}
           </p>
-          <p className="mt-[5px] w-[275px] whitespace-nowrap text-center font-cormorant text-[54px] font-semibold italic leading-[normal] tracking-[-0.02em] text-off-black">
+          <p className="mt-[5px] w-[275px] whitespace-nowrap text-left font-cormorant text-[54px] font-semibold italic leading-[normal] tracking-[-0.02em] text-off-black">
             {result.nameEn}
           </p>
 
-          <div className="mt-[5px] flex w-[263px] justify-center gap-[5px]">
+          <div className="mt-[6px] flex w-[263px] justify-start gap-[6px]">
             {result.hashtags.map((tag) => (
               <span
-                className="rounded-[30px] bg-black px-2.5 py-[3px] font-geist text-[10px] font-normal leading-[normal] tracking-[-0.02em] text-white"
+                className="rounded-[30px] bg-black px-2.5 py-[4px] font-geist text-[10px] font-normal leading-[normal] tracking-[-0.02em] text-white"
                 key={tag}
               >
                 {tag}
@@ -233,15 +278,21 @@ export default function OnboardingResults() {
             {result.description}
           </p>
 
-          <div className="mt-[34px] flex flex-col gap-[33px]">
+          <div className="mt-[34px] flex flex-col gap-[32px]">
             <PreferenceScale
               leftLabel="은은함"
-              position={Math.max(4, Math.min(96, 50 + diagnosis.axisAScore * 10))}
+              position={Math.max(
+                4,
+                Math.min(96, 50 + diagnosis.axisAScore * 10),
+              )}
               rightLabel="확실함"
             />
             <PreferenceScale
               leftLabel="한결같음"
-              position={Math.max(4, Math.min(96, 50 + diagnosis.axisBScore * 8))}
+              position={Math.max(
+                4,
+                Math.min(96, 50 + diagnosis.axisBScore * 8),
+              )}
               rightLabel="탐험적"
             />
           </div>
@@ -249,8 +300,13 @@ export default function OnboardingResults() {
 
         <section className="absolute left-0 top-[947px] w-[430px] overflow-hidden pl-5">
           <div className="flex w-[390px] items-start justify-between">
-            <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em] text-off-black">추천 향수</h2>
-            <button className="flex items-center gap-1.5 text-sm font-medium leading-[normal] tracking-[-0.02em] text-grey" type="button">
+            <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em] text-off-black">
+              추천 향수
+            </h2>
+            <button
+              className="flex items-center gap-1.5 text-sm font-medium leading-[normal] tracking-[-0.02em] text-grey"
+              type="button"
+            >
               <span>더보기</span>
               <img alt="" className="h-[18px] w-[18px]" src={chevronRight} />
             </button>
@@ -283,8 +339,12 @@ export default function OnboardingResults() {
             onClick={goToHome}
             type="button"
           >
-            <span className="font-cormorant text-xl font-medium leading-[1.5] tracking-[-0.011em]">LAYER</span>
-            <span className="text-base font-medium leading-none tracking-[-0.02em]">에서 나만의 향수 찾기</span>
+            <span className="font-cormorant text-xl font-medium leading-[1.5] tracking-[-0.011em]">
+              LAYER
+            </span>
+            <span className="text-base font-medium leading-none tracking-[-0.02em]">
+              에서 나만의 향수 찾기
+            </span>
           </button>
           <button
             className="flex h-[50px] w-full items-center justify-center overflow-hidden rounded-[32px] border border-point-orange px-10 py-4 text-base font-medium leading-[normal] tracking-[-0.02em] text-point-orange"

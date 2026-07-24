@@ -632,7 +632,7 @@ export function ChatbotPage() {
   }
 
   return (
-    <main className="h-dvh bg-off-white text-off-black">
+    <main className="h-dvh bg-black text-off-black">
       <div className="mx-auto flex h-dvh w-full max-w-[430px] flex-col bg-off-white">
         <ChatbotHeader />
         <div
@@ -648,7 +648,7 @@ export function ChatbotPage() {
                   className="flex w-full items-start gap-[12 px]"
                   key={turn.id}
                 >
-                  <CharacterLay />
+                  <CharacterLay animated />
                   <ChatBubble variant="loading" />
                 </div>
               );

@@ -10,6 +10,7 @@ import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { Header } from "../components/common/Header";
 import { SectionTitle } from "../components/common/SectionTitle";
+import { setPendingChallengeReward } from "../store/challengeReward";
 import { shuffledRecommendUsers } from "../data/recommendUsers";
 import type { RecommendUser } from "../data/recommendUsers";
 
@@ -46,7 +47,7 @@ const challengeCards = [
     images: [assets.challengeRecord],
     description: "이번 주 2일 기록했어요",
     record: true,
-    to: "/mypage/perfumes",
+    to: "/mypage/perfumes/record",
   },
   {
     title: "커뮤니티 이용하기",
@@ -271,6 +272,7 @@ function ChallengeCard({ card }: { card: (typeof challengeCards)[number] }) {
         {card.to ? (
           <Link
             className="text-xs font-medium leading-[normal] tracking-[-0.02em] text-point-orange underline"
+            onClick={() => setPendingChallengeReward(card.title, card.description)}
             to={card.to}
           >
             참여하기
