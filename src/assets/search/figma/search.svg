@@ -1,6 +1,6 @@
 <svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="icon/search">
-<path id="Vector" d="M12.3333 20.6667C16.9357 20.6667 20.6667 16.9357 20.6667 12.3333C20.6667 7.73096 16.9357 4 12.3333 4C7.73096 4 4 7.73096 4 12.3333C4 16.9357 7.73096 20.6667 12.3333 20.6667Z" stroke="var(--stroke-0, #4D4D4D)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_2" d="M22.75 22.75L18.2188 18.2188" stroke="var(--stroke-0, #4D4D4D)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector" d="M12.3333 20.6667C16.9357 20.6667 20.6667 16.9357 20.6667 12.3333C20.6667 7.73096 16.9357 4 12.3333 4C7.73096 4 4 7.73096 4 12.3333C4 16.9357 7.73096 20.6667 12.3333 20.6667Z" stroke="var(--color-subtext, #4d4d4d)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M22.75 22.75L18.2188 18.2188" stroke="var(--color-subtext, #4d4d4d)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 </svg>
