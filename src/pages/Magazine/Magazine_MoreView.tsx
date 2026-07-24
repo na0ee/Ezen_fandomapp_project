@@ -114,7 +114,7 @@ function MagazineCard({
 
 export default function MagazineMoreView() {
   const [activeCategory, setActiveCategory] = useState<Category>("전체");
-  const [favoriteTitles, setFavoriteTitles] = useState(() => new Set(articles.map((article) => article.title)));
+  const [favoriteTitles, setFavoriteTitles] = useState(() => new Set<string>());
   const filteredArticles = useMemo(
     () => (activeCategory === "전체" ? articles : articles.filter((article) => article.categories.includes(activeCategory))),
     [activeCategory],
