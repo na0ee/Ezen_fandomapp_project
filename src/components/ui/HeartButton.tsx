@@ -7,7 +7,7 @@ type HeartButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 export function HeartButton({ className = "", iconSize = 24, isSelected, tone = "dark", ...props }: HeartButtonProps) {
-  const color = isSelected ? "#FF4800" : tone === "light" ? "#DDDDDD" : "#4D4D4D";
+  const color = isSelected ? "#FF4800" : tone === "light" ? "#DDDDDD" : "var(--color-subtext)";
 
   return (
     <button aria-label="찜하기" aria-pressed={isSelected} className={`cursor-pointer ${className}`} type="button" {...props}>

@@ -11,13 +11,18 @@ type BackHeaderProps = {
 
 export function BackHeader({ title, backTo, action }: BackHeaderProps) {
   const navigate = useNavigate();
-  const backButtonClassName = "-ml-1 flex size-[21px] shrink-0 items-center justify-center text-off-black";
+  const backButtonClassName =
+    "-ml-1 flex size-[21px] shrink-0 items-center justify-center text-off-black";
 
   return (
-    <header className="header fixed left-1/2 top-0 z-50 flex w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 py-[13px] pt-[calc(var(--app-safe-top)+13px)] text-off-black">
+    <header className="header fixed left-1/2 top-0 z-50 flex w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5 py-[12px] pt-[calc(var(--app-safe-top)+13px)] text-off-black">
       <div className="flex min-w-0 items-center">
         {backTo ? (
-          <Link aria-label="이전 페이지로 돌아가기" className={backButtonClassName} to={backTo}>
+          <Link
+            aria-label="이전 페이지로 돌아가기"
+            className={backButtonClassName}
+            to={backTo}
+          >
             <ChevronLeft aria-hidden="true" size={21} strokeWidth={1.7} />
           </Link>
         ) : (
@@ -31,7 +36,9 @@ export function BackHeader({ title, backTo, action }: BackHeaderProps) {
           </button>
         )}
         {title && (
-          <h1 className="ml-1 truncate text-xl font-medium leading-[normal] tracking-[-0.02em]">{title}</h1>
+          <h1 className="ml-1 truncate text-xl font-medium leading-[normal] tracking-[-0.02em]">
+            {title}
+          </h1>
         )}
       </div>
       {action}

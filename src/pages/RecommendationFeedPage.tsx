@@ -10,7 +10,8 @@ import { perfumeData } from "../data/perfumeData";
 import { shuffledRecommendUsers } from "../data/recommendUsers";
 import type { RecommendUser } from "../data/recommendUsers";
 
-const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+const asset = (path: string) =>
+  `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 
 const receivedRecommendationProfiles = [
   {
@@ -54,7 +55,9 @@ const receivedRecommendations = perfumeData.slice(0, 4).map((entry, index) => ({
   avatar: receivedRecommendationProfiles[index].avatar,
   image: asset(entry.perfume.image),
   detailImage:
-    index === 2 ? asset("/assets/figma/recommend-detail-perfume.png") : asset(entry.perfume.image),
+    index === 2
+      ? asset("/assets/figma/recommend-detail-perfume.png")
+      : asset(entry.perfume.image),
   scentDescription: entry.perfume.description,
 }));
 
@@ -84,7 +87,13 @@ function RecommendationHeader() {
   return <BackHeader title="향 추천하기" action={<HeaderActions />} />;
 }
 
-function TopTabs({ activeTab, onChange }: { activeTab: MainTab; onChange: (tab: MainTab) => void }) {
+function TopTabs({
+  activeTab,
+  onChange,
+}: {
+  activeTab: MainTab;
+  onChange: (tab: MainTab) => void;
+}) {
   return (
     <div className="sticky top-[54px] z-40 -mx-5 mb-5 flex h-[64px] items-start gap-2 bg-off-white px-5 pt-[34px]">
       {[
@@ -96,7 +105,9 @@ function TopTabs({ activeTab, onChange }: { activeTab: MainTab; onChange: (tab: 
         return (
           <button
             className={`h-[30px] rounded-full px-3.5 text-xs font-medium leading-none tracking-[-0.02em] ${
-              isActive ? "bg-off-black text-off-white" : "border border-light-grey bg-off-white text-off-black"
+              isActive
+                ? "bg-off-black text-off-white"
+                : "border border-light-grey bg-off-white text-off-black"
             }`}
             key={tab}
             onClick={() => onChange(tab as MainTab)}
@@ -118,7 +129,12 @@ function FeedCard({ item }: { item: RecommendUser }) {
       to={`/event/recommend-profile/${item.id}`}
     >
       {item.feedImages.map((image) => (
-        <img alt="" className="absolute inset-0 h-full w-full rounded-[10px] object-cover" key={image} src={image} />
+        <img
+          alt=""
+          className="absolute inset-0 h-full w-full rounded-[10px] object-cover"
+          key={image}
+          src={image}
+        />
       ))}
       <div className="pointer-events-none absolute inset-0 rounded-[10px] bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
       <span className="relative flex min-w-[102px] items-center justify-center rounded-[24px] bg-[rgba(26,26,26,0.5)] px-2.5 py-1">
@@ -127,9 +143,13 @@ function FeedCard({ item }: { item: RecommendUser }) {
         </span>
       </span>
       <div className="relative flex w-full flex-col items-start gap-2 text-off-white">
-        <p className="max-w-full truncate text-xl font-bold leading-[normal] tracking-[-0.02em]">{item.name}</p>
+        <p className="max-w-full truncate text-xl font-bold leading-[normal] tracking-[-0.02em]">
+          {item.name}
+        </p>
         <div className="flex items-center gap-1.5 text-light-grey">
-          <span className="text-sm font-medium leading-none tracking-[-0.02em]">{item.cta}</span>
+          <span className="text-sm font-medium leading-none tracking-[-0.02em]">
+            {item.cta}
+          </span>
           <ChevronRight aria-hidden="true" size={18} strokeWidth={1.6} />
         </div>
       </div>
@@ -151,15 +171,28 @@ function MyFeedHero() {
   return (
     <section className="-mx-5">
       <div className="relative h-[560px] w-full overflow-hidden bg-off-black text-off-white">
-        <img alt="" className="absolute inset-0 h-full w-full object-cover" src={myProfile.feedImages[0]} />
+        <img
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+          src={myProfile.feedImages[0]}
+        />
         <div className="absolute left-0 top-[-85px] h-[645px] w-full">
-          <img alt="" className="h-full w-full object-cover" src={myProfile.feedImages[1]} />
+          <img
+            alt=""
+            className="h-full w-full object-cover"
+            src={myProfile.feedImages[1]}
+          />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
         <div className="absolute inset-x-5 bottom-5">
           <div className="flex items-center gap-1">
             <span className="inline-flex h-[24px] items-center gap-0.5 rounded-full bg-black/20 pr-1.5 text-sm font-bold leading-none">
-              <img alt="" aria-hidden="true" className="size-[19px]" src={fireBadge} />
+              <img
+                alt=""
+                aria-hidden="true"
+                className="size-[19px]"
+                src={fireBadge}
+              />
               {myProfile.badge}
             </span>
             <span className="rounded-full bg-black/50 px-2.5 py-1 font-cormorant text-base font-bold leading-none text-light2-grey">
@@ -201,7 +234,9 @@ function RecommendationFilterTabs({
         return (
           <button
             className={`flex h-[30px] items-center justify-center gap-1.5 rounded-full px-3.5 text-xs font-medium tracking-[-0.02em] ${
-              isActive ? "bg-off-black text-off-white" : "border border-light-grey bg-off-white text-off-black"
+              isActive
+                ? "bg-off-black text-off-white"
+                : "border border-light-grey bg-off-white text-off-black"
             }`}
             key={tab.id}
             onClick={() => onChange(tab.id)}
@@ -210,10 +245,16 @@ function RecommendationFilterTabs({
             <span
               aria-hidden="true"
               className={`inline-flex size-3.5 shrink-0 items-center justify-center overflow-hidden rounded-full ${
-                isActive ? "bg-off-white text-off-black" : "bg-off-black text-off-white"
+                isActive
+                  ? "bg-off-white text-off-black"
+                  : "bg-off-black text-off-white"
               }`}
             >
-              {tab.id === "received" ? <RecommendationHeartIcon /> : <RecommendationActivityIcon />}
+              {tab.id === "received" ? (
+                <RecommendationHeartIcon />
+              ) : (
+                <RecommendationActivityIcon />
+              )}
             </span>
             {tab.label}
           </button>
@@ -225,7 +266,12 @@ function RecommendationFilterTabs({
 
 function RecommendationHeartIcon() {
   return (
-    <svg aria-hidden="true" className="size-3.5" fill="none" viewBox="0 0 14 14">
+    <svg
+      aria-hidden="true"
+      className="size-3.5"
+      fill="none"
+      viewBox="0 0 14 14"
+    >
       <path
         d="M10.1515 4.80599C9.96944 4.62381 9.75324 4.47929 9.51528 4.38069C9.27731 4.28209 9.02226 4.23134 8.76468 4.23134C8.5071 4.23134 8.25204 4.28209 8.01408 4.38069C7.77611 4.47929 7.55991 4.62381 7.37782 4.80599L6.99991 5.1839L6.62199 4.80599C6.25418 4.43817 5.75531 4.23154 5.23513 4.23154C4.71496 4.23154 4.21609 4.43817 3.84827 4.80599C3.48045 5.17381 3.27382 5.67268 3.27382 6.19285C3.27382 6.71303 3.48045 7.21189 3.84827 7.57971L4.22618 7.95762L6.99991 10.7313L9.77363 7.95762L10.1515 7.57971C10.3337 7.39762 10.4782 7.18141 10.5768 6.94345C10.6754 6.70549 10.7262 6.45043 10.7262 6.19285C10.7262 5.93527 10.6754 5.68021 10.5768 5.44225C10.4782 5.20429 10.3337 4.98809 10.1515 4.80599Z"
         stroke="currentColor"
@@ -238,7 +284,12 @@ function RecommendationHeartIcon() {
 
 function RecommendationActivityIcon() {
   return (
-    <svg aria-hidden="true" className="size-3.5" fill="none" viewBox="0 0 14 14">
+    <svg
+      aria-hidden="true"
+      className="size-3.5"
+      fill="none"
+      viewBox="0 0 14 14"
+    >
       <path
         d="M11.1667 7H9.5L8.25 10.75L5.75 3.25L4.5 7H2.83333"
         stroke="currentColor"
@@ -263,18 +314,22 @@ function RecommendationCard({
   const secondaryText = variant === "sent" ? item.perfume : item.nickname;
 
   return (
-    <article
-      className="flex h-[116px] w-full items-center gap-4 overflow-hidden rounded-[16px] border border-light2-grey bg-off-white p-2"
-    >
+    <article className="flex h-[116px] w-full items-center gap-4 overflow-hidden rounded-[16px] border border-light2-grey bg-off-white p-2">
       <div className="flex size-[100px] shrink-0 items-center justify-center overflow-hidden rounded-[12px] bg-light2-grey">
-        <img alt="" className="h-[76px] w-[76px] object-contain" src={item.image} />
+        <img
+          alt=""
+          className="h-[76px] w-[76px] object-contain"
+          src={item.image}
+        />
       </div>
       <div className="min-w-0 flex-1">
         <div className="flex min-w-0 items-center gap-1">
           <p className="truncate text-base font-semibold leading-none tracking-[-0.02em] text-off-black">
             {primaryText}
           </p>
-          <span className="shrink-0 text-xs font-medium leading-none tracking-[-0.02em] text-off-black">|</span>
+          <span className="shrink-0 text-xs font-medium leading-none tracking-[-0.02em] text-off-black">
+            |
+          </span>
           <p className="truncate text-xs font-medium leading-none tracking-[-0.02em] text-off-black">
             {secondaryText}
           </p>
@@ -286,7 +341,7 @@ function RecommendationCard({
           <button
             aria-haspopup="dialog"
             aria-label={`${item.perfume} 추천 상세 보기`}
-            className="mt-[17px] flex items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey"
+            className="mt-[16px] flex items-center gap-1.5 text-sm font-medium leading-none tracking-[-0.02em] text-grey"
             onClick={onOpen}
             type="button"
           >
@@ -340,9 +395,13 @@ function RecommendationDetailSheet({
               className="size-[42px] rounded-full object-cover"
               src={item.avatar}
             />
-            <div className="flex flex-col gap-[3px] leading-none">
-              <p className="text-base font-medium tracking-[-0.02em] text-off-black">{item.nickname}</p>
-              <p className="text-xs font-medium tracking-[-0.02em] text-grey">5분 전</p>
+            <div className="flex flex-col leading-none">
+              <p className="text-base font-medium tracking-[-0.02em] text-off-black">
+                {item.nickname}
+              </p>
+              <p className="text-xs font-medium tracking-[-0.02em] text-grey">
+                5분 전
+              </p>
             </div>
           </div>
           <button aria-label="추천 메뉴" className="size-6" type="button">
@@ -377,7 +436,7 @@ function RecommendationDetailSheet({
               </p>
             </div>
             <div className="flex items-center justify-between gap-2">
-              <p className="min-w-0 flex-1 truncate text-sm font-medium leading-[normal] tracking-[-0.02em] text-[#4d4d4d]">
+              <p className="min-w-0 flex-1 truncate text-sm font-medium leading-[normal] tracking-[-0.02em] text-subtext">
                 {item.scentDescription}
               </p>
               <button
@@ -413,11 +472,14 @@ function RecommendationDetailSheet({
 }
 
 function MyFeedContent() {
-  const [activeRecommendationTab, setActiveRecommendationTab] = useState<RecommendationTab>("received");
+  const [activeRecommendationTab, setActiveRecommendationTab] =
+    useState<RecommendationTab>("received");
   const [selectedRecommendation, setSelectedRecommendation] = useState<
     (typeof receivedRecommendations)[number] | null
   >(null);
-  const [savedRecommendationIds, setSavedRecommendationIds] = useState<Set<string>>(() => new Set());
+  const [savedRecommendationIds, setSavedRecommendationIds] = useState<
+    Set<string>
+  >(() => new Set());
   const list =
     activeRecommendationTab === "received"
       ? receivedRecommendations
@@ -432,7 +494,10 @@ function MyFeedContent() {
     <div className="flex flex-col gap-5">
       <MyFeedHero />
       <section className="flex flex-col gap-4">
-        <RecommendationFilterTabs activeTab={activeRecommendationTab} onChange={setActiveRecommendationTab} />
+        <RecommendationFilterTabs
+          activeTab={activeRecommendationTab}
+          onChange={setActiveRecommendationTab}
+        />
         <div className="flex flex-col gap-[10px]">
           {list.map((item) => (
             <RecommendationCard
@@ -445,7 +510,11 @@ function MyFeedContent() {
         </div>
       </section>
       <RecommendationDetailSheet
-        isSaved={selectedRecommendation ? savedRecommendationIds.has(selectedRecommendation.id) : false}
+        isSaved={
+          selectedRecommendation
+            ? savedRecommendationIds.has(selectedRecommendation.id)
+            : false
+        }
         item={selectedRecommendation}
         onClose={() => setSelectedRecommendation(null)}
         onSaveToggle={() => {

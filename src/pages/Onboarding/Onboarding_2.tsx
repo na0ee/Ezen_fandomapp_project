@@ -18,7 +18,10 @@ import travelImage from "../../assets/onboarding/travel.png";
 import wifi from "../../assets/onboarding/wifi.svg";
 import workSchoolImage from "../../assets/onboarding/work-school.png";
 import { CtaButton } from "../../components/ui/CtaButton";
-import { completeOnboarding, saveOnboardingSelection } from "./onboardingStorage";
+import {
+  completeOnboarding,
+  saveOnboardingSelection,
+} from "./onboardingStorage";
 
 type Moment = {
   id: string;
@@ -29,8 +32,18 @@ type Moment = {
 };
 
 const moments: Moment[] = [
-  { id: "travel", label: "여행", image: travelImage, imageClassName: "object-cover" },
-  { id: "sleep", label: "잠들기 전Zzz...", image: sleepImage, imageClassName: "object-bottom" },
+  {
+    id: "travel",
+    label: "여행",
+    image: travelImage,
+    imageClassName: "object-cover",
+  },
+  {
+    id: "sleep",
+    label: "잠들기 전Zzz...",
+    image: sleepImage,
+    imageClassName: "object-bottom",
+  },
   {
     id: "special-day",
     label: "특별한 날",
@@ -44,16 +57,36 @@ const moments: Moment[] = [
     backgroundImage: exerciseBaseImage,
     imageClassName: "object-cover",
   },
-  { id: "friends", label: "친구", image: friendsImage, imageClassName: "object-cover" },
-  { id: "home", label: "집에서", image: homeImage, imageClassName: "object-cover" },
-  { id: "date", label: "데이트", image: dateImage, imageClassName: "object-cover" },
+  {
+    id: "friends",
+    label: "친구",
+    image: friendsImage,
+    imageClassName: "object-cover",
+  },
+  {
+    id: "home",
+    label: "집에서",
+    image: homeImage,
+    imageClassName: "object-cover",
+  },
+  {
+    id: "date",
+    label: "데이트",
+    image: dateImage,
+    imageClassName: "object-cover",
+  },
   {
     id: "work-school",
     label: "출근 / 학교",
     image: workSchoolImage,
     imageClassName: "h-[140%] w-[112.04%] left-[-12.04%] top-[-29.48%]",
   },
-  { id: "refresh", label: "기분 전환", image: refreshImage, imageClassName: "object-cover" },
+  {
+    id: "refresh",
+    label: "기분 전환",
+    image: refreshImage,
+    imageClassName: "object-cover",
+  },
 ];
 
 function StatusBar() {
@@ -77,7 +110,11 @@ function StatusBar() {
           <img alt="" className="h-[13.13px] w-[19.695px]" src={mobileSignal} />
           <img alt="" className="h-[12.948px] w-[18.601px]" src={wifi} />
           <div className="relative h-[14.224px] w-[29.981px]">
-            <img alt="" className="absolute inset-y-0 left-0 right-[2.63px] h-full w-[27.351px]" src={batteryOutline} />
+            <img
+              alt=""
+              className="absolute inset-y-0 left-0 right-[2.63px] h-full w-[27.351px]"
+              src={batteryOutline}
+            />
             <img
               alt=""
               className="absolute right-0 top-[calc(50%+0.67px)] h-[4.618px] w-[1.533px] -translate-y-1/2"
@@ -98,7 +135,9 @@ function StatusBar() {
 export default function Onboarding2() {
   const navigate = useNavigate();
   const [primaryMoment, setPrimaryMoment] = useState<string | null>(null);
-  const [selectedMoments, setSelectedMoments] = useState(() => new Set<string>());
+  const [selectedMoments, setSelectedMoments] = useState(
+    () => new Set<string>(),
+  );
 
   const toggleMoment = (id: string) => {
     const next = new Set(selectedMoments);
@@ -137,7 +176,7 @@ export default function Onboarding2() {
       <div className="relative mx-auto min-h-[932px] w-full max-w-[430px] overflow-hidden bg-off-white">
         <StatusBar />
 
-        <section className="absolute inset-x-0 top-[77px] flex flex-col items-center px-[19px] pb-10 pt-[75px]">
+        <section className="absolute inset-x-0 top-[76px] flex flex-col items-center px-[20px] pb-10 pt-[76px]">
           <header className="flex flex-col items-center gap-2.5 text-center">
             <h1 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em] text-off-black">
               어떤 순간에 향수를 뿌리시나요?
@@ -167,12 +206,18 @@ export default function Onboarding2() {
                   >
                     <span className="absolute inset-0 overflow-hidden rounded-full">
                       {moment.backgroundImage && (
-                        <img alt="" className="absolute inset-0 h-full w-full object-bottom" src={moment.backgroundImage} />
+                        <img
+                          alt=""
+                          className="absolute inset-0 h-full w-full object-bottom"
+                          src={moment.backgroundImage}
+                        />
                       )}
                       <img
                         alt=""
                         className={`absolute max-w-none rounded-full ${moment.imageClassName ?? "object-cover"} ${
-                          moment.imageClassName?.includes("h-[") ? "" : "inset-0 h-full w-full"
+                          moment.imageClassName?.includes("h-[")
+                            ? ""
+                            : "inset-0 h-full w-full"
                         }`}
                         src={moment.image}
                       />

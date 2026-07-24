@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { ChevronLeft, Search } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { brands as brandList } from "../data/brands";
@@ -67,7 +67,7 @@ export default function Category() {
       <div className="flex min-h-full w-full flex-col items-center pb-[max(24px,env(safe-area-inset-bottom))]">
         <div className="flex w-full flex-col gap-4">
           <div className="sticky top-0 z-50 flex w-full flex-col gap-3 bg-off-white pt-[var(--app-safe-top)]">
-            <div className="flex w-full items-center gap-3 px-side py-[13px]">
+            <div className="flex w-full items-center gap-3 px-side py-[12px]">
               <button
                 aria-label="이전 페이지"
                 className="size-6 shrink-0"
@@ -102,7 +102,7 @@ export default function Category() {
                 </button>
                 <input
                   aria-label="향수 검색어"
-                  className="min-w-0 flex-1 bg-transparent text-sm font-medium leading-none tracking-[-0.02em] text-off-black outline-none placeholder:text-subtext"
+                  className="min-w-0 flex-1 bg-transparent text-sm font-medium leading-none tracking-[-0.02em] text-subtext outline-none placeholder:text-subtext"
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="향수, 브랜드, 노트로 검색"
                   type="search"
@@ -123,7 +123,9 @@ export default function Category() {
                       className="h-[54px] w-full rounded-[50px] border-[0.8px] border-light-grey bg-[#fff] text-xs leading-none tracking-[-0.02em] text-black"
                       key={scent}
                       onClick={() =>
-                        navigate(`/search-results?q=${encodeURIComponent(scent)}`)
+                        navigate(
+                          `/search-results?q=${encodeURIComponent(scent)}`,
+                        )
                       }
                       type="button"
                     >
@@ -143,7 +145,9 @@ export default function Category() {
                       className="h-[54px] w-full min-w-0 rounded-[50px] border-[0.8px] border-light-grey bg-[#fff] px-1 text-xs leading-none tracking-[-0.02em] text-black"
                       key={brand}
                       onClick={() =>
-                        navigate(`/search-results?q=${encodeURIComponent(brand)}`)
+                        navigate(
+                          `/search-results?q=${encodeURIComponent(brand)}`,
+                        )
                       }
                       type="button"
                     >

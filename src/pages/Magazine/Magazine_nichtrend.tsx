@@ -1,5 +1,4 @@
-
-
+import { useState } from "react";
 import contentGrowthImage from "../../assets/magazine/detail/content-growth.jpg";
 import heroImage from "../../assets/magazine/detail/hero.jpg";
 import introLeftImage from "../../assets/magazine/detail/intro-left.jpg";
@@ -11,6 +10,7 @@ import recommendationRightImage from "../../assets/magazine/detail/recommendatio
 
 import { BackHeader } from "../../components/common/BackHeader";
 import { HeaderActions } from "../../components/common/HeaderActions";
+import { HeartButton } from "../../components/ui/HeartButton";
 
 type ArticleTextProps = {
   body: string;
@@ -20,9 +20,9 @@ type ArticleTextProps = {
 
 function ArticleText({ body, bodyClassName = "w-full", title }: ArticleTextProps) {
   return (
-    <section className="flex w-full flex-col items-start gap-1 px-side text-black [word-break:break-word]">
-      <h2 className="w-full text-xl font-bold leading-[normal] tracking-[-0.02em]">{title}</h2>
-      <p className={`${bodyClassName} text-base font-medium leading-6 tracking-[-0.02em]`}>{body}</p>
+    <section className="flex w-full flex-col items-start gap-2.5 px-side text-off-black [word-break:break-word]">
+      <h2 className="w-full text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">{title}</h2>
+      <p className={`${bodyClassName} text-base font-medium leading-[1.4] tracking-[-0.02em]`}>{body}</p>
     </section>
   );
 }
@@ -34,21 +34,31 @@ function MagazineDetailHeader() {
 }
 
 function HeroSection() {
+  const [isSaved, setIsSaved] = useState(false);
+
   return (
-    <section className="flex w-full flex-col gap-2.5">
+    <section className="relative h-[537px] w-full">
       <div className="relative h-[536px] w-full overflow-hidden bg-off-white">
         <img
           alt="꽃과 향수로 얼굴을 표현한 니치 향수 화보"
           className="pointer-events-none absolute top-[-57px] left-0 h-[752.5px] w-full object-cover"
           src={heroImage}
         />
-      </div>
-      <div className="flex w-full items-center px-side">
-        <div className="flex flex-1 flex-col items-start gap-[7px]">
-          <span className="rounded-chip bg-off-black px-3.5 py-[5px] text-xs leading-[normal] tracking-[-0.02em] text-off-white">
-            향수 트렌드
-          </span>
-          <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">니치향수 트렌드</h2>
+        <div className="absolute inset-x-0 bottom-0 flex items-end px-side pb-5 text-off-white">
+          <div className="flex w-full flex-col items-start gap-2.5">
+            <span className="rounded-chip bg-off-black px-3.5 py-[5px] text-xs leading-[normal] tracking-[-0.02em]">
+              향수 트렌드
+            </span>
+            <div className="flex w-full items-center justify-between">
+              <h2 className="text-2xl font-semibold leading-[1.08] tracking-[-0.03em]">니치향수 트렌드</h2>
+              <HeartButton
+                className="size-6 shrink-0"
+                isSelected={isSaved}
+                onClick={() => setIsSaved((saved) => !saved)}
+                tone="light"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>
