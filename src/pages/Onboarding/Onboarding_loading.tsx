@@ -225,7 +225,7 @@ export default function OnboardingLoading() {
           className="absolute inset-x-0 top-[447px] flex flex-col items-center text-center"
           role="status"
         >
-          <p className="whitespace-nowrap text-2xl font-semibold leading-[1.08] tracking-[-0.03em] text-black">
+          <p className="whitespace-nowrap text-2xl font-semibold leading-[1.08] tracking-[-0.03em] text-off-black">
             취향이 멋지군요!
           </p>
           <p className="mt-3 text-sm font-medium tracking-[-0.02em] text-grey">

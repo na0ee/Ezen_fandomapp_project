@@ -89,7 +89,7 @@ function StatusBar() {
       className="absolute inset-x-0 top-0 flex h-[64.555px] items-end justify-center bg-off-white"
     >
       <div className="flex h-full min-w-0 flex-1 flex-col items-center justify-center pb-[3.282px] pl-[10.941px]">
-        <span className="flex h-[22.977px] w-[59.084px] items-center justify-center pt-px font-sans text-[17.51px] font-semibold leading-[22.977px] tracking-[-0.32px] text-black">
+        <span className="flex h-[22.977px] w-[59.084px] items-center justify-center pt-px font-sans text-[17.51px] font-semibold leading-[22.977px] tracking-[-0.32px] text-off-black">
           9:41
         </span>
       </div>

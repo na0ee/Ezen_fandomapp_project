@@ -169,7 +169,7 @@ export function RaffleDetailPage() {
                   <div className="h-full w-[82%] bg-point-orange" />
                 </div>
               </div>
-              <dl className="flex flex-col gap-2 text-black">
+              <dl className="flex flex-col gap-2 text-off-black">
                 {detailRows.map(([label, value]) => (
                   <div className="grid grid-cols-[51px_1fr] items-center gap-[46px]" key={label}>
                     <dt className="text-sm font-medium leading-none tracking-[-0.02em]">{label}</dt>

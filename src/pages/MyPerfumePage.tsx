@@ -1,6 +1,6 @@
 import { Check, ChevronRight, ChevronDown, Search, X } from "lucide-react";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
@@ -9,7 +9,7 @@ import { brands } from "../data/brands";
 import { fragranceFamilies } from "../data/fragranceFamilies";
 import perfumeLoewe from "../assets/mypage/perfume-loewe.png";
 import perfumeSanta from "../assets/mypage/perfume-santa.png";
-import reviewProductThree from "../assets/mypage/review-product-3.png";
+import reviewProductThree from "../assets/mypage/perfume-MATIERE.png";
 import bottleByredo from "../assets/mypage/bottle-byredo.svg";
 import bottleDiptyque from "../assets/mypage/bottle-diptyque.svg";
 import bottleMissdior from "../assets/mypage/bottle-missdior.svg";
@@ -77,7 +77,7 @@ function DetailHeader({ title }: { title: string }) {
   return <BackHeader title={title} backTo="/mypage" action={<HeaderActions />} />;
 }
 
-function PerfumeRecordCard({ perfume }: { perfume: (typeof perfumes)[number] }) {
+function PerfumeRecordCard({ perfume }: { perfume: (typeof perfumes)[number] & { fromRegistration?: boolean } }) {
   const [savedMemo, setSavedMemo] = useState(perfume.savedMemo);
   const [memo, setMemo] = useState("");
   const [isEditing, setIsEditing] = useState(savedMemo === "");
@@ -89,7 +89,11 @@ function PerfumeRecordCard({ perfume }: { perfume: (typeof perfumes)[number] }) 
     <article className="flex items-start gap-2.5 rounded-card border-[0.8px] border-light-grey bg-off-white p-[12px]">
       <div className="flex size-[100px] shrink-0 items-center justify-center overflow-hidden rounded-lg bg-light2-grey">
         {perfume.image ? (
-          <img alt={perfume.name} className="size-full object-contain mix-blend-multiply" src={perfume.image} />
+          perfume.fromRegistration ? (
+            <img alt={perfume.name} className="h-[70px] w-auto object-contain" src={perfume.image} />
+          ) : (
+            <img alt={perfume.name} className="size-full object-contain mix-blend-multiply" src={perfume.image} />
+          )
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-light2-grey" />
         )}
@@ -291,17 +295,12 @@ function FilterSheet({
 
 export default function MyPerfumePage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [activeFilter, setActiveFilter] = useState<FilterTab | null>(null);
   const [selectedFilters, setSelectedFilters] = useState<string[]>(defaultSelectedFilters);
-  const [allPerfumes, setAllPerfumes] = useState(() => {
-    const userPerfumes = JSON.parse(sessionStorage.getItem("userPerfumes") || "[]");
-    return [...userPerfumes, ...perfumes];
-  });
 
-  useEffect(() => {
-    const userPerfumes = JSON.parse(sessionStorage.getItem("userPerfumes") || "[]");
-    setAllPerfumes([...userPerfumes, ...perfumes]);
-  }, []);
+  const newPerfume = (location.state as { newPerfume?: (typeof perfumes)[number] } | null)?.newPerfume;
+  const allPerfumes = newPerfume ? [{ ...newPerfume, fromRegistration: true }, ...perfumes] : perfumes;
 
   const toggleFilter = (option: string) => {
     setSelectedFilters((current) =>

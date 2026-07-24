@@ -21,9 +21,9 @@ export type MyProfile = {
 export const myProfile: MyProfile = {
   id: "me",
   name: "북극곰",
-  badge: "LOVER",
+  badge: "NEWBIE",
   mood: "Mood Shifter",
-  points: "99,999",
+  points: "1,200",
   followers: 12,
   following: 2,
   avatar: profileAvatar,

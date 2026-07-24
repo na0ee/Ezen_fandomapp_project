@@ -1,7 +1,7 @@
 import { Search, Send, UserCheck, UserPlus } from "lucide-react";
 import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import fireBadge from "../assets/mypage/fire-badge.svg";
+import fireBadge from "../assets/mypage/badge-newbie.png";
 import { BackHeader } from "../components/common/BackHeader";
 import { brands } from "../data/brands";
 import { perfumeData } from "../data/perfumeData";

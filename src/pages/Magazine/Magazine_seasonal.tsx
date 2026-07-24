@@ -114,7 +114,7 @@ function SeasonalArticle({ index, slide }: { index: number; slide: SeasonalSlide
         </div>
       </section>
 
-      <section className="px-side pt-5 text-black [word-break:break-word]">
+      <section className="px-side pt-5 text-off-black [word-break:break-word]">
         <div className="flex w-full items-center justify-between">
           <h3 className="text-xl font-bold leading-[normal] tracking-[-0.02em]">{slide.bodyTitle}</h3>
           <HeartButton
