@@ -19,6 +19,7 @@ export type PerfumeEntry = {
     detailDescription: string;
     detailTitle: string;
     image: string;
+    detailImages?: string[];
     familyIds: string[];
     notes: PerfumeNotes;
     noteColors: PerfumeNoteColors;

@@ -535,15 +535,19 @@ export default function PerfumeDetailPage() {
                 </div>
               </div>
 
-              {/* 상세 이미지 */}
-              <div className="flex w-full items-center justify-center bg-light2-grey py-10">
-                <img
-                  alt=""
-                  aria-hidden="true"
-                  className="max-h-[258px] max-w-[60%] object-contain"
-                  src={perfume.image}
-                />
-              </div>
+              {/* 상세 무드 이미지 */}
+              {perfume.detailImages && perfume.detailImages.length > 0 && (
+                <div className="flex w-full flex-col gap-2.5 px-side">
+                  {perfume.detailImages.map((src, index) => (
+                    <img
+                      alt={`${perfume.name} 무드 이미지 ${index + 1}`}
+                      className="w-full object-contain"
+                      key={src}
+                      src={src}
+                    />
+                  ))}
+                </div>
+              )}
 
               {/* 관련 향수 */}
               {relatedPerfumes.length > 0 && (
