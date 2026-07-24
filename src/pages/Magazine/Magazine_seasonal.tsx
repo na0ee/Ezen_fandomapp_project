@@ -1,6 +1,6 @@
 
 import type { PointerEvent, UIEvent } from "react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import autumnImage from "../../assets/magazine/seasonal/autumn.png";
 import overviewImage from "../../assets/magazine/seasonal/overview.png";
@@ -11,6 +11,7 @@ import winterImage from "../../assets/magazine/seasonal/winter-overlay.png";
 
 import { BackHeader } from "../../components/common/BackHeader";
 import { HeaderActions } from "../../components/common/HeaderActions";
+import { HeartButton } from "../../components/ui/HeartButton";
 
 type SeasonalSlide = {
   alt: string;
@@ -76,7 +77,7 @@ const seasonalSlides: SeasonalSlide[] = [
     bodyTitle: "포근하고 달콤한 오리엔탈 향",
     image: winterImage,
     keywords: ["#  바닐라", "#  통카빈", "#  머스크", "#  파출리", "#  초콜릿"],
-    recommendationsOffsetY: 898,
+    recommendationsOffsetY: 886,
     rootHeight: 1008,
     subtitle: "Winter | 겨울",
   },
@@ -88,11 +89,19 @@ function MagazineDetailHeader() {
   );
 }
 
-function SeasonalArticle({ slide }: { slide: SeasonalSlide }) {
+function SeasonalArticle({ index, slide }: { index: number; slide: SeasonalSlide }) {
   const hasRecommendations = Boolean(slide.keywords);
+  const [isSaved, setIsSaved] = useState(true);
 
   return (
     <article className="relative w-full shrink-0 snap-start bg-off-white" style={{ minHeight: slide.rootHeight }}>
+      <div className="absolute top-[119px] left-side h-0.5 w-[calc(100%_-_40px)] bg-[#d9d9d9]">
+        <div
+          className="h-0.5 w-1/5 bg-off-black transition-transform duration-200"
+          style={{ transform: `translateX(${index * 100}%)` }}
+        />
+      </div>
+
       <section className="relative mt-[141px] h-[507px] w-full overflow-hidden text-off-white">
         <img alt={slide.alt} className="absolute inset-0 size-full object-cover" draggable="false" src={slide.image} />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/55" />
@@ -106,8 +115,15 @@ function SeasonalArticle({ slide }: { slide: SeasonalSlide }) {
       </section>
 
       <section className="px-side pt-5 text-black [word-break:break-word]">
-        <h3 className="text-xl font-bold leading-[normal] tracking-[-0.02em]">{slide.bodyTitle}</h3>
-        <div className="mt-2.5 flex flex-col gap-2.5 text-base font-medium leading-6 tracking-[-0.02em]">
+        <div className="flex w-full items-center justify-between">
+          <h3 className="text-xl font-bold leading-[normal] tracking-[-0.02em]">{slide.bodyTitle}</h3>
+          <HeartButton
+            className="size-6 shrink-0"
+            isSelected={isSaved}
+            onClick={() => setIsSaved((saved) => !saved)}
+          />
+        </div>
+        <div className="mt-3.5 flex flex-col gap-2.5 text-base font-medium leading-[1.4] tracking-[-0.02em]">
           {slide.body.map((paragraph) => (
             <p className="w-full" key={paragraph}>
               {paragraph}
@@ -135,7 +151,7 @@ function SeasonalArticle({ slide }: { slide: SeasonalSlide }) {
           className="absolute left-5 h-[70px] w-[372px]"
           draggable="false"
           src={recommendationsImage}
-          style={{ top: slide.recommendationsOffsetY ?? 874 }}
+          style={{ top: slide.recommendationsOffsetY ?? 864 }}
         />
       )}
     </article>
@@ -261,8 +277,8 @@ export default function MagazineSeasonal() {
           onScroll={handleScroll}
           ref={scrollerRef}
         >
-          {seasonalSlides.map((slide) => (
-            <SeasonalArticle key={slide.subtitle} slide={slide} />
+          {seasonalSlides.map((slide, index) => (
+            <SeasonalArticle index={index} key={slide.subtitle} slide={slide} />
           ))}
         </div>
       </div>

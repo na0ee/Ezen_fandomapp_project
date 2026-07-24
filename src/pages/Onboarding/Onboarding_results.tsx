@@ -259,7 +259,7 @@ export default function OnboardingResults() {
           <p className="text-base font-medium leading-[normal] tracking-[-0.02em] text-off-black-70">
             {result.nameKo}
           </p>
-          <p className="mt-[5px] w-[275px] whitespace-nowrap text-center font-cormorant text-[54px] font-semibold italic leading-[normal] tracking-[-0.02em] text-black">
+          <p className="mt-[5px] w-[275px] whitespace-nowrap text-left font-cormorant text-[54px] font-semibold italic leading-[normal] tracking-[-0.02em] text-black">
             {result.nameEn}
           </p>
 
