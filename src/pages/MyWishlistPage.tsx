@@ -7,6 +7,7 @@ import { BackHeader } from "../components/common/BackHeader";
 import { HeartButton } from "../components/ui/HeartButton";
 import { brands } from "../data/brands";
 import { fragranceFamilies } from "../data/fragranceFamilies";
+import { perfumeData } from "../data/perfumeData";
 import wishlistCardBuly from "../assets/mypage/wishlist-card-buly.png";
 import wishlistCardBvlgari from "../assets/mypage/wishlist-card-bvlgari.png";
 import wishlistCardReplicaOrange from "../assets/mypage/wishlist-card-replica-orange.png";
@@ -28,6 +29,8 @@ const filterOptions: Record<FilterTab, string[]> = {
 const brandNames = brands.map((brand) => brand.name);
 
 const defaultSelectedFilters: string[] = [];
+
+const perfumeImageById = (id: number) => perfumeData.find((item) => item.id === id)?.perfume.image ?? "";
 
 const wishItems = [
   {
@@ -62,29 +65,33 @@ const wishItems = [
     brandId: "jo-malone",
     brand: "JO MALONE",
     name: "우드 세이지 앤 씨 솔트 코롱 100ML",
-    image: "/assets/perfume/jo-malone/wood-sage-sea-salt.webp",
+    image: perfumeImageById(17),
     keywords: ["#암브레트 씨드", "#씨 솔트", "#드리프트우드"],
+    centeredImage: true,
   },
   {
     brandId: "byredo",
     brand: "BYREDO",
     name: "블랑쉬 오 드 퍼퓸 100ML",
-    image: "/assets/perfume/byredo/blanche.jpg",
+    image: perfumeImageById(21),
     keywords: ["#알데하이드", "#장미", "#화이트 머스크"],
+    centeredImage: true,
   },
   {
     brandId: "le-labo",
     brand: "LE LABO",
     name: "산탈 33 오 드 퍼퓸 100ML",
-    image: "/assets/perfume/le-labo/santal-33.jpg",
+    image: perfumeImageById(26),
     keywords: ["#샌들우드", "#시더우드", "#레더"],
+    centeredImage: true,
   },
   {
     brandId: "diptyque",
     brand: "DIPTYQUE",
     name: "오 데 상스 오 드 뚜왈렛 100ML",
-    image: "/assets/perfume/diptyque/eau-des-sens.jpg",
+    image: perfumeImageById(36),
     keywords: ["#비터 오렌지", "#오렌지 블로섬", "#파촐리"],
+    centeredImage: true,
   },
 ];
 
@@ -94,11 +101,16 @@ function DetailHeader({ title }: { title: string }) {
 
 function WishCard({ item }: { item: (typeof wishItems)[number] }) {
   const [isFavorite, setIsFavorite] = useState(true);
+  const [isRegisteredOpen, setIsRegisteredOpen] = useState(false);
 
   return (
     <article className="h-[390px] min-w-0">
-      <div className="relative h-[254px] overflow-hidden bg-off-white">
-        <img alt={item.name} className="size-full object-cover" src={item.image} />
+      <div className="relative flex h-[254px] items-center justify-center overflow-hidden bg-off-white">
+        {item.centeredImage ? (
+          <img alt={item.name} className="h-[150px] w-auto object-contain" src={item.image} />
+        ) : (
+          <img alt={item.name} className="size-full object-cover" src={item.image} />
+        )}
         <HeartButton
           aria-label={`${item.name} ${isFavorite ? "위시리스트에서 제거" : "위시리스트에 추가"}`}
           className="absolute bottom-4 right-4 size-6"
@@ -120,9 +132,37 @@ function WishCard({ item }: { item: (typeof wishItems)[number] }) {
         ))}
       </div>
 
-      <button className="mt-3 h-[30px] w-fit rounded-full border-[0.8px] border-light-grey px-3.5 text-xs font-medium leading-none tracking-[-0.02em] text-grey" type="button">
+      <button
+        className="mt-3 h-[30px] w-fit cursor-pointer rounded-full border-[0.8px] border-light-grey px-3.5 text-xs font-medium leading-none tracking-[-0.02em] text-grey"
+        onClick={() => setIsRegisteredOpen(true)}
+        type="button"
+      >
         구매 완료
       </button>
+
+      {isRegisteredOpen && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/35 px-10" onClick={() => setIsRegisteredOpen(false)}>
+          <section
+            aria-label="내 향수 등록 완료"
+            aria-modal="true"
+            className="w-full max-w-[320px] rounded-[20px] bg-off-white px-6 py-7 text-center shadow-[0_18px_50px_rgba(0,0,0,0.22)]"
+            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+          >
+            <h2 className="text-xl font-bold tracking-[-0.02em]">내 향수 등록 완료</h2>
+            <p className="mt-3 text-sm font-medium leading-[1.45] tracking-[-0.02em] text-grey">
+              내 향수에 등록되었어요.
+            </p>
+            <button
+              className="mt-6 h-12 w-full cursor-pointer rounded-[32px] bg-off-black text-base font-bold tracking-[-0.02em] text-off-white"
+              onClick={() => setIsRegisteredOpen(false)}
+              type="button"
+            >
+              확인
+            </button>
+          </section>
+        </div>
+      )}
     </article>
   );
 }

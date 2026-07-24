@@ -20,7 +20,7 @@ type ArticleTextProps = {
 
 function ArticleText({ body, bodyClassName = "w-full", title }: ArticleTextProps) {
   return (
-    <section className="flex w-full flex-col items-start gap-1 px-side text-black [word-break:break-word]">
+    <section className="flex w-full flex-col items-start gap-1 px-side text-off-black [word-break:break-word]">
       <h2 className="w-full text-xl font-bold leading-[normal] tracking-[-0.02em]">{title}</h2>
       <p className={`${bodyClassName} text-base font-medium leading-6 tracking-[-0.02em]`}>{body}</p>
     </section>

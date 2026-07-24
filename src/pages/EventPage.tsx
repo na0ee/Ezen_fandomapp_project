@@ -5,7 +5,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import fireBadge from "../assets/mypage/fire-badge.svg";
+import fireBadge from "../assets/mypage/badge-newbie.png";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { Header } from "../components/common/Header";

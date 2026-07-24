@@ -1,7 +1,7 @@
 import { Camera, ChevronDown, ChevronUp, Plus, X } from "lucide-react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import tagOne from "../../assets/community/figma/tag-one.png";
 import tagThree from "../../assets/community/figma/tag-three.png";
 import tagTwo from "../../assets/community/figma/tag-two.png";
@@ -10,21 +10,18 @@ const selectedPerfumes = [
   {
     image: tagOne,
     imageClassName: "h-[46px] w-[31px]",
-    listImageClassName: "h-[26px] w-[17px]",
     name: "딥디크 오 로즈 오 드 퍼퓸",
     detail: "50ml · 231,000원",
   },
   {
     image: tagTwo,
     imageClassName: "h-[46px] w-[32px]",
-    listImageClassName: "h-[26px] w-[18px]",
     name: "바이레도 블랑쉬 오 드 퍼퓸",
     detail: "50ml · 260,000원",
   },
   {
     image: tagThree,
     imageClassName: "h-[46px] w-[32px]",
-    listImageClassName: "h-[26px] w-[17px]",
     name: "조 말론 런던 잉글리쉬 페어 & 프리지아 코롱",
     detail: "50ml · 260,000원",
   },
@@ -54,6 +51,8 @@ const reasonRows = [
   ["포근한 무드", "깨끗한 느낌", "포은트 주기 좋음", "잔향이 좋음"],
   ["기타"],
 ];
+
+const defaultTitle = "햇살 좋은 날의 베이지 룩과 향수 조합 ☁";
 
 const defaultBody = `따뜻한 햇살엔 부드럽고 깨끗한 향이 잘 어울리는 것 같아요
 블랑쉬로 포근하게 시작해서 오 로즈로 기분 전환해주고 마지막엔 잉글리수 페어로 잔향을 남겨줘요
@@ -142,14 +141,12 @@ function MessageField({
 
 function PerfumeReviewCard({
   image,
-  listImageClassName,
   name,
   detail,
   open,
   onToggle,
 }: {
   image: string;
-  listImageClassName: string;
   name: string;
   detail: string;
   open: boolean;
@@ -183,37 +180,34 @@ function PerfumeReviewCard({
     <article
       className={`w-full rounded-lg border-[0.8px] border-light-grey p-4 ${open ? "flex flex-col gap-4" : "flex items-center justify-between"}`}
     >
-      <div className="flex w-full items-center justify-between">
-        <div className="flex min-w-0 items-center gap-3">
-          <div className="flex size-[38px] shrink-0 items-center justify-center rounded-lg bg-light2-grey">
-            <img
-              className={`${listImageClassName} object-contain`}
-              src={image}
-              alt=""
-            />
+      <button
+        aria-expanded={open}
+        aria-label={`${name} 상세 후기 ${open ? "접기" : "펼치기"}`}
+        className="flex w-full cursor-pointer items-center justify-between"
+        onClick={onToggle}
+        type="button"
+      >
+        <div className="flex min-w-0 items-start gap-3 text-left">
+          <div className="flex size-[50px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border-[0.8px] border-light-grey">
+            <img alt="" className="size-full object-contain mix-blend-multiply" src={image} />
           </div>
-          <div className="flex min-w-0 flex-col justify-center gap-1">
-            <p className="max-w-[260px] truncate text-sm font-normal leading-normal tracking-[-0.02em] text-off-black">
-              {name}
-            </p>
-            <p className="text-xs font-normal leading-normal tracking-[-0.02em] text-grey">
+          <div className="flex min-w-0 flex-col items-start gap-1.5">
+            <p className="truncate text-[12px] font-normal leading-none tracking-[-0.02em] text-grey uppercase">
               {detail}
             </p>
+            <h2 className="truncate text-[14px] font-normal leading-[1.2] tracking-[-0.02em] text-off-black">
+              {name}
+            </h2>
           </div>
         </div>
-        <button
-          aria-label={`${name} 상세 후기 ${open ? "접기" : "펼치기"}`}
-          className="flex size-[18px] shrink-0 items-center justify-center text-grey"
-          type="button"
-          onClick={onToggle}
-        >
+        <span className="flex size-[18px] shrink-0 items-center justify-center text-grey">
           {open ? (
             <ChevronUp className="size-[18px]" strokeWidth={1.5} />
           ) : (
             <ChevronDown className="size-[18px]" strokeWidth={1.5} />
           )}
-        </button>
-      </div>
+        </span>
+      </button>
 
       {open && (
         <>
@@ -348,20 +342,36 @@ function WriteCompleteDialog({
   );
 }
 
+type TaggedPerfume = { image: string; brand: string; name: string };
+
 export default function CommunityWrite() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const taggedPerfume = (location.state as { perfume?: TaggedPerfume } | null)?.perfume;
   const imageInputRef = useRef<HTMLInputElement>(null);
-  const [perfumes, setPerfumes] = useState(selectedPerfumes);
+  const [perfumes, setPerfumes] = useState(() =>
+    taggedPerfume
+      ? [
+          {
+            image: taggedPerfume.image,
+            imageClassName: "h-[46px] w-auto",
+            name: taggedPerfume.name,
+            detail: taggedPerfume.brand,
+          },
+        ]
+      : selectedPerfumes,
+  );
   const [uploadedImages, setUploadedImages] = useState<
     { id: string; name: string; src: string }[]
   >([]);
   const [openPerfume, setOpenPerfume] = useState<string | null>(null);
   const [isCompleteOpen, setIsCompleteOpen] = useState(false);
-  const [body, setBody] = useState(defaultBody);
-  const [selectedMoods, setSelectedMoods] = useState<string[]>(["깔끔한"]);
-  const [selectedSituations, setSelectedSituations] = useState<string[]>([
-    "데일리",
-  ]);
+  const [title, setTitle] = useState(taggedPerfume ? "" : defaultTitle);
+  const [body, setBody] = useState(taggedPerfume ? "" : defaultBody);
+  const [selectedMoods, setSelectedMoods] = useState<string[]>(taggedPerfume ? [] : ["깔끔한"]);
+  const [selectedSituations, setSelectedSituations] = useState<string[]>(
+    taggedPerfume ? [] : ["데일리"],
+  );
   const [selectedHashtags, setSelectedHashtags] = useState<string[]>([]);
 
   const removePerfume = (name: string) => {
@@ -493,19 +503,24 @@ export default function CommunityWrite() {
           </Section>
 
           <Section title="제목">
-            <MessageField count="23/40">
-              <p className="leading-none">
-                햇살 좋은 날의 베이지 룩과 향수 조합 ☁
-              </p>
+            <MessageField count={`${title.length}/40`}>
+              <input
+                className="w-full bg-transparent leading-none outline-none placeholder:text-grey"
+                maxLength={40}
+                onChange={(event) => setTitle(event.target.value)}
+                placeholder="제목을 입력해주세요"
+                value={title}
+              />
             </MessageField>
           </Section>
 
           <Section title="본문">
             <div className="flex w-full flex-col items-end gap-1.5">
               <textarea
-                className="min-h-[108px] w-full resize-none rounded-lg border-[0.8px] border-light-grey p-4 text-sm font-normal leading-[1.4] tracking-[-0.02em] text-subtext outline-none focus:border-off-black"
+                className="min-h-[108px] w-full resize-none rounded-lg border-[0.8px] border-light-grey p-4 text-sm font-normal leading-[1.4] tracking-[-0.02em] text-subtext outline-none placeholder:text-grey focus:border-off-black"
                 maxLength={400}
                 onChange={(event) => setBody(event.target.value)}
+                placeholder="향수에 대한 이야기를 자유롭게 남겨보세요"
                 value={body}
               />
               <span className="w-full text-right text-[10px] font-normal leading-normal tracking-[-0.02em] text-grey">

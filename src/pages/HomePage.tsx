@@ -313,7 +313,7 @@ function HomeHeader() {
 
   return (
     <header
-      className={`header fixed left-1/2 top-0 z-50 flex h-[var(--app-header-height)] w-full max-w-[430px] -translate-x-1/2 items-center justify-between px-5 pt-[var(--app-safe-top)] transition-colors duration-200 ${
+      className={`header fixed left-1/2 top-0 z-50 flex h-[calc(54px+var(--app-safe-top))] w-full max-w-[430px] -translate-x-1/2 items-center justify-between px-5 pt-[var(--app-safe-top)] transition-colors duration-200 ${
         hasSolidBackground ? "bg-off-white" : "bg-transparent"
       }`}
       data-node-id={figmaNode.header}
@@ -448,7 +448,8 @@ function RecordSection() {
   return (
     <section className="px-5" data-node-id={figmaNode.record}>
       <SectionTitle
-        moreHref="/mypage/perfumes"
+        moreHref="/mypage/perfumes/record"
+        moreLabel="기록하기"
         title="Record"
         subtitle={
           <>

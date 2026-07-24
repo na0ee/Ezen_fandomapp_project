@@ -40,7 +40,7 @@ function HeroSection() {
 function ArticleBody() {
   return (
     <div className="flex w-full flex-col items-start gap-[50px]">
-      <section className="flex w-full flex-col items-start gap-1 px-side text-black [word-break:break-word]">
+      <section className="flex w-full flex-col items-start gap-1 px-side text-off-black [word-break:break-word]">
         <h2 className="w-full text-xl font-bold leading-[normal] tracking-[-0.02em]">기억과 감정을 향으로 담아내는 브랜드</h2>
         <p className="w-[369px] text-base font-medium leading-6 tracking-[-0.02em]">
           2006년 스웨덴 스톡홀름에서 설립된 바이레도는 단순히 좋은 향을 만드는 것을 넘어, 기억과 감정, 특정 순간의 분위기를 향으로 표현하는 것을 목표로 시작되었습니다.
@@ -54,7 +54,7 @@ function ArticleBody() {
         <img alt="거울 위에 놓인 바이레도 향수" className="h-[225px] w-[206px] shrink-0 object-cover" src={storyMotionImage} />
       </div>
 
-      <p className="w-full px-side text-base font-medium leading-6 tracking-[-0.02em] text-black [word-break:break-word]">
+      <p className="w-full px-side text-base font-medium leading-6 tracking-[-0.02em] text-off-black [word-break:break-word]">
         창립자 벤 고햄(Ben Gorham)은 어린 시절의 경험과 여행에서 얻은 영감을 바탕으로 향수를 하나의 예술 작품처럼 풀어냈으며, 미니멀한 디자인과 독창적인 스토리텔링으로 니치 향수 시장을 대표하는 브랜드로 성장했습니다.
       </p>
 
@@ -62,7 +62,7 @@ function ArticleBody() {
         <img alt="바이레도 대표 향수 컬렉션" className="h-[393px] w-[310px] object-cover" src={signatureImages} />
       </div>
 
-      <p className="w-full px-side text-base font-medium leading-6 tracking-[-0.02em] text-black [word-break:break-word]">
+      <p className="w-full px-side text-base font-medium leading-6 tracking-[-0.02em] text-off-black [word-break:break-word]">
         대표 향수인 블랑쉬는 깨끗한 리넨의 감성을, 모하비 고스트는 사막에서 피어나는 꽃의 생명력을, 집시 워터는 자유로운 보헤미안 라이프스타일을 담아내며 많은 사랑을 받고 있습니다.
       </p>
 

@@ -120,7 +120,7 @@ export default function Category() {
                 <div className="mt-6 grid w-full grid-cols-2 gap-x-4 gap-y-3.5 px-[24px]">
                   {scentFamilies.map((scent) => (
                     <button
-                      className="h-[54px] w-full rounded-[50px] border-[0.8px] border-light-grey bg-[#fff] text-xs leading-none tracking-[-0.02em] text-black"
+                      className="h-[54px] w-full rounded-[50px] border-[0.8px] border-light-grey bg-[#fff] text-xs leading-none tracking-[-0.02em] text-off-black"
                       key={scent}
                       onClick={() =>
                         navigate(`/search-results?q=${encodeURIComponent(scent)}`)
@@ -140,7 +140,7 @@ export default function Category() {
                 <div className="mt-6 grid w-full grid-cols-2 gap-x-4 gap-y-3.5 px-[24px]">
                   {brands.map((brand) => (
                     <button
-                      className="h-[54px] w-full min-w-0 rounded-[50px] border-[0.8px] border-light-grey bg-[#fff] px-1 text-xs leading-none tracking-[-0.02em] text-black"
+                      className="h-[54px] w-full min-w-0 rounded-[50px] border-[0.8px] border-light-grey bg-[#fff] px-1 text-xs leading-none tracking-[-0.02em] text-off-black"
                       key={brand}
                       onClick={() =>
                         navigate(`/search-results?q=${encodeURIComponent(brand)}`)

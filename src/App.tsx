@@ -25,6 +25,7 @@ import MyPerfumeAddPage from "./pages/MyPerfumeAddPage";
 import MyPerfumeRecordPage from "./pages/MyPerfumeRecordPage";
 import MyReviewsPage from "./pages/MyReviewsPage";
 import MyWishlistPage from "./pages/MyWishlistPage";
+import MyMembershipPage from "./pages/MyMembershipPage";
 import Category from "./pages/Category";
 import SearchResults from "./pages/SearchResults";
 import PerfumeDetailPage from "./pages/PerfumeDetailPage";
@@ -120,6 +121,7 @@ export default function App() {
         <Route path="/mypage/perfumes/record" element={<MyPerfumeRecordPage />} />
         <Route path="/mypage/wishlist" element={<MyWishlistPage />} />
         <Route path="/mypage/reviews" element={<MyReviewsPage />} />
+        <Route path="/mypage/membership" element={<MyMembershipPage />} />
         <Route path="/category" element={<Category />} />
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/perfume/:id" element={<PerfumeDetailPage />} />

@@ -1,7 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import fireBadge from "../assets/mypage/fire-badge.svg";
+import fireBadge from "../assets/mypage/badge-newbie.png";
 import { BottomNavigation } from "../components/common/BottomNavigation";
 import { HeaderActions } from "../components/common/HeaderActions";
 import { BackHeader } from "../components/common/BackHeader";

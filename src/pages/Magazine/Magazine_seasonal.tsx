@@ -105,7 +105,7 @@ function SeasonalArticle({ slide }: { slide: SeasonalSlide }) {
         </div>
       </section>
 
-      <section className="px-side pt-5 text-black [word-break:break-word]">
+      <section className="px-side pt-5 text-off-black [word-break:break-word]">
         <h3 className="text-xl font-bold leading-[normal] tracking-[-0.02em]">{slide.bodyTitle}</h3>
         <div className="mt-2.5 flex flex-col gap-2.5 text-base font-medium leading-6 tracking-[-0.02em]">
           {slide.body.map((paragraph) => (
