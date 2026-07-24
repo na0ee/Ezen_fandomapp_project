@@ -1,4 +1,11 @@
-import { BookOpen, Gift, Home, MessageCircle, Sparkles, User } from "lucide-react";
+import {
+  BookOpen,
+  Gift,
+  Home,
+  MessageCircle,
+  Sparkles,
+  User,
+} from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const navigationItems = [
@@ -13,18 +20,20 @@ type BottomNavigationProps = {
   placement?: "sticky" | "frame" | "overlay" | "fixed";
 };
 
-export function BottomNavigation({ placement = "sticky" }: BottomNavigationProps) {
+export function BottomNavigation({
+  placement = "sticky",
+}: BottomNavigationProps) {
   const containerClassName =
     placement === "overlay"
       ? "absolute inset-x-0 bottom-0 z-50 flex gap-2.5 px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))]"
       : placement === "frame"
         ? "relative z-40 mx-auto flex w-full max-w-[430px] gap-2.5 px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))]"
-      : "fixed bottom-0 left-1/2 z-50 flex w-full max-w-[430px] -translate-x-1/2 gap-2.5 px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))]";
+        : "fixed bottom-0 left-1/2 z-50 flex w-full max-w-[430px] -translate-x-1/2 gap-2.5 px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))]";
 
   return (
     <div className={containerClassName}>
       <div className="grid h-[72px] w-full grid-cols-[minmax(0,320px)_minmax(58px,68px)] gap-2.5">
-        <nav className="flex h-[72px] min-w-0 flex-col items-start rounded-nav bg-off-black py-[15px]">
+        <nav className="flex h-[72px] min-w-0 flex-col items-start rounded-nav bg-off-black py-[14px]">
           <div className="flex w-full items-center justify-between px-[18px]">
             {navigationItems.map(({ label, href, Icon }) => (
               <NavLink
@@ -35,8 +44,14 @@ export function BottomNavigation({ placement = "sticky" }: BottomNavigationProps
               >
                 {({ isActive }) => {
                   return (
-                    <span className={`flex flex-col items-center gap-1 ${isActive ? "text-off-white" : "text-grey"}`}>
-                      <Icon aria-hidden="true" className="size-6 shrink-0" strokeWidth={1.6} />
+                    <span
+                      className={`flex flex-col items-center gap-1 ${isActive ? "text-off-white" : "text-grey"}`}
+                    >
+                      <Icon
+                        aria-hidden="true"
+                        className="size-6 shrink-0"
+                        strokeWidth={1.6}
+                      />
                       <span className="w-full whitespace-nowrap text-center">
                         {label}
                       </span>
@@ -59,7 +74,9 @@ export function BottomNavigation({ placement = "sticky" }: BottomNavigationProps
                 className="size-6 shrink-0 fill-point-orange text-point-orange"
                 strokeWidth={1.5}
               />
-              <span className="whitespace-nowrap text-center text-off-white">AI</span>
+              <span className="whitespace-nowrap text-center text-off-white">
+                AI
+              </span>
             </div>
           </div>
         </NavLink>
