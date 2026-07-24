@@ -363,7 +363,7 @@ export default function CommunityQuestion() {
           writeTo="/community/question/write"
         />
       }
-      headerTitleClassName="!text-2xl !font-semibold !leading-[1.08] !tracking-[-0.03em]"
+      headerTitleClassName="!text-xl !font-semibold !leading-[1.08] !tracking-[-0.03em]"
       contentClassName="gap-0"
     >
       <CommunityTabs />

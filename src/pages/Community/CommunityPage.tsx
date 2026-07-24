@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Bookmark,
   ChevronRight,
@@ -23,25 +23,64 @@ import postImageOne from "../../assets/community/figma/post-image-one.png";
 import postImageTwo from "../../assets/community/figma/post-image-two.png";
 import productOverlayThumbnail from "../../assets/community/figma/product-overlay-thumbnail.png";
 import reviewImage from "../../assets/community/figma/review-image.png";
-import tagFour from "../../assets/community/figma/tag-four.png";
-import tagOne from "../../assets/community/figma/tag-one.png";
-import tagThree from "../../assets/community/figma/tag-three.png";
-import tagTwo from "../../assets/community/figma/tag-two.png";
 import { HeaderActions } from "../../components/common/HeaderActions";
 import { myProfile } from "../../data/myProfile";
+import { brands } from "../../data/brands";
+import { perfumeData } from "../../data/perfumeData";
 
-const carouselImages = [
-  { src: postImageOne, fit: "object-bottom" },
-  { src: carouselTwo, fit: "object-cover" },
-  { src: carouselThree, fit: "object-cover" },
-  { src: carouselFour, fit: "object-cover" },
-];
-const tagImagesOne = [
-  { src: tagOne, className: "h-[69px] w-[52px]" },
-  { src: tagTwo, className: "h-[55px] w-[38px]" },
-  { src: tagThree, className: "h-[53px] w-[36px]" },
-];
-const tagImagesTwo = [{ src: tagFour, className: "h-[69px] w-[52px]" }];
+// GitHub Pages 배포 시 base 경로를 붙여주는 헬퍼 (public/ 에셋용)
+const asset = (path: string) =>
+  `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+
+// 제품 태그용: 향수 id → { 이미지, 브랜드(영문), 이름(한글) }
+const perfumeById = Object.fromEntries(
+  perfumeData.map((entry) => {
+    const brand = brands.find((b) => b.id === entry.perfume.brandId);
+    return [
+      entry.id,
+      {
+        image: asset(entry.perfume.image),
+        brand: brand?.nameEn ?? entry.perfume.brandId,
+        name: entry.perfume.name,
+      },
+    ];
+  }),
+);
+
+// 피그마 리뷰 사진별로 실제 찍힌 향수 + 태그 좌표(x,y는 390x430 슬라이드 기준)
+// 사진에 없는 딥티크 오 로즈/오 파피에는 같은 브랜드·계열로 대체(도손·플뢰르 드 포)
+const slidePresets = {
+  // 3종: 좌상 딥티크(도손)·우 블랑쉬·하 잉글리쉬 페어
+  threeBottles: {
+    src: postImageOne,
+    fit: "object-bottom",
+    tags: [
+      { id: 38, x: 110, y: 90 },
+      { id: 21, x: 280, y: 150 },
+      { id: 16, x: 210, y: 240 },
+    ],
+  },
+  paperInHand: {
+    src: postImageTwo,
+    fit: "object-cover",
+    tags: [{ id: 37, x: 280, y: 155 }],
+  },
+  diptyqueRose: {
+    src: carouselTwo,
+    fit: "object-cover",
+    tags: [{ id: 38, x: 180, y: 120 }],
+  },
+  joMaloneWoodSage: {
+    src: carouselThree,
+    fit: "object-cover",
+    tags: [{ id: 17, x: 220, y: 130 }],
+  },
+  byredoBlanche: {
+    src: carouselFour,
+    fit: "object-cover",
+    tags: [{ id: 21, x: 195, y: 150 }],
+  },
+} as const;
 
 function Tabs() {
   return (
@@ -142,8 +181,12 @@ const posts = [
     title: "햇살 좋은 날의 베이지 룩",
     body: "따뜻한 햇살엔 부드럽고 깨끗한 향이 잘 어울리는 것 같아요. 블랑쉬로 포근하게 시작해서 오 로즈로 기분 전환해주고 마지막엔 잉글리수 페어로 잔향을 남겨줘요. 하루 종일 기분이 좋아지는 조합이에요.",
     tags: ["# 데일리향수", "# 베이지룩", "# 플로럴머스크", "# 지속력좋아요"],
-    images: carouselImages,
-    products: tagImagesOne,
+    // 3장
+    images: [
+      slidePresets.threeBottles,
+      slidePresets.byredoBlanche,
+      slidePresets.diptyqueRose,
+    ],
   },
   {
     author: "최해수",
@@ -152,11 +195,8 @@ const posts = [
     title: "하얀 종이에 스며든 포근한 머스크 향",
     body: "처음엔 깨끗하고 보송한 느낌으로 시작하고 시간이 지날수록 피부에 은은하게 남는 머스크 향이 올라와요. 향이 강하게 튀기보다는 가까이 있을 때 부드럽게 느껴지는 향이라 데일리로 쓰기 좋아요.",
     tags: ["# 머스크향", "# 살냄새향수", "# 보송한향", "# 은은한향"],
-    images: [
-      { src: postImageTwo, fit: "object-cover" },
-      ...carouselImages.slice(1),
-    ],
-    products: [tagImagesTwo[0], ...tagImagesOne.slice(1)],
+    // 1장
+    images: [slidePresets.paperInHand],
   },
   {
     author: "향기로운하루",
@@ -165,28 +205,81 @@ const posts = [
     title: "비 오는 날 더 생각나는 우디 향",
     body: "촉촉한 공기와 잘 어울리는 차분한 우디 향을 골라봤어요. 처음에는 싱그럽게 시작하지만 시간이 지나면 포근한 나무 향이 남아서 편안한 분위기를 만들어줘요.",
     tags: ["# 우디향", "# 비오는날", "# 차분한향", "# 데일리추천"],
-    images: [
-      carouselImages[2],
-      carouselImages[3],
-      carouselImages[0],
-      carouselImages[1],
-    ],
-    products: tagImagesOne,
+    // 2장
+    images: [slidePresets.joMaloneWoodSage, slidePresets.byredoBlanche],
   },
   {
-    author: "오늘의잔향",
+    author: "무드컬렉터",
     time: "2시간 전",
     avatar: avatarHaesu,
-    title: "포근한 니트와 어울리는 달콤한 잔향",
-    body: "부드러운 니트를 입은 날에는 은은하게 달콤한 향을 찾게 돼요. 부담스럽지 않은 바닐라와 깨끗한 머스크가 섞여 오래 머물러서 요즘 자주 손이 가는 조합이에요.",
-    tags: ["# 바닐라향", "# 포근한향", "# 니트룩", "# 겨울향수"],
+    title: "선반 위에 모아둔 클린 & 우디 컬렉션",
+    body: "요즘 손이 자주 가는 향수들을 한자리에 모아봤어요. 바이레도 3종은 데일리로 부담 없고, 불가리 두 개는 무게감 있게 마무리하고 싶을 때 좋아요. 햇살 드는 오후에 하나씩 꺼내 뿌리는 재미가 있어요.",
+    tags: ["# 바이레도", "# 불가리", "# 클린향", "# 우디"],
     images: [
-      carouselImages[3],
-      carouselImages[1],
-      { src: postImageTwo, fit: "object-cover" },
-      carouselImages[2],
+      // slide-1 트레이: 선데이즈드·모하비 고스트·집시 워터
+      {
+        src: asset("/assets/community/review-byredo/slide-1.jpg"),
+        fit: "object-cover",
+        tags: [
+          { id: 25, x: 85, y: 150 },
+          { id: 23, x: 205, y: 140 },
+          { id: 24, x: 305, y: 180 },
+        ],
+      },
+      // slide-2 나무 테이블: 불가리 맨·집시 워터·선데이즈드·모하비 고스트
+      {
+        src: asset("/assets/community/review-byredo/slide-2.jpg"),
+        fit: "object-cover",
+        tags: [
+          { id: 10, x: 105, y: 155 },
+          { id: 24, x: 185, y: 235 },
+          { id: 25, x: 230, y: 165 },
+          { id: 23, x: 315, y: 205 },
+        ],
+      },
+      // slide-3 화장대: 불가리 맨·아쿠아·선데이즈드·모하비 고스트·집시 워터
+      {
+        src: asset("/assets/community/review-byredo/slide-3.jpg"),
+        fit: "object-cover",
+        tags: [
+          { id: 10, x: 75, y: 140 },
+          { id: 8, x: 150, y: 190 },
+          { id: 25, x: 210, y: 160 },
+          { id: 23, x: 280, y: 165 },
+          { id: 24, x: 335, y: 175 },
+        ],
+      },
+      // slide-4 욕실: 아쿠아·선데이즈드·모하비 고스트·집시 워터
+      {
+        src: asset("/assets/community/review-byredo/slide-4.jpg"),
+        fit: "object-cover",
+        tags: [
+          { id: 8, x: 70, y: 200 },
+          { id: 25, x: 170, y: 225 },
+          { id: 23, x: 245, y: 185 },
+          { id: 24, x: 320, y: 230 },
+        ],
+      },
+      // slide-5 책 위: 불가리 맨·모하비 고스트
+      {
+        src: asset("/assets/community/review-byredo/slide-5.jpg"),
+        fit: "object-cover",
+        tags: [
+          { id: 10, x: 120, y: 145 },
+          { id: 23, x: 255, y: 160 },
+        ],
+      },
+      // slide-6 책장 옆: 불가리 맨·아쿠아·집시 워터
+      {
+        src: asset("/assets/community/review-byredo/slide-6.jpg"),
+        fit: "object-cover",
+        tags: [
+          { id: 10, x: 80, y: 142 },
+          { id: 8, x: 205, y: 165 },
+          { id: 24, x: 310, y: 220 },
+        ],
+      },
     ],
-    products: [tagImagesTwo[0], tagImagesOne[0], tagImagesOne[2]],
   },
 ] as const;
 
@@ -406,6 +499,56 @@ export function CommentSheet({
   );
 }
 
+// 사진 위 제품 태그 — 빨간 점을 누르면 라벨이 숨겨지고 다시 누르면 나타남
+function ProductTag({
+  tag,
+  dotSrc,
+}: {
+  tag: { id: number; x: number; y: number };
+  dotSrc: string;
+}) {
+  const [labelVisible, setLabelVisible] = useState(true);
+  const tagged = perfumeById[tag.id];
+
+  return (
+    // (x, y) = 제품 끝(뚜껑) 지점 → 점을 찍고 라벨은 그 위에 표시
+    // 앞쪽(아래=y가 큰) 제품의 태그가 위로 겹치도록 z-index를 y에 비례
+    <div
+      className="absolute flex -translate-x-1/2 -translate-y-full flex-col items-center"
+      style={{ left: tag.x, top: tag.y, zIndex: Math.round(tag.y) }}
+    >
+      {labelVisible && (
+        <div className="flex items-center gap-2 rounded-lg border-[0.8px] border-light-grey bg-white p-2">
+          <span className="flex size-8 items-center justify-center overflow-hidden rounded-[6px] bg-[#ededed]">
+            <img
+              className="max-h-[30px] max-w-[30px] object-contain"
+              src={tagged?.image ?? productOverlayThumbnail}
+              alt=""
+            />
+          </span>
+          <span className="flex flex-col gap-1 whitespace-nowrap text-xs leading-none tracking-[-0.02em]">
+            <span className="font-medium text-[#888]">
+              {tagged?.brand ?? "Jo Malone London"}
+            </span>
+            <span className="font-bold text-[#171717]">
+              {tagged?.name ?? "블랙베리 앤 베이 코롱"}
+            </span>
+          </span>
+        </div>
+      )}
+      <button
+        aria-label={labelVisible ? "제품 태그 숨기기" : "제품 태그 보기"}
+        aria-pressed={labelVisible}
+        className="mt-1 flex size-3 items-center justify-center"
+        onClick={() => setLabelVisible((visible) => !visible)}
+        type="button"
+      >
+        <img aria-hidden="true" className="size-full" src={dotSrc} alt="" />
+      </button>
+    </div>
+  );
+}
+
 export function Post({ index }: { index: number }) {
   const post = posts[index];
   const [activeSlide, setActiveSlide] = useState(0);
@@ -413,16 +556,9 @@ export function Post({ index }: { index: number }) {
   const [likeCount, setLikeCount] = useState(42);
   const [isSaved, setIsSaved] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
-  const overlayPositions = [
-    [
-      { x: 51, y: 33 },
-      { x: 206, y: 95 },
-      { x: 146, y: 184 },
-    ],
-    [{ x: 179, y: 93 }],
-    [{ x: 122, y: 74 }],
-    [{ x: 64, y: 94 }],
-  ][index];
+  // 데스크탑 마우스 드래그로 이미지 캐러셀 넘기기 (모바일은 기본 터치 스와이프)
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const drag = useRef({ isDown: false, startX: 0, scrollLeft: 0 });
   const actions = (
     <div className="flex h-6 w-full items-center justify-between">
       <div className="flex items-center gap-2.5 text-sm font-medium tracking-[-0.02em]">
@@ -480,59 +616,69 @@ export function Post({ index }: { index: number }) {
       </div>
       <div className="mt-6 flex flex-col items-center">
         <div
-          className="no-scrollbar relative h-[430px] w-full snap-x snap-mandatory overflow-x-auto overflow-y-hidden rounded-lg"
+          className="no-scrollbar relative isolate h-[430px] w-full cursor-grab select-none snap-x snap-mandatory overflow-x-auto overflow-y-hidden rounded-lg active:cursor-grabbing"
+          onPointerDown={(event) => {
+            if (event.pointerType !== "mouse" || !carouselRef.current) return;
+            // 태그 점(버튼) 위에서는 드래그를 시작하지 않아 클릭이 그대로 동작하게 함
+            if ((event.target as HTMLElement).closest("button")) return;
+            drag.current = {
+              isDown: true,
+              startX: event.clientX,
+              scrollLeft: carouselRef.current.scrollLeft,
+            };
+            carouselRef.current.setPointerCapture(event.pointerId);
+          }}
+          onPointerMove={(event) => {
+            if (!drag.current.isDown || !carouselRef.current) return;
+            event.preventDefault();
+            carouselRef.current.scrollLeft =
+              drag.current.scrollLeft - (event.clientX - drag.current.startX);
+          }}
+          onPointerUp={(event) => {
+            drag.current.isDown = false;
+            carouselRef.current?.releasePointerCapture(event.pointerId);
+          }}
           onScroll={(event) =>
             setActiveSlide(Math.round(event.currentTarget.scrollLeft / 400))
           }
+          ref={carouselRef}
+          style={{ scrollSnapType: drag.current.isDown ? "none" : undefined }}
         >
           <div className="flex h-full w-max gap-2.5">
-            {post.images.map(({ src, fit }) => (
-              <img
-                className={`h-full w-[390px] shrink-0 snap-start rounded-lg ${fit}`}
-                src={src}
-                alt="향수 커뮤니티 리뷰"
-                key={src}
-              />
+            {post.images.map((image) => (
+              <div
+                className="relative h-full w-[390px] shrink-0 snap-start overflow-hidden rounded-lg"
+                key={image.src}
+              >
+                <img
+                  className={`h-full w-full ${image.fit}`}
+                  draggable={false}
+                  src={image.src}
+                  alt="향수 커뮤니티 리뷰"
+                />
+                {/* 슬라이드마다 사진 속 향수 태그 + 점 (점 클릭 시 라벨 토글) */}
+                {image.tags.map((tag) => (
+                  <ProductTag
+                    dotSrc={index === 1 ? plusImageTwo : plusImageOne}
+                    key={tag.id}
+                    tag={tag}
+                  />
+                ))}
+              </div>
             ))}
           </div>
-          {overlayPositions.map((position, overlayIndex) => (
+        </div>
+        {post.images.length > 1 && (
+          <div className="relative mt-3 h-0.5 w-[160px] bg-grey">
             <div
-              className="absolute z-10"
-              key={overlayIndex}
-              style={{ left: position.x, top: position.y }}
-            >
-              <div className="flex items-center gap-2 rounded-lg border-[0.8px] border-light-grey bg-white p-2">
-                <span className="flex size-8 items-center justify-center overflow-hidden rounded-[6px] bg-[#ededed]">
-                  <img
-                    className="max-h-[30px] max-w-[30px] object-contain"
-                    src={productOverlayThumbnail}
-                    alt=""
-                  />
-                </span>
-                <span className="flex flex-col gap-1 whitespace-nowrap text-xs leading-none tracking-[-0.02em]">
-                  <span className="font-medium text-[#888]">
-                    Jo Malone London
-                  </span>
-                  <span className="font-bold text-[#171717]">
-                    블랙베리 앤 베이 코롱
-                  </span>
-                </span>
-              </div>
-              <img
-                aria-hidden="true"
-                className="absolute left-1/2 top-full size-3 -translate-x-1/2 -translate-y-1/2"
-                src={index === 1 ? plusImageTwo : plusImageOne}
-                alt=""
-              />
-            </div>
-          ))}
-        </div>
-        <div className="relative mt-3 h-0.5 w-[160px] bg-grey">
-          <div
-            className="absolute left-0 top-0 h-0.5 w-10 bg-off-black transition-transform duration-200"
-            style={{ transform: `translateX(${activeSlide * 40}px)` }}
-          />
-        </div>
+              className="absolute left-0 top-0 h-0.5 bg-off-black transition-transform duration-200"
+              style={{
+                width: `${160 / post.images.length}px`,
+                transform: `translateX(${activeSlide * (160 / post.images.length)}px)`,
+              }}
+            />
+          </div>
+        )}
       </div>
       <div className="mt-6">{actions}</div>
       <div className="mt-6">
@@ -551,23 +697,6 @@ export function Post({ index }: { index: number }) {
           ))}
         </div>
       </div>
-      <div className="mt-6 flex h-[70px] items-center justify-between overflow-hidden">
-        <div className="flex gap-3">
-          {post.products.map(({ src }) => (
-            <div
-              className="flex size-[68px] items-center justify-center rounded-lg border border-light-grey bg-white"
-              key={src}
-            >
-              <img
-                className="h-[46px] w-[32px] object-contain"
-                src={src}
-                alt="향수"
-              />
-            </div>
-          ))}
-        </div>
-        <ChevronRight size={18} className="text-grey" />
-      </div>
       {isCommentsOpen && (
         <CommentSheet
           onClose={() => setIsCommentsOpen(false)}
@@ -583,7 +712,7 @@ export function CommunityPage() {
     <PageLayout
       title="커뮤니티"
       headerAction={<HeaderActions showSearch={false} showWrite />}
-      headerTitleClassName="!text-2xl !font-semibold !leading-[1.08] !tracking-[-0.03em]"
+      headerTitleClassName="!text-xl !font-semibold !leading-[1.08] !tracking-[-0.03em]"
       contentClassName="gap-0"
     >
       <Tabs />
