@@ -43,7 +43,7 @@ function StatusBar() {
       className="absolute inset-x-0 top-0 flex h-[65px] items-start justify-center bg-off-white"
     >
       <div className="flex h-full min-w-0 flex-1 flex-col items-center justify-center pb-[3.282px] pl-[10.941px]">
-        <span className="flex h-[22.977px] w-[59.084px] items-center justify-center pt-px font-sans text-[19.15px] font-semibold leading-[25.14px] tracking-[-0.3501px] text-black">
+        <span className="flex h-[22.977px] w-[59.084px] items-center justify-center pt-px font-sans text-[19.15px] font-semibold leading-[25.14px] tracking-[-0.3501px] text-off-black">
           9:41
         </span>
       </div>
@@ -90,7 +90,7 @@ function PreferenceScale({
 }) {
   return (
     <div className="flex w-[394px] flex-col items-start gap-0.5">
-      <div className="flex w-full items-center justify-between text-xs font-normal leading-[normal] tracking-[-0.02em] text-black">
+      <div className="flex w-full items-center justify-between text-xs font-normal leading-[normal] tracking-[-0.02em] text-off-black">
         <span>{leftLabel}</span>
         <span className="text-right">{rightLabel}</span>
       </div>
@@ -259,7 +259,7 @@ export default function OnboardingResults() {
           <p className="text-base font-medium leading-[normal] tracking-[-0.02em] text-off-black-70">
             {result.nameKo}
           </p>
-          <p className="mt-[5px] w-[275px] whitespace-nowrap text-left font-cormorant text-[54px] font-semibold italic leading-[normal] tracking-[-0.02em] text-black">
+          <p className="mt-[5px] w-[275px] whitespace-nowrap text-left font-cormorant text-[54px] font-semibold italic leading-[normal] tracking-[-0.02em] text-off-black">
             {result.nameEn}
           </p>
 

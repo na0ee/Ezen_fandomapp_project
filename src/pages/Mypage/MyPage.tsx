@@ -13,16 +13,17 @@ import { Header } from "../../components/common/Header";
 import { HeartButton } from "../../components/ui/HeartButton";
 import { SectionTitle as CommonSectionTitle } from "../../components/common/SectionTitle";
 import { getMyProfileMood, myProfile } from "../../data/myProfile";
-import fireBadge from "../../assets/mypage/fire-badge.svg";
+import { perfumeData } from "../../data/perfumeData";
+import badgeNewbie from "../../assets/mypage/badge-newbie.png";
 import perfumeLoewe from "../../assets/mypage/perfume-loewe.png";
 import perfumeMatiere from "../../assets/mypage/perfume-MATIERE.png";
 import perfumeSanta from "../../assets/mypage/perfume-santa.png";
-import reviewOne from "../../assets/mypage/review-1.png";
-import reviewTwo from "../../assets/mypage/review-2.png";
+import reviewOne from "../../assets/mypage/perfume-diptyque.png";
+import reviewTwo from "../../assets/mypage/perfume-MATIERE.png";
 import recentMagazine from "../../assets/mypage/saved-magazine.png";
-import wishlistOne from "../../assets/mypage/wishlist-1.png";
-import wishlistTwo from "../../assets/mypage/wishlist-2.png";
-import wishlistThree from "../../assets/mypage/wishlist-3.png";
+import wishlistOne from "../../assets/mypage/perfume-maison.png";
+import wishlistTwo from "../../assets/mypage/perfume-bvlgari.png";
+import wishlistThree from "../../assets/mypage/perfume-buly.png";
 
 const perfumes = [
   {
@@ -36,27 +37,38 @@ const perfumes = [
     image: perfumeLoewe,
   },
   {
-    brand: "SANTA MARIA NOVELLA",
-    name: "엔젤 디 피렌체 오드코롱 100ml",
+    brand: "MATIERE PREMIERE",
+    name: "마티에 프리미에르 메탈 라벤더 오 드 퍼퓸 50ml",
     image: perfumeMatiere,
   },
 ];
+
+function getBrandKeywords(brandId: string) {
+  const entry = perfumeData.find((item) => item.perfume.brandId === brandId);
+  if (!entry) return [];
+
+  const { top, middle } = entry.perfume.notes;
+  return [...top, ...middle].slice(0, 3).map((note) => `#${note}`);
+}
 
 const wishlist = [
   {
     brand: "MAISON MARGIELA FRAGRANCES",
     name: "체이싱 선셋 EDT 30ML",
     image: wishlistOne,
+    keywords: getBrandKeywords("maison-margiela"),
   },
   {
     brand: "BVLGARI PERFUME",
     name: "불가리 옴니아 아메시스트",
     image: wishlistTwo,
+    keywords: getBrandKeywords("bvlgari"),
   },
   {
     brand: "BULY",
     name: "클래식 오 트리쁠 향수 75ml - 이리 드 말트",
     image: wishlistThree,
+    keywords: getBrandKeywords("buly"),
   },
 ];
 
@@ -189,11 +201,7 @@ function ProfileSection() {
           <div className="rounded-card border-[0.8px] border-light-grey px-[16px] py-3.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <img
-                  alt=""
-                  className="h-[59px] w-[60px] object-contain"
-                  src={fireBadge}
-                />
+                <img alt="" className="h-[59px] w-[60px] object-contain" src={badgeNewbie} />
                 <div>
                   <p className="text-xl font-semibold leading-[1.3] tracking-[-0.02em]">
                     {myProfile.badge}
@@ -207,17 +215,15 @@ function ProfileSection() {
                 </div>
               </div>
               <button
-                className="rounded-chip border border-off-black px-3.5 py-[5px] text-xs leading-[1.4] tracking-[-0.02em]"
+                className="cursor-pointer rounded-chip border border-off-black px-3.5 py-[5px] text-xs leading-[1.4] tracking-[-0.02em]"
+                onClick={() => navigate("/mypage/membership")}
                 type="button"
               >
                 멤버십 등급 보기
               </button>
             </div>
             <p className="mt-6 pl-1.5 text-sm font-medium leading-[1.4] tracking-[-0.02em] text-grey">
-              <span className="text-base font-semibold text-off-black">
-                1,200P
-              </span>{" "}
-              더 쌓으면 다음 등급으로 올라갈 수 있어요!
+              <span className="text-base font-semibold text-off-black">800P</span> 더 쌓으면 다음 등급으로 올라갈 수 있어요!
             </p>
           </div>
           <button
@@ -330,33 +336,22 @@ function WishlistSection() {
           >
             <div className="flex min-w-0 flex-1 items-start gap-5 self-start">
               <div className="relative size-[100px] shrink-0 overflow-hidden rounded-card bg-light2-grey">
-                {item.brand === "BVLGARI PERFUME" ? (
-                  <img
-                    alt={item.name}
-                    className="absolute left-1/2 top-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2"
-                    src={item.image}
-                  />
-                ) : item.brand === "BULY" ? (
-                  <img
-                    alt={item.name}
-                    className="absolute left-1/2 top-1/2 w-[90%] -translate-x-1/2 -translate-y-1/2"
-                    src={item.image}
-                  />
-                ) : (
-                  <img
-                    alt={item.name}
-                    className="size-full object-cover"
-                    src={item.image}
-                  />
-                )}
+                <img alt={item.name} className="size-full object-cover" src={item.image} />
               </div>
-              <div className="flex h-[37px] min-w-0 flex-1 flex-col justify-center gap-1 overflow-hidden">
-                <p className="w-full truncate text-xs leading-none tracking-[-0.02em] text-grey">
-                  {item.brand}
-                </p>
-                <h3 className="w-full truncate text-base font-semibold leading-none tracking-[-0.02em]">
-                  {item.name}
-                </h3>
+              <div className="flex flex-1 flex-col gap-3 min-w-0">
+                <div className="min-w-0">
+                  <p className="w-full truncate text-xs leading-none tracking-[-0.02em] text-grey">{item.brand}</p>
+                  <h3 className="mt-1 w-full truncate text-base font-semibold leading-none tracking-[-0.02em]">{item.name}</h3>
+                </div>
+                {item.keywords.length > 0 && (
+                  <div className="flex items-center gap-2">
+                    {item.keywords.map((keyword) => (
+                      <span className="text-xs font-medium leading-none tracking-[-0.02em] text-grey" key={keyword}>
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
             <HeartButton
@@ -393,11 +388,7 @@ function ReviewSection() {
             key={review.text}
           >
             <div className="flex size-[50px] shrink-0 items-center justify-center rounded-[8px] bg-[#EDEDED]">
-              <img
-                alt=""
-                className="h-[30px] object-contain"
-                src={review.image}
-              />
+              <img alt="" className="size-full object-contain" src={review.image} />
             </div>
             <div className="flex flex-col gap-1.5">
               <span className="w-fit rounded-badge bg-[#FFEDE6] px-2 py-[5px] text-[10px] font-semibold leading-none tracking-[-0.02em] text-point-orange">
