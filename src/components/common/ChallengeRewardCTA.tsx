@@ -37,7 +37,7 @@ export function ChallengeRewardCTA() {
   return (
     <div className="pointer-events-none fixed bottom-[calc(104px+env(safe-area-inset-bottom))] left-1/2 z-[70] flex w-full max-w-[430px] -translate-x-1/2 justify-center px-5">
       <button
-        className={`pointer-events-auto flex h-[54px] w-full items-center justify-center gap-2 rounded-cta bg-point-orange text-base font-bold tracking-[-0.02em] text-off-white shadow-[0_12px_30px_rgba(255,72,0,0.35)] transition-all duration-300 ease-out ${
+        className={`pointer-events-auto flex h-[54px] w-full items-center justify-center gap-2 rounded-cta bg-point-orange text-base font-bold tracking-[-0.02em] text-off-white transition-all duration-300 ease-out ${
           entered ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
         }`}
         onClick={() => navigate(CHALLENGE_LIST_PATH)}
