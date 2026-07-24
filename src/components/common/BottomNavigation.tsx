@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { NavLink, useLocation } from "react-router-dom";
 import communityActive from "../../assets/navigation/figma/community-active.svg";
 import communityInactive from "../../assets/navigation/figma/community-inactive.svg";
@@ -54,7 +55,7 @@ export function BottomNavigation({
   const glassClassName =
     "border border-white/35 bg-black/70 shadow-[0_10px_30px_rgba(0,0,0,0.24),inset_0_1.5px_1px_rgba(255,255,255,0.28),inset_0_-2px_4px_rgba(0,0,0,0.28)] backdrop-blur-[24px] backdrop-brightness-75 backdrop-saturate-150";
 
-  return (
+  const navigation = (
     <div className={containerClassName}>
       <div className="flex w-full justify-end">
         <NavLink
@@ -62,7 +63,7 @@ export function BottomNavigation({
           className={`relative flex size-[72px] items-center justify-center overflow-hidden rounded-full ${glassClassName}`}
           to="/chatbot"
         >
-          <CharacterLay className="h-[50px] w-[34px]" />
+          <CharacterLay animated className="h-[50px] w-[34px]" />
         </NavLink>
       </div>
 
@@ -103,4 +104,10 @@ export function BottomNavigation({
       </nav>
     </div>
   );
+
+  if (placement === "frame" || placement === "overlay") {
+    return navigation;
+  }
+
+  return createPortal(navigation, document.body);
 }
