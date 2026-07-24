@@ -59,12 +59,22 @@ const defaultBody = `따뜻한 햇살엔 부드럽고 깨끗한 향이 잘 어�
 블랑쉬로 포근하게 시작해서 오 로즈로 기분 전환해주고 마지막엔 잉글리수 페어로 잔향을 남겨줘요
 하루 종일 기분이 좋아지는 조합이에요`;
 
-function Chip({ label, active = false, onClick }: { label: string; active?: boolean; onClick?: () => void }) {
+function Chip({
+  label,
+  active = false,
+  onClick,
+}: {
+  label: string;
+  active?: boolean;
+  onClick?: () => void;
+}) {
   return (
     <button
       aria-pressed={onClick ? active : undefined}
       className={`flex shrink-0 items-center justify-center rounded-full px-[14px] py-2 text-xs font-medium leading-none tracking-[-0.02em] ${
-        active ? "bg-off-black text-off-white" : "border-[0.8px] border-light-grey text-grey"
+        active
+          ? "bg-off-black text-off-white"
+          : "border-[0.8px] border-light-grey text-grey"
       }`}
       onClick={onClick}
       type="button"
@@ -77,7 +87,9 @@ function Chip({ label, active = false, onClick }: { label: string; active?: bool
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="flex w-full flex-col gap-4">
-      <h2 className="text-base font-semibold leading-none tracking-[-0.02em] text-off-black">{title}</h2>
+      <h2 className="text-base font-semibold leading-none tracking-[-0.02em] text-off-black">
+        {title}
+      </h2>
       {children}
     </section>
   );
@@ -118,10 +130,12 @@ function MessageField({
 }) {
   return (
     <div className="flex w-full flex-col items-end gap-1.5">
-      <div className="w-full rounded-lg border-[0.8px] border-light-grey p-4 text-sm font-normal leading-[1.4] tracking-[-0.02em] text-[#4d4d4d]">
+      <div className="w-full rounded-lg border-[0.8px] border-light-grey p-4 text-sm font-normal leading-[1.4] tracking-[-0.02em] text-subtext">
         {children}
       </div>
-      <span className="w-full text-right text-[10px] font-normal leading-normal tracking-[-0.02em] text-grey">{count}</span>
+      <span className="w-full text-right text-[10px] font-normal leading-normal tracking-[-0.02em] text-grey">
+        {count}
+      </span>
     </div>
   );
 }
@@ -141,50 +155,85 @@ function PerfumeReviewCard({
   open: boolean;
   onToggle: () => void;
 }) {
-  const [selectedScents, setSelectedScents] = useState<string[]>(["장미", "리치", "비누"]);
+  const [selectedScents, setSelectedScents] = useState<string[]>([
+    "장미",
+    "리치",
+    "비누",
+  ]);
   const [selectedLongevity, setSelectedLongevity] = useState("1시간 이하");
-  const [selectedPurchases, setSelectedPurchases] = useState<string[]>(["공식홈페이지"]);
-  const [selectedReasons, setSelectedReasons] = useState<string[]>(["포근한 무드"]);
+  const [selectedPurchases, setSelectedPurchases] = useState<string[]>([
+    "공식홈페이지",
+  ]);
+  const [selectedReasons, setSelectedReasons] = useState<string[]>([
+    "포근한 무드",
+  ]);
 
   const toggleSelection = (
     label: string,
     setter: Dispatch<SetStateAction<string[]>>,
   ) => {
-    setter((selected) => (
+    setter((selected) =>
       selected.includes(label)
         ? selected.filter((item) => item !== label)
-        : [...selected, label]
-    ));
+        : [...selected, label],
+    );
   };
 
   return (
-    <article className={`w-full rounded-lg border-[0.8px] border-light-grey p-4 ${open ? "flex flex-col gap-4" : "flex items-center justify-between"}`}>
+    <article
+      className={`w-full rounded-lg border-[0.8px] border-light-grey p-4 ${open ? "flex flex-col gap-4" : "flex items-center justify-between"}`}
+    >
       <div className="flex w-full items-center justify-between">
         <div className="flex min-w-0 items-center gap-3">
           <div className="flex size-[38px] shrink-0 items-center justify-center rounded-lg bg-light2-grey">
-            <img className={`${listImageClassName} object-contain`} src={image} alt="" />
+            <img
+              className={`${listImageClassName} object-contain`}
+              src={image}
+              alt=""
+            />
           </div>
           <div className="flex min-w-0 flex-col justify-center gap-1">
             <p className="max-w-[260px] truncate text-sm font-normal leading-normal tracking-[-0.02em] text-off-black">
               {name}
             </p>
-            <p className="text-xs font-normal leading-normal tracking-[-0.02em] text-grey">{detail}</p>
+            <p className="text-xs font-normal leading-normal tracking-[-0.02em] text-grey">
+              {detail}
+            </p>
           </div>
         </div>
-        <button aria-label={`${name} 상세 후기 ${open ? "접기" : "펼치기"}`} className="flex size-[18px] shrink-0 items-center justify-center text-grey" type="button" onClick={onToggle}>
-          {open ? <ChevronUp className="size-[18px]" strokeWidth={1.5} /> : <ChevronDown className="size-[18px]" strokeWidth={1.5} />}
+        <button
+          aria-label={`${name} 상세 후기 ${open ? "접기" : "펼치기"}`}
+          className="flex size-[18px] shrink-0 items-center justify-center text-grey"
+          type="button"
+          onClick={onToggle}
+        >
+          {open ? (
+            <ChevronUp className="size-[18px]" strokeWidth={1.5} />
+          ) : (
+            <ChevronDown className="size-[18px]" strokeWidth={1.5} />
+          )}
         </button>
       </div>
 
       {open && (
         <>
           <div className="flex w-full flex-col gap-4">
-            <h3 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">가장 많이 느껴진 향</h3>
+            <h3 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">
+              가장 많이 느껴진 향
+            </h3>
             <div className="flex flex-col gap-2">
               {scentRows.map((row) => (
-                <div className="flex flex-wrap items-center gap-1.5" key={row.join("-")}>
+                <div
+                  className="flex flex-wrap items-center gap-1.5"
+                  key={row.join("-")}
+                >
                   {row.map((label) => (
-                    <Chip active={selectedScents.includes(label)} key={label} label={label} onClick={() => toggleSelection(label, setSelectedScents)} />
+                    <Chip
+                      active={selectedScents.includes(label)}
+                      key={label}
+                      label={label}
+                      onClick={() => toggleSelection(label, setSelectedScents)}
+                    />
                   ))}
                 </div>
               ))}
@@ -192,21 +241,40 @@ function PerfumeReviewCard({
           </div>
           <div className="h-px w-full bg-light-grey" />
           <div className="flex w-full flex-col gap-4">
-            <h3 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">지속력</h3>
+            <h3 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">
+              지속력
+            </h3>
             <div className="flex flex-wrap items-center gap-1.5">
               {longevityOptions.map((label) => (
-                <Chip active={selectedLongevity === label} key={label} label={label} onClick={() => setSelectedLongevity(label)} />
+                <Chip
+                  active={selectedLongevity === label}
+                  key={label}
+                  label={label}
+                  onClick={() => setSelectedLongevity(label)}
+                />
               ))}
             </div>
           </div>
           <div className="h-px w-full bg-light-grey" />
           <div className="flex w-full flex-col gap-4">
-            <h3 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">구입처</h3>
+            <h3 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">
+              구입처
+            </h3>
             <div className="flex flex-col gap-2">
               {purchaseRows.map((row) => (
-                <div className="flex flex-wrap items-center gap-1.5" key={row.join("-")}>
+                <div
+                  className="flex flex-wrap items-center gap-1.5"
+                  key={row.join("-")}
+                >
                   {row.map((label, index) => (
-                    <Chip active={selectedPurchases.includes(label)} key={`${label}-${index}`} label={label} onClick={() => toggleSelection(label, setSelectedPurchases)} />
+                    <Chip
+                      active={selectedPurchases.includes(label)}
+                      key={`${label}-${index}`}
+                      label={label}
+                      onClick={() =>
+                        toggleSelection(label, setSelectedPurchases)
+                      }
+                    />
                   ))}
                 </div>
               ))}
@@ -214,12 +282,22 @@ function PerfumeReviewCard({
           </div>
           <div className="h-px w-full bg-light-grey" />
           <div className="flex w-full flex-col gap-4">
-            <h3 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">이 향수를 고른 이유</h3>
+            <h3 className="text-base font-semibold leading-normal tracking-[-0.02em] text-off-black">
+              이 향수를 고른 이유
+            </h3>
             <div className="flex flex-col gap-2">
               {reasonRows.map((row) => (
-                <div className="flex flex-wrap items-center gap-1.5" key={row.join("-")}>
+                <div
+                  className="flex flex-wrap items-center gap-1.5"
+                  key={row.join("-")}
+                >
                   {row.map((label) => (
-                    <Chip active={selectedReasons.includes(label)} key={label} label={label} onClick={() => toggleSelection(label, setSelectedReasons)} />
+                    <Chip
+                      active={selectedReasons.includes(label)}
+                      key={label}
+                      label={label}
+                      onClick={() => toggleSelection(label, setSelectedReasons)}
+                    />
                   ))}
                 </div>
               ))}
@@ -231,13 +309,22 @@ function PerfumeReviewCard({
   );
 }
 
-function WriteCompleteDialog({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+function WriteCompleteDialog({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
   if (!isOpen) {
     return null;
   }
 
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/35 px-10" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-[80] flex items-center justify-center bg-black/35 px-10"
+      onClick={onClose}
+    >
       <section
         aria-label="글쓰기 완료"
         aria-modal="true"
@@ -265,27 +352,43 @@ export default function CommunityWrite() {
   const navigate = useNavigate();
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [perfumes, setPerfumes] = useState(selectedPerfumes);
-  const [uploadedImages, setUploadedImages] = useState<{ id: string; name: string; src: string }[]>([]);
+  const [uploadedImages, setUploadedImages] = useState<
+    { id: string; name: string; src: string }[]
+  >([]);
   const [openPerfume, setOpenPerfume] = useState<string | null>(null);
   const [isCompleteOpen, setIsCompleteOpen] = useState(false);
   const [body, setBody] = useState(defaultBody);
   const [selectedMoods, setSelectedMoods] = useState<string[]>(["깔끔한"]);
-  const [selectedSituations, setSelectedSituations] = useState<string[]>(["데일리"]);
+  const [selectedSituations, setSelectedSituations] = useState<string[]>([
+    "데일리",
+  ]);
   const [selectedHashtags, setSelectedHashtags] = useState<string[]>([]);
 
   const removePerfume = (name: string) => {
-    setPerfumes((currentPerfumes) => currentPerfumes.filter((perfume) => perfume.name !== name));
-    setOpenPerfume((currentOpenPerfume) => (currentOpenPerfume === name ? null : currentOpenPerfume));
+    setPerfumes((currentPerfumes) =>
+      currentPerfumes.filter((perfume) => perfume.name !== name),
+    );
+    setOpenPerfume((currentOpenPerfume) =>
+      currentOpenPerfume === name ? null : currentOpenPerfume,
+    );
   };
 
   return (
     <main className="min-h-dvh bg-black max-[430px]:bg-off-white">
       <div className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-off-white">
         <header className="fixed top-0 left-1/2 z-50 flex h-[54px] w-full max-w-[430px] -translate-x-1/2 items-center justify-between bg-off-white px-5">
-          <button aria-label="닫기" className="flex size-6 items-center justify-center" type="button" onClick={() => navigate(-1)}>
+          <button
+            aria-label="닫기"
+            className="flex size-6 items-center justify-center"
+            type="button"
+            onClick={() => navigate(-1)}
+          >
             <X className="size-6" strokeWidth={1.2} />
           </button>
-          <button className="rounded-full bg-off-black px-[14px] py-2 text-xs font-medium leading-none tracking-[-0.02em] text-off-white" type="button">
+          <button
+            className="rounded-full bg-off-black px-[14px] py-2 text-xs font-medium leading-none tracking-[-0.02em] text-off-white"
+            type="button"
+          >
             임시저장
           </button>
         </header>
@@ -293,9 +396,14 @@ export default function CommunityWrite() {
         <div className="flex flex-1 flex-col gap-[30px] px-5 pt-[calc(var(--app-header-height)+24px)] pb-[132px]">
           <Section title="향수 선택">
             <div className="flex items-center gap-4">
-              <Link className="flex size-[68px] shrink-0 flex-col items-center justify-center gap-1.5 rounded-lg border-[0.8px] border-light-grey text-grey" to="/community/select">
+              <Link
+                className="flex size-[68px] shrink-0 flex-col items-center justify-center gap-1.5 rounded-lg border-[0.8px] border-light-grey text-grey"
+                to="/community/select"
+              >
                 <Plus className="size-4" strokeWidth={1.4} />
-                <span className="text-xs font-medium leading-none tracking-[-0.02em]">향수 추가</span>
+                <span className="text-xs font-medium leading-none tracking-[-0.02em]">
+                  향수 추가
+                </span>
               </Link>
               {perfumes.map((perfume) => (
                 <PerfumeThumb
@@ -319,16 +427,26 @@ export default function CommunityWrite() {
                     type="button"
                   >
                     <Camera className="size-5" strokeWidth={1.4} />
-                    <span className="text-xs font-medium tracking-[-0.02em]">{uploadedImages.length}/4</span>
+                    <span className="text-xs font-medium tracking-[-0.02em]">
+                      {uploadedImages.length}/4
+                    </span>
                   </button>
                 )}
                 {uploadedImages.map((image) => (
                   <div className="relative size-[92px] shrink-0" key={image.id}>
-                    <img className="size-full rounded-lg object-cover" src={image.src} alt={image.name} />
+                    <img
+                      className="size-full rounded-lg object-cover"
+                      src={image.src}
+                      alt={image.name}
+                    />
                     <button
                       aria-label={`${image.name} 삭제`}
                       className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-off-black text-white"
-                      onClick={() => setUploadedImages((images) => images.filter((item) => item.id !== image.id))}
+                      onClick={() =>
+                        setUploadedImages((images) =>
+                          images.filter((item) => item.id !== image.id),
+                        )
+                      }
                       type="button"
                     >
                       <X className="size-3.5" />
@@ -336,22 +454,33 @@ export default function CommunityWrite() {
                   </div>
                 ))}
               </div>
-              <p className="text-xs tracking-[-0.02em] text-grey">최대 4장까지 등록할 수 있어요.</p>
+              <p className="text-xs tracking-[-0.02em] text-grey">
+                최대 4장까지 등록할 수 있어요.
+              </p>
               <input
                 accept="image/*"
                 className="hidden"
                 multiple
                 onChange={(event) => {
-                  const files = Array.from(event.target.files ?? []).slice(0, 4 - uploadedImages.length);
+                  const files = Array.from(event.target.files ?? []).slice(
+                    0,
+                    4 - uploadedImages.length,
+                  );
                   files.forEach((file) => {
                     const reader = new FileReader();
                     reader.onload = () => {
                       if (typeof reader.result !== "string") return;
                       const imageSrc = reader.result;
-                      setUploadedImages((images) => [
-                        ...images,
-                        { id: `${file.name}-${file.lastModified}-${crypto.randomUUID()}`, name: file.name, src: imageSrc },
-                      ].slice(0, 4));
+                      setUploadedImages((images) =>
+                        [
+                          ...images,
+                          {
+                            id: `${file.name}-${file.lastModified}-${crypto.randomUUID()}`,
+                            name: file.name,
+                            src: imageSrc,
+                          },
+                        ].slice(0, 4),
+                      );
                     };
                     reader.readAsDataURL(file);
                   });
@@ -365,36 +494,45 @@ export default function CommunityWrite() {
 
           <Section title="제목">
             <MessageField count="23/40">
-              <p className="leading-none">햇살 좋은 날의 베이지 룩과 향수 조합 ☁</p>
+              <p className="leading-none">
+                햇살 좋은 날의 베이지 룩과 향수 조합 ☁
+              </p>
             </MessageField>
           </Section>
 
           <Section title="본문">
             <div className="flex w-full flex-col items-end gap-1.5">
               <textarea
-                className="min-h-[108px] w-full resize-none rounded-lg border-[0.8px] border-light-grey p-4 text-sm font-normal leading-[1.4] tracking-[-0.02em] text-[#4d4d4d] outline-none focus:border-off-black"
+                className="min-h-[108px] w-full resize-none rounded-lg border-[0.8px] border-light-grey p-4 text-sm font-normal leading-[1.4] tracking-[-0.02em] text-subtext outline-none focus:border-off-black"
                 maxLength={400}
                 onChange={(event) => setBody(event.target.value)}
                 value={body}
               />
-              <span className="w-full text-right text-[10px] font-normal leading-normal tracking-[-0.02em] text-grey">{body.length}/400</span>
+              <span className="w-full text-right text-[10px] font-normal leading-normal tracking-[-0.02em] text-grey">
+                {body.length}/400
+              </span>
             </div>
           </Section>
 
           <Section title="오늘의 무드">
             <div className="flex flex-col gap-2">
               {moodRows.map((row) => (
-                <div className="flex flex-wrap items-center gap-1.5" key={row.join("-")}>
+                <div
+                  className="flex flex-wrap items-center gap-1.5"
+                  key={row.join("-")}
+                >
                   {row.map((label) => (
                     <Chip
                       active={selectedMoods.includes(label)}
                       key={label}
                       label={label}
-                      onClick={() => setSelectedMoods((selected) => (
-                        selected.includes(label)
-                          ? selected.filter((item) => item !== label)
-                          : [...selected, label]
-                      ))}
+                      onClick={() =>
+                        setSelectedMoods((selected) =>
+                          selected.includes(label)
+                            ? selected.filter((item) => item !== label)
+                            : [...selected, label],
+                        )
+                      }
                     />
                   ))}
                 </div>
@@ -405,17 +543,22 @@ export default function CommunityWrite() {
           <Section title="사용 상황">
             <div className="flex flex-col gap-2">
               {situationRows.map((row) => (
-                <div className="flex flex-wrap items-center gap-1.5" key={row.join("-")}>
+                <div
+                  className="flex flex-wrap items-center gap-1.5"
+                  key={row.join("-")}
+                >
                   {row.map((label) => (
                     <Chip
                       active={selectedSituations.includes(label)}
                       key={label}
                       label={label}
-                      onClick={() => setSelectedSituations((selected) => (
-                        selected.includes(label)
-                          ? selected.filter((item) => item !== label)
-                          : [...selected, label]
-                      ))}
+                      onClick={() =>
+                        setSelectedSituations((selected) =>
+                          selected.includes(label)
+                            ? selected.filter((item) => item !== label)
+                            : [...selected, label],
+                        )
+                      }
                     />
                   ))}
                 </div>
@@ -432,11 +575,11 @@ export default function CommunityWrite() {
                   label={label}
                   onClick={() => {
                     const hashtagId = `${label}-${index}`;
-                    setSelectedHashtags((selected) => (
+                    setSelectedHashtags((selected) =>
                       selected.includes(hashtagId)
                         ? selected.filter((item) => item !== hashtagId)
-                        : [...selected, hashtagId]
-                    ));
+                        : [...selected, hashtagId],
+                    );
                   }}
                 />
               ))}
@@ -444,13 +587,17 @@ export default function CommunityWrite() {
           </Section>
 
           <Section title="태그한 향수의 상세 후기를 작성해주세요">
-            <div className="flex flex-col gap-[13px]">
+            <div className="flex flex-col gap-[12px]">
               {perfumes.map((perfume) => (
                 <PerfumeReviewCard
                   key={perfume.name}
                   {...perfume}
                   open={openPerfume === perfume.name}
-                  onToggle={() => setOpenPerfume((currentOpenPerfume) => (currentOpenPerfume === perfume.name ? null : perfume.name))}
+                  onToggle={() =>
+                    setOpenPerfume((currentOpenPerfume) =>
+                      currentOpenPerfume === perfume.name ? null : perfume.name,
+                    )
+                  }
                 />
               ))}
             </div>
@@ -466,7 +613,10 @@ export default function CommunityWrite() {
             글 올리기
           </button>
         </div>
-        <WriteCompleteDialog isOpen={isCompleteOpen} onClose={() => navigate("/community")} />
+        <WriteCompleteDialog
+          isOpen={isCompleteOpen}
+          onClose={() => navigate("/community")}
+        />
       </div>
     </main>
   );

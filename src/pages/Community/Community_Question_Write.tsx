@@ -78,7 +78,7 @@ export default function CommunityQuestionWrite() {
             <div className="flex flex-col items-end gap-1.5">
               <input
                 aria-label="질문 제목"
-                className="h-[46px] w-full rounded-lg border-[0.8px] border-light-grey px-4 text-sm tracking-[-0.02em] text-[#4d4d4d] outline-none focus:border-off-black"
+                className="h-[46px] w-full rounded-lg border-[0.8px] border-light-grey px-4 text-sm tracking-[-0.02em] text-subtext outline-none focus:border-off-black"
                 maxLength={40}
                 onChange={(event) => {
                   if (mode === "free") setFreeTitle(event.target.value);
@@ -96,7 +96,7 @@ export default function CommunityQuestionWrite() {
               <div className="flex flex-col items-end gap-1.5">
                 <textarea
                   aria-label="자유게시글 본문"
-                  className="min-h-[112px] w-full resize-none rounded-lg border-[0.8px] border-light-grey p-4 text-sm leading-[1.4] tracking-[-0.02em] text-[#4d4d4d] outline-none focus:border-off-black"
+                  className="min-h-[112px] w-full resize-none rounded-lg border-[0.8px] border-light-grey p-4 text-sm leading-[1.4] tracking-[-0.02em] text-subtext outline-none focus:border-off-black"
                   maxLength={400}
                   onChange={(event) => setBody(event.target.value)}
                   value={body}
