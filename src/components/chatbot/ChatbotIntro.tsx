@@ -17,7 +17,7 @@ export function ChatbotIntro({ onChipClick }: ChatbotIntroProps) {
         className="flex w-full items-start gap-[12px]"
         data-node-id="1110:20631"
       >
-        <CharacterLay data-node-id="1110:20632" />
+        <CharacterLay animated data-node-id="1110:20632" />
         <div
           className="flex min-w-0 flex-1 flex-col gap-4"
           data-node-id="1110:20634"
